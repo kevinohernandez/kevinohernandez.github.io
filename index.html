@@ -1019,7 +1019,7 @@ margin-left: 20px;
     window.addEventListener("scroll", () => {
       let current = "";
       sections.forEach(section => {
-	const sectionTop = section.offsetTop - window.innerHeight * 0.7;
+	const sectionTop = section.offsetTop - window.innerHeight * 0.75;
         const sectionHeight = section.clientHeight;
         if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
           current = section.getAttribute("id");
@@ -1050,3 +1050,4 @@ margin-left: 20px;
 
 </body>
 </html>
+
