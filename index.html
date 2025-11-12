@@ -1671,7 +1671,10 @@ width: 100%;
   }
 
   @media (max-width: 1024px) {
-	  .grid-item { padding: 1rem; }
+	  .grid-item { 
+		  padding: 1rem; 
+		  min-height: calc(100vh / 9);
+				 }
 	.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
 	.item-title { font-size: 1rem; }
 	
@@ -1698,6 +1701,7 @@ width: 100%;
 	}
 	.grid-side {
 width: 40%;
+		padding-bottom: 90px;
 	}
   }
 
@@ -2969,6 +2973,7 @@ object-fit: contain;
 </script>
 </body>
 </html>
+
 
 
 
