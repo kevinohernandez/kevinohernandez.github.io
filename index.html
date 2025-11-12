@@ -3,13 +3,8 @@
 <head>
 <title>Kevin Hernandez</title>
 <meta charset="utf-8" />
+	<link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1 />
-<link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
-<!-- Google Font: Inter -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-
 <!-- jQuery CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -1015,10 +1010,17 @@ body {
   overflow-x: hidden;
 }
 
-section {
+/* --- MODIFICATION START --- */
+/* This rule was applying padding:0 to all sections,
+   causing section-1's content to hide behind the footer.
+   It's now scoped to NOT affect #section-1, so it
+   keeps its default bottom padding. */
+section:not(#section-1) {
   padding: 0!important; 
   align-items: center;
 }
+/* --- MODIFICATION END --- */
+
 .marquee-content span {
   font-size: 1.5rem!important;
 }
@@ -1820,10 +1822,6 @@ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 top: -70px;
 }
 
-.copy-circle:hover::before {
-opacity: 1;
-}
-
 .copy-circle:active {
 transform: translateX(-50%) scale(0.95);
 }
@@ -1995,7 +1993,7 @@ object-fit: contain;
 	  <span class="dot dot-left">•</span>
 	  <span class="dot dot-right">•</span>
 	</a>
-	<div class="sidebar-left-bottom-content">
+	<div class.sidebar-left-bottom-content">
 	  <button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
 		<svg viewBox="0 0 20 20" fill="currentColor">
 		  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
@@ -2573,7 +2571,7 @@ object-fit: contain;
   }
 
   window.addEventListener('resize', () => {
-	onWindowResize();
+	// onWindowResize(); // Removed this line which caused the error
 
 	const newIsDesktop = window.innerWidth >= 1025; 
 	if (newIsDesktop !== isDesktop) {
@@ -2615,370 +2613,3 @@ object-fit: contain;
 
   setupEventListeners();
 </script>
-
-<!-- jQuery Modal Script -->
-<script>
-  $(document).ready(function() {
-	$('#desktop-about-button, #mobile-about-button').on('click', function(e){
-	  e.preventDefault();
-
-	  const modal = $('#modal-container-side');
-
-	  if (modal.hasClass('visible')) {
-		modal.addClass('out');
-		$('body').removeClass('modal-active');
-	  } else {
-		modal.removeAttr('class').addClass('visible');
-		$('body').addClass('modal-active');
-	  }
-	});
-
-	$('#modal-container-side').on('click', function(e){
-	  if ($(e.target).is('.modal-background')) {
-		$(this).addClass('out');
-		$('body').removeClass('modal-active');
-	  }
-	});
-
-	$('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
-	  if (e.target === this && $(this).hasClass('out')) {
-		$(this).removeAttr('class');
-	  }
-	});
-  });
-</script>
-<!-- Script to toggle body class for theme -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-	const themeCheckbox = document.getElementById('theme-checkbox');
-	if (themeCheckbox) {
-	  themeCheckbox.addEventListener('change', function() {
-		document.body.classList.toggle('light-mode', this.checked);
-	  });
-
-	  document.body.classList.toggle('light-mode', themeCheckbox.checked);
-	}
-  });
-</script>
-
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-		const buttons = document.querySelectorAll('.section-btn');
-		const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
-		const scrollers = {
-			'3d': document.getElementById('scroller-3d'),
-			'graphic': document.getElementById('scroller-graphic'),
-			'product': document.getElementById('scroller-product')
-		};
-		
-		// Select info content
-		const infoContents = {
-			'3d': document.querySelector('.info-content[data-info="3d"]'),
-			'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-			'product': document.querySelector('.info-content[data-info="product"]')
-		};
-
-		// NEW: Save scroll positions
-		const scrollPositions = {
-			'3d': 0,
-			'graphic': 0,
-			'product': 0
-		};
-
-		let currentGallery = '3d';
-
-		function updateProgress(scroller, button) {
-			if (!button) return;
-			const scrollLeft = scroller.scrollLeft;
-			const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
-			const progress = scrollWidth > 0 ? (scrollLeft / scrollWidth) * 100 : 0;
-			button.style.setProperty('--progress', `${progress}%`);
-		}
-
-		// UPDATED: Function now also switches info content and saves/restores scroll
-		function switchGallery(newGallery) {
-			if (newGallery === currentGallery) return;
-
-			// Save current scroll position
-			scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-
-			// --- Gallery Scroller ---
-			scrollers[currentGallery].classList.remove('active');
-			scrollers[newGallery].classList.add('active');
-			// Restore new gallery's scroll position
-			scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-
-			// --- Info Content ---
-			infoContents[currentGallery].classList.remove('active');
-			infoContents[newGallery].classList.add('active');
-
-			currentGallery = newGallery;
-
-			const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-			const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-			updateProgress(scrollers[newGallery], activeButton);
-			updateProgress(scrollers[newGallery], activeMobileLink);
-		}
-
-		buttons.forEach(btn => {
-			btn.addEventListener('click', () => {
-				const galleryType = btn.dataset.gallery;
-				buttons.forEach(b => b.classList.remove('active'));
-				btn.classList.add('active');
-
-				// Sync mobile links
-				mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-				const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-				matchingLink?.classList.add('active');
-
-				switchGallery(galleryType);
-			});
-		});
-
-		// Add listeners for mobile links
-		mobileWorkNavLinks.forEach(link => {
-			link.addEventListener('click', (e) => {
-				e.preventDefault();
-				const galleryType = link.dataset.gallery;
-
-				mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-				link.classList.add('active');
-
-				// Sync desktop/tablet buttons
-				buttons.forEach(b => b.classList.remove('active'));
-				const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-				matchingButton?.classList.add('active');
-
-				switchGallery(galleryType);
-			});
-		});
-
-		Object.keys(scrollers).forEach(key => {
-			scrollers[key].addEventListener('scroll', () => {
-				if (key === currentGallery) {
-					const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-					const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
-					
-					updateProgress(scrollers[key], activeButton);
-					updateProgress(scrollers[key], activeMobileLink);
-
-					// NEW: Save scroll position as user scrolls
-					scrollPositions[key] = scrollers[key].scrollLeft;
-				}
-			});
-		});
-
-		const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
-		const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
-		updateProgress(scrollers[currentGallery], initialButton);
-		updateProgress(scrollers[currentGallery], initialMobileLink);
-
-
-		// --- NEW: Lightbox/Modal Logic ---
-		const modal = document.getElementById('portfolio-modal');
-		const modalContentInner = document.getElementById('modal-gall-inner');
-		const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-		portfolioItems.forEach(item => {
-			item.addEventListener('click', () => {
-				// Clone the item's content (in this case, just the text)
-				const itemContent = item.innerHTML; 
-				modalContentInner.innerHTML = itemContent;
-				
-				// Show the modal
-				modal.classList.add('active');
-			});
-		});
-
-		function closeModal() {
-			modal.classList.remove('active');
-			// Clear content after transition
-			setTimeout(() => {
-				modalContentInner.innerHTML = '';
-			}, 300);
-		}
-
-		// Close modal by clicking on the background or the content
-		modal.addEventListener('click', closeModal);
-		modalContentInner.addEventListener('click', closeModal);
-	});
-</script>
-<script>
-  const isMobile = window.matchMedia("(max-width: 1024px)").matches;
-
-  if (isMobile) {
-	const items = document.querySelectorAll(".grid-item");
-
-	items.forEach(item => {
-	  item.addEventListener("click", () => {
-		const service = item.getAttribute("data-service");
-
-		items.forEach(i => i.classList.remove("active"));
-		document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
-
-		item.classList.add("active");
-		document.querySelector(`.service-content[data-service="${service}"]`).classList.add("active");
-
-		document.body.classList.add("mobile-has-active");
-	  });
-	});
-  }
-</script>
-<script>
-
-  const canvas = document.getElementById('breathingGrid');
-  const ctx = canvas.getContext('2d');
-  const textEl = document.getElementById('textToCopy');
-  let dots = [];
-  let spacing = 80;
-  let mouse = { x: -1000, y: -1000 };
-
-  // Function to get current theme color
-  function getThemeColor() {
-	try {
-	  const computedStyle = getComputedStyle(document.body);
-	  const textColor = computedStyle.getPropertyValue('--text-color').trim();
-
-	  // Convert hex to RGB
-	  if (textColor && textColor.startsWith('#')) {
-		const hex = textColor.replace('#', '');
-		const r = parseInt(hex.substring(0, 2), 16);
-		const g = parseInt(hex.substring(2, 4), 16);
-		const b = parseInt(hex.substring(4, 6), 16);
-
-		// Validate the parsed values
-		if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-		  return { r, g, b };
-		}
-	  }
-	} catch (e) {
-	  console.error('Error parsing theme color:', e);
-	}
-
-	// Default to white for dark theme (base theme)
-	return { r: 255, g: 255, b: 255 };
-  }
-
-  function resizeCanvas() {
-	// NEW: Size canvas to its parent container (.section-content)
-	const rect = canvas.parentElement.getBoundingClientRect();
-	canvas.width = rect.width;
-	canvas.height = rect.height;
-
-	// Adjust spacing for mobile
-	spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
-	dots = [];
-
-	// NEW: Calculate grid and center it, creating padding at edges
-	const numCols = Math.floor(canvas.width / spacing) + 1;
-	const numRows = Math.floor(canvas.height / spacing) + 1;
-
-	const gridWidth = (numCols - 1) * spacing;
-	const gridHeight = (numRows - 1) * spacing;
-
-	const offsetX = (canvas.width - gridWidth) / 2;
-	const offsetY = (canvas.height - gridHeight) / 2;
-
-	for(let r = 0; r < numRows; r++){
-	  for(let c = 0; c < numCols; c++){
-		dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
-	  }
-	}
-  }
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  window.addEventListener('mousemove', (e)=>{
-	const rect = canvas.getBoundingClientRect();
-	mouse.x = e.clientX - rect.left;
-	mouse.y = e.clientY - rect.top;
-  });
-
-  let time = 0;
-  function animate() {
-	time += 0.016;
-	ctx.clearRect(0,0,canvas.width,canvas.height);
-
-	// NEW: Get coordinates relative to the canvas
-	const rect = textEl.getBoundingClientRect();
-	const canvasRect = canvas.getBoundingClientRect();
-	const textPadding = 20;
-
-	// Calculate text box boundaries in canvas-relative coordinates
-	const textLeft = rect.left - canvasRect.left - textPadding;
-	const textRight = rect.right - canvasRect.left + textPadding;
-	const textTop = rect.top - canvasRect.top - textPadding;
-	const textBottom = rect.bottom - canvasRect.top + textPadding;
-
-	const centerX = canvas.width / 2;
-	const centerY = canvas.height / 2;
-	const waveSpeed = 60;
-	const waveThickness = 40;
-	const maxDist = Math.hypot(centerX, centerY) + waveThickness;
-	const currentWave = (time * waveSpeed) % maxDist;
-
-	// Get current theme color
-	const color = getThemeColor();
-
-	dots.forEach(dot=>{
-	  if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
-		return;
-	  }
-	  const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
-	  const distToWave = Math.abs(dist - currentWave);
-	  let pulseFactor = 0;
-	  if(distToWave < waveThickness/2){
-		pulseFactor = 1 - distToWave / (waveThickness/2);
-		pulseFactor = Math.sin(pulseFactor*Math.PI/2);
-	  }
-	  const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-	  let glowFactor = 0;
-	  const glowRadius = 50;
-	  if(mouseDist < glowRadius){
-		glowFactor = (1 - mouseDist/glowRadius);
-	  }
-	  const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
-	  const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
-	  ctx.beginPath();
-	  ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
-	  // Use theme color instead of hardcoded white
-	  ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-	  ctx.fill();
-	});
-	requestAnimationFrame(animate);
-  }
-
-  animate();
-
-  // Copy button logic
-  const copyButton = document.getElementById('copyButton');
-  function copyToClipboard() {
-	const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
-	navigator.clipboard.writeText(textToCopy).then(() => {
-	  copyButton.textContent = 'Copied!';
-	  copyButton.classList.add('copied');
-	  setTimeout(() => {
-		copyButton.textContent = 'Copy Me';
-		copyButton.classList.remove('copied');
-	  }, 1500);
-	}).catch(err => console.error(err));
-  }
-
-  copyButton.addEventListener('click', copyToClipboard);
-  textEl.addEventListener('click', copyToClipboard);
-  textEl.addEventListener('touchstart', (e) => e.preventDefault());
-
-</script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
