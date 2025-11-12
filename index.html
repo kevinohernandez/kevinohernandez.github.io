@@ -2285,9 +2285,7 @@ object-fit: contain;
 </script>
 
 
-<!-- Main JavaScript Logic (THREE.js and Scrolling) -->
 <script type="module">
-/*
   import * as THREE from 'three';
 
   let scene, camera, renderer, p, planet, torus1, torus2, torus3; // ADDED torus3
@@ -2569,10 +2567,8 @@ object-fit: contain;
   if (container) {
 	setTimeout(initThreeJS, 100);
   }
-    
-	 */
-	
-  // --- Scroll Logic (Desktop & Mobile) ---//
+
+  // --- Scroll Logic (Desktop & Mobile) ---
 
   const sections = document.querySelectorAll('section');
   const numSections = sections.length;
@@ -2844,9 +2840,20 @@ object-fit: contain;
 	  window.removeEventListener('touchstart', handleTouchStart);
 	  window.removeEventListener('touchend', handleTouchEnd);
 
-	  sections.forEach(section => {
+      sections.forEach((section, i) => { // MODIFIED: Loop over sections
 		section.style.transform = '';
+		// NEW: Manually activate section 1 for mobile on load to prevent race condition
+		if (i === 0) {
+		  section.classList.add('is-active');
+		} else {
+		  section.classList.remove('is-active');
+		}
 	  });
+
+      // NEW: Manually trigger canvas visibility for mobile to fix race condition
+      if (canvasContainer) {
+        canvasContainer.classList.add('is-visible');
+      }
 
 	  initMobileScrollObserver();
 	}
@@ -3252,6 +3259,7 @@ object-fit: contain;
 </script>
 </body>
 </html>
+
 
 
 
