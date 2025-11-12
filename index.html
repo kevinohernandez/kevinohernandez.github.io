@@ -3,8 +3,13 @@
 <head>
 <title>Kevin Hernandez</title>
 <meta charset="utf-8" />
-	<link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
 <meta name="viewport" content="width=device-width, initial-scale=1 />
+<link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
+<!-- Google Font: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <!-- jQuery CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -1010,17 +1015,10 @@ body {
   overflow-x: hidden;
 }
 
-/* --- MODIFICATION START --- */
-/* This rule was applying padding:0 to all sections,
-   causing section-1's content to hide behind the footer.
-   It's now scoped to NOT affect #section-1, so it
-   keeps its default bottom padding. */
-section:not(#section-1) {
+section {
   padding: 0!important; 
   align-items: center;
 }
-/* --- MODIFICATION END --- */
-
 .marquee-content span {
   font-size: 1.5rem!important;
 }
@@ -1822,6 +1820,10 @@ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 top: -70px;
 }
 
+.copy-circle:hover::before {
+opacity: 1;
+}
+
 .copy-circle:active {
 transform: translateX(-50%) scale(0.95);
 }
@@ -1993,7 +1995,7 @@ object-fit: contain;
 	  <span class="dot dot-left">•</span>
 	  <span class="dot dot-right">•</span>
 	</a>
-	<div class.sidebar-left-bottom-content">
+	<div class="sidebar-left-bottom-content">
 	  <button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
 		<svg viewBox="0 0 20 20" fill="currentColor">
 		  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
@@ -2274,10 +2276,298 @@ object-fit: contain;
 
 </div> <!-- End .theme-wrapper -->
 
+<script type="importmap">
+  {
+	"imports": {
+	  "three": "https://cdn.skypack.dev/three@0.136.0"
+	}
+  }
+</script>
 
 
+<!-- Main JavaScript Logic (THREE.js and Scrolling) -->
 <script type="module">
-  
+  import * as THREE from 'three';
+
+  let scene, camera, renderer, p, planet, torus1, torus2, torus3; // ADDED torus3
+  let currentSphereColor = null; 
+  const container = document.getElementById('canvas-container');
+
+  let gu, sizes = [], shift = [], clock;
+
+  function getSpherePoints(count, radius) {
+	const points = [];
+	for (let i = 0; i < count; i++) {
+	  const phi = Math.acos(-1 + (2 * i) / count);
+	  const theta = Math.sqrt(count * Math.PI) * phi;
+	  const p = new THREE.Vector3();
+	  p.setFromSphericalCoords(radius, phi, theta);
+	  points.push(p);
+	}
+	return points;
+  }
+
+  function getTorusPoints(count, radius, tube, tiltX, tiltY) {
+	const points = [];
+	for (let i = 0; i < count; i++) {
+	  const u = (i / count) * Math.PI * 2;
+	  const v = ((i * 137.5) % count / count) * Math.PI * 2;
+
+	  const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+	  const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+	  const z = tube * Math.sin(v);
+
+	  const p = new THREE.Vector3(x, y, z);
+	  p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
+	  points.push(p);
+	}
+	return points;
+  }
+
+  function initThreeJS() {
+	scene = new THREE.Scene();
+
+	const initialBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+	scene.background = new THREE.Color(initialBgColor);
+
+	const fov = 75;
+	const aspect = window.innerWidth / window.innerHeight;
+	const near = 0.1;
+	const far = 1000;
+	camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+	const isDesktop = window.innerWidth >= 1025;
+	camera.position.z = isDesktop ? 5.25 : 8; 
+
+	renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setPixelRatio(window.devicePixelRatio);
+	container.appendChild(renderer.domElement);
+
+	const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+	currentSphereColor = parseInt(initialColor, 16);
+
+	const planetGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+	const planetMaterial = new THREE.MeshBasicMaterial({ 
+	  color: currentSphereColor,
+	  transparent: false
+	});
+	planet = new THREE.Mesh(planetGeometry, planetMaterial);
+	scene.add(planet);
+
+	const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
+	const torusMaterial1 = new THREE.MeshBasicMaterial({ 
+	  color: currentSphereColor,
+	  transparent: false,
+	  opacity: 1.0
+	});
+	torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
+	torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
+	scene.add(torus1);
+
+	const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
+	const torusMaterial2 = new THREE.MeshBasicMaterial({ 
+	  color: currentSphereColor,
+	  transparent: false,
+	  opacity: 1.0
+	});
+	torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
+	torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
+	scene.add(torus2);
+
+	const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100); // NEW
+	const torusMaterial3 = new THREE.MeshBasicMaterial({ // NEW
+	  color: currentSphereColor, // NEW
+	  transparent: false, // NEW
+	  opacity: 1.0 // NEW
+	}); // NEW
+	torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3); // NEW
+	torus3.rotation.set(Math.PI / 2.5, 0, 0); // NEW - Y rotation is 0
+	scene.add(torus3); // NEW
+
+	gu = { time: { value: 0 } };
+	sizes = [];
+	shift = [];
+
+	let pushShift = () => {
+	  shift.push(
+		Math.random() * Math.PI, 
+		Math.random() * Math.PI * 2, 
+		(Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
+		Math.random() * 0.25 + 0.1
+	  );
+	}
+
+	const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
+	const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
+	// const torus3Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, 0); // REMOVED from particles
+	const outerSpherePoints = getSpherePoints(100, 6.5);
+
+	const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints]; // MODIFIED: Removed torus3Points
+
+	pts.forEach(pt => {
+	  sizes.push(Math.random() * 0.5 + 1);
+	  pushShift();
+	});
+
+	let g = new THREE.BufferGeometry().setFromPoints(pts);
+	g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
+	g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
+
+	let m = new THREE.PointsMaterial({
+	  size: 0.1,
+	  transparent: true,
+	  depthTest: false,
+	  blending: THREE.AdditiveBlending,
+	  onBeforeCompile: shader => {
+		shader.uniforms.time = gu.time;
+		shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
+
+		shader.vertexShader = `
+		  uniform float time;
+		  uniform vec3 color;
+		  attribute float sizes;
+		  attribute vec4 shift;
+		  varying vec3 vColor;
+		  ${shader.vertexShader}
+		`.replace(
+		  `gl_PointSize = size;`,
+		  `gl_PointSize = size * sizes;`
+		).replace(
+		  `#include <color_vertex>`,
+		  `#include <color_vertex>
+			float d = length(abs(position) / vec3(40., 10., 40));
+			d = clamp(d, 0., 1.);
+			vColor = color;
+		  `
+		).replace(
+		  `#include <begin_vertex>`,
+		  `#include <begin_vertex>
+			float t = time;
+			float moveT = mod(shift.x + shift.z * t, PI2);
+			float moveS = mod(shift.y + shift.z * t, PI2);
+			transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
+		  `
+		);
+		shader.fragmentShader = `
+		  ${shader.fragmentShader}
+		`.replace(
+		  `vec4 diffuseColor = vec4( diffuse, opacity );`,
+		  `
+		  vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
+		  float d = length(uv - vec2(1));
+		  float f = 1. - step(d, 1.);
+		  if (f < 0.1) discard;
+		  vec4 diffuseColor = vec4( diffuse, opacity );`
+		);
+	  }
+	});
+
+	p = new THREE.Points(g, m);
+	scene.add(p);
+
+	clock = new THREE.Clock();
+	renderer.setAnimationLoop(animate);
+  }
+
+  function animate() {
+	let t = clock.getElapsedTime() * 0.25;
+	gu.time.value = t * Math.PI;
+
+	const newColorHex = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+	const newColor = parseInt(newColorHex, 16);
+
+	const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+	scene.background.set(newBgColor);
+
+	if (newBgColor === '#ffffff') {
+	  if (p) {
+		p.material.blending = THREE.NormalBlending;
+		p.material.transparent = false;
+		p.material.opacity = 1.0;
+		p.material.size = 0.1;
+		p.material.needsUpdate = true;
+	  }
+	} else {
+	  if (p) {
+		p.material.blending = THREE.AdditiveBlending;
+		p.material.transparent = true;
+		p.material.opacity = 1.0;
+		p.material.size = 0.1;
+		p.material.needsUpdate = true;
+	  }
+	}
+
+	if (newColor !== currentSphereColor) {
+	  currentSphereColor = newColor;
+
+	  if (gu.color) {
+		gu.color.value.setHex(currentSphereColor);
+	  }
+
+	  if (p && p.material) {
+		p.material.color.setHex(currentSphereColor);
+		p.material.needsUpdate = true;
+	  }
+
+	  if (planet && planet.material) {
+		planet.material.color.setHex(currentSphereColor);
+	  }
+
+	  if (torus1 && torus1.material) {
+		torus1.material.color.setHex(currentSphereColor);
+	  }
+	  if (torus2 && torus2.material) {
+		torus2.material.color.setHex(currentSphereColor);
+	  }
+	  if (torus3 && torus3.material) { // NEW
+		torus3.material.color.setHex(currentSphereColor); // NEW
+	  } // NEW
+	}
+
+	if (p) {
+	  p.rotation.y += 0.001;
+	  p.rotation.x += 0.0005;
+	}
+
+	if (planet) {
+	  planet.rotation.y += 0.001;
+	  planet.rotation.x += 0.0005;
+	}
+
+	if (torus1) {
+	  torus1.rotation.y += 0.001;
+	  torus1.rotation.x += 0.0005;
+	}
+	if (torus2) {
+	  torus2.rotation.y += 0.001;
+	  torus2.rotation.x += 0.0005;
+	}
+	if (torus3) { // NEW
+	  torus3.rotation.y += 0.001; // NEW
+	  torus3.rotation.x += 0.0005; // NEW
+	} // NEW
+
+	renderer.render(scene, camera);
+  }
+
+  function onWindowResize() {
+	if (camera && renderer && container) {
+	  const aspect = window.innerWidth / window.innerHeight;
+	  camera.aspect = aspect;
+
+	  const isDesktop = window.innerWidth >= 1025;
+	  camera.position.z = isDesktop ? 5.25 : 8; 
+
+	  camera.updateProjectionMatrix();
+	  renderer.setSize(window.innerWidth, window.innerHeight);
+	}
+  }
+  window.addEventListener('resize', onWindowResize, false);
+
+  if (container) {
+	setTimeout(initThreeJS, 100);
+  }
 
   // --- Scroll Logic (Desktop & Mobile) ---
 
@@ -2551,27 +2841,16 @@ object-fit: contain;
 	  window.removeEventListener('touchstart', handleTouchStart);
 	  window.removeEventListener('touchend', handleTouchEnd);
 
-      sections.forEach((section, i) => { // MODIFIED: Loop over sections
+	  sections.forEach(section => {
 		section.style.transform = '';
-		// NEW: Manually activate section 1 for mobile on load to prevent race condition
-		if (i === 0) {
-		  section.classList.add('is-active');
-		} else {
-		  section.classList.remove('is-active');
-		}
 	  });
-
-      // NEW: Manually trigger canvas visibility for mobile to fix race condition
-      if (canvasContainer) {
-        canvasContainer.classList.add('is-visible');
-      }
 
 	  initMobileScrollObserver();
 	}
   }
 
   window.addEventListener('resize', () => {
-	// onWindowResize(); // Removed this line which caused the error
+	onWindowResize();
 
 	const newIsDesktop = window.innerWidth >= 1025; 
 	if (newIsDesktop !== isDesktop) {
@@ -2613,3 +2892,367 @@ object-fit: contain;
 
   setupEventListeners();
 </script>
+
+<!-- jQuery Modal Script -->
+<script>
+  $(document).ready(function() {
+	$('#desktop-about-button, #mobile-about-button').on('click', function(e){
+	  e.preventDefault();
+
+	  const modal = $('#modal-container-side');
+
+	  if (modal.hasClass('visible')) {
+		modal.addClass('out');
+		$('body').removeClass('modal-active');
+	  } else {
+		modal.removeAttr('class').addClass('visible');
+		$('body').addClass('modal-active');
+	  }
+	});
+
+	$('#modal-container-side').on('click', function(e){
+	  if ($(e.target).is('.modal-background')) {
+		$(this).addClass('out');
+		$('body').removeClass('modal-active');
+	  }
+	});
+
+	$('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
+	  if (e.target === this && $(this).hasClass('out')) {
+		$(this).removeAttr('class');
+	  }
+	});
+  });
+</script>
+<!-- Script to toggle body class for theme -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+	const themeCheckbox = document.getElementById('theme-checkbox');
+	if (themeCheckbox) {
+	  themeCheckbox.addEventListener('change', function() {
+		document.body.classList.toggle('light-mode', this.checked);
+	  });
+
+	  document.body.classList.toggle('light-mode', themeCheckbox.checked);
+	}
+  });
+</script>
+
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const buttons = document.querySelectorAll('.section-btn');
+		const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
+		const scrollers = {
+			'3d': document.getElementById('scroller-3d'),
+			'graphic': document.getElementById('scroller-graphic'),
+			'product': document.getElementById('scroller-product')
+		};
+		
+		// Select info content
+		const infoContents = {
+			'3d': document.querySelector('.info-content[data-info="3d"]'),
+			'graphic': document.querySelector('.info-content[data-info="graphic"]'),
+			'product': document.querySelector('.info-content[data-info="product"]')
+		};
+
+		// NEW: Save scroll positions
+		const scrollPositions = {
+			'3d': 0,
+			'graphic': 0,
+			'product': 0
+		};
+
+		let currentGallery = '3d';
+
+		function updateProgress(scroller, button) {
+			if (!button) return;
+			const scrollLeft = scroller.scrollLeft;
+			const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
+			const progress = scrollWidth > 0 ? (scrollLeft / scrollWidth) * 100 : 0;
+			button.style.setProperty('--progress', `${progress}%`);
+		}
+
+		// UPDATED: Function now also switches info content and saves/restores scroll
+		function switchGallery(newGallery) {
+			if (newGallery === currentGallery) return;
+
+			// Save current scroll position
+			scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+
+			// --- Gallery Scroller ---
+			scrollers[currentGallery].classList.remove('active');
+			scrollers[newGallery].classList.add('active');
+			// Restore new gallery's scroll position
+			scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
+
+			// --- Info Content ---
+			infoContents[currentGallery].classList.remove('active');
+			infoContents[newGallery].classList.add('active');
+
+			currentGallery = newGallery;
+
+			const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
+			const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+			updateProgress(scrollers[newGallery], activeButton);
+			updateProgress(scrollers[newGallery], activeMobileLink);
+		}
+
+		buttons.forEach(btn => {
+			btn.addEventListener('click', () => {
+				const galleryType = btn.dataset.gallery;
+				buttons.forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+
+				// Sync mobile links
+				mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+				const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
+				matchingLink?.classList.add('active');
+
+				switchGallery(galleryType);
+			});
+		});
+
+		// Add listeners for mobile links
+		mobileWorkNavLinks.forEach(link => {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const galleryType = link.dataset.gallery;
+
+				mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+				link.classList.add('active');
+
+				// Sync desktop/tablet buttons
+				buttons.forEach(b => b.classList.remove('active'));
+				const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
+				matchingButton?.classList.add('active');
+
+				switchGallery(galleryType);
+			});
+		});
+
+		Object.keys(scrollers).forEach(key => {
+			scrollers[key].addEventListener('scroll', () => {
+				if (key === currentGallery) {
+					const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
+					const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
+					
+					updateProgress(scrollers[key], activeButton);
+					updateProgress(scrollers[key], activeMobileLink);
+
+					// NEW: Save scroll position as user scrolls
+					scrollPositions[key] = scrollers[key].scrollLeft;
+				}
+			});
+		});
+
+		const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
+		const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
+		updateProgress(scrollers[currentGallery], initialButton);
+		updateProgress(scrollers[currentGallery], initialMobileLink);
+
+
+		// --- NEW: Lightbox/Modal Logic ---
+		const modal = document.getElementById('portfolio-modal');
+		const modalContentInner = document.getElementById('modal-gall-inner');
+		const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+		portfolioItems.forEach(item => {
+			item.addEventListener('click', () => {
+				// Clone the item's content (in this case, just the text)
+				const itemContent = item.innerHTML; 
+				modalContentInner.innerHTML = itemContent;
+				
+				// Show the modal
+				modal.classList.add('active');
+			});
+		});
+
+		function closeModal() {
+			modal.classList.remove('active');
+			// Clear content after transition
+			setTimeout(() => {
+				modalContentInner.innerHTML = '';
+			}, 300);
+		}
+
+		// Close modal by clicking on the background or the content
+		modal.addEventListener('click', closeModal);
+		modalContentInner.addEventListener('click', closeModal);
+	});
+</script>
+<script>
+  const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+
+  if (isMobile) {
+	const items = document.querySelectorAll(".grid-item");
+
+	items.forEach(item => {
+	  item.addEventListener("click", () => {
+		const service = item.getAttribute("data-service");
+
+		items.forEach(i => i.classList.remove("active"));
+		document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
+
+		item.classList.add("active");
+		document.querySelector(`.service-content[data-service="${service}"]`).classList.add("active");
+
+		document.body.classList.add("mobile-has-active");
+	  });
+	});
+  }
+</script>
+<script>
+
+  const canvas = document.getElementById('breathingGrid');
+  const ctx = canvas.getContext('2d');
+  const textEl = document.getElementById('textToCopy');
+  let dots = [];
+  let spacing = 80;
+  let mouse = { x: -1000, y: -1000 };
+
+  // Function to get current theme color
+  function getThemeColor() {
+	try {
+	  const computedStyle = getComputedStyle(document.body);
+	  const textColor = computedStyle.getPropertyValue('--text-color').trim();
+
+	  // Convert hex to RGB
+	  if (textColor && textColor.startsWith('#')) {
+		const hex = textColor.replace('#', '');
+		const r = parseInt(hex.substring(0, 2), 16);
+		const g = parseInt(hex.substring(2, 4), 16);
+		const b = parseInt(hex.substring(4, 6), 16);
+
+		// Validate the parsed values
+		if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+		  return { r, g, b };
+		}
+	  }
+	} catch (e) {
+	  console.error('Error parsing theme color:', e);
+	}
+
+	// Default to white for dark theme (base theme)
+	return { r: 255, g: 255, b: 255 };
+  }
+
+  function resizeCanvas() {
+	// NEW: Size canvas to its parent container (.section-content)
+	const rect = canvas.parentElement.getBoundingClientRect();
+	canvas.width = rect.width;
+	canvas.height = rect.height;
+
+	// Adjust spacing for mobile
+	spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
+	dots = [];
+
+	// NEW: Calculate grid and center it, creating padding at edges
+	const numCols = Math.floor(canvas.width / spacing) + 1;
+	const numRows = Math.floor(canvas.height / spacing) + 1;
+
+	const gridWidth = (numCols - 1) * spacing;
+	const gridHeight = (numRows - 1) * spacing;
+
+	const offsetX = (canvas.width - gridWidth) / 2;
+	const offsetY = (canvas.height - gridHeight) / 2;
+
+	for(let r = 0; r < numRows; r++){
+	  for(let c = 0; c < numCols; c++){
+		dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
+	  }
+	}
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  window.addEventListener('mousemove', (e)=>{
+	const rect = canvas.getBoundingClientRect();
+	mouse.x = e.clientX - rect.left;
+	mouse.y = e.clientY - rect.top;
+  });
+
+  let time = 0;
+  function animate() {
+	time += 0.016;
+	ctx.clearRect(0,0,canvas.width,canvas.height);
+
+	// NEW: Get coordinates relative to the canvas
+	const rect = textEl.getBoundingClientRect();
+	const canvasRect = canvas.getBoundingClientRect();
+	const textPadding = 20;
+
+	// Calculate text box boundaries in canvas-relative coordinates
+	const textLeft = rect.left - canvasRect.left - textPadding;
+	const textRight = rect.right - canvasRect.left + textPadding;
+	const textTop = rect.top - canvasRect.top - textPadding;
+	const textBottom = rect.bottom - canvasRect.top + textPadding;
+
+	const centerX = canvas.width / 2;
+	const centerY = canvas.height / 2;
+	const waveSpeed = 60;
+	const waveThickness = 40;
+	const maxDist = Math.hypot(centerX, centerY) + waveThickness;
+	const currentWave = (time * waveSpeed) % maxDist;
+
+	// Get current theme color
+	const color = getThemeColor();
+
+	dots.forEach(dot=>{
+	  if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
+		return;
+	  }
+	  const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+	  const distToWave = Math.abs(dist - currentWave);
+	  let pulseFactor = 0;
+	  if(distToWave < waveThickness/2){
+		pulseFactor = 1 - distToWave / (waveThickness/2);
+		pulseFactor = Math.sin(pulseFactor*Math.PI/2);
+	  }
+	  const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+	  let glowFactor = 0;
+	  const glowRadius = 50;
+	  if(mouseDist < glowRadius){
+		glowFactor = (1 - mouseDist/glowRadius);
+	  }
+	  const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
+	  const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
+	  ctx.beginPath();
+	  ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
+	  // Use theme color instead of hardcoded white
+	  ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+	  ctx.fill();
+	});
+	requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  // Copy button logic
+  const copyButton = document.getElementById('copyButton');
+  function copyToClipboard() {
+	const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
+	navigator.clipboard.writeText(textToCopy).then(() => {
+	  copyButton.textContent = 'Copied!';
+	  copyButton.classList.add('copied');
+	  setTimeout(() => {
+		copyButton.textContent = 'Copy Me';
+		copyButton.classList.remove('copied');
+	  }, 1500);
+	}).catch(err => console.error(err));
+  }
+
+  copyButton.addEventListener('click', copyToClipboard);
+  textEl.addEventListener('click', copyToClipboard);
+  textEl.addEventListener('touchstart', (e) => e.preventDefault());
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
