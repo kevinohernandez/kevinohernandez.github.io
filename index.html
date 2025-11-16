@@ -1407,6 +1407,404 @@ body.modal-active {
 /*WORK END///////////////////////////*/
 
 
+/*SERVICES///////////////////////////*/
+#section-3 .section-content {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.grid-side {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #4a4a4a;
+  overflow-y: auto;
+}
+
+.grid-item {
+  flex: 1;
+  min-height: calc(100vh / 7);
+  border-bottom: 1px solid #4a4a4a;
+  position: relative;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.grid-item:last-child {
+  border-bottom: none;
+}
+
+.grid-item:hover {
+  background-color: #1a1a1a;
+}
+
+.grid-item-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+}
+
+.grid-item:hover .grid-item-bg {
+  opacity: 0.3;
+}
+
+.grid-item:hover .item-title{
+  color: white;
+}
+
+.circle {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #888;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 2;
+  margin-right: 1.5rem;
+}
+
+.grid-item:hover .circle {
+  border-color: #ffffff;
+  background-color: #ffffff;
+}
+
+.item-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  position: relative;
+  z-index: 2;
+}
+
+.grid-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.display-side {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.service-content[data-service="default"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+/* DESKTOP ONLY – hover behavior */
+@media (min-width: 1025px) {
+  .grid-side:hover ~ .display-side [data-service="default"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"],
+  .grid-side:has([data-service="ux"]:hover) ~ .display-side [data-service="ux"],
+  .grid-side:has([data-service="branding"]:hover) ~ .display-side [data-service="branding"],
+  .grid-side:has([data-service="development"]:hover) ~ .display-side [data-service="development"],
+  .grid-side:has([data-service="strategy"]:hover) ~ .display-side [data-service="strategy"],
+  .grid-side:has([data-service="photography"]:hover) ~ .display-side [data-service="photography"],
+  .grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* MOBILE ACTIVE STATES */
+@media (max-width: 1024px) {
+
+  /#section-3 .section-content {
+    height: 100%;
+  }
+  #section-3 {padding:0}
+
+  .container {
+    height: 100%;
+  }
+
+  .grid-item.active {
+    background-color: #1a1a1a;
+  }
+  .grid-item.active .grid-item-bg {
+    opacity: 0.3;
+  }
+  .grid-item.active .circle {
+    border-color: #ffffff;
+    background-color: var(--text-color);
+  }
+  .service-content.active {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+  /* Hide default ONLY when a mobile tap has activated something */
+  body.mobile-has-active [data-service="default"] {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .grid-item { 
+    padding: 0rem 0rem 0rem 1rem;
+    min-height: calc(100vh / 7.333);
+  }
+  .circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
+  .item-title { font-size: 1rem; }
+
+  .service-content h2 { 
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .service-content p { 
+    font-size: clamp(0.875rem, 3vw, 1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .display-side { padding: 2rem; }
+
+  .grid-item-content {
+    justify-content: flex-start;
+  }
+
+  .service-content {
+    padding: 1rem;
+  }
+  .grid-side {
+    width: 40%;
+  }
+}
+
+
+
+/*INQUIRY///////////////////////////*/
+
+/* NEW: Remove padding from section 4 so its content can be 100vh */
+#section-4 {
+  padding: 0 !important;
+}
+
+/* NEW: Make section-content fill the section and be a positioning context */
+#section-4 .section-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  z-index: 1; /* Ensure text is above canvas */
+  text-align: center;
+}
+
+.copyable-text {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 5px;
+  padding: 20px 30px;
+  font-size: 35px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.copyable-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  transition: left 0.5s;
+}
+
+.copyable-text:hover::before {
+  left: 100%;
+}
+
+.copyable-text:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.copy-circle {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.8);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+    background-color 0.3s ease, 
+    color 0.3s ease, 
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  z-index: 10; /* Ensure this is above .text-container */
+  pointer-events: none;
+}
+
+.copy-circle::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background:  var(--bg-color);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.text-container:hover .copy-circle,
+.copy-circle:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  top: -70px;
+  pointer-events: auto;
+}
+
+.copy-circle:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  top: -70px;
+}
+
+.copy-circle:hover::before {
+  opacity: 1;
+}
+
+.copy-circle:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.copy-circle.copied {
+  background: var(--text-color);
+  color: var(--bg-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.copy-circle.copied::before {
+  background: var(--accent-color);
+}
+
+#breathingGrid {
+  /* NEW: Make canvas fill its parent (.section-content) and sit behind */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Behind .text-container */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .copyable-text {
+    font-size: 24px;
+    padding: 15px 20px;
+  }
+
+  .copy-circle {
+    width: 50px;
+    height: 50px;
+    font-size: 10px;
+    top: -40px;
+  }
+}
+
+.ls{    
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+  padding: 25px;
+
+}
+
+.bb {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /z-index: 1;
+  overflow: hidden;
+  /clip-path: polygon(2% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 65%, 2% 60%);
+}
+
+
+
+.bb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /clip-path: inherit;
+  /background: grey; 
+  /transition: transform 0.4s ease 0.1s; /* delay image scale */
+}
+
+
+	
   @media
 	/* tablet Landscape  */
 	screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
@@ -3390,6 +3788,7 @@ body.modal-active {
 </script> 
 </body>
 </html>
+
 
 
 
