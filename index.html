@@ -396,8 +396,8 @@ transform: translateY(0);
 /* === MOBILE: Header & Footer === */
 
 .mobile-footer {
-/position: fixed;
-	position: sticky;
+position: fixed;
+/position: sticky;
 bottom: 0;
 left: 0;
 width: 100%;
@@ -1816,15 +1816,16 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	.mobile-nav {
 	  display: flex;
 	  flex-direction: column;
-	  height: 100vh; /* Make wrapper fill the viewport */
+	  /height: 100vh; /* Make wrapper fill the viewport */
+		height: 100%;
 	}
 
 	.theme-wrapper {
 	  flex-grow: 1;
 	  /* Make content area fill available space */
-	 /height: auto;
+	 height: auto;
 	  /* Override 100vh */
-		height: 100dvh;
+		/height: 100dvh;
 	}
 
 	/.mobile-footer {
@@ -3789,6 +3790,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
