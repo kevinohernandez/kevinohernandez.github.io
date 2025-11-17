@@ -1818,16 +1818,16 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	.mobile-nav {
 	  display: flex;
 	  flex-direction: column;
-	  /height: 100vh; /* Make wrapper fill the viewport */
-		height: 100%;
+	  height: 100vh; /* Make wrapper fill the viewport */
+		/height: 100%;
 	}
 
 	.theme-wrapper {
 	  flex-grow: 1;
 	  /* Make content area fill available space */
-	 height: auto;
+	 /height: auto;
 	  /* Override 100vh */
-		/height: 100dvh;
+	height: 100dvh;
 	}
 
 	/.mobile-footer {
@@ -3792,6 +3792,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
