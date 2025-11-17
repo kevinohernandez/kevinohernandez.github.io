@@ -1584,7 +1584,7 @@ flex-direction: column;
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
 /* transition: background-color 0.3s ease, border-color 0.3s ease; */ /* REMOVED */
-	padding-bottom: env(safe-area-inset-bottom);
+	/padding-bottom: env(safe-area-inset-bottom);
 }
 
 .mobile-footer-top {
@@ -1623,9 +1623,11 @@ transition: background-color 0.3s ease, opacity 0.3s ease; /* MODIFIED: Added op
 /* Keep hover transition */
 color: var(--text-muted-color);
 }
+	
 .mobile-footer-links a:first-child {
 border-left: none;
 }
+	
 .mobile-footer-links a.active {
 color: var(--text-color);
 background-color: var(--accent-color);
@@ -2214,9 +2216,7 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 
 }
 
-/.section-1-wrapper {
-    height: 100%;
-}
+
 
 </style>
 
@@ -3824,6 +3824,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
