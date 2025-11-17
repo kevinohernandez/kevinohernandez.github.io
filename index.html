@@ -56,7 +56,7 @@ padding: 0;
 -webkit-focus-ring-color: transparent;
 outline: none;
 touch-action: manipulation;
-	
+
 }
 
 html {
@@ -195,7 +195,7 @@ background-color: transparent;
 opacity: 0;
 transform: translateY(20px);
 transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), 
-  transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 section.is-active .hero-text-large,
@@ -255,7 +255,7 @@ background-color: var(--bg-color);
 */ /* REMOVED */
 /* --- ADDED TRANSITION FOR BORDER --- */
 transition: border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1),
-  transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
 /* MODIFIED: Added transform transition */
 
 /* --- NEW: Initial state for animation --- */
@@ -277,10 +277,10 @@ width: 2rem;
 padding: 2rem 0rem;
 border-left: 1px solid var(--border-color);
 transition: background-color 0.3s ease, /* Keep hover transition */
-  width 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
-  padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
-  opacity 0.3s ease,
-  border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+width 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
+padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
+opacity 0.3s ease,
+border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 overflow: hidden;
 }
 
@@ -363,10 +363,10 @@ height: 100%;
 padding: 2rem 0rem;
 border-left: 1px solid var(--border-color);
 transition: background-color 0.3s ease, /* Keep hover transition */
-  width 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
-  padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
-  opacity 0.3s ease,
-  border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+width 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
+padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), 
+opacity 0.3s ease,
+border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 overflow: hidden;
 width: 0;
 padding-left: 0;
@@ -843,7 +843,7 @@ object-fit: contain;
 /transition: transform 0.4s ease 0.1s; /* delay image scale */
 }
 
-	
+
 
 /* --- KEYFRAMES --- */
 
@@ -868,13 +868,13 @@ object-fit: contain;
 }
 @keyframes fadeIn {
 0% { opacity: 0;
-  transform: translateY(10px); }
+transform: translateY(10px); }
 100% { opacity: 1; transform: translateY(0);
 }
 }
 @keyframes fadeOut {
 0% { opacity: 1;
-  transform: translateY(0); }
+transform: translateY(0); }
 100% { opacity: 0; transform: translateY(10px);
 }
 }
@@ -990,10 +990,10 @@ width: var(--progress, 0%);
 
 .section-btn.active span {
 background: linear-gradient(
-  to right, 
-  var(--bg-color) var(--progress, 0%), 
-  var(--text-color) var(--progress, 0%), 
-  var(--text-color) 100%
+to right, 
+var(--bg-color) var(--progress, 0%), 
+var(--text-color) var(--progress, 0%), 
+var(--text-color) 100%
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -1391,7 +1391,10 @@ word-wrap: break-word;
 overflow-wrap: break-word;
 }
 
-.display-side { padding: 2rem; }
+.display-side { 
+padding: 2rem; 
+width: 60%;
+}
 
 .grid-item-content {
 justify-content: flex-start;
@@ -1583,7 +1586,7 @@ flex-direction: column;
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
 /* transition: background-color 0.3s ease, border-color 0.3s ease; */ /* REMOVED */
-	/padding-bottom: env(safe-area-inset-bottom);
+/padding-bottom: env(safe-area-inset-bottom);
 }
 
 .mobile-footer-top {
@@ -1606,7 +1609,7 @@ justify-self: center;
 justify-self: end;
 }
 
-.mobile-footer-links {
+/.mobile-footer-links {
 display: grid;
 grid-template-columns: 1fr 1fr 1fr; 
 }
@@ -1625,15 +1628,15 @@ opacity: 0.25;
 }
 
 
-	
+
 .mobile-footer-links a:first-child {
 border-left: none;
 }
-	
+
 .mobile-footer-links a.active {
 color: var(--text-color);
 /background-color: var(--accent-color);
-	opacity: 1;
+opacity: 1;
 }
 
 /.mobile-footer-links a:third-child {
@@ -1642,9 +1645,9 @@ opacity: 1;
 
 .nav-link.logo-button{
 opacity: 1;
-	
+
 }	
-	
+
 /* === NEW: Mobile Work Nav (Section 2) === */
 #mobile-work-nav {
 /* display: none;
@@ -1654,8 +1657,8 @@ overflow: hidden;
 max-height: 0;
 transform: translateY(100%);
 transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
-  transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-  border-width 0.1s linear;
+transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+border-width 0.1s linear;
 border-bottom: 0px solid var(--border-color); /* Start with no border */
 display: grid;
 /* ADDED: Keep as grid */
@@ -1730,10 +1733,10 @@ height: 100%;
 /* === NEW: Active state text color change === */
 .mobile-work-nav-link.active span {
 background: linear-gradient(
-  to right, 
-  var(--bg-color) var(--progress, 0%), 
-  var(--text-color) var(--progress, 0%), 
-  var(--text-color) 100%
+to right, 
+var(--bg-color) var(--progress, 0%), 
+var(--text-color) var(--progress, 0%), 
+var(--text-color) 100%
 );
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -1747,83 +1750,83 @@ background-clip: text;
 /* === DESKTOP  === */
 @media (min-width: 1025px) {
 .theme-wrapper {
-  overflow: hidden;
-  scroll-snap-type: none;
-  display: flex;
-  flex-direction: row;
+overflow: hidden;
+scroll-snap-type: none;
+display: flex;
+flex-direction: row;
 }
 
 main {
-  overflow: hidden;
-  flex-grow: 1;
-  height: 100vh;
-  width: 100%;
+overflow: hidden;
+flex-grow: 1;
+height: 100vh;
+width: 100%;
 }
 
 section {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  height: 100%;
-  width: 100%;
-  /* UPDATED: Removed background-color transition */
-  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-  transform: translateX(100%); 
-  padding: 4rem 0rem;
+position: absolute;
+top: 0; 
+left: 0; 
+height: 100%;
+width: 100%;
+/* UPDATED: Removed background-color transition */
+transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+transform: translateX(100%); 
+padding: 4rem 0rem;
 }
 
 #section-1 {
-  transform: translateX(0);
+transform: translateX(0);
 }
 
 /* Show/Hide UI */
 .mobile-footer {
-  display: none;
+display: none;
 }
 .nav-stacked-right, .sidebar-left, .nav-stacked-left {
-  display: flex;
+display: flex;
 }
 
 /* Section 1 Layout */
 .section-grid {
-  flex-direction: row;
-  align-items: stretch;
+flex-direction: row;
+align-items: stretch;
 }
 .section-1-wrapper {
-  height: auto;
-  justify-content: center;
+height: auto;
+justify-content: center;
 }
 
 .text-column {
-  padding-top: 0;
-  padding-left: 2rem;
+padding-top: 0;
+padding-left: 2rem;
 }
 
 /* Typography */
 .section-title-combined {
-  font-size: 2.5rem;
+font-size: 2.5rem;
 }
 
 /* Desktop Modal Styles */
 #modal-container-side {
-  position: absolute;
-  /* Fit to <main> */
-  z-index: 200;
-  /* Stay on top of sections */
+position: absolute;
+/* Fit to <main> */
+z-index: 200;
+/* Stay on top of sections */
 }
 
 .modal-content {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  border-radius: 0;
-  box-shadow: none;
+width: 100%;
+height: 100%;
+max-width: none;
+border-radius: 0;
+box-shadow: none;
 }
 }
 
 
 
-	
+
 @media
 /* tablet Landscape  */
 screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
@@ -1831,402 +1834,410 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 (max-width:1024px),
 /* Phone Landscape  */
 (max-width: 
-  1024px) and (orientation: landscape) and (max-height: 500px) {
+1024px) and (orientation: landscape) and (max-height: 500px) {
 
-	/* === START: MOBILE LAYOUT FIX === */
-	.mobile-nav {
-	  display: flex;
-	  flex-direction: column;
-	  height: 100svh; /* Make wrapper fill the viewport */
-	/height: 100%;
-	}
-
-	.theme-wrapper {
-	  flex-grow: 1;
-	  /* Make content area fill available space */
-	 height: auto;
-	/height: 100dvh;
-	}
-
-	.mobile-footer {
-	  /position: static;
-		position: relative;
-	  flex-shrink: 0;
-	}
-	/* === END: MOBILE LAYOUT FIX === */
-
-	/* === NEW: Make main/section fill the theme-wrapper === */
-	main {
-	  height: 100%;
-	  /position: static; /* <-- MODIFICATION: Allow modal to position to theme-wrapper */
-	}
-
-	body {
-	  overflow: hidden;
-	}
-
-	section {
-	  /* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
-	  padding: 2rem 0rem ;
-	  align-items: center;
-	  height: 100%; /* NEW: Make section height fill theme-wrapper */
-	}
-
-	.hero-text-large {
-	  font-size: 1.875rem;
-	}
-
-	.section-title-combined {
-	  font-size: 2.5rem;
-	}
-
-	.modal-panel {
-	  width: 100%;
-	  height: 50%;
-	}
-	
-	.modal-panel.left {
-	  border-right: none;
-	  /border-bottom: 1px solid var(--border-color);
-	}
-
-	.marquee-content span {
-	  font-size: 1.5rem!important;
-	}
-
-	.mobile-footer-top {
-	  padding: 0.2rem 1.5rem!important;
-	  border-bottom:none!important;
-	}
-
-	.mobile-footer-links a {
-	  border-left: none!important;
-	  padding: 0.75rem 0.5rem;
-	  /padding: 0.75rem;
-	  color: var(--text-color)!important;
-	}
-
-	.icon-button {
-	  width: 1.5rem!important;
-	  height: 1.5rem!important;
-	  /position: absolute;
-	  /bottom: 45px;
-	  position: fixed;
-	  bottom: 85px;
-	  right: 5px;
-	}
-
-	.mobile-footer-links {
-	  display: grid;
-	  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	  justify-content: center;
-	  align-items: center;
-	  justify-items: center;
-		/height: 100svh;
-        /height: 100%;
-
-	}
-
-	.nav-link:hover, .nav-link-left:hover, .mobile-footer-links a:hover {
-    color: var(--text-color);
-    background-color: transparent;
+/* === START: MOBILE LAYOUT FIX === */
+.mobile-nav {
+display: flex;
+flex-direction: column;
+height: 100svh; /* Make wrapper fill the viewport */
+/height: 100%;
 }
 
-	/* === NEW: Mobile Info Toggle Button Styles === */
-	#mobile-info-toggle {
-	  display: flex;
-	  width: 1.75rem;
-	  height: 1.75rem;
-	  bottom: 0.75rem;
-	  top: auto; 
-	  left: 0.75rem;
-	  z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
-	}
-	#mobile-info-toggle svg {
-	  width: 1.2rem;
-	  /* 16px */
-	  height: 1.2rem;
-	  /* 16px */
-	}
-	/* === END: Mobile Info Toggle Button Styles === */
+.theme-wrapper {
+flex-grow: 1;
+/* Make content area fill available space */
+height: auto;
+/height: 100dvh;
+}
+
+.mobile-footer {
+/position: static;
+position: relative;
+flex-shrink: 0;
+}
+/* === END: MOBILE LAYOUT FIX === */
+
+/* === NEW: Make main/section fill the theme-wrapper === */
+main {
+height: 100%;
+/position: static; /* <-- MODIFICATION: Allow modal to position to theme-wrapper */
+}
+
+body {
+overflow: hidden;
+}
+
+section {
+/* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
+padding: 2rem 0rem ;
+align-items: center;
+height: 100%; /* NEW: Make section height fill theme-wrapper */
+}
+
+.hero-text-large {
+font-size: 1.875rem;
+}
+
+.section-title-combined {
+font-size: 2.5rem;
+}
+
+.modal-panel {
+width: 100%;
+height: 50%;
+}
+
+.modal-panel.left {
+border-right: none;
+/border-bottom: 1px solid var(--border-color);
+}
+
+.marquee-content span {
+font-size: 1.5rem!important;
+}
+
+.mobile-footer-top {
+padding: 0.2rem 1.5rem!important;
+border-bottom:none!important;
+}
+
+.mobile-footer-links a {
+border-left: none!important;
+padding: 0.75rem 0.5rem;
+/padding: 0.75rem;
+color: var(--text-color)!important;
+}
+
+.icon-button {
+width: 1.5rem!important;
+height: 1.5rem!important;
+/position: absolute;
+/bottom: 45px;
+position: fixed;
+bottom: 87px;
+right: 5px;
+}
+
+.mobile-footer-links {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+justify-content: center;
+align-items: center;
+justify-items: center;
+/height: 100svh;
+/height: 100%;
+
+}
+
+.nav-link:hover, .nav-link-left:hover, .mobile-footer-links a:hover {
+color: var(--text-color);
+background-color: transparent;
+}
+
+/* === NEW: Mobile Info Toggle Button Styles === */
+#mobile-info-toggle {
+display: flex;
+width: 1.75rem;
+height: 1.75rem;
+bottom: 0.75rem;
+top: auto; 
+left: 0.75rem;
+z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
+}
+#mobile-info-toggle svg {
+width: 1.2rem;
+height: 1.2rem;
+}
+/* === END: Mobile Info Toggle Button Styles === */
 
 
-	.right{
-	  display: flex;
-	  align-items: flex-end;
-	}
+.right{
+display: flex;
+align-items: flex-end;
+}
 
-	/.bb {
-	  width: 100%;
-	  height: 80%;
-	  position: relative;
-	  overflow: hidden;
-	  bottom: 0;
+/.bb {
+width: 100%;
+height: 80%;
+position: relative;
+overflow: hidden;
+bottom: 0;
 
-	}
-	.modal-panel {
-	  width: 100%;
-	  height: 100%;
-	}
+}
+.modal-panel {
+width: 100%;
+height: 100%;
+}
 
-	/* === MODAL STYLING UPDATES FOR MOBILE === */
-	.modal-content {
-	  /flex-direction: column;
-	  width: 100vw;
-	  /* CHANGED: Make modal content fill the available space in .mobile-nav */
-	  height: 100%; 
-	  margin-bottom: 0; /* REMOVED margin-bottom */
-	  border-radius: 0; /* REMOVED border-radius */
-	  box-shadow: none; /* REMOVED box-shadow */
-	}
-
-
-	.modal-panel p {
-	  font-size: smaller;
-
-	}
+/* === MODAL STYLING UPDATES FOR MOBILE === */
+.modal-content {
+/flex-direction: column;
+width: 100vw;
+/* CHANGED: Make modal content fill the available space in .mobile-nav */
+height: 100%; 
+margin-bottom: 0; /* REMOVED margin-bottom */
+border-radius: 0; /* REMOVED border-radius */
+box-shadow: none; /* REMOVED box-shadow */
+}
 
 
-	.bb {
-	  width: 100%;
-	  height: 152%;
-	  position: absolute;
-	  overflow: hidden;
-	  top: 0;
-	  left: 10%;
-	  z-index: -1;
-	}
+.modal-panel p {
+font-size: smaller;
 
-	.modal-background {
-	  background: rgba(0, 0, 0, 0);
-	  /* CHANGED: Use theme background color instead of overlay */
-	  background-color: var(--bg-color);
-	  align-items: stretch; /* CHANGED: Don't center, fill height */
-	  justify-content: stretch; /* CHANGED: Don't center, fill width */
-	}
+}
 
-	#modal-container-side {
-	  /* CHANGED: Make modal container part of the .mobile-nav flow */
-	  position: absolute; /* Position relative to .theme-wrapper */
+.ls {
+padding: 15px;
+}
 
-	  top: 0;
-	  left: 0;
-	  height: 100%; /* Fill the .theme-wrapper container */
-	  z-index: 200; /* MODIFIED: Ensure it's on top of sections */
-	}
-	/* === END MODAL STYLING UPDATES === */
+.bb {
+width: 100%;
+height: 152%;
+position: absolute;
+overflow: hidden;
+top: 0;
+left: 10%;
+z-index: -1;
+}
 
+.modal-background {
+background: rgba(0, 0, 0, 0);
+/* CHANGED: Use theme background color instead of overlay */
+background-color: var(--bg-color);
+align-items: stretch; /* CHANGED: Don't center, fill height */
+justify-content: stretch; /* CHANGED: Don't center, fill width */
+}
 
-	#section-2{
-	  /height:unset;
-	  /height: 100vh;
-	  padding:0;
-	}
+#modal-container-side {
+/* CHANGED: Make modal container part of the .mobile-nav flow */
+position: absolute; /* Position relative to .theme-wrapper */
 
-	#section-2 .section-content{
-	  height: 100%;
-	}
-
-	.portfolio-item {
-	  /max-width: 42vh;
-	  /margin-left: 5rem;
-	  /margin-right: 5rem;
-	  margin-right: 5.5rem;
-	  max-width: 100%;
-	  height:90%;
-
-	}
-
-	.portfolio-item:hover {
-	  transform: none;
-	  box-shadow: none;
-	}
+top: 0;
+left: 0;
+height: 100%; /* Fill the .theme-wrapper container */
+z-index: 200; /* MODIFIED: Ensure it's on top of sections */
+}
+/* === END MODAL STYLING UPDATES === */
 
 
-	.portfolio-main {
-	  grid-template-columns: 1fr;
-	  /* Content (1fr) on top, Nav (auto) on bottom */
-	  grid-template-rows: 1fr auto;
-	  /height: 100vh;
-	  overflow: hidden;
-	  height: 100%;
-	  min-height: auto;
-	}
+#section-2{
+/height:unset;
+/height: 100vh;
+padding:0;
+}
 
-	/* NEW: Content area takes the top spot and stacks its children */
-	.portfolio-content-area {
-	  order: 1;
-	  /* Show this first (top) */
-	  display: flex;
-	  flex-direction: column;
-	  height: 100%; /* Take the 1fr space */
-	  overflow: hidden;
-	  grid-template-columns: 1fr; /* Override desktop grid */
-	  position: relative;
-	  /* ADDED: For absolute positioning of info panel */
-	}
+#section-2 .section-content{
+height: 100%;
+}
 
-	.portfolio-nav {
-	  display: flex;
-	  flex-direction: row;
-	  order: 2; /* Show this second (bottom) */
-	  gap: 0;
-	  justify-content: stretch;
-	  padding-bottom: env(safe-area-inset-bottom, 0);
-	  /display:none; 
-	}
+.portfolio-item {
+/max-width: 42vh;
+/margin-left: 5rem;
+/margin-right: 5rem;
+margin-right: 5.5rem;
+max-width: 100%;
+height:90%;
 
-	.category-group {
-	  flex: 1;
-	  /border-top: 1px solid var(--border-color);
-	  border-bottom: none;
-	  border-top: none;
-	  border:none;
-	}
+}
 
-	/.category-group:first-of-type {
-	  border-left: none;
-	}
-
-	/.category-group:not(:first-of-type) {
-	  border-left: 1px solid var(--border-color);
-	}
-
-	.category-group:last-of-type {
-	  /border-bottom: none;
-	  /border-top: none;
-	  border:none;
-
-	}
-
-	.section-btn {
-	  font-size: 0.75rem;
-	  padding: 0.6rem;
-	  height: 100%;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  text-align: center;
-	  font-weight: normal;
-	  letter-spacing: 0.1em;
-	}
-	.section-btn span {
-	  padding: 0;
-	  /* Remove desktop padding */
-	  justify-content: center;
-	}
-	.section-btn:hover {
-	  transform: none;
-	}
-
-	/* Gallery takes 60% height, Info takes 40% */
-	.portfolio-gallery {
-	  padding: 0;
-	  /* UPDATED: Set order to 2 */
-	  order: 2;
-	  /* UPDATED: Let flexbox control height */
-	  height: auto;
-	  flex-grow: 1;
-	  flex-shrink: 1;
-	  border: none;
-	  width: 100%;
-	  position: relative;
-	  overflow: hidden;
-	}
-
-	.scroller {
-	  height: 100%;
-	  width: 100%; 
-	  touch-action: auto;
-	  overscroll-behavior: auto;
-	  /* Center items and show one at a time */
-	  /padding-left: calc(50vw - 25vh);
-	  /* Centers items based on max-width */
-	  /padding-right: calc(50vw - 25vh);
-	  scroll-padding: 0 calc(50vw - 21vh);
-	  padding-top: 1rem;
-	  padding-bottom: 1rem;
-	}
+.portfolio-item:hover {
+transform: none;
+box-shadow: none;
+}
 
 
-	/* NEW: Style info section for mobile */
-	.portfolio-info {
-	  /* UPDATED: Changed to an absolute overlay */
-	  position: absolute;
-	  bottom: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 70%; /* Height of the panel when open */
-	  z-index: 40;
-	  /* Above button (20) and scrollers (10) */
+.portfolio-main {
+grid-template-columns: 1fr;
+/* Content (1fr) on top, Nav (auto) on bottom */
+grid-template-rows: 1fr auto;
+/height: 100vh;
+overflow: hidden;
+height: 100%;
+min-height: auto;
+}
 
-	  background-color: var(--bg-color);
-	  border-top: 1px solid var(--border-color);
-	  overflow: hidden; /* Hides its own content overflow */
+/* NEW: Content area takes the top spot and stacks its children */
+.portfolio-content-area {
+order: 1;
+/* Show this first (top) */
+display: flex;
+flex-direction: column;
+height: 100%; /* Take the 1fr space */
+overflow: hidden;
+grid-template-columns: 1fr; /* Override desktop grid */
+position: relative;
+/* ADDED: For absolute positioning of info panel */
+}
 
-	  /* This is the "shown" state */
-	  transform: translateY(0);
-	  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+.portfolio-nav {
+display: flex;
+flex-direction: row;
+order: 2; /* Show this second (bottom) */
+gap: 0;
+justify-content: stretch;
+padding-bottom: env(safe-area-inset-bottom, 0);
+/display:none; 
+}
 
-	  /* Clear any conflicting old styles */
-	  /* UPDATED: Set order to 3 to not interfere with gallery */
-	  order: 3;
-	  max-height: none;
-	  flex-grow: 0;
-	  flex-shrink: 0;
-	  border-bottom: none;
-	}
+.category-group {
+flex: 1;
+/border-top: 1px solid var(--border-color);
+border-bottom: none;
+border-top: none;
+border:none;
+}
 
-	/* === NEW: Collapsed state for info panel === */
-	.portfolio-info.info-collapsed {
-	  /* This is the "hidden" state */
-	  transform: translateY(100%);
-	  /* Slides it down, off-screen */
-	  border-top-width: 0;
-	  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-		border-width 0.1s linear 0.4s;
-	  /* Clear old properties */
-	  max-height: none !important;
-	  border-bottom-width: 0;
-	}
-	/* === END: Collapsed state === */
+/.category-group:first-of-type {
+border-left: none;
+}
+
+/.category-group:not(:first-of-type) {
+border-left: 1px solid var(--border-color);
+}
+
+.category-group:last-of-type {
+/border-bottom: none;
+/border-top: none;
+border:none;
+
+}
+
+.section-btn {
+font-size: 0.75rem;
+padding: 0.6rem;
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-weight: normal;
+letter-spacing: 0.1em;
+}
+.section-btn span {
+padding: 0;
+/* Remove desktop padding */
+justify-content: center;
+}
+
+.section-btn:hover {
+transform: none;
+}
+
+/* Gallery takes 60% height, Info takes 40% */
+.portfolio-gallery {
+padding: 0;
+/* UPDATED: Set order to 2 */
+order: 2;
+/* UPDATED: Let flexbox control height */
+height: auto;
+flex-grow: 1;
+flex-shrink: 1;
+border: none;
+width: 100%;
+position: relative;
+overflow: hidden;
+}
+
+.scroller {
+height: 100%;
+width: 100%; 
+touch-action: auto;
+overscroll-behavior: auto;
+/* Center items and show one at a time */
+/padding-left: calc(50vw - 25vh);
+/* Centers items based on max-width */
+/padding-right: calc(50vw - 25vh);
+scroll-padding: 0 calc(50vw - 21vh);
+padding-top: 1rem;
+padding-bottom: 1rem;
+}
 
 
-	.info-content {
-	  padding: 1rem;
-	  /* Padding on the content itself */
-	  position: absolute;
-	  inset: 0;
-	  opacity: 0;
-	  transform: translateY(20px);
-	  transition: opacity 0.4s ease, transform 0.4s ease;
-	  pointer-events: none;
-	}
+/* NEW: Style info section for mobile */
+.portfolio-info {
+/* UPDATED: Changed to an absolute overlay */
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 70%; /* Height of the panel when open */
+z-index: 40;
+/* Above button (20) and scrollers (10) */
 
-	.info-content.active {
-	  opacity: 1;
-	  transform: translateY(0);
-	  pointer-events: auto;
-	  position: relative; /* Override absolute */
-	  height: 100%;
-	  /* Ensure it fills the space */
-	  overflow-y: auto;
-	  /* Allow content to scroll if it's too long */
-	}
+background-color: var(--bg-color);
+border-top: 1px solid var(--border-color);
+overflow: hidden; /* Hides its own content overflow */
 
-	.info-content h3 {
-	  font-size: 1.0rem;
-	  margin-bottom: 0.2rem;
-	  text-align: center;
-	}
+/* This is the "shown" state */
+transform: translateY(0);
+transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 
-	.info-content p {
-	  font-size: 0.8rem;
-	  line-height: 1.2;
-	  margin-bottom: 0.5rem;
-	}
+/* Clear any conflicting old styles */
+/* UPDATED: Set order to 3 to not interfere with gallery */
+order: 3;
+max-height: none;
+flex-grow: 0;
+flex-shrink: 0;
+border-bottom: none;
+}
 
-	.nav-link.logo-button.active{background: none;}
+/* === NEW: Collapsed state for info panel === */
+.portfolio-info.info-collapsed {
+/* This is the "hidden" state */
+transform: translateY(100%);
+/* Slides it down, off-screen */
+border-top-width: 0;
+transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+border-width 0.1s linear 0.4s;
+/* Clear old properties */
+max-height: none !important;
+border-bottom-width: 0;
+}
+/* === END: Collapsed state === */
+
+
+.info-content {
+padding: 1rem;
+/* Padding on the content itself */
+position: absolute;
+inset: 0;
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.4s ease, transform 0.4s ease;
+pointer-events: none;
+}
+
+.info-content.active {
+opacity: 1;
+transform: translateY(0);
+pointer-events: auto;
+position: relative; /* Override absolute */
+height: 100%;
+/* Ensure it fills the space */
+overflow-y: auto;
+/* Allow content to scroll if it's too long */
+}
+
+.info-content h3 {
+font-size: 1.0rem;
+margin-bottom: 0.2rem;
+text-align: center;
+}
+
+.info-content p {
+font-size: 0.8rem;
+line-height: 1.2;
+margin-bottom: 0.5rem;
+}
+
+.nav-link.logo-button.active{
+background: none;
+padding: 0;
+margin: 0;
+font-size: unset;
+letter-spacing: unset;	
+}
 
 }
 
@@ -2242,348 +2253,348 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 <div class="theme-wrapper">
 
 <div class="sidebar-left">
-  <a href="#" 
-	 data-navlink="section-1" class="nav-link logo-button active">
-	<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
-	  <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
-	  <polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
-	  <polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
-	  <line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
-	  <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
-	  <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
-	  <line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
-	  <circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
-	  <circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
-	  <circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
-	  <polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
-	  <polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
-	  <line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
-	  <line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
-	  <polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
-	  <circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
-	  <circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
-	  <polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
-	  <circle class="st4" cx="84" cy="401.1" r="20.2"/>
-	  <polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
-	  <line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
-	  <line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
-	</svg>
-	<span class="dot dot-bottom">•</span>
-	<span class="dot dot-left">•</span>
-	<span class="dot dot-right">•</span>
-  </a>
-  <div class="sidebar-left-bottom-content">
-	<button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
-	  <svg viewBox="0 0 
-					20 20" fill="currentColor">
-		<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-	  </svg>
-	</button>
-	<label for="theme-checkbox" class="theme-toggle-label" title="Toggle theme">
+<a href="#" 
+data-navlink="section-1" class="nav-link logo-button active">
+<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
+<polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
+<polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
+<polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
+<line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
+<line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
+<line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
+<line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
+<circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
+<circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
+<circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
+<polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
+<polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
+<line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
+<line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
+<polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
+<circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
+<circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
+<polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
+<circle class="st4" cx="84" cy="401.1" r="20.2"/>
+<polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
+<line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
+<line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
+</svg>
+<span class="dot dot-bottom">•</span>
+<span class="dot dot-left">•</span>
+<span class="dot dot-right">•</span>
+</a>
+<div class="sidebar-left-bottom-content">
+<button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
+<svg viewBox="0 0 
+20 20" fill="currentColor">
+<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+</svg>
+</button>
+<label for="theme-checkbox" class="theme-toggle-label" title="Toggle theme">
 
-	  <span id="theme-toggle" class="icon-button">
-		<span id="theme-dot"></span>
-	  </span>
-	</label>
-  </div>
+<span id="theme-toggle" class="icon-button">
+<span id="theme-dot"></span>
+</span>
+</label>
+</div>
 </div>
 
 <nav class="nav-stacked-left">
-  <a href="#" data-navlink="section-2" class="nav-link-left">
-	<span class="nav-number">•</span>
-	<span class="nav-text vertical-text">Work</span>
-  </a>
-  <a href="#" data-navlink="section-3" class="nav-link-left">
-	<span class="nav-number">••</span>
-	<span class="nav-text vertical-text">Services</span>
+<a href="#" data-navlink="section-2" class="nav-link-left">
+<span class="nav-number">•</span>
+<span class="nav-text vertical-text">Work</span>
+</a>
+<a href="#" data-navlink="section-3" class="nav-link-left">
+<span class="nav-number">••</span>
+<span class="nav-text vertical-text">Services</span>
 
-  </a>
-  <a href="#" data-navlink="section-4" class="nav-link-left">
-	<span class="nav-number">•••</span>
-	<span class="nav-text vertical-text">Inquiries</span>
-  </a>
+</a>
+<a href="#" data-navlink="section-4" class="nav-link-left">
+<span class="nav-number">•••</span>
+<span class="nav-text vertical-text">Inquiries</span>
+</a>
 </nav>
 
 <main>
-  <section id="section-1">
-	<div class="section-1-wrapper"> 
+<section id="section-1">
+<div class="section-1-wrapper"> 
 
-	  <div id="canvas-container"></div>
+<div id="canvas-container"></div>
 
-	  <div class="marquee-container">
-		<div class="marquee-content-wrapper">
-		  <div class="marquee-content">
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
+<div class="marquee-container">
+<div class="marquee-content-wrapper">
+<div class="marquee-content">
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
 
-		  </div>
-		  <div class="marquee-content" aria-hidden="true">
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
+</div>
+<div class="marquee-content" aria-hidden="true">
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
+<span>Kelvin Hernan</span>
 
-		  </div>
-		</div>
-	  </div>
+</div>
+</div>
+</div>
 
-	</div>
-  </section>
+</div>
+</section>
 
-  <section id="section-2" class="center-section">
-	<div class="section-content">
+<section id="section-2" class="center-section">
+<div class="section-content">
 
-	  <main class="portfolio-main">
-		<div class="portfolio-nav">
-		  <div class="category-group">
-			<button class="section-btn active" data-gallery="3d"><span>3D</span></button>
-		  </div>
-		  <div class="category-group">
+<main class="portfolio-main">
+<div class="portfolio-nav">
+<div class="category-group">
+<button class="section-btn active" data-gallery="3d"><span>3D</span></button>
+</div>
+<div class="category-group">
 
-			<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
-		  </div>
-		  <div class="category-group">
-			<button class="section-btn" data-gallery="product"><span>Product</span></button>
-		  </div>
+<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
+</div>
+<div class="category-group">
+<button class="section-btn" data-gallery="product"><span>Product</span></button>
+</div>
 
-		</div>
+</div>
 
-		<div class="portfolio-content-area">
+<div class="portfolio-content-area">
 
-		  <div class="portfolio-gallery">
+<div class="portfolio-gallery">
 
-			<button id="mobile-info-toggle" class="icon-button info-button" aria-label="Toggle Info">
-			  <svg viewBox="0 0 20 20" fill="currentColor">
-				<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 
-											 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-			  </svg>
-			</button>
-			<div class="scroller active" id="scroller-3d">
+<button id="mobile-info-toggle" class="icon-button info-button" aria-label="Toggle Info">
+<svg viewBox="0 0 20 20" fill="currentColor">
+<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 
+0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+</svg>
+</button>
+<div class="scroller active" id="scroller-3d">
 
-			  <div class="portfolio-item">3D Project 1</div>
-			  <div class="portfolio-item">3D Project 2</div>
-			  <div class="portfolio-item">3D Project 3</div>
-			  <div class="portfolio-item">3D Project 4</div>
+<div class="portfolio-item">3D Project 1</div>
+<div class="portfolio-item">3D Project 2</div>
+<div class="portfolio-item">3D Project 3</div>
+<div class="portfolio-item">3D Project 4</div>
 
-			  <div class="portfolio-item">3D Project 5</div>
-			  <div class="portfolio-item">3D Project 6</div>
-			  <div class="portfolio-item">3D Project 7</div>
-			</div>
+<div class="portfolio-item">3D Project 5</div>
+<div class="portfolio-item">3D Project 6</div>
+<div class="portfolio-item">3D Project 7</div>
+</div>
 
-			<div class="scroller" id="scroller-graphic">
+<div class="scroller" id="scroller-graphic">
 
-			  <div class="portfolio-item">Graphic Design 1</div>
-			  <div class="portfolio-item">Graphic Design 2</div>
-			  <div class="portfolio-item">Graphic Design 3</div>
-			  <div class="portfolio-item">Graphic Design 4</div>
+<div class="portfolio-item">Graphic Design 1</div>
+<div class="portfolio-item">Graphic Design 2</div>
+<div class="portfolio-item">Graphic Design 3</div>
+<div class="portfolio-item">Graphic Design 4</div>
 
-			  <div class="portfolio-item">Graphic Design 5</div>
-			  <div class="portfolio-item">Graphic Design 6</div>
-			</div>
+<div class="portfolio-item">Graphic Design 5</div>
+<div class="portfolio-item">Graphic Design 6</div>
+</div>
 
-			<div class="scroller" id="scroller-product">
+<div class="scroller" id="scroller-product">
 
-			  <div class="portfolio-item">Product Shot 1</div>
-			  <div class="portfolio-item">Product Shot 2</div>
-			  <div class="portfolio-item">Product Shot 3</div>
-			  <div class="portfolio-item">Product Shot 4</div>
+<div class="portfolio-item">Product Shot 1</div>
+<div class="portfolio-item">Product Shot 2</div>
+<div class="portfolio-item">Product Shot 3</div>
+<div class="portfolio-item">Product Shot 4</div>
 
-			  <div class="portfolio-item">Product Shot 5</div>
-			  <div class="portfolio-item">Product Shot 6</div>
-			  <div class="portfolio-item">Product Shot 7</div>
-			  <div class="portfolio-item">Product Shot 8</div>
+<div class="portfolio-item">Product Shot 5</div>
+<div class="portfolio-item">Product Shot 6</div>
+<div class="portfolio-item">Product Shot 7</div>
+<div class="portfolio-item">Product Shot 8</div>
 
-			</div>
-		  </div>
+</div>
+</div>
 
-		  <div class="portfolio-info info-collapsed">
-			<div class="info-content active" data-info="3d">
-			  <h3>3D Artwork</h3>
-			  <p>Welcome to my 3D gallery.
-				This collection showcases my work in modeling, texturing, and rendering.
-				I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and V-Ray.</p>
-			  <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
-			</div>
-			<div class="info-content" data-info="graphic">
+<div class="portfolio-info info-collapsed">
+<div class="info-content active" data-info="3d">
+<h3>3D Artwork</h3>
+<p>Welcome to my 3D gallery.
+This collection showcases my work in modeling, texturing, and rendering.
+I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and V-Ray.</p>
+<p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
+</div>
+<div class="info-content" data-info="graphic">
 
-			  <h3>Graphic Design</h3>
-			  <p>This section highlights my graphic design portfolio.
-				My philosophy centers on clean, communicative, and compelling visuals. I have experience in branding, UI/UX design, and print media.</p>
-			  <p>You'll find examples of logo systems, mobile app interfaces, and editorial layouts.</p>
-			</div>
-			<div class="info-content" data-info="product">
+<h3>Graphic Design</h3>
+<p>This section highlights my graphic design portfolio.
+My philosophy centers on clean, communicative, and compelling visuals. I have experience in branding, UI/UX design, and print media.</p>
+<p>You'll find examples of logo systems, mobile app interfaces, and editorial layouts.</p>
+</div>
+<div class="info-content" data-info="product">
 
-			  <h3>Product Photography</h3>
-			  <p>Explore my product photography, where the goal is to make every item tangible and desirable.
-				I focus on capturing precise details, rich textures, and perfect lighting to showcase products in their best possible light.</p>
-			  <p>This gallery features work for e-commerce, advertising, and catalogs.</p>
-			</div>
-		  </div>
+<h3>Product Photography</h3>
+<p>Explore my product photography, where the goal is to make every item tangible and desirable.
+I focus on capturing precise details, rich textures, and perfect lighting to showcase products in their best possible light.</p>
+<p>This gallery features work for e-commerce, advertising, and catalogs.</p>
+</div>
+</div>
 
-		</div>
-	  </main>
+</div>
+</main>
 
-	  <div class="portfolio-modal" id="portfolio-modal">
-		<div class="modal-gall">
+<div class="portfolio-modal" id="portfolio-modal">
+<div class="modal-gall">
 
-		  <div class="modal-gall-inner" id="modal-gall-inner">
-		  </div>
-		</div>
-	  </div>
-
-
-	</div>
-
-  </section>
-
-  <section id="section-3" class="center-section">
-	<div class="section-content">
-
-	  <div class="container">
-		<div class="grid-side">
-
-		  <div class="grid-item" data-service="art">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="ux">
-
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">UX/UI</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="branding">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Brand" class="grid-item-bg">
-
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Branding</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="development">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Code" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Development</h3></div>
-
-		  </div>
-
-		  <div class="grid-item" data-service="strategy">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Strategy" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Strategy</h3></div>
-		  </div>
+<div class="modal-gall-inner" id="modal-gall-inner">
+</div>
+</div>
+</div>
 
 
-		  <div class="grid-item" data-service="photography">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Photo" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Photography</h3></div>
-		  </div>
+</div>
 
-		  <div 
-			   class="grid-item" data-service="motion">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
-		  </div>
-		</div>
+</section>
 
-		<div class="display-side">
+<section id="section-3" class="center-section">
+<div class="section-content">
 
-		  <div class="service-content" data-service="default">
-			<div class="service-content-inner">
-			  <h2>Key Services</h2>
-			  <p>This is what I focus on.<br>Additional services are available upon request.</p>
+<div class="container">
+<div class="grid-side">
 
-			</div>
-		  </div>
+<div class="grid-item" data-service="art">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
+</div>
 
-		  <div class="service-content" data-service="art"><div class="service-content-inner"><h2>Art Direction</h2><p>Creating compelling visual narratives.</p></div></div>
-		  <div class="service-content" data-service="ux"><div class="service-content-inner"><h2>UX/UI</h2><p>Designing intuitive digital experiences.</p></div></div>
-		  <div class="service-content" 
-			   data-service="branding"><div class="service-content-inner"><h2>Branding</h2><p>Building memorable brand identities.</p></div></div>
-		  <div class="service-content" data-service="development"><div class="service-content-inner"><h2>Development</h2><p>Modern, clean, performant builds.</p></div></div>
-		  <div class="service-content" data-service="strategy"><div class="service-content-inner"><h2>Strategy</h2><p>Data-driven planning.</p></div></div>
-		  <div class="service-content" data-service="photography"><div class="service-content-inner"><h2>Photography</h2><p>High-impact visual storytelling.</p></div></div>
-		  <div class="service-content" data-service="motion"><div class="service-content-inner"><h2>Motion</h2><p>Dynamic motion graphics.</p></div></div>
+<div class="grid-item" data-service="ux">
 
-		</div>
-	  </div>
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">UX/UI</h3></div>
+</div>
 
-	</div>
-  </section>
+<div class="grid-item" data-service="branding">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Brand" class="grid-item-bg">
 
-  <section id="section-4" class="center-section">
-	<div class="section-content">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Branding</h3></div>
+</div>
 
-	  <div class="text-container">
-		<div class="copyable-text" id="textToCopy" data-copy="YADADA@GMAIL.COM">
-		  YADADA@GMAIL.COM
-		</div>
-		<div class="copy-circle" id="copyButton">Copy Me</div>
-	  </div>
+<div class="grid-item" data-service="development">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Code" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Development</h3></div>
+
+</div>
+
+<div class="grid-item" data-service="strategy">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Strategy" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Strategy</h3></div>
+</div>
 
 
-	  <canvas id="breathingGrid"></canvas>
-	</div> </section>
+<div class="grid-item" data-service="photography">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Photo" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Photography</h3></div>
+</div>
 
-  <div id="modal-container-side">
-	<div class="modal-background">
-	  <div class="modal-content">
+<div 
+class="grid-item" data-service="motion">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
+</div>
+</div>
 
-		<div class="modal-panel left">
-		  <p class="ls">
-			I began my journey in 2019 with a focus on 3D and digital design, gradually expanding my expertise into animation and interactive development.
-			Today, as an independent designer, I combine design, programming, and 3D visualization to deliver innovative and impactful solutions.
-			<br>
-			<br>
-			My work spans two complementary areas.
-			For brands and companies, I design and develop interactive interfaces and experiences that prioritize clarity, function, and meaningful outcomes.
-			In parallel, I create 3D-driven visual art for musicians and public figures, producing work that blends technical precision with narrative depth and visual impact.
-		  </p>
+<div class="display-side">
 
-		  <br>   <p class="ls">
-		  CONTACT:
-		  YADADA@GMAIL.COM
-		  </p>
-		  <br>   <p class="ls">
+<div class="service-content" data-service="default">
+<div class="service-content-inner">
+<h2>Key Services</h2>
+<p>This is what I focus on.<br>Additional services are available upon request.</p>
 
-		  LINKEDIN
-		  </p>
-		</div>
-		<div class="modal-panel right">
-		  <div class="bb">
+</div>
+</div>
 
-			<img src="https://assets.codepen.io/1480814/av+1.png" alt="Masked">
-		  </div> 
-		</div>
-	  </div>
-	</div>
-  </div>
+<div class="service-content" data-service="art"><div class="service-content-inner"><h2>Art Direction</h2><p>Creating compelling visual narratives.</p></div></div>
+<div class="service-content" data-service="ux"><div class="service-content-inner"><h2>UX/UI</h2><p>Designing intuitive digital experiences.</p></div></div>
+<div class="service-content" 
+data-service="branding"><div class="service-content-inner"><h2>Branding</h2><p>Building memorable brand identities.</p></div></div>
+<div class="service-content" data-service="development"><div class="service-content-inner"><h2>Development</h2><p>Modern, clean, performant builds.</p></div></div>
+<div class="service-content" data-service="strategy"><div class="service-content-inner"><h2>Strategy</h2><p>Data-driven planning.</p></div></div>
+<div class="service-content" data-service="photography"><div class="service-content-inner"><h2>Photography</h2><p>High-impact visual storytelling.</p></div></div>
+<div class="service-content" data-service="motion"><div class="service-content-inner"><h2>Motion</h2><p>Dynamic motion graphics.</p></div></div>
+
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="section-4" class="center-section">
+<div class="section-content">
+
+<div class="text-container">
+<div class="copyable-text" id="textToCopy" data-copy="YADADA@GMAIL.COM">
+YADADA@GMAIL.COM
+</div>
+<div class="copy-circle" id="copyButton">Copy Me</div>
+</div>
+
+
+<canvas id="breathingGrid"></canvas>
+</div> </section>
+
+<div id="modal-container-side">
+<div class="modal-background">
+<div class="modal-content">
+
+<div class="modal-panel left">
+<p class="ls">
+I began my journey in 2019 with a focus on 3D and digital design, gradually expanding my expertise into animation and interactive development.
+Today, as an independent designer, I combine design, programming, and 3D visualization to deliver innovative and impactful solutions.
+<br>
+<br>
+My work spans two complementary areas.
+For brands and companies, I design and develop interactive interfaces and experiences that prioritize clarity, function, and meaningful outcomes.
+In parallel, I create 3D-driven visual art for musicians and public figures, producing work that blends technical precision with narrative depth and visual impact.
+</p>
+
+<br>   <p class="ls">
+CONTACT:
+YADADA@GMAIL.COM
+</p>
+<br>   <p class="ls">
+
+LINKEDIN
+</p>
+</div>
+<div class="modal-panel right">
+<div class="bb">
+
+<img src="https://assets.codepen.io/1480814/av+1.png" alt="Masked">
+</div> 
+</div>
+</div>
+</div>
+</div>
 
 </main>
 
 <nav class="nav-stacked-right">
-  <a href="#" data-navlink="section-2" class="nav-link">
-	<span class="nav-number">•</span>
-	<span class="nav-text vertical-text">Work</span>
-  </a>
-  <a href="#" data-navlink="section-3" class="nav-link">
-	<span class="nav-number">••</span>
+<a href="#" data-navlink="section-2" class="nav-link">
+<span class="nav-number">•</span>
+<span class="nav-text vertical-text">Work</span>
+</a>
+<a href="#" data-navlink="section-3" class="nav-link">
+<span class="nav-number">••</span>
 
-	<span class="nav-text vertical-text">Services</span>
-  </a>
-  <a href="#" data-navlink="section-4" class="nav-link">
-	<span class="nav-number">•••</span>
-	<span class="nav-text vertical-text">Inquiries</span>
-  </a>
+<span class="nav-text vertical-text">Services</span>
+</a>
+<a href="#" data-navlink="section-4" class="nav-link">
+<span class="nav-number">•••</span>
+<span class="nav-text vertical-text">Inquiries</span>
+</a>
 </nav>
 
 
@@ -2591,70 +2602,70 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 <footer class="mobile-footer">
 <label for="theme-checkbox" class="icon-button theme-toggle-label" title="Toggle theme">
 
-  <span id="theme-toggle" class="icon-button">
-	<span id="theme-dot"></span>
-  </span>
+<span id="theme-toggle" class="icon-button">
+<span id="theme-dot"></span>
+</span>
 </label>
 
 
 <div class="mobile-footer-links">
-  <a href="#section-2" data-navlink="section-2">Work</a>
-  <a href="#section-3" data-navlink="section-3">Services</a>
-  <a href="#section-1" data-navlink="section-1" class="nav-link logo-button active">
-	<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
-	  <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
-	  <polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
-	  <polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
-	  <line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
-	  <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
-	  <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
-	  <line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
-	  <circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
-	  <circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
-	  <circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
-	  <polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
-	  <polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
-	  <line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
-	  <line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
-	  <polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
-	  <circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
-	  <circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
-	  <polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
-	  <circle class="st4" cx="84" cy="401.1" r="20.2"/>
-	  <polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
-	  <line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
-	  <line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
-	</svg>
-	<span class="dot dot-bottom">•</span>
-	<span class="dot dot-left">•</span>
-	<span class="dot dot-right">•</span>
-  </a>
-  <a href="#section-4" data-navlink="section-4">Inquiries</a>
-  <button id="mobile-about-button" class="abt" aria-label="About">
-	<a> About </a>
-  </button>
+<a href="#section-2" data-navlink="section-2">Work</a>
+<a href="#section-3" data-navlink="section-3">Services</a>
+<a href="#section-1" data-navlink="section-1" class="nav-link logo-button active">
+<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
+<polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
+<polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
+<polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
+<line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
+<line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
+<line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
+<line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
+<circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
+<circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
+<circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
+<polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
+<polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
+<line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
+<line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
+<polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
+<circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
+<circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
+<polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
+<circle class="st4" cx="84" cy="401.1" r="20.2"/>
+<polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
+<line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
+<line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
+</svg>
+<span class="dot dot-bottom">•</span>
+<span class="dot dot-left">•</span>
+<span class="dot dot-right">•</span>
+</a>
+<a href="#section-4" data-navlink="section-4">Inquiries</a>
+<button id="mobile-about-button" class="abt" aria-label="About">
+<a> About </a>
+</button>
 
 </div>
 
 </footer>
 </div> 
 
-	
+
 <script type="module">
 
 
 // Reset scroll position on page load/refresh
 if ('scrollRestoration' in history) {
-  history.scrollRestoration = 'manual';
+history.scrollRestoration = 'manual';
 }
 
 // Force initial scroll position
 window.addEventListener('load', function() {
-  const themeWrapper = document.querySelector('.theme-wrapper');
-  if (themeWrapper && window.innerWidth < 1025) {
-    themeWrapper.scrollTop = 0;
-    window.scrollTo(0, 0);
-  }
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper && window.innerWidth < 1025) {
+themeWrapper.scrollTop = 0;
+window.scrollTo(0, 0);
+}
 });
 
 // --- Scroll Logic (Desktop & Mobile) ---
@@ -2675,310 +2686,310 @@ const mobileKHLink = document.querySelector('.mobile-footer-top .logo-button');
 const canvasContainer = document.getElementById('canvas-container');
 
 function updateDesktopActiveNav(index) {
-  if (desktopKHLink) {
-    desktopKHLink.classList.toggle('active', index === 0);
-  }
-  desktopNavLinksRight.forEach((link, i) => link.classList.toggle('active', i < index));
-  desktopNavLinksLeft.forEach((link, i) => link.classList.toggle('active', i < index));
+if (desktopKHLink) {
+desktopKHLink.classList.toggle('active', index === 0);
+}
+desktopNavLinksRight.forEach((link, i) => link.classList.toggle('active', i < index));
+desktopNavLinksLeft.forEach((link, i) => link.classList.toggle('active', i < index));
 
-  const rightNav = document.querySelector('.nav-stacked-right');
-  if (rightNav) {
-    rightNav.classList.toggle('is-complete', index === numSections - 1);
-  }
+const rightNav = document.querySelector('.nav-stacked-right');
+if (rightNav) {
+rightNav.classList.toggle('is-complete', index === numSections - 1);
+}
 
-  if (canvasContainer) {
-    canvasContainer.classList.add('is-visible');
-  }
+if (canvasContainer) {
+canvasContainer.classList.add('is-visible');
+}
 }
 
 function scrollToSectionDesktop(index) {
-  if (document.body.classList.contains('modal-active')) return;
-  if (index < 0 || index >= numSections || isWheeling) return; 
-  if (index === currentSectionIndex) return; 
+if (document.body.classList.contains('modal-active')) return;
+if (index < 0 || index >= numSections || isWheeling) return; 
+if (index === currentSectionIndex) return; 
 
-  isWheeling = true;
-  sections.forEach((section, i) => {
-    if (i <= index) {
-      section.style.transform = 'translateX(0)';
-      section.classList.add('is-active'); 
-    } else {
-      section.style.transform = 'translateX(100%)';
-      section.classList.remove('is-active'); 
-    }
-  });
+isWheeling = true;
+sections.forEach((section, i) => {
+if (i <= index) {
+section.style.transform = 'translateX(0)';
+section.classList.add('is-active'); 
+} else {
+section.style.transform = 'translateX(100%)';
+section.classList.remove('is-active'); 
+}
+});
 
-  currentSectionIndex = index;
-  updateDesktopActiveNav(currentSectionIndex);
+currentSectionIndex = index;
+updateDesktopActiveNav(currentSectionIndex);
 
-  setTimeout(() => {
-    isWheeling = false;
-  }, scrollCooldown);
+setTimeout(() => {
+isWheeling = false;
+}, scrollCooldown);
 }
 
 let wheelTimeout = null;
 let wheelDirection = 0;
 
 function handleDesktopWheel(e) {
-  if (document.body.classList.contains('modal-active')) return;
-  
-  let target = e.target;
-  let scrollerElement = null;
+if (document.body.classList.contains('modal-active')) return;
 
-  while (target && target !== document.body) {
-    if (target.classList && target.classList.contains('scroller')) {
-      scrollerElement = target;
-      break;
-    }
-    target = target.parentElement;
-  }
+let target = e.target;
+let scrollerElement = null;
 
-  if (scrollerElement && Math.abs(e.deltaX) > 0) {
-    const canScrollLeft = scrollerElement.scrollLeft > 0;
-    const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
-    if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
-      return;
-    }
-  }
+while (target && target !== document.body) {
+if (target.classList && target.classList.contains('scroller')) {
+scrollerElement = target;
+break;
+}
+target = target.parentElement;
+}
 
-  e.preventDefault();
-  if (isWheeling) return; 
+if (scrollerElement && Math.abs(e.deltaX) > 0) {
+const canScrollLeft = scrollerElement.scrollLeft > 0;
+const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
+if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
+return;
+}
+}
 
-  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-    return;
-  }
+e.preventDefault();
+if (isWheeling) return; 
 
-  wheelDirection += e.deltaY;
-  
-  if (wheelTimeout) {
-    clearTimeout(wheelTimeout);
-  }
+if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+return;
+}
 
-  wheelTimeout = setTimeout(() => {
-    if (Math.abs(wheelDirection) > 10) {
-      if (wheelDirection > 0) {
-        scrollToSectionDesktop(currentSectionIndex + 1);
-      } else {
-        scrollToSectionDesktop(currentSectionIndex - 1);
-      }
-    }
-    wheelDirection = 0;
-    wheelTimeout = null;
-  }, 10);
+wheelDirection += e.deltaY;
+
+if (wheelTimeout) {
+clearTimeout(wheelTimeout);
+}
+
+wheelTimeout = setTimeout(() => {
+if (Math.abs(wheelDirection) > 10) {
+if (wheelDirection > 0) {
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else {
+scrollToSectionDesktop(currentSectionIndex - 1);
+}
+}
+wheelDirection = 0;
+wheelTimeout = null;
+}, 10);
 }
 
 function handleDesktopKeydown(e) {
-  if (document.body.classList.contains('modal-active')) return;
-  if (isWheeling) return;
+if (document.body.classList.contains('modal-active')) return;
+if (isWheeling) return;
 
-  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-    e.preventDefault();
-    scrollToSectionDesktop(currentSectionIndex + 1);
-  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    e.preventDefault();
-    scrollToSectionDesktop(currentSectionIndex - 1);
-  } else if (e.key === 'Home') {
-    e.preventDefault();
-    scrollToSectionDesktop(0);
-  } else if (e.key === 'End') {
-    e.preventDefault();
-    scrollToSectionDesktop(numSections - 1);
-  }
+if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+e.preventDefault();
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+e.preventDefault();
+scrollToSectionDesktop(currentSectionIndex - 1);
+} else if (e.key === 'Home') {
+e.preventDefault();
+scrollToSectionDesktop(0);
+} else if (e.key === 'End') {
+e.preventDefault();
+scrollToSectionDesktop(numSections - 1);
+}
 }
 
 let isSwipeProcessed = false;
 
 function handleDesktopSwipe() {
-  if (isWheeling || isSwipeProcessed) return; 
-  if (document.body.classList.contains('modal-active')) return;
-  const swipeThreshold = 50;
-  const swipeDistance = Math.abs(touchStartY - touchEndY);
-  if (swipeDistance > swipeThreshold) {
-    isSwipeProcessed = true;
-    if (touchStartY - touchEndY > swipeThreshold) {
-      scrollToSectionDesktop(currentSectionIndex + 1);
-    } else if (touchEndY - touchStartY > swipeThreshold) {
-      scrollToSectionDesktop(currentSectionIndex - 1);
-    }
+if (isWheeling || isSwipeProcessed) return; 
+if (document.body.classList.contains('modal-active')) return;
+const swipeThreshold = 50;
+const swipeDistance = Math.abs(touchStartY - touchEndY);
+if (swipeDistance > swipeThreshold) {
+isSwipeProcessed = true;
+if (touchStartY - touchEndY > swipeThreshold) {
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else if (touchEndY - touchStartY > swipeThreshold) {
+scrollToSectionDesktop(currentSectionIndex - 1);
+}
 
-    setTimeout(() => {
-      isSwipeProcessed = false;
-    }, scrollCooldown);
-  }
+setTimeout(() => {
+isSwipeProcessed = false;
+}, scrollCooldown);
+}
 }
 
 let observer;
 
 function initMobileScrollObserver() {
-  if (!('IntersectionObserver' in window)) {
-    console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
-    document.getElementById('section-1')?.classList.add('is-active');
-    if (canvasContainer) canvasContainer.classList.add('is-visible');
-    return;
-  }
+if (!('IntersectionObserver' in window)) {
+console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
+return;
+}
 
-  // Immediately mark section-1 as active
-  document.getElementById('section-1')?.classList.add('is-active');
-  if (canvasContainer) canvasContainer.classList.add('is-visible');
+// Immediately mark section-1 as active
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
 
-  observer = new IntersectionObserver((entries) => {
-    const mobileFooter = document.querySelector('.mobile-footer');
+observer = new IntersectionObserver((entries) => {
+const mobileFooter = document.querySelector('.mobile-footer');
 
-    entries.forEach(entry => {
-      const id = entry.target.id;
-      if (entry.isIntersecting) {
-        if (mobileFooter) {
-          mobileFooter.classList.toggle('section-2-active', id === 'section-2');
-        }
+entries.forEach(entry => {
+const id = entry.target.id;
+if (entry.isIntersecting) {
+if (mobileFooter) {
+mobileFooter.classList.toggle('section-2-active', id === 'section-2');
+}
 
-        mobileFooterLinks.forEach(link => {
-          link.classList.toggle('active', link.hash === `#${id}`);
-        });
+mobileFooterLinks.forEach(link => {
+link.classList.toggle('active', link.hash === `#${id}`);
+});
 
-        if (mobileKHLink) {
-          mobileKHLink.classList.toggle('active', id === 'section-1');
-        }
+if (mobileKHLink) {
+mobileKHLink.classList.toggle('active', id === 'section-1');
+}
 
-        entry.target.classList.add('is-active');
+entry.target.classList.add('is-active');
 
-        if (id === 'section-1' && canvasContainer) {
-          canvasContainer.classList.add('is-visible');
-        }
-      } else {
-        entry.target.classList.remove('is-active');
-      }
-    });
-  }, {
-    root: document.querySelector('.theme-wrapper'), 
-    threshold: 0.5
-  });
-  
-  sections.forEach(section => observer.observe(section));
+if (id === 'section-1' && canvasContainer) {
+canvasContainer.classList.add('is-visible');
+}
+} else {
+entry.target.classList.remove('is-active');
+}
+});
+}, {
+root: document.querySelector('.theme-wrapper'), 
+threshold: 0.5
+});
+
+sections.forEach(section => observer.observe(section));
 }
 
 function cleanupMobileScrollObserver() {
-  if (observer) {
-    sections.forEach(section => observer.unobserve(section));
-    observer.disconnect();
-    observer = null;
-  }
+if (observer) {
+sections.forEach(section => observer.unobserve(section));
+observer.disconnect();
+observer = null;
+}
 }
 
 let touchStartY = 0;
 let touchEndY = 0;
 
 function handleTouchStart(e) {
-  if (document.body.classList.contains('modal-active')) return;
-  touchStartY = e.changedTouches[0].screenY;
+if (document.body.classList.contains('modal-active')) return;
+touchStartY = e.changedTouches[0].screenY;
 }
 
 function handleTouchEnd(e) {
-  if (document.body.classList.contains('modal-active')) return;
-  touchEndY = e.changedTouches[0].screenY;
+if (document.body.classList.contains('modal-active')) return;
+touchEndY = e.changedTouches[0].screenY;
 
-  if (window.innerWidth >= 1025) { 
-    handleDesktopSwipe();
-  }
+if (window.innerWidth >= 1025) { 
+handleDesktopSwipe();
+}
 }
 
 let isDesktop = window.innerWidth >= 1025;
 
 function setupEventListeners() {
-  if (isDesktop) {
-    window.addEventListener('wheel', handleDesktopWheel, { passive: false });
-    window.addEventListener('keydown', handleDesktopKeydown);
-    window.addEventListener('touchstart', handleTouchStart, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
-    
-    sections.forEach((section, i) => {
-      if (i === 0) {
-        section.style.transform = 'translateX(0)';
-        section.classList.add('is-active'); 
-      } else {
-        section.style.transform = 'translateX(100%)';
-        section.classList.remove('is-active');
-      }
-    });
-    
-    updateDesktopActiveNav(0);
-    cleanupMobileScrollObserver();
-    
-    setTimeout(() => {
-      if (document.querySelector('.theme-wrapper')) {
-        document.querySelector('.theme-wrapper').classList.add('is-loaded');
-      }
-    }, 100);
+if (isDesktop) {
+window.addEventListener('wheel', handleDesktopWheel, { passive: false });
+window.addEventListener('keydown', handleDesktopKeydown);
+window.addEventListener('touchstart', handleTouchStart, { passive: false });
+window.addEventListener('touchend', handleTouchEnd, { passive: false });
 
- } else {
-    window.removeEventListener('wheel', handleDesktopWheel);
-    window.removeEventListener('keydown', handleDesktopKeydown);
-    window.removeEventListener('touchstart', handleTouchStart);
-    window.removeEventListener('touchend', handleTouchEnd);
+sections.forEach((section, i) => {
+if (i === 0) {
+section.style.transform = 'translateX(0)';
+section.classList.add('is-active'); 
+} else {
+section.style.transform = 'translateX(100%)';
+section.classList.remove('is-active');
+}
+});
 
-    sections.forEach(section => {
-      section.style.transform = '';
-    });
-    
-    // Ensure we start at top on mobile
-    const themeWrapper = document.querySelector('.theme-wrapper');
-    if (themeWrapper) {
-      themeWrapper.scrollTop = 0;
-    }
-    
-    initMobileScrollObserver();
-  }
+updateDesktopActiveNav(0);
+cleanupMobileScrollObserver();
+
+setTimeout(() => {
+if (document.querySelector('.theme-wrapper')) {
+document.querySelector('.theme-wrapper').classList.add('is-loaded');
+}
+}, 100);
+
+} else {
+window.removeEventListener('wheel', handleDesktopWheel);
+window.removeEventListener('keydown', handleDesktopKeydown);
+window.removeEventListener('touchstart', handleTouchStart);
+window.removeEventListener('touchend', handleTouchEnd);
+
+sections.forEach(section => {
+section.style.transform = '';
+});
+
+// Ensure we start at top on mobile
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper) {
+themeWrapper.scrollTop = 0;
+}
+
+initMobileScrollObserver();
+}
 }
 
 window.addEventListener('resize', () => {
-  const newIsDesktop = window.innerWidth >= 1025; 
-  if (newIsDesktop !== isDesktop) {
-    isDesktop = newIsDesktop;
-    setupEventListeners();
-  }
+const newIsDesktop = window.innerWidth >= 1025; 
+if (newIsDesktop !== isDesktop) {
+isDesktop = newIsDesktop;
+setupEventListeners();
+}
 });
 
 document.querySelectorAll('.nav-link, .nav-link-left, .sidebar-left .logo-button').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault(); 
-    if (isDesktop) {
-      if (document.body.classList.contains('modal-active')) return;
-      const targetId = link.getAttribute('data-navlink');
-      if (!targetId) return; 
+link.addEventListener('click', (e) => {
+e.preventDefault(); 
+if (isDesktop) {
+if (document.body.classList.contains('modal-active')) return;
+const targetId = link.getAttribute('data-navlink');
+if (!targetId) return; 
 
-      const targetIndex = parseInt(targetId.split('-')[1]) - 1;
-      if (targetIndex !== currentSectionIndex) {
-        scrollToSectionDesktop(targetIndex); 
-      }
-    }
-  });
+const targetIndex = parseInt(targetId.split('-')[1]) - 1;
+if (targetIndex !== currentSectionIndex) {
+scrollToSectionDesktop(targetIndex); 
+}
+}
+});
 });
 
 document.querySelectorAll('.mobile-footer-top a, .mobile-footer-links a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    if (!isDesktop) {
-      e.preventDefault();
-      const targetId = link.getAttribute('href');
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      e.preventDefault();
-    }
-  });
+link.addEventListener('click', (e) => {
+if (!isDesktop) {
+e.preventDefault();
+const targetId = link.getAttribute('href');
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+targetElement.scrollIntoView({ behavior: 'smooth' });
+}
+} else {
+e.preventDefault();
+}
+});
 });
 
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
-  // Force scroll to top on mobile
-  const themeWrapper = document.querySelector('.theme-wrapper');
-  if (themeWrapper && window.innerWidth < 1025) {
-    themeWrapper.scrollTop = 0;
-    window.scrollTo(0, 0);
-    document.getElementById('section-1')?.classList.add('is-active');
-    if (canvasContainer) canvasContainer.classList.add('is-visible');
-  }
-  
-  setupEventListeners();
+// Force scroll to top on mobile
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper && window.innerWidth < 1025) {
+themeWrapper.scrollTop = 0;
+window.scrollTo(0, 0);
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
+}
+
+setupEventListeners();
 });
 </script>
 
@@ -3035,11 +3046,11 @@ let gu, sizes = [], shift = [], clock;
 function getSpherePoints(count, radius) {
 const points = [];
 for (let i = 0; i < count; i++) {
-  const phi = Math.acos(-1 + (2 * i) / count);
-  const theta = Math.sqrt(count * Math.PI) * phi;
-  const p = new THREE.Vector3();
-  p.setFromSphericalCoords(radius, phi, theta);
-  points.push(p);
+const phi = Math.acos(-1 + (2 * i) / count);
+const theta = Math.sqrt(count * Math.PI) * phi;
+const p = new THREE.Vector3();
+p.setFromSphericalCoords(radius, phi, theta);
+points.push(p);
 }
 return points;
 }
@@ -3047,16 +3058,16 @@ return points;
 function getTorusPoints(count, radius, tube, tiltX, tiltY) {
 const points = [];
 for (let i = 0; i < count; i++) {
-  const u = (i / count) * Math.PI * 2;
-  const v = ((i * 137.5) % count / count) * Math.PI * 2;
+const u = (i / count) * Math.PI * 2;
+const v = ((i * 137.5) % count / count) * Math.PI * 2;
 
-  const x = (radius + tube * Math.cos(v)) * Math.cos(u);
-  const y = (radius + tube * Math.cos(v)) * Math.sin(u);
-  const z = tube * Math.sin(v);
+const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+const z = tube * Math.sin(v);
 
-  const p = new THREE.Vector3(x, y, z);
-  p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
-  points.push(p);
+const p = new THREE.Vector3(x, y, z);
+p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
+points.push(p);
 }
 return points;
 }
@@ -3064,8 +3075,8 @@ return points;
 function initThreeJS() {
 container = document.getElementById('canvas-container');
 if (!container) {
-  setTimeout(initThreeJS, 500);
-  return;
+setTimeout(initThreeJS, 500);
+return;
 }
 
 // Force container to full viewport height
@@ -3101,93 +3112,93 @@ const loader = new THREE.GLTFLoader();
 const themeColor = new THREE.Color(currentSphereColor);
 
 modelPaths.forEach((path, index) => {
-  // Get the specific scale for this model
-  const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
+// Get the specific scale for this model
+const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
 
-  // Get the specific position for this model
-  const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
+// Get the specific position for this model
+const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
 
-  // Get the specific rotation for this model
-  const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
+// Get the specific rotation for this model
+const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
 
-  loader.load(path, function (gltf) {
-	const model = gltf.scene;
+loader.load(path, function (gltf) {
+const model = gltf.scene;
 
-	// ** Store the index on the model itself **
-	model.userData.modelIndex = index;
+// ** Store the index on the model itself **
+model.userData.modelIndex = index;
 
-	// ** Apply individual scale and position **
-	model.scale.set(modelScale, modelScale, modelScale);
-	model.position.set(position[0], position[1], position[2]);
+// ** Apply individual scale and position **
+model.scale.set(modelScale, modelScale, modelScale);
+model.position.set(position[0], position[1], position[2]);
 
-	// ** Apply individual rotation **
-	model.rotation.set(rotation[0], rotation[1], rotation[2]); 
+// ** Apply individual rotation **
+model.rotation.set(rotation[0], rotation[1], rotation[2]); 
 
-	// ** Setup animation mixer BEFORE material changes **
-	console.log(`Model ${index} loaded from: ${path}`);
-	console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
+// ** Setup animation mixer BEFORE material changes **
+console.log(`Model ${index} loaded from: ${path}`);
+console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
 
-	if (gltf.animations && gltf.animations.length > 0) {
-	  const mixer = new THREE.AnimationMixer(model);
-	  mixers.push(mixer);
+if (gltf.animations && gltf.animations.length > 0) {
+const mixer = new THREE.AnimationMixer(model);
+mixers.push(mixer);
 
-	  // Play all animations in the model
-	  gltf.animations.forEach((clip, clipIndex) => {
-		console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
-		const action = mixer.clipAction(clip);
-		action.play();
-	  });
-	} else {
-	  console.log(`No animations found in model ${index}`);
-	}
+// Play all animations in the model
+gltf.animations.forEach((clip, clipIndex) => {
+console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
+const action = mixer.clipAction(clip);
+action.play();
+});
+} else {
+console.log(`No animations found in model ${index}`);
+}
 
-	// Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
-	model.traverse((child) => {
-	  if (child.isMesh && child.material) {
-		const originalMaterial = child.material;
+// Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
+model.traverse((child) => {
+if (child.isMesh && child.material) {
+const originalMaterial = child.material;
 
-		if (index === 1) {
-		  // Model 2: inverted color with MeshBasicMaterial
-		  const invertedColor = new THREE.Color(
-			1 - themeColor.r,
-			1 - themeColor.g,
-			1 - themeColor.b
-		  );
-		  child.material = new THREE.MeshBasicMaterial({ 
-			color: invertedColor,
-			side: THREE.DoubleSide,
-			skinning: originalMaterial.skinning || false,
-			morphTargets: originalMaterial.morphTargets || false
-		  });
-		} else {
-		  // Model 1: theme color with MeshBasicMaterial
-		  child.material = new THREE.MeshBasicMaterial({ 
-			color: themeColor.clone(),
-			side: THREE.DoubleSide,
-			skinning: originalMaterial.skinning || false,
-			morphTargets: originalMaterial.morphTargets || false
-		  });
-		}
-	  }
-	});
+if (index === 1) {
+// Model 2: inverted color with MeshBasicMaterial
+const invertedColor = new THREE.Color(
+1 - themeColor.r,
+1 - themeColor.g,
+1 - themeColor.b
+);
+child.material = new THREE.MeshBasicMaterial({ 
+color: invertedColor,
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+} else {
+// Model 1: theme color with MeshBasicMaterial
+child.material = new THREE.MeshBasicMaterial({ 
+color: themeColor.clone(),
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+}
+}
+});
 
-	scene.add(model);
-	models.push(model); // Add to the array for animation/update
+scene.add(model);
+models.push(model); // Add to the array for animation/update
 
-  }, 
-			  undefined, 
-			  function (error) {
-	console.error('An error occurred loading the GLB model:', path, error);
-  });
+}, 
+undefined, 
+function (error) {
+console.error('An error occurred loading the GLB model:', path, error);
+});
 });
 // =========================================================
 
 // Torus creation remains the same
 const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
 const torusMaterial1 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
+color: currentSphereColor,
+transparent: false,
+opacity: 1.0
 });
 torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
 torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
@@ -3195,9 +3206,9 @@ scene.add(torus1);
 
 const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
 const torusMaterial2 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
+color: currentSphereColor,
+transparent: false,
+opacity: 1.0
 });
 torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
 torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
@@ -3205,9 +3216,9 @@ scene.add(torus2);
 
 const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
 const torusMaterial3 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
+color: currentSphereColor,
+transparent: false,
+opacity: 1.0
 });
 torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
 torus3.rotation.set(Math.PI / 2.5, -0, 0);
@@ -3218,12 +3229,12 @@ sizes = [];
 shift = [];
 
 let pushShift = () => {
-  shift.push(
-	Math.random() * Math.PI,
-	Math.random() * Math.PI * 2,
-	(Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
-	Math.random() * 0.25 + 0.1
-  );
+shift.push(
+Math.random() * Math.PI,
+Math.random() * Math.PI * 2,
+(Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
+Math.random() * 0.25 + 0.1
+);
 }
 
 const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
@@ -3233,8 +3244,8 @@ const outerSpherePoints = getSpherePoints(100, 6.5);
 const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
 
 pts.forEach(pt => {
-  sizes.push(Math.random() * 0.5 + 1);
-  pushShift();
+sizes.push(Math.random() * 0.5 + 1);
+pushShift();
 });
 
 let g = new THREE.BufferGeometry().setFromPoints(pts);
@@ -3242,52 +3253,52 @@ g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
 g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
 
 let m = new THREE.PointsMaterial({
-  size: 0.1,
-  transparent: true,
-  depthTest: false,
-  blending: THREE.AdditiveBlending,
-  onBeforeCompile: shader => {
-	shader.uniforms.time = gu.time;
-	shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
+size: 0.1,
+transparent: true,
+depthTest: false,
+blending: THREE.AdditiveBlending,
+onBeforeCompile: shader => {
+shader.uniforms.time = gu.time;
+shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
 
-	shader.vertexShader = `
-	  uniform float time;
-	  uniform vec3 color;
-	  attribute float sizes;
-	  attribute vec4 shift;
-	  varying vec3 vColor;
-	  ${shader.vertexShader}
-	`.replace(
-	  `gl_PointSize = size;`,
-	  `gl_PointSize = size * sizes;`
-	).replace(
-	  `#include <color_vertex>`,
-	  `#include <color_vertex>
-		float d = length(abs(position) / vec3(40., 10., 40));
-		d = clamp(d, 0., 1.);
-		vColor = color;
-	  `
-	).replace(
-	  `#include <begin_vertex>`,
-	  `#include <begin_vertex>
-		float t = time;
-		float moveT = mod(shift.x + shift.z * t, PI2);
-		float moveS = mod(shift.y + shift.z * t, PI2);
-		transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
-	  `
-	);
-	shader.fragmentShader = `
-	  ${shader.fragmentShader}
-	`.replace(
-	  `vec4 diffuseColor = vec4( diffuse, opacity );`,
-	  `
-	  vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
-	  float d = length(uv - vec2(1));
-	  float f = 1. - step(d, 1.);
-	  if (f < 0.1) discard;
-	  vec4 diffuseColor = vec4( diffuse, opacity );`
-	);
-  }
+shader.vertexShader = `
+uniform float time;
+uniform vec3 color;
+attribute float sizes;
+attribute vec4 shift;
+varying vec3 vColor;
+${shader.vertexShader}
+`.replace(
+`gl_PointSize = size;`,
+`gl_PointSize = size * sizes;`
+).replace(
+`#include <color_vertex>`,
+`#include <color_vertex>
+float d = length(abs(position) / vec3(40., 10., 40));
+d = clamp(d, 0., 1.);
+vColor = color;
+`
+).replace(
+`#include <begin_vertex>`,
+`#include <begin_vertex>
+float t = time;
+float moveT = mod(shift.x + shift.z * t, PI2);
+float moveS = mod(shift.y + shift.z * t, PI2);
+transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
+`
+);
+shader.fragmentShader = `
+${shader.fragmentShader}
+`.replace(
+`vec4 diffuseColor = vec4( diffuse, opacity );`,
+`
+vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
+float d = length(uv - vec2(1));
+float f = 1. - step(d, 1.);
+if (f < 0.1) discard;
+vec4 diffuseColor = vec4( diffuse, opacity );`
+);
+}
 });
 
 p = new THREE.Points(g, m);
@@ -3315,105 +3326,105 @@ const newColor = parseInt(newColorHex, 16);
 const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
 
 if (newBgColor === '#ffffff') {
-  if (p) {
-	p.material.blending = THREE.NormalBlending;
-	p.material.transparent = false;
-	p.material.opacity = 1.0;
-	p.material.size = 0.1;
-	p.material.needsUpdate = true;
-  }
+if (p) {
+p.material.blending = THREE.NormalBlending;
+p.material.transparent = false;
+p.material.opacity = 1.0;
+p.material.size = 0.1;
+p.material.needsUpdate = true;
+}
 } else {
-  if (p) {
-	p.material.blending = THREE.AdditiveBlending;
-	p.material.transparent = true;
-	p.material.opacity = 1.0;
-	p.material.size = 0.1;
-	p.material.needsUpdate = true;
-  }
+if (p) {
+p.material.blending = THREE.AdditiveBlending;
+p.material.transparent = true;
+p.material.opacity = 1.0;
+p.material.size = 0.1;
+p.material.needsUpdate = true;
+}
 }
 
 if (newColor !== currentSphereColor) {
-  currentSphereColor = newColor;
+currentSphereColor = newColor;
 
-  const newThreeColor = new THREE.Color(currentSphereColor);
+const newThreeColor = new THREE.Color(currentSphereColor);
 
-  if (gu.color) {
-	gu.color.value.setHex(currentSphereColor);
-  }
+if (gu.color) {
+gu.color.value.setHex(currentSphereColor);
+}
 
-  if (p && p.material) {
-	p.material.color.setHex(currentSphereColor);
-	p.material.needsUpdate = true;
-  }
+if (p && p.material) {
+p.material.color.setHex(currentSphereColor);
+p.material.needsUpdate = true;
+}
 
-  // 🔄 THEME UPDATE FOR ALL GLB MODELS
-  if (models.length > 0) { 
-	models.forEach((model) => {
-	  const modelIndex = model.userData.modelIndex;
+// 🔄 THEME UPDATE FOR ALL GLB MODELS
+if (models.length > 0) { 
+models.forEach((model) => {
+const modelIndex = model.userData.modelIndex;
 
-	  model.traverse((child) => {
-		if (child.isMesh && child.material) {
-		  // Model 0 gets the theme color, Model 1 gets inverted theme color
-		  if (modelIndex === 1) {
-			// Invert for model 2
-			const invertedColor = new THREE.Color(
-			  1 - newThreeColor.r,
-			  1 - newThreeColor.g,
-			  1 - newThreeColor.b
-			);
-			child.material.color.copy(invertedColor);
-		  } else {
-			// Normal theme color for model 1
-			child.material.color.copy(newThreeColor);
-		  }
-		  child.material.needsUpdate = true;
-		}
-	  });
-	});
-  }
+model.traverse((child) => {
+if (child.isMesh && child.material) {
+// Model 0 gets the theme color, Model 1 gets inverted theme color
+if (modelIndex === 1) {
+// Invert for model 2
+const invertedColor = new THREE.Color(
+1 - newThreeColor.r,
+1 - newThreeColor.g,
+1 - newThreeColor.b
+);
+child.material.color.copy(invertedColor);
+} else {
+// Normal theme color for model 1
+child.material.color.copy(newThreeColor);
+}
+child.material.needsUpdate = true;
+}
+});
+});
+}
 
-  if (torus1 && torus1.material) {
-	torus1.material.color.setHex(currentSphereColor);
-  }
-  if (torus2 && torus2.material) {
-	torus2.material.color.setHex(currentSphereColor);
-  }
-  if (torus3 && torus3.material) {
-	torus3.material.color.setHex(currentSphereColor);
-  }
+if (torus1 && torus1.material) {
+torus1.material.color.setHex(currentSphereColor);
+}
+if (torus2 && torus2.material) {
+torus2.material.color.setHex(currentSphereColor);
+}
+if (torus3 && torus3.material) {
+torus3.material.color.setHex(currentSphereColor);
+}
 }
 
 if (p) {
-  p.rotation.y += 0.001;
-  p.rotation.x += 0.0005;
+p.rotation.y += 0.001;
+p.rotation.x += 0.0005;
 }
 
 // 🔄 ANIMATED ROTATION FOR GLB MODELS
 if (models.length > 0) {
-  models.forEach(model => {
-	const modelIndex = model.userData.modelIndex;
-	const rotSpeed = MODEL_ROTATION_SPEED[modelIndex] || [0, 0, 0];
+models.forEach(model => {
+const modelIndex = model.userData.modelIndex;
+const rotSpeed = MODEL_ROTATION_SPEED[modelIndex] || [0, 0, 0];
 
-	// Always face camera on X axis at 45 degrees (converted to radians: 45 * PI/180 = 0.785398)
-	model.rotation.x = Math.PI / 4; // 45 degrees in radians
+// Always face camera on X axis at 45 degrees (converted to radians: 45 * PI/180 = 0.785398)
+model.rotation.x = Math.PI / 4; // 45 degrees in radians
 
-	// Apply rotation speed only to Y and Z axes
-	model.rotation.y += rotSpeed[1];
-	model.rotation.z += rotSpeed[2];
-  });
+// Apply rotation speed only to Y and Z axes
+model.rotation.y += rotSpeed[1];
+model.rotation.z += rotSpeed[2];
+});
 }
 
 if (torus1) {
-  torus1.rotation.y += 0.001;
-  torus1.rotation.x += 0.0005;
+torus1.rotation.y += 0.001;
+torus1.rotation.x += 0.0005;
 }
 if (torus2) {
-  torus2.rotation.y += 0.001;
-  torus2.rotation.x += 0.0005;
+torus2.rotation.y += 0.001;
+torus2.rotation.x += 0.0005;
 }
 if (torus3) {
-  torus3.rotation.y += 0.001;
-  torus3.rotation.x += 0.0005;
+torus3.rotation.y += 0.001;
+torus3.rotation.x += 0.0005;
 }
 
 renderer.render(scene, camera);
@@ -3421,17 +3432,17 @@ renderer.render(scene, camera);
 
 function onWindowResize() {
 if (camera && renderer && container) {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-  const aspect = width / height;
-  camera.aspect = aspect;
+const aspect = width / height;
+camera.aspect = aspect;
 
-  const isDesktop = window.innerWidth >= 1025;
-  camera.position.z = isDesktop ? 5.25 : 6; 
+const isDesktop = window.innerWidth >= 1025;
+camera.position.z = isDesktop ? 5.25 : 6; 
 
-  camera.updateProjectionMatrix();
-  renderer.setSize(width, height);
+camera.updateProjectionMatrix();
+renderer.setSize(width, height);
 }
 }
 window.addEventListener('resize', onWindowResize, false);
@@ -3451,39 +3462,39 @@ const themeWrapper = $('.theme-wrapper');
 const isMobile = () => window.innerWidth <= 1024; 
 
 $('#desktop-about-button, #mobile-about-button').on('click', function(e){
-  e.preventDefault();
+e.preventDefault();
 
-  if (modal.hasClass('visible')) {
-	// --- CLOSE MODAL ---
-	modal.addClass('out');
-	$('body').removeClass('modal-active');
+if (modal.hasClass('visible')) {
+// --- CLOSE MODAL ---
+modal.addClass('out');
+$('body').removeClass('modal-active');
 
-	// Reset top style only if we're on mobile
-	if (isMobile()) {
-	  // Use a timeout to reset *after* the close animation
-	  setTimeout(() => {
-		modal.css('top', ''); 
-	  }, 500); // Match animation duration
-	}
-  } else {
-	// --- OPEN MODAL ---
+// Reset top style only if we're on mobile
+if (isMobile()) {
+// Use a timeout to reset *after* the close animation
+setTimeout(() => {
+modal.css('top', ''); 
+}, 500); // Match animation duration
+}
+} else {
+// --- OPEN MODAL ---
 
-	// On mobile, we need to align the modal to the current scroll position
-	if (isMobile()) {
-	  const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
-	  modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
-	}
+// On mobile, we need to align the modal to the current scroll position
+if (isMobile()) {
+const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
+modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
+}
 
-	modal.removeAttr('class').addClass('visible');
-	$('body').addClass('modal-active');
-  }
+modal.removeAttr('class').addClass('visible');
+$('body').addClass('modal-active');
+}
 });
 
 
 $('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
-  if (e.target === this && $(this).hasClass('out')) {
-	$(this).removeAttr('class');
-  }
+if (e.target === this && $(this).hasClass('out')) {
+$(this).removeAttr('class');
+}
 });
 });
 </script>
@@ -3493,11 +3504,11 @@ $('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
 document.addEventListener('DOMContentLoaded', function() {
 const themeCheckbox = document.getElementById('theme-checkbox');
 if (themeCheckbox) {
-  themeCheckbox.addEventListener('change', function() {
-	document.body.classList.toggle('light-mode', this.checked);
-  });
+themeCheckbox.addEventListener('change', function() {
+document.body.classList.toggle('light-mode', this.checked);
+});
 
-  document.body.classList.toggle('light-mode', themeCheckbox.checked);
+document.body.classList.toggle('light-mode', themeCheckbox.checked);
 }
 
 });
@@ -3513,11 +3524,11 @@ const mobileInfoToggle = document.getElementById('mobile-info-toggle');
 const portfolioInfoSection = document.querySelector('.portfolio-info');
 
 if (mobileInfoToggle && portfolioInfoSection) {
-  mobileInfoToggle.addEventListener('click', () => {
+mobileInfoToggle.addEventListener('click', () => {
 
-	portfolioInfoSection.classList.toggle('info-collapsed');
-	mobileInfoToggle.classList.toggle('active');
-  });
+portfolioInfoSection.classList.toggle('info-collapsed');
+mobileInfoToggle.classList.toggle('active');
+});
 }
 // --- END: Mobile Info Toggle Logic ---
 
@@ -3525,102 +3536,102 @@ if (mobileInfoToggle && portfolioInfoSection) {
 const buttons = document.querySelectorAll('.section-btn');
 const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
 const scrollers = {
-  '3d': document.getElementById('scroller-3d'),
+'3d': document.getElementById('scroller-3d'),
 
-  'graphic': document.getElementById('scroller-graphic'),
-  'product': document.getElementById('scroller-product')
+'graphic': document.getElementById('scroller-graphic'),
+'product': document.getElementById('scroller-product')
 };
 // Select info content
 const infoContents = {
-  '3d': document.querySelector('.info-content[data-info="3d"]'),
-  'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-  'product': document.querySelector('.info-content[data-info="product"]')
+'3d': document.querySelector('.info-content[data-info="3d"]'),
+'graphic': document.querySelector('.info-content[data-info="graphic"]'),
+'product': document.querySelector('.info-content[data-info="product"]')
 };
 // NEW: Save scroll positions
 const scrollPositions = {
-  '3d': 0,
-  'graphic': 0,
-  'product': 0
+'3d': 0,
+'graphic': 0,
+'product': 0
 };
 let currentGallery = '3d';
 
 function updateProgress(scroller, button) {
-  if (!button) return;
-  const scrollLeft = scroller.scrollLeft;
-  const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
-  const progress = scrollWidth > 0 ?
-		(scrollLeft / scrollWidth) * 100 : 0;
-  button.style.setProperty('--progress', `${progress}%`);
+if (!button) return;
+const scrollLeft = scroller.scrollLeft;
+const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
+const progress = scrollWidth > 0 ?
+(scrollLeft / scrollWidth) * 100 : 0;
+button.style.setProperty('--progress', `${progress}%`);
 }
 
 // UPDATED: Function now also switches info content and saves/restores scroll
 function switchGallery(newGallery) {
-  if (newGallery === currentGallery) return;
-  // Save current scroll position
-  scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-  // --- Gallery Scroller ---
-  scrollers[currentGallery].classList.remove('active');
-  scrollers[newGallery].classList.add('active');
-  // Restore new gallery's scroll position
-  scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-  // --- Info Content ---
-  infoContents[currentGallery].classList.remove('active');
-  infoContents[newGallery].classList.add('active');
+if (newGallery === currentGallery) return;
+// Save current scroll position
+scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+// --- Gallery Scroller ---
+scrollers[currentGallery].classList.remove('active');
+scrollers[newGallery].classList.add('active');
+// Restore new gallery's scroll position
+scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
+// --- Info Content ---
+infoContents[currentGallery].classList.remove('active');
+infoContents[newGallery].classList.add('active');
 
-  currentGallery = newGallery;
-  const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-  const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-  updateProgress(scrollers[newGallery], activeButton);
-  updateProgress(scrollers[newGallery], activeMobileLink);
+currentGallery = newGallery;
+const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
+const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+updateProgress(scrollers[newGallery], activeButton);
+updateProgress(scrollers[newGallery], activeMobileLink);
 }
 
 buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-	const galleryType = btn.dataset.gallery;
-	buttons.forEach(b => b.classList.remove('active'));
-	btn.classList.add('active');
+btn.addEventListener('click', () => {
+const galleryType = btn.dataset.gallery;
+buttons.forEach(b => b.classList.remove('active'));
+btn.classList.add('active');
 
-	// Sync mobile links
-	mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+// Sync mobile links
+mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
 
-	const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-	matchingLink?.classList.add('active');
+const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
+matchingLink?.classList.add('active');
 
-	switchGallery(galleryType);
-  });
+switchGallery(galleryType);
+});
 });
 // Add listeners for mobile links
 mobileWorkNavLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-	e.preventDefault();
-	const galleryType = link.dataset.gallery;
+link.addEventListener('click', (e) => {
+e.preventDefault();
+const galleryType = link.dataset.gallery;
 
-	mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-	link.classList.add('active');
+mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+link.classList.add('active');
 
-	// Sync desktop/tablet buttons
+// Sync desktop/tablet buttons
 
-	buttons.forEach(b => b.classList.remove('active'));
-	const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-	matchingButton?.classList.add('active');
+buttons.forEach(b => b.classList.remove('active'));
+const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
+matchingButton?.classList.add('active');
 
-	switchGallery(galleryType);
-  });
+switchGallery(galleryType);
+});
 });
 Object.keys(scrollers).forEach(key => {
-  scrollers[key].addEventListener('scroll', () => {
-	if (key === currentGallery) {
-	  const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-	  const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
+scrollers[key].addEventListener('scroll', () => {
+if (key === currentGallery) {
+const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
+const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
 
-	  updateProgress(scrollers[key], activeButton);
-	  updateProgress(scrollers[key], activeMobileLink);
+updateProgress(scrollers[key], activeButton);
+updateProgress(scrollers[key], activeMobileLink);
 
 
-	  // NEW: Save scroll position as user scrolls
-	  scrollPositions[key] = scrollers[key].scrollLeft;
-	}
-  });
+// NEW: Save scroll position as user scrolls
+scrollPositions[key] = scrollers[key].scrollLeft;
+}
+});
 });
 const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
 const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
@@ -3632,22 +3643,22 @@ const modalContentInner = document.getElementById('modal-gall-inner');
 const portfolioItems = document.querySelectorAll('.portfolio-item');
 
 portfolioItems.forEach(item => {
-  item.addEventListener('click', () => {
-	// Clone the item's content (in this case, just the text)
-	const itemContent = item.innerHTML; 
-	modalContentInner.innerHTML = itemContent;
+item.addEventListener('click', () => {
+// Clone the item's content (in this case, just the text)
+const itemContent = item.innerHTML; 
+modalContentInner.innerHTML = itemContent;
 
-	// Show the modal
+// Show the modal
 
-	modal.classList.add('active');
-  });
+modal.classList.add('active');
+});
 });
 function closeModal() {
-  modal.classList.remove('active');
-  // Clear content after transition
-  setTimeout(() => {
-	modalContentInner.innerHTML = '';
-  }, 300);
+modal.classList.remove('active');
+// Clear content after transition
+setTimeout(() => {
+modalContentInner.innerHTML = '';
+}, 300);
 }
 
 // Close modal by clicking on the background or the content
@@ -3661,35 +3672,35 @@ const isMobile = window.matchMedia("(max-width: 1024px)").matches;
 if (isMobile) {
 const items = document.querySelectorAll(".grid-item");
 items.forEach(item => {
-  item.addEventListener("click", () => {
-	const service = item.getAttribute("data-service");
-	const targetPanel = document.querySelector(`.service-content[data-service="${service}"]`);
+item.addEventListener("click", () => {
+const service = item.getAttribute("data-service");
+const targetPanel = document.querySelector(`.service-content[data-service="${service}"]`);
 
-	// Check if clicking the already active item (double-click behavior)
-	if (item.classList.contains("active")) {
-	  // Return to key services (default state)
-	  items.forEach(i => i.classList.remove("active"));
-	  document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
+// Check if clicking the already active item (double-click behavior)
+if (item.classList.contains("active")) {
+// Return to key services (default state)
+items.forEach(i => i.classList.remove("active"));
+document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
 
-	  // Show the default/key services panel
-	  const defaultPanel = document.querySelector('.service-content[data-service="default"]');
-	  if (defaultPanel) {
+// Show the default/key services panel
+const defaultPanel = document.querySelector('.service-content[data-service="default"]');
+if (defaultPanel) {
 
-		defaultPanel.classList.add("active");
-	  }
+defaultPanel.classList.add("active");
+}
 
-	  document.body.classList.remove("mobile-has-active");
-	} else {
-	  // Normal click - activate the clicked item
-	  items.forEach(i => i.classList.remove("active"));
-	  document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
-	  item.classList.add("active");
-	  if (targetPanel) {
-		targetPanel.classList.add("active");
-	  }
-	  document.body.classList.add("mobile-has-active");
-	}
-  });
+document.body.classList.remove("mobile-has-active");
+} else {
+// Normal click - activate the clicked item
+items.forEach(i => i.classList.remove("active"));
+document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
+item.classList.add("active");
+if (targetPanel) {
+targetPanel.classList.add("active");
+}
+document.body.classList.add("mobile-has-active");
+}
+});
 });
 }
 </script>
@@ -3705,23 +3716,23 @@ let mouse = { x: -1000, y: -1000 };
 // Function to get current theme color
 function getThemeColor() {
 try {
-  const computedStyle = getComputedStyle(document.body);
-  const textColor = computedStyle.getPropertyValue('--text-color').trim();
+const computedStyle = getComputedStyle(document.body);
+const textColor = computedStyle.getPropertyValue('--text-color').trim();
 
-  // Convert hex to RGB
-  if (textColor && textColor.startsWith('#')) {
-	const hex = textColor.replace('#', '');
-	const r = parseInt(hex.substring(0, 2), 16);
-	const g = parseInt(hex.substring(2, 4), 16);
-	const b = parseInt(hex.substring(4, 6), 16);
+// Convert hex to RGB
+if (textColor && textColor.startsWith('#')) {
+const hex = textColor.replace('#', '');
+const r = parseInt(hex.substring(0, 2), 16);
+const g = parseInt(hex.substring(2, 4), 16);
+const b = parseInt(hex.substring(4, 6), 16);
 
-	// Validate the parsed values
-	if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-	  return { r, g, b };
-	}
-  }
+// Validate the parsed values
+if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+return { r, g, b };
+}
+}
 } catch (e) {
-  console.error('Error parsing theme color:', e);
+console.error('Error parsing theme color:', e);
 }
 
 // Default to white for dark theme (base theme)
@@ -3749,9 +3760,9 @@ const offsetX = (canvas.width - gridWidth) / 2;
 const offsetY = (canvas.height - gridHeight) / 2;
 
 for(let r = 0; r < numRows; r++){
-  for(let c = 0; c < numCols; c++){
-	dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
-  }
+for(let c = 0; c < numCols; c++){
+dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
+}
 }
 }
 
@@ -3791,29 +3802,29 @@ const currentWave = (time * waveSpeed) % maxDist;
 const color = getThemeColor();
 
 dots.forEach(dot=>{
-  if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
-	return;
-  }
-  const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
-  const distToWave = Math.abs(dist - currentWave);
-  let pulseFactor = 0;
-  if(distToWave < waveThickness/2){
-	pulseFactor = 1 - distToWave / (waveThickness/2);
-	pulseFactor = Math.sin(pulseFactor*Math.PI/2);
-  }
-  const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-  let glowFactor = 0;
-  const glowRadius = 50;
-  if(mouseDist < glowRadius){
-	glowFactor = (1 - mouseDist/glowRadius);
-  }
-  const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
-  const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
-  ctx.beginPath();
-  ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
-  // Use theme color instead of hardcoded white
-  ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-  ctx.fill();
+if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
+return;
+}
+const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+const distToWave = Math.abs(dist - currentWave);
+let pulseFactor = 0;
+if(distToWave < waveThickness/2){
+pulseFactor = 1 - distToWave / (waveThickness/2);
+pulseFactor = Math.sin(pulseFactor*Math.PI/2);
+}
+const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+let glowFactor = 0;
+const glowRadius = 50;
+if(mouseDist < glowRadius){
+glowFactor = (1 - mouseDist/glowRadius);
+}
+const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
+const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
+ctx.beginPath();
+ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
+// Use theme color instead of hardcoded white
+ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+ctx.fill();
 });
 requestAnimationFrame(animate);
 }
@@ -3825,12 +3836,12 @@ const copyButton = document.getElementById('copyButton');
 function copyToClipboard() {
 const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
 navigator.clipboard.writeText(textToCopy).then(() => {
-  copyButton.textContent = 'Copied!';
-  copyButton.classList.add('copied');
-  setTimeout(() => {
-	copyButton.textContent = 'Copy Me';
-	copyButton.classList.remove('copied');
-  }, 1500);
+copyButton.textContent = 'Copied!';
+copyButton.classList.add('copied');
+setTimeout(() => {
+copyButton.textContent = 'Copy Me';
+copyButton.classList.remove('copied');
+}, 1500);
 }).catch(err => console.error(err));
 }
 
@@ -3838,6 +3849,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
