@@ -2895,23 +2895,28 @@ function setupEventListeners() {
     }, 100);
 
   } else {
-    window.removeEventListener('wheel', handleDesktopWheel);
-    window.removeEventListener('keydown', handleDesktopKeydown);
-    window.removeEventListener('touchstart', handleTouchStart);
-    window.removeEventListener('touchend', handleTouchEnd);
+  window.removeEventListener('wheel', handleDesktopWheel);
+  window.removeEventListener('keydown', handleDesktopKeydown);
+  window.removeEventListener('touchstart', handleTouchStart);
+  window.removeEventListener('touchend', handleTouchEnd);
 
-    sections.forEach(section => {
-      section.style.transform = '';
+  sections.forEach(section => {
+    section.style.transform = '';
+  });
+  
+  // ADD THESE LINES:
+  const themeWrapper = document.querySelector('.theme-wrapper');
+  if (themeWrapper) {
+    // Force immediate scroll reset
+    themeWrapper.scrollTop = 0;
+    // Force repaint
+    themeWrapper.style.overflow = 'hidden';
+    requestAnimationFrame(() => {
+      themeWrapper.style.overflow = '';
     });
-    
-    // Ensure we start at top on mobile
-    const themeWrapper = document.querySelector('.theme-wrapper');
-    if (themeWrapper) {
-      themeWrapper.scrollTop = 0;
-    }
-    
-    initMobileScrollObserver();
   }
+  
+  initMobileScrollObserver();
 }
 
 window.addEventListener('resize', () => {
@@ -3824,6 +3829,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
