@@ -693,7 +693,7 @@ white-space: nowrap;
 margin-top: 20rem;
 position: absolute;
 z-index: 5;
-transform: translateX(100%);
+transform: translateX(100%), translateZ(0);
 transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 align-self: anchor-center;
 backface-visibility: hidden;
@@ -712,7 +712,7 @@ transition-delay: 0.5s; /* Stagger after canvas fade-in */
 .marquee-content-wrapper {
 display: flex;
 width: fit-content; 
-animation: marquee-scroll 90s linear infinite;
+animation: marquee-scroll 100s linear infinite;
 backface-visibility: hidden;
 }
 
@@ -3865,6 +3865,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
