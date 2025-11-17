@@ -698,7 +698,8 @@ transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 align-self: anchor-center;
 backface-visibility: hidden;
 touch-action: manipulation;
-  
+will-change: transform;
+flex-shrink: 0  
 }
 
 /* --- NEW: Marquee Animation Trigger --- */
@@ -729,6 +730,7 @@ color: var(--text-color);
 /* transition: color 0.3s ease;
 */ /* REMOVED */
 padding-right: 2rem;
+display: inline-block  
 }
 
 
@@ -3840,6 +3842,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
