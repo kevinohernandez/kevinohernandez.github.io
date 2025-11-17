@@ -2987,281 +2987,274 @@ setupEventListeners();
 });
 </script>
 
-<script type="module">
-  let scene, camera, renderer, p, torus1, torus2, torus3;
-// 'models' will hold the loaded GLB objects instead of a single 'planet'
-let models = [];
-// Animation mixers for each model
-let mixers = [];
-let currentSphereColor = null;
-let container;
+    <script type="module">
+      let scene, camera, renderer, p, torus1, torus2, torus3;
+      // 'models' will hold the loaded GLB objects instead of a single 'planet'
+      let models = [];
+      // Animation mixers for each model
+      let mixers = [];
+      let currentSphereColor = null;
+      let container;
 
-// =========================================================
-// 📌 CONFIGURATION ARRAYS
-// =========================================================
-// Define the URLs for all models to be loaded
-const modelPaths = [
-  'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', // Index 0 (Theme Color)
-  'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'  // Index 1 (Inverted Theme Color)
-];
+      // =========================================================
+      // 📌 CONFIGURATION ARRAYS
+      // =========================================================
+      // Define the URLs for all models to be loaded
+      const modelPaths = [
+        'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', // Index 0 (Theme Color)
+        'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'  // Index 1 (Inverted Theme Color)
+      ];
 
-// [x, y, z] position offsets for each model
-const MODEL_POSITIONS = [
-  [0, -0.5, -2],        // Model 1: Centered at -2 on Z
-  [0.0, -0.425, -1.95]   // Model 2: Slight Y offset
-];
+      // [x, y, z] position offsets for each model
+      const MODEL_POSITIONS = [
+        [0, -0.5, -5],        // Model 1: Centered at -2 on Z
+        [0.0, -0.425, -4.95]   // Model 2: Slight Y offset
+      ];
 
-// Individual scale for each model
-const MODEL_SCALES = [1.75, 1.75];
+      // Individual scale for each model
+      const MODEL_SCALES = [1.75, 1.75];
 
-// [x, y, z] rotation in radians for each model
-// Note: Math.PI = 180 degrees, Math.PI/2 = 90 degrees, etc.
-const MODEL_ROTATIONS = [
-  [0, 0, 0],        // Model 1: Static rotation (X will always face camera)
-  [0, 0, 0]         // Model 2: Static rotation (X will always face camera)
-];
+      // [x, y, z] rotation in radians for each model
+      // Note: Math.PI = 180 degrees, Math.PI/2 = 90 degrees, etc.
+      const MODEL_ROTATIONS = [
+        [45, 0, 0],        // Model 1: No rotation
+        [45, 0, 0]         // Model 2: No rotation
+      ];
 
-// Sine wave rotation settings for Y axis
-// [amplitude in radians, speed multiplier]
-const MODEL_Y_SINE_WAVE = [
-  [Math.PI / 6, 0.2],    // Model 1: ±30 degrees oscillation, medium speed
-  [Math.PI / 6, 0.2]     // Model 2: ±30 degrees oscillation, medium speed
-];
+      // [x, y, z] rotation speed for each model (added per frame)
+      // Set to [0, 0, 0] to disable animation for that model
+      const MODEL_ROTATION_SPEED = [
+        [-0.0000, 0.00, -0.00015],    // Model 1: Rotate on Y and Z
+        [-0.0000, 0.00, -0.00015]     // Model 2: Rotate on Y and Z
+      ];
 
-// [x, y, z] rotation speed for each model (added per frame)
-// Set to [0, 0, 0] to disable animation for that model
-const MODEL_ROTATION_SPEED = [
-  [-0.0002, -0.0002, 0.00025],    // Model 1: Rotate on Y and Z
-  [-0.0002, -0.0002, 0.00025]     // Model 2: Rotate on Y and Z
-];
+      // Function to invert a color (returns inverted THREE.Color)
+      function invertColor(color) {
+        return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
+      }
+      // =========================================================
 
-// Function to invert a color (returns inverted THREE.Color)
-function invertColor(color) {
-  return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
-}
-// =========================================================
+      let gu, sizes = [], shift = [], clock;
 
-let gu, sizes = [], shift = [], clock;
-
-function getSpherePoints(count, radius) {
-  const points = [];
-  for (let i = 0; i < count; i++) {
-    const phi = Math.acos(-1 + (2 * i) / count);
-    const theta = Math.sqrt(count * Math.PI) * phi;
-    const p = new THREE.Vector3();
-    p.setFromSphericalCoords(radius, phi, theta);
-    points.push(p);
-  }
-  return points;
-}
-
-function getTorusPoints(count, radius, tube, tiltX, tiltY) {
-  const points = [];
-  for (let i = 0; i < count; i++) {
-    const u = (i / count) * Math.PI * 2;
-    const v = ((i * 137.5) % count / count) * Math.PI * 2;
-
-    const x = (radius + tube * Math.cos(v)) * Math.cos(u);
-    const y = (radius + tube * Math.cos(v)) * Math.sin(u);
-    const z = tube * Math.sin(v);
-
-    const p = new THREE.Vector3(x, y, z);
-    p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
-    points.push(p);
-  }
-  return points;
-}
-
-function initThreeJS() {
-  container = document.getElementById('canvas-container');
-  if (!container) {
-    setTimeout(initThreeJS, 500);
-    return;
-  }
-
-  // Force container to full viewport height
-  container.style.width = '100%';
-  container.style.height = '100vh';
-  container.style.position = 'relative';
-
-  scene = new THREE.Scene();
-
-  const fov = 75;
-  const aspect = window.innerWidth / window.innerHeight;
-  const near = 0.1;
-  const far = 1000;
-  camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-  const isDesktop = window.innerWidth >= 1025;
-  camera.position.z = isDesktop ? 5.25 : 6; 
-
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
-
-  container.classList.add('is-visible');
-
-  const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
-  currentSphereColor = parseInt(initialColor, 16);
-
-  // =========================================================
-  // 🔄 GLB LOADING LOGIC WITH INDIVIDUAL POSITIONS & SCALES
-  // =========================================================
-  const loader = new THREE.GLTFLoader();
-  const themeColor = new THREE.Color(currentSphereColor);
-
-  modelPaths.forEach((path, index) => {
-    // Get the specific scale for this model
-    const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
-
-    // Get the specific position for this model
-    const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
-
-    // Get the specific rotation for this model
-    const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
-
-    loader.load(path, function (gltf) {
-      const model = gltf.scene;
-
-      // ** Store the index on the model itself **
-      model.userData.modelIndex = index;
-
-      // ** Apply individual scale and position **
-      model.scale.set(modelScale, modelScale, modelScale);
-      model.position.set(position[0], position[1], position[2]);
-
-      // ** Apply individual rotation **
-      model.rotation.set(rotation[0], rotation[1], rotation[2]); 
-
-      // ** Setup animation mixer BEFORE material changes **
-      console.log(`Model ${index} loaded from: ${path}`);
-      console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
-      
-      if (gltf.animations && gltf.animations.length > 0) {
-        const mixer = new THREE.AnimationMixer(model);
-        mixers.push(mixer);
-        
-        // Play all animations in the model
-        gltf.animations.forEach((clip, clipIndex) => {
-          console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
-          const action = mixer.clipAction(clip);
-          action.play();
-        });
-      } else {
-        console.log(`No animations found in model ${index}`);
+      function getSpherePoints(count, radius) {
+        const points = [];
+        for (let i = 0; i < count; i++) {
+          const phi = Math.acos(-1 + (2 * i) / count);
+          const theta = Math.sqrt(count * Math.PI) * phi;
+          const p = new THREE.Vector3();
+          p.setFromSphericalCoords(radius, phi, theta);
+          points.push(p);
+        }
+        return points;
       }
 
-      // Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
-      model.traverse((child) => {
-        if (child.isMesh && child.material) {
-          const originalMaterial = child.material;
-          
-          if (index === 1) {
-            // Model 2: inverted color with MeshBasicMaterial
-            const invertedColor = new THREE.Color(
-              1 - themeColor.r,
-              1 - themeColor.g,
-              1 - themeColor.b
-            );
-            child.material = new THREE.MeshBasicMaterial({ 
-              color: invertedColor,
-              side: THREE.DoubleSide,
-              skinning: originalMaterial.skinning || false,
-              morphTargets: originalMaterial.morphTargets || false
-            });
-          } else {
-            // Model 1: theme color with MeshBasicMaterial
-            child.material = new THREE.MeshBasicMaterial({ 
-              color: themeColor.clone(),
-              side: THREE.DoubleSide,
-              skinning: originalMaterial.skinning || false,
-              morphTargets: originalMaterial.morphTargets || false
-            });
-          }
+      function getTorusPoints(count, radius, tube, tiltX, tiltY) {
+        const points = [];
+        for (let i = 0; i < count; i++) {
+          const u = (i / count) * Math.PI * 2;
+          const v = ((i * 137.5) % count / count) * Math.PI * 2;
+
+          const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+          const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+          const z = tube * Math.sin(v);
+
+          const p = new THREE.Vector3(x, y, z);
+          p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
+          points.push(p);
         }
-      });
+        return points;
+      }
 
-      scene.add(model);
-      models.push(model); // Add to the array for animation/update
+      function initThreeJS() {
+        container = document.getElementById('canvas-container');
+        if (!container) {
+          setTimeout(initThreeJS, 500);
+          return;
+        }
 
-    }, 
-                undefined, 
-                function (error) {
-      console.error('An error occurred loading the GLB model:', path, error);
-    });
-  });
-  // =========================================================
+        // Force container to full viewport height
+        container.style.width = '100%';
+        container.style.height = '100vh';
+        container.style.position = 'relative';
 
-  // Torus creation remains the same
-  const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-  const torusMaterial1 = new THREE.MeshBasicMaterial({
-    color: currentSphereColor,
-    transparent: false,
-    opacity: 1.0
-  });
-  torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
-  torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
-  scene.add(torus1);
+        scene = new THREE.Scene();
 
-  const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-  const torusMaterial2 = new THREE.MeshBasicMaterial({
-    color: currentSphereColor,
-    transparent: false,
-    opacity: 1.0
-  });
-  torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
-  torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
-  scene.add(torus2);
+        const fov = 75;
+        const aspect = window.innerWidth / window.innerHeight;
+        const near = 0.1;
+        const far = 1000;
+        camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-  const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-  const torusMaterial3 = new THREE.MeshBasicMaterial({
-    color: currentSphereColor,
-    transparent: false,
-    opacity: 1.0
-  });
-  torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
-  torus3.rotation.set(Math.PI / 2.5, 0, 0);
-  scene.add(torus3);
+        const isDesktop = window.innerWidth >= 1025;
+        camera.position.z = isDesktop ? 5.25 : 6; 
 
-  gu = { time: { value: 0 } };
-  sizes = [];
-  shift = [];
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
 
-  let pushShift = () => {
-    shift.push(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI * 2,
-      (Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
-      Math.random() * 0.25 + 0.1
-    );
-  }
+        container.classList.add('is-visible');
 
-  const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
-  const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-  const outerSpherePoints = getSpherePoints(100, 6.5);
+        const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+        currentSphereColor = parseInt(initialColor, 16);
 
-  const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
+        // =========================================================
+        // 🔄 GLB LOADING LOGIC WITH INDIVIDUAL POSITIONS & SCALES
+        // =========================================================
+        const loader = new THREE.GLTFLoader();
+        const themeColor = new THREE.Color(currentSphereColor);
 
-  pts.forEach(pt => {
-    sizes.push(Math.random() * 0.5 + 1);
-    pushShift();
-  });
+        modelPaths.forEach((path, index) => {
+          // Get the specific scale for this model
+          const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
 
-  let g = new THREE.BufferGeometry().setFromPoints(pts);
-  g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
-  g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
+          // Get the specific position for this model
+          const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
 
-  let m = new THREE.PointsMaterial({
-    size: 0.1,
-    transparent: true,
-    depthTest: false,
-    blending: THREE.AdditiveBlending,
-    onBeforeCompile: shader => {
-      shader.uniforms.time = gu.time;
-      shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
+          // Get the specific rotation for this model
+          const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
 
-      shader.vertexShader = `
+          loader.load(path, function (gltf) {
+            const model = gltf.scene;
+
+            // ** Store the index on the model itself **
+            model.userData.modelIndex = index;
+
+            // ** Apply individual scale and position **
+            model.scale.set(modelScale, modelScale, modelScale);
+            model.position.set(position[0], position[1], position[2]);
+
+            // ** Apply individual rotation **
+            model.rotation.set(rotation[0], rotation[1], rotation[2]); 
+
+            // ** Setup animation mixer BEFORE material changes **
+            console.log(`Model ${index} loaded from: ${path}`);
+            console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
+
+            if (gltf.animations && gltf.animations.length > 0) {
+              const mixer = new THREE.AnimationMixer(model);
+              mixers.push(mixer);
+
+              // Play all animations in the model
+              gltf.animations.forEach((clip, clipIndex) => {
+                console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
+                const action = mixer.clipAction(clip);
+                action.play();
+              });
+            } else {
+              console.log(`No animations found in model ${index}`);
+            }
+
+            // Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
+            model.traverse((child) => {
+              if (child.isMesh && child.material) {
+                const originalMaterial = child.material;
+
+                if (index === 1) {
+                  // Model 2: inverted color with MeshBasicMaterial
+                  const invertedColor = new THREE.Color(
+                    1 - themeColor.r,
+                    1 - themeColor.g,
+                    1 - themeColor.b
+                  );
+                  child.material = new THREE.MeshBasicMaterial({ 
+                    color: invertedColor,
+                    side: THREE.DoubleSide,
+                    skinning: originalMaterial.skinning || false,
+                    morphTargets: originalMaterial.morphTargets || false
+                  });
+                } else {
+                  // Model 1: theme color with MeshBasicMaterial
+                  child.material = new THREE.MeshBasicMaterial({ 
+                    color: themeColor.clone(),
+                    side: THREE.DoubleSide,
+                    skinning: originalMaterial.skinning || false,
+                    morphTargets: originalMaterial.morphTargets || false
+                  });
+                }
+              }
+            });
+
+            scene.add(model);
+            models.push(model); // Add to the array for animation/update
+
+          }, 
+                      undefined, 
+                      function (error) {
+            console.error('An error occurred loading the GLB model:', path, error);
+          });
+        });
+        // =========================================================
+
+        // Torus creation remains the same
+        const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
+        const torusMaterial1 = new THREE.MeshBasicMaterial({
+          color: currentSphereColor,
+          transparent: false,
+          opacity: 1.0
+        });
+        torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
+        torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
+        scene.add(torus1);
+
+        const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
+        const torusMaterial2 = new THREE.MeshBasicMaterial({
+          color: currentSphereColor,
+          transparent: false,
+          opacity: 1.0
+        });
+        torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
+        torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
+        scene.add(torus2);
+
+        const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
+        const torusMaterial3 = new THREE.MeshBasicMaterial({
+          color: currentSphereColor,
+          transparent: false,
+          opacity: 1.0
+        });
+        torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
+        torus3.rotation.set(Math.PI / 2.5, -0, 0);
+        scene.add(torus3);
+
+        gu = { time: { value: 0 } };
+        sizes = [];
+        shift = [];
+
+        let pushShift = () => {
+          shift.push(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI * 2,
+            (Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
+            Math.random() * 0.25 + 0.1
+          );
+        }
+
+        const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
+        const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
+        const outerSpherePoints = getSpherePoints(100, 6.5);
+
+        const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
+
+        pts.forEach(pt => {
+          sizes.push(Math.random() * 0.5 + 1);
+          pushShift();
+        });
+
+        let g = new THREE.BufferGeometry().setFromPoints(pts);
+        g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
+        g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
+
+        let m = new THREE.PointsMaterial({
+          size: 0.1,
+          transparent: true,
+          depthTest: false,
+          blending: THREE.AdditiveBlending,
+          onBeforeCompile: shader => {
+            shader.uniforms.time = gu.time;
+            shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
+
+            shader.vertexShader = `
               uniform float time;
               uniform vec3 color;
               attribute float sizes;
@@ -3269,193 +3262,188 @@ function initThreeJS() {
               varying vec3 vColor;
               ${shader.vertexShader}
             `.replace(
-        `gl_PointSize = size;`,
-        `gl_PointSize = size * sizes;`
-      ).replace(
-        `#include <color_vertex>`,
-        `#include <color_vertex>
+              `gl_PointSize = size;`,
+              `gl_PointSize = size * sizes;`
+            ).replace(
+              `#include <color_vertex>`,
+              `#include <color_vertex>
                 float d = length(abs(position) / vec3(40., 10., 40));
                 d = clamp(d, 0., 1.);
                 vColor = color;
               `
-      ).replace(
-        `#include <begin_vertex>`,
-        `#include <begin_vertex>
+            ).replace(
+              `#include <begin_vertex>`,
+              `#include <begin_vertex>
                 float t = time;
                 float moveT = mod(shift.x + shift.z * t, PI2);
                 float moveS = mod(shift.y + shift.z * t, PI2);
                 transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
               `
-      );
-      shader.fragmentShader = `
+            );
+            shader.fragmentShader = `
               ${shader.fragmentShader}
             `.replace(
-        `vec4 diffuseColor = vec4( diffuse, opacity );`,
-        `
+              `vec4 diffuseColor = vec4( diffuse, opacity );`,
+              `
               vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
               float d = length(uv - vec2(1));
               float f = 1. - step(d, 1.);
               if (f < 0.1) discard;
               vec4 diffuseColor = vec4( diffuse, opacity );`
-      );
-    }
-  });
-
-  p = new THREE.Points(g, m);
-  scene.add(p);
-
-  clock = new THREE.Clock();
-  renderer.setAnimationLoop(animate);
-}
-
-function animate() {
-  if (!clock || !gu || !renderer) return;
-
-  // Get delta ONCE per frame
-  const delta = clock.getDelta();
-  
-  // Use delta for time calculation
-  let t = clock.getElapsedTime() * 0.25;
-  gu.time.value = t * Math.PI;
-
-  // Update animation mixers with delta
-  mixers.forEach(mixer => mixer.update(delta));
-
-  const newColorHex = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
-  const newColor = parseInt(newColorHex, 16);
-  const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
-
-  if (newBgColor === '#ffffff') {
-    if (p) {
-      p.material.blending = THREE.NormalBlending;
-      p.material.transparent = false;
-      p.material.opacity = 1.0;
-      p.material.size = 0.1;
-      p.material.needsUpdate = true;
-    }
-  } else {
-    if (p) {
-      p.material.blending = THREE.AdditiveBlending;
-      p.material.transparent = true;
-      p.material.opacity = 1.0;
-      p.material.size = 0.1;
-      p.material.needsUpdate = true;
-    }
-  }
-
-  if (newColor !== currentSphereColor) {
-    currentSphereColor = newColor;
-
-    const newThreeColor = new THREE.Color(currentSphereColor);
-
-    if (gu.color) {
-      gu.color.value.setHex(currentSphereColor);
-    }
-
-    if (p && p.material) {
-      p.material.color.setHex(currentSphereColor);
-      p.material.needsUpdate = true;
-    }
-
-    // 🔄 THEME UPDATE FOR ALL GLB MODELS
-    if (models.length > 0) { 
-      models.forEach((model) => {
-        const modelIndex = model.userData.modelIndex;
-
-        model.traverse((child) => {
-          if (child.isMesh && child.material) {
-            // Model 0 gets the theme color, Model 1 gets inverted theme color
-            if (modelIndex === 1) {
-              // Invert for model 2
-              const invertedColor = new THREE.Color(
-                1 - newThreeColor.r,
-                1 - newThreeColor.g,
-                1 - newThreeColor.b
-              );
-              child.material.color.copy(invertedColor);
-            } else {
-              // Normal theme color for model 1
-              child.material.color.copy(newThreeColor);
-            }
-            child.material.needsUpdate = true;
+            );
           }
         });
+
+        p = new THREE.Points(g, m);
+        scene.add(p);
+
+        clock = new THREE.Clock();
+        renderer.setAnimationLoop(animate);
+      }
+
+      function animate() {
+        if (!clock || !gu || !renderer) return;
+
+        // Get delta ONCE per frame
+        const delta = clock.getDelta();
+
+        // Use delta for time calculation
+        let t = clock.getElapsedTime() * 0.25;
+        gu.time.value = t * Math.PI;
+
+        // Update animation mixers with delta
+        mixers.forEach(mixer => mixer.update(delta));
+
+        const newColorHex = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+        const newColor = parseInt(newColorHex, 16);
+        const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
+
+        if (newBgColor === '#ffffff') {
+          if (p) {
+            p.material.blending = THREE.NormalBlending;
+            p.material.transparent = false;
+            p.material.opacity = 1.0;
+            p.material.size = 0.1;
+            p.material.needsUpdate = true;
+          }
+        } else {
+          if (p) {
+            p.material.blending = THREE.AdditiveBlending;
+            p.material.transparent = true;
+            p.material.opacity = 1.0;
+            p.material.size = 0.1;
+            p.material.needsUpdate = true;
+          }
+        }
+
+        if (newColor !== currentSphereColor) {
+          currentSphereColor = newColor;
+
+          const newThreeColor = new THREE.Color(currentSphereColor);
+
+          if (gu.color) {
+            gu.color.value.setHex(currentSphereColor);
+          }
+
+          if (p && p.material) {
+            p.material.color.setHex(currentSphereColor);
+            p.material.needsUpdate = true;
+          }
+
+          // 🔄 THEME UPDATE FOR ALL GLB MODELS
+          if (models.length > 0) { 
+            models.forEach((model) => {
+              const modelIndex = model.userData.modelIndex;
+
+              model.traverse((child) => {
+                if (child.isMesh && child.material) {
+                  // Model 0 gets the theme color, Model 1 gets inverted theme color
+                  if (modelIndex === 1) {
+                    // Invert for model 2
+                    const invertedColor = new THREE.Color(
+                      1 - newThreeColor.r,
+                      1 - newThreeColor.g,
+                      1 - newThreeColor.b
+                    );
+                    child.material.color.copy(invertedColor);
+                  } else {
+                    // Normal theme color for model 1
+                    child.material.color.copy(newThreeColor);
+                  }
+                  child.material.needsUpdate = true;
+                }
+              });
+            });
+          }
+
+          if (torus1 && torus1.material) {
+            torus1.material.color.setHex(currentSphereColor);
+          }
+          if (torus2 && torus2.material) {
+            torus2.material.color.setHex(currentSphereColor);
+          }
+          if (torus3 && torus3.material) {
+            torus3.material.color.setHex(currentSphereColor);
+          }
+        }
+
+        if (p) {
+          p.rotation.y += 0.001;
+          p.rotation.x += 0.0005;
+        }
+
+        // 🔄 ANIMATED ROTATION FOR GLB MODELS
+        if (models.length > 0) {
+          models.forEach(model => {
+            const modelIndex = model.userData.modelIndex;
+            const rotSpeed = MODEL_ROTATION_SPEED[modelIndex] || [0, 0, 0];
+
+            // Always face camera on X axis at 45 degrees (converted to radians: 45 * PI/180 = 0.785398)
+            model.rotation.x = Math.PI / 4; // 45 degrees in radians
+
+            // Apply rotation speed only to Y and Z axes
+            model.rotation.y += rotSpeed[1];
+            model.rotation.z += rotSpeed[2];
+          });
+        }
+
+        if (torus1) {
+          torus1.rotation.y += 0.001;
+          torus1.rotation.x += 0.0005;
+        }
+        if (torus2) {
+          torus2.rotation.y += 0.001;
+          torus2.rotation.x += 0.0005;
+        }
+        if (torus3) {
+          torus3.rotation.y += 0.001;
+          torus3.rotation.x += 0.0005;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      function onWindowResize() {
+        if (camera && renderer && container) {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+
+          const aspect = width / height;
+          camera.aspect = aspect;
+
+          const isDesktop = window.innerWidth >= 1025;
+          camera.position.z = isDesktop ? 5.25 : 6; 
+
+          camera.updateProjectionMatrix();
+          renderer.setSize(width, height);
+        }
+      }
+      window.addEventListener('resize', onWindowResize, false);
+
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initThreeJS, 100);
       });
-    }
-
-    if (torus1 && torus1.material) {
-      torus1.material.color.setHex(currentSphereColor);
-    }
-    if (torus2 && torus2.material) {
-      torus2.material.color.setHex(currentSphereColor);
-    }
-    if (torus3 && torus3.material) {
-      torus3.material.color.setHex(currentSphereColor);
-    }
-  }
-
-  if (p) {
-    p.rotation.y += 0.001;
-    p.rotation.x += 0.0005;
-  }
-
-  // 🔄 CAMERA-FACING GLB MODELS WITH SINE WAVE Y ROTATION
-  if (models.length > 0) {
-    models.forEach(model => {
-      const modelIndex = model.userData.modelIndex;
-      const staticRotation = MODEL_ROTATIONS[modelIndex] || [0, 0, 0];
-      const sineWave = MODEL_Y_SINE_WAVE[modelIndex] || [0, 1];
-
-      // Always face camera on X axis at 45 degrees
-      model.rotation.x = Math.PI / 4; // 45 degrees in radians
-      
-      // Apply sine wave oscillation to Y rotation
-      const amplitude = sineWave[0];
-      const speed = sineWave[1];
-      model.rotation.y = staticRotation[1] + Math.sin(clock.getElapsedTime() * speed) * amplitude;
-      
-      // Apply static Z rotation from configuration
-      model.rotation.z = staticRotation[2];
-    });
-  }
-
-  if (torus1) {
-    torus1.rotation.y += 0.001;
-    torus1.rotation.x += 0.0005;
-  }
-  if (torus2) {
-    torus2.rotation.y += 0.001;
-    torus2.rotation.x += 0.0005;
-  }
-  if (torus3) {
-    torus3.rotation.y += 0.001;
-    torus3.rotation.x += 0.0005;
-  }
-
-  renderer.render(scene, camera);
-}
-
-function onWindowResize() {
-  if (camera && renderer && container) {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const aspect = width / height;
-    camera.aspect = aspect;
-
-    const isDesktop = window.innerWidth >= 1025;
-    camera.position.z = isDesktop ? 5.25 : 6; 
-
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  }
-}
-window.addEventListener('resize', onWindowResize, false);
-
-document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(initThreeJS, 100);
-});
-</script>
+    </script>
   
 
 <script>
@@ -3861,6 +3849,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
