@@ -2209,7 +2209,7 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 
 }
 
-.section-1-wrapper {
+/.section-1-wrapper {
     height: 100%;
 }
 
@@ -3029,7 +3029,7 @@ if (!container) {
 
 // Force container to full viewport height
 container.style.width = '100%';
-container.style.height = '100svh';
+container.style.height = '100%';
 container.style.position = 'relative';
 
 scene = new THREE.Scene();
@@ -3797,6 +3797,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
