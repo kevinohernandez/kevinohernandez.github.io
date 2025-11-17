@@ -1595,8 +1595,6 @@ grid-template-columns: 1fr 1fr 1fr;
 align-items: center;
 padding: 1rem 1.5rem;
 border-bottom: 1px solid var(--border-color);
-/* transition: border-color 0.3s ease;
-*/ /* REMOVED */
 }
 
 .mobile-footer-top .info-button {
@@ -1624,7 +1622,7 @@ border-left: 1px solid var(--border-color);
 transition: background-color 0.3s ease, opacity 0.3s ease; /* MODIFIED: Added opacity */
 /* Keep hover transition */
 color: var(--text-muted-color);
-opacity: 0.25;	
+opacity: 0.5;	
 }
 
 
@@ -2003,7 +2001,6 @@ z-index: -1;
 
 .modal-background {
 background: rgba(0, 0, 0, 0);
-/* CHANGED: Use theme background color instead of overlay */
 background-color: var(--bg-color);
 align-items: stretch; /* CHANGED: Don't center, fill height */
 justify-content: stretch; /* CHANGED: Don't center, fill width */
@@ -2012,7 +2009,6 @@ justify-content: stretch; /* CHANGED: Don't center, fill width */
 #modal-container-side {
 /* CHANGED: Make modal container part of the .mobile-nav flow */
 position: absolute; /* Position relative to .theme-wrapper */
-
 top: 0;
 left: 0;
 height: 100%; /* Fill the .theme-wrapper container */
@@ -3849,6 +3845,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
