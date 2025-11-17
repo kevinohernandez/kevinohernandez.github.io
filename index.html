@@ -43,7 +43,8 @@ font-display: swap;
 
 button:focus-visible {
 outline: none;
-box-shadow: 0 0 0 0px #000; /* custom focus ring */
+box-shadow: 0 0 0 0px #000;
+/* custom focus ring */
 }
 
 
@@ -61,7 +62,8 @@ html {
 height: 100%;
 /* Hide scrollbar */
 -ms-overflow-style: none;  /* IE and Edge */
-scrollbar-width: none;  /* Firefox */
+scrollbar-width: none;
+/* Firefox */
 }
 html::-webkit-scrollbar {
 display: none; /* Chrome, Safari */
@@ -72,7 +74,8 @@ body {
 font-family: 'Neue Haas Display', -apple-system, BlinkMacSystemFont, sans-serif;
 /* Hide scrollbar */
 -ms-overflow-style: none;  /* IE and Edge */
-scrollbar-width: none;  /* Firefox */
+scrollbar-width: none;
+/* Firefox */
 
 /* UPDATED: Single source of truth for color transitions */
 background-color: var(--bg-color);
@@ -93,7 +96,8 @@ overflow-y: hidden;
 body.modal-active .mobile-footer-links a,
 body.modal-active .mobile-footer-top .logo-button {
 pointer-events: none;
-opacity: 0.25; /* Make them look disabled */
+opacity: 0.25;
+/* Make them look disabled */
 }
 
 body.modal-active .mobile-footer-top .info-button,
@@ -113,10 +117,12 @@ background: none;
 /* --- Layout & Spacing --- */
 /padding: 1rem 0.5rem;
 text-align: center; /* Center the 'a' tag's text */
-width: 100%; /* Ensure it fills the grid cell */
+width: 100%;
+/* Ensure it fills the grid cell */
 /* --- Text Styles --- */
 /* (these will be inherited by the <a> tag) */
-font-family: inherit; /* Use the main site font */
+font-family: inherit;
+/* Use the main site font */
 font-size: 0.75rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
@@ -126,7 +132,7 @@ transition: background-color 0.3s ease, opacity 0.3s ease, color 0.3s ease;
 }
 
 #mobile-about-button a {
-color: inherit; 
+color: inherit;
 }
 
 /#mobile-about-button:hover {
@@ -143,9 +149,9 @@ background-color: var(--bg-color);
 color: var(--text-color);
 /* transition: background-color 0.3s ease, color 0.3s ease;
 */ /* REMOVED */
-height: 100svh;
+height: 100dvh; /* <<< --- FIX APPLIED --- */
 overflow-x: hidden;
-overflow-y: auto; 
+overflow-y: auto;
 scroll-snap-type: y mandatory;
 position: relative; /* Needed for z-index stacking */
 }
@@ -159,13 +165,14 @@ display: none;
 main {
 width: 100vw;
 position: relative; 
-z-index: 10; /* Sit on top of canvas */
+z-index: 10;
+/* Sit on top of canvas */
 }
 
 
 /* === MOBILE: Default Section Layout (Vertical) === */
 section {
-height: 100vh;
+height: 100dvh; /* <<< --- FIX APPLIED --- */
 width: 100vw;
 display: flex;
 overflow: hidden;
@@ -317,17 +324,18 @@ top: 0;
 left: 0;
 padding: 1.5rem 0;
 z-index: 10; 
-display: none; /* Hidden by default */
+display: none;
+/* Hidden by default */
 flex-direction: column;
 height: 100%;
 justify-content: space-between;
 align-items: center;
 border-right: 1px solid var(--border-color);
 width: 2.5rem;
-flex-shrink: 0; 
-
+flex-shrink: 0;
 background-color: var(--bg-color);
-/* transition: border-color 0.3s ease, background-color 0.3s ease; */ /* REMOVED */
+/* transition: border-color 0.3s ease, background-color 0.3s ease;
+*/ /* REMOVED */
 
 /* --- NEW: Added transition and initial state --- */
 transform: translateY(-100%);
@@ -405,8 +413,9 @@ display: flex;
 flex-direction: column;
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
-/* transition: background-color 0.3s ease, border-color 0.3s ease; */ /* REMOVED */
-	padding-bottom: env(safe-area-inset-bottom);
+padding-bottom: env(safe-area-inset-bottom); /* <<< --- FIX APPLIED --- */
+/* transition: background-color 0.3s ease, border-color 0.3s ease;
+*/ /* REMOVED */
 }
 
 .mobile-footer-top {
@@ -441,7 +450,8 @@ font-size: 0.75rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
 border-left: 1px solid var(--border-color);
-transition: background-color 0.3s ease, opacity 0.3s ease; /* MODIFIED: Added opacity */
+transition: background-color 0.3s ease, opacity 0.3s ease;
+/* MODIFIED: Added opacity */
 /* Keep hover transition */
 color: var(--text-muted-color);
 }
@@ -478,7 +488,8 @@ max-height: 60px;
 /* Adjust as needed for padding */
 transform: translateY(0);
 border-bottom-width: 1px;
-transition-delay: 0s, 0s, 0.3s; /* Delay border appearing */
+transition-delay: 0s, 0s, 0.3s;
+/* Delay border appearing */
 }
 
 /* Styling for the new work-nav links */
@@ -746,7 +757,8 @@ width: 100%;
 height: 100%;
 z-index: 1; /* Sit behind the content */
 opacity: 0;
-transition: opacity 0.8s ease 0.2s; /* Fade in */
+transition: opacity 0.8s ease 0.2s;
+/* Fade in */
 align-content: center;
 justify-items: center;
 }
@@ -766,7 +778,8 @@ display: flex;
 flex-direction: column;
 width: 100%;
 position: relative; /* ADD THIS */
-z-index: 2; /* ADD THIS (to sit on top of z-index: 1 canvas) */
+z-index: 2;
+/* ADD THIS (to sit on top of z-index: 1 canvas) */
 }
 
 .section-grid {
@@ -865,2945 +878,1105 @@ align-self: anchor-center;
 /* --- NEW: Marquee Animation Trigger --- */
 section.is-active .marquee-container {
 transform: translateX(0);
-transition-delay: 0.5s; /* Stagger after canvas fade-in */
+transition-delay: 0.5s;
+/* Stagger after canvas fade-in */
 }
-
-
-.marquee-content-wrapper {
-display: flex;
-width: fit-content; 
-animation: marquee-scroll 80s linear infinite;
-backface-visibility: hidden;
-}
-
-.marquee-content {
-display: flex;
-white-space: nowrap; 
-}
-
-.marquee-content span {
-font-size: 5rem;
-font-weight: 500;
-text-transform: uppercase;
-letter-spacing: 0.1em;
-color: var(--text-color);
-/* transition: color 0.3s ease;
-*/ /* REMOVED */
-padding-right: 2rem;
-}
-
-
-/* === MODAL STYLES (THEMED) === */
-#modal-container-side {
-position: fixed;
-/* Default for mobile */
-width: 100%;
-height: 100%;
-top: 0;
-left: 0;
-z-index: 200;
-pointer-events: none;
-opacity: 0; 
-}
-
-#modal-container-side.visible {
-pointer-events: auto;
-animation: containerFadeIn 0.5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-}
-
-#modal-container-side.visible.out {
-animation: containerFadeOut 0.5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-}
-
-#modal-container-side.visible .modal-content {
-opacity: 0;
-animation: fadeIn 0.5s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-}
-
-#modal-container-side.visible.out .modal-content {
-animation: fadeOut 0.4s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
-}
-
-.modal-background {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.75);
-}
-
-.modal-content {
-background: var(--bg-color);
-color: var(--text-color);
-display: flex; 
-width: 80vw;
-height: 70vh;
-max-width: 1200px;
-border-radius: 8px;
-font-weight: 300;
-position: relative;
-box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-overflow: hidden; 
-}
-
-.modal-panel {
-width: 50%;
-/padding: 25px;
-overflow-y: auto;
-}
-
-.modal-panel.left {
-border-right: 1px solid var(--border-color);
-}
-
-.modal-panel h2 {
-font-size: 25px;
-/line-height: 25px;
-margin-bottom: 15px;
-color: var(--text-color);
-}
-
-.modal-panel p {
-font-size: 1.25rem;
-color: var(--text-color);
-font-weight: 500;
-}
-
-
-/* --- KEYFRAMES --- */
-
-@keyframes marquee-scroll {
-0% { transform: translateX(0);
-}
-100% { transform: translateX(-50%);
-}
-}
-
-@keyframes containerFadeIn {
-0% { opacity: 0;
-}
-100% { opacity: 1;
-}
-}
-@keyframes containerFadeOut {
-0% { opacity: 1;
-}
-100% { opacity: 0;
-}
-}
-@keyframes fadeIn {
-0% { opacity: 0;
-  transform: translateY(10px); }
-100% { opacity: 1; transform: translateY(0);
-}
-}
-@keyframes fadeOut {
-0% { opacity: 1;
-  transform: translateY(0); }
-100% { opacity: 0; transform: translateY(10px);
-}
-}
-/* === END MODAL STYLES === */
-
-/* === Section Z-Indexes === */
-#section-1 { z-index: 10;
-}
-#section-2 { z-index: 12; }
-#section-3 { z-index: 13;
-}
-#section-4 { z-index: 14;
-}
-
-
-/* === CONSOLIDATED MEDIA QUERIES === */
-@media (min-width: 1025px) {
-.theme-wrapper {
-  overflow: hidden;
-  scroll-snap-type: none;
-  display: flex;
-  flex-direction: row;
-}
-
-main {
-  overflow: hidden;
-  flex-grow: 1;
-  height: 100vh;
-  width: 100%;
-}
-
-section {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  height: 100%;
-  width: 100%;
-  /* UPDATED: Removed background-color transition */
-  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-  transform: translateX(100%); 
-  padding: 4rem 0rem;
-}
-
-#section-1 {
-  transform: translateX(0);
-}
-
-/* Show/Hide UI */
-.mobile-footer {
-  display: none;
-}
-.nav-stacked-right, .sidebar-left, .nav-stacked-left {
-  display: flex;
-}
-
-/* Section 1 Layout */
-.section-grid {
-  flex-direction: row;
-  align-items: stretch;
-}
-.section-1-wrapper {
-  height: auto;
-  justify-content: center;
-}
-
-.text-column {
-  padding-top: 0;
-  padding-left: 2rem;
-}
-
-/* Typography */
-.section-title-combined {
-  font-size: 2.5rem;
-}
-
-/* Desktop Modal Styles */
-#modal-container-side {
-  position: absolute;
-  /* Fit to <main> */
-  z-index: 200;
-  /* Stay on top of sections */
-}
-
-.modal-content {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-}
-
-/*WORK///////////////////////////*/
-
-#section-2 .section-content {
-width: 100%;
-}
-
-:root {
---left-width: 30%;
-/* --right-width: 70%;
-<-- This is now controlled by portfolio-content-area */
-}
-
-.portfolio-main {
-display: grid;
-/* UPDATED: Grid template now has two columns: nav and content area */
-grid-template-columns: var(--left-width) 1fr;
-min-height: 100vh;
-height: 100vh;
-}
-
-/* NEW: This wrapper holds the gallery and the new info section */
-.portfolio-content-area {
-display: grid;
-/* This splits the right-hand side into gallery (75%) and info (25%) */
-grid-template-columns: 75% 25%;
-height: 100%;
-overflow: hidden;
-}
-
-.portfolio-nav {
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: 0;
-gap: 0;
-position: relative;
-}
-
-.category-group {
-border: 1px solid var(--border-color);
-}
-
-.category-group:last-of-type {
-border: 1px solid var(--border-color);
-}
-
-.section-btn {
-background-color: var(--bg-color);
-color: var(--text-color);
-border: none;
-padding: 0rem;
-font-size: 4vw;
-font-weight: 600;
-cursor: pointer;
-transition: all 0.3s ease;
-text-align: left;
-text-transform: uppercase;
-width: 100%;
-position: relative;
-overflow: hidden;
-}
-
-.section-btn::before {
-content: '';
-position: absolute;
-left: 0;
-top: 0;
-height: 100%;
-width: 0%;
-background: var(--text-color);
-transition: width 0.1s linear;
-z-index: 0;
-}
-
-.section-btn span {
-position: relative;
-z-index: 1;
-background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-padding: 0rem 2rem;
-display: flex;
-align-items: center;
-width: 100%;
-height: 100%;
-}
-
-.section-btn:hover {
-background: var(--accent-color);
-transform: translateX(10px);
-}
-
-.section-btn.active {
-background: var(--accent-color);
-}
-
-.section-btn.active::before {
-width: var(--progress, 0%);
-}
-
-.section-btn.active span {
-background: linear-gradient(
-  to right, 
-  var(--bg-color) var(--progress, 0%), 
-  var(--text-color) var(--progress, 0%), 
-  var(--text-color) 100%
-);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-}
-
-.portfolio-gallery {
-position: relative;
-overflow: hidden;
-border: 1px solid var(--border-color);
-border-right: 0;
-background-color: var(--bg-color);
-color: var(--text-color);
-/* height: 100%;
-*/ /* <-- REMOVED */
-}
-
-.scroller {
-height: 100%;
-width: 100%; /* <-- CHANGED from 98% */
-display: flex;
-align-items: center;
-overscroll-behavior: none;
-overflow-x: scroll;
-overflow-y: hidden;
-touch-action: pan-x; /* <-- ADDED */
-scroll-snap-type: x mandatory;
-scroll-behavior: smooth;
-padding-top: 2rem;
-padding-bottom: 2rem;
-padding-left: 15px; /* CHANGED: Was 15px */
-padding-right: 15px;
-/* CHANGED: Was 15px */
-opacity: 1;
-transform: translateX(0);
-transition: opacity 0.4s ease, transform 0.4s ease;
-position: absolute;
-inset: 0;
-opacity: 0;
-transform: translateX(50px);
-transition: opacity 0.4s ease, transform 0.4s ease;
-pointer-events: none;
-}
-
-.scroller.active {
-opacity: 1;
-transform: translateX(0);
-pointer-events: auto;
-z-index: 10;
-}
-
-.scroller:not(.active) {
-opacity: 0;
-transform: translateX(-50px);
-z-index: 1;
-}
-
-.scroller::-webkit-scrollbar {
-display: none;
-}
-
-.scroller {
--ms-overflow-style: none;
-scrollbar-width: none;
-}
-
-.portfolio-item {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-max-width: 62.5vh;
-aspect-ratio: 4/5;
-margin-right: 2rem;
-margin-left: 0;
-margin-top: auto;
-margin-bottom: auto;
-background-color: var(--bg-color);
-color: var(--text-color);
-border: 1px solid var(--border-color);
-scroll-snap-align: center;
-font-size: 1.5rem;
-border-radius: 20px;
-position: relative;
-overflow: hidden;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-flex-shrink: 0;
-cursor: pointer;
-}
-
-.portfolio-item:hover {
-transform: scale(1.02);
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-.portfolio-item:last-child {
-margin-right: 0;
-}
-
-/* === NEW: Info Section === */
-.portfolio-info {
-position: relative;
-height: 100%;
-overflow: hidden; /* Hide overflowing content */
-border: 1px solid var(--border-color);
-border-left: 1px solid var(--border-color);
-}
-
-.info-content {
-position: absolute;
-inset: 0;
-padding: 2rem;
-opacity: 0;
-transform: translateY(20px);
-transition: opacity 0.4s ease, transform 0.4s ease;
-pointer-events: none;
-overflow-y: auto;
-/* Allow info to scroll if it's long */
-}
-
-.info-content.active {
-opacity: 1;
-transform: translateY(0);
-pointer-events: auto;
-position: relative; /* Override absolute */
-}
-
-.info-content h3 {
-font-size: 1.5rem;
-font-weight: 600;
-margin-bottom: 1rem;
-text-transform: uppercase;
-}
-
-.info-content p {
-font-size: 1rem;
-line-height: 1.6;
-color: var(--text-color);
-margin-bottom: 1rem;
-}
-/* === End Info Section === */
-
-
-/* === NEW: Modal / Lightbox === */
-.portfolio-modal {
-position: fixed;
-inset: 0;
-z-index: 9998;
-background-color: rgba(0, 0, 0, 0.7);
--webkit-backdrop-filter: blur(10px);
-backdrop-filter: blur(10px);
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 2rem;
-}
-
-.portfolio-modal.active {
-opacity: 1;
-pointer-events: auto;
-}
-
-.modal-gall {
-max-width: 90%;
-max-height: 90%;
-width: auto;
-height: auto;
-border-radius: 20px;
-overflow: hidden;
-border: 1px solid var(--border-color);
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-transform: scale(0.95);
-opacity: 0;
-transition: transform 0.3s ease, opacity 0.3s ease;
-cursor: pointer;
-}
-
-.portfolio-modal.active .modal-gall {
-transform: scale(1);
-opacity: 1;
-}
-
-.modal-gall-inner {
-/* This will hold the cloned item's content */
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 2rem;
-color: var(--text-color);
-background-color: var(--bg-color);
-/* Set a large size, aspect-ratio will constrain it */
-width: 80vw;
-height: 80vh;
-max-width: 1000px;
-aspect-ratio: 4/5;
-}
-/* === End Modal / Lightbox === */
-
-/*WORK END///////////////////////////*/
-
-
-/*SERVICES///////////////////////////*/
-#section-3 .section-content {
-width: 100%;
-}
-
-.container {
-display: flex;
-width: 100vw;
-height: 100vh;
-}
-
-.grid-side {
-width: 50%;
-display: flex;
-flex-direction: column;
-border-right: 1px solid #4a4a4a;
-overflow-y: auto;
-}
-
-.grid-item {
-flex: 1;
-min-height: calc(100vh / 7);
-border-bottom: 1px solid #4a4a4a;
-position: relative;
-padding: 2rem;
-cursor: pointer;
-transition: all 0.3s ease;
-display: flex;
-align-items: center;
-overflow: hidden;
-}
-
-.grid-item:last-child {
-border-bottom: none;
-}
-
-.grid-item:hover {
-background-color: #1a1a1a;
-}
-
-.grid-item-bg {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-opacity: 0;
-transition: opacity 0.5s ease;
-z-index: 1;
-}
-
-.grid-item:hover .grid-item-bg {
-opacity: 0.3;
-}
-
-.grid-item:hover .item-title{
-color: white;
-}
-
-.circle {
-width: 1rem;
-height: 1rem;
-border: 1px solid #888;
-border-radius: 50%;
-transition: all 0.3s ease;
-z-index: 2;
-margin-right: 1.5rem;
-}
-
-.grid-item:hover .circle {
-border-color: #ffffff;
-background-color: #ffffff;
-}
-
-.item-title {
-font-size: 1.5rem;
-font-weight: 500;
-position: relative;
-z-index: 2;
-}
-
-.grid-item-content {
-display: flex;
-align-items: center;
-justify-content: center;
-justify-content: space-between;
-width: 100%;
-height: 100%;
-}
-
-.display-side {
-width: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 3rem;
-position: relative;
-overflow: hidden;
-}
-
-.service-content {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-display: flex;
-align-items: center;
-justify-content: center;
-padding: 3rem;
-opacity: 0;
-transition: opacity 0.5s ease;
-pointer-events: none;
-}
-
-.service-content[data-service="default"] {
-opacity: 1;
-pointer-events: auto;
-}
-
-
-
-/* DESKTOP ONLY – hover behavior */
-@media (min-width: 1025px) {
-.grid-side:hover ~ .display-side [data-service="default"] {
-opacity: 0;
-pointer-events: none;
-}
-
-.grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"],
-.grid-side:has([data-service="ux"]:hover) ~ .display-side [data-service="ux"],
-.grid-side:has([data-service="branding"]:hover) ~ .display-side [data-service="branding"],
-.grid-side:has([data-service="development"]:hover) ~ .display-side [data-service="development"],
-.grid-side:has([data-service="strategy"]:hover) ~ .display-side [data-service="strategy"],
-.grid-side:has([data-service="photography"]:hover) ~ .display-side [data-service="photography"],
-.grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] {
-opacity: 1;
-pointer-events: auto;
-}
-}
-
-/* MOBILE ACTIVE STATES */
-@media (max-width: 1024px) {
-
-/#section-3 .section-content {
-height: 100%;
-}
-#section-3 {padding:0}
-
-.container {
-height: 100%;
-}
-
-.grid-item.active {
-background-color: #1a1a1a;
-}
-.grid-item.active .grid-item-bg {
-opacity: 0.3;
-}
-.grid-item.active .circle {
-border-color: #ffffff;
-background-color: var(--text-color);
-}
-.service-content.active {
-opacity: 1 !important;
-pointer-events: auto;
-}
-/* Hide default ONLY when a mobile tap has activated something */
-body.mobile-has-active [data-service="default"] {
-opacity: 0 !important;
-pointer-events: none !important;
-}
-
-.grid-item { 
-padding: 0rem 0rem 0rem 1rem;
-min-height: calc(100vh / 7.333);
-}
-.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
-.item-title { font-size: 1rem; }
-
-.service-content h2 { 
-font-size: clamp(1.5rem, 5vw, 2rem);
-word-wrap: break-word;
-overflow-wrap: break-word;
-}
-
-.service-content p { 
-font-size: clamp(0.875rem, 3vw, 1rem);
-word-wrap: break-word;
-overflow-wrap: break-word;
-}
-
-.display-side { padding: 2rem; }
-
-.grid-item-content {
-justify-content: flex-start;
-}
-
-.service-content {
-padding: 1rem;
-}
-.grid-side {
-width: 40%;
-}
-}
-
-
-
-/*INQUIRY///////////////////////////*/
-
-/* NEW: Remove padding from section 4 so its content can be 100vh */
-#section-4 {
-padding: 0 !important;
-}
-
-/* NEW: Make section-content fill the section and be a positioning context */
-#section-4 .section-content {
-width: 100%;
-height: 100%;
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-.text-container {
-position: absolute;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-display: inline-block;
-z-index: 1; /* Ensure text is above canvas */
-text-align: center;
-}
-
-.copyable-text {
-background-color: var(--bg-color);
-color: var(--text-color);
-border: 2px solid var(--border-color);
-border-radius: 5px;
-padding: 20px 30px;
-font-size: 35px;
-cursor: pointer;
-user-select: none;
-transition: all 0.3s ease;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-position: relative;
-overflow: hidden;
-}
-
-.copyable-text::before {
-content: '';
-position: absolute;
-top: 0;
-left: -100%;
-width: 100%;
-height: 100%;
-transition: left 0.5s;
-}
-
-.copyable-text:hover::before {
-left: 100%;
-}
-
-.copyable-text:hover {
-transform: translateY(-2px);
-box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-}
-
-.copy-circle {
-position: absolute;
-top: -50px;
-left: 50%;
-width: 60px;
-height: 60px;
-background-color: var(--bg-color);
-color: var(--text-color);
-border: 1px solid var(--border-color);
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 12px;
-text-transform: uppercase;
-cursor: pointer;
-opacity: 0;
-transform: translateX(-50%) scale(0.8);
-transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
-background-color 0.3s ease, 
-color 0.3s ease, 
-border-color 0.3s ease,
-box-shadow 0.3s ease;
-z-index: 10; /* Ensure this is above .text-container */
-pointer-events: none;
-}
-
-.copy-circle::before {
-content: '';
-position: absolute;
-top: -2px;
-left: -2px;
-right: -2px;
-bottom: -2px;
-background:  var(--bg-color);
-border-radius: 50%;
-z-index: -1;
-opacity: 0;
-transition: opacity 0.3s ease, background-color 0.3s ease;
-}
-
-.text-container:hover .copy-circle,
-.copy-circle:hover {
-opacity: 1;
-transform: translateX(-50%) scale(1);
-top: -70px;
-pointer-events: auto;
-}
-
-.copy-circle:hover {
-transform: translateX(-50%) scale(1.1);
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-top: -70px;
-}
-
-.copy-circle:hover::before {
-opacity: 1;
-}
-
-.copy-circle:active {
-transform: translateX(-50%) scale(0.95);
-}
-
-.copy-circle.copied {
-background: var(--text-color);
-color: var(--bg-color);
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.copy-circle.copied::before {
-background: var(--accent-color);
-}
-
-#breathingGrid {
-/* NEW: Make canvas fill its parent (.section-content) and sit behind */
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-z-index: 0; /* Behind .text-container */
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-.copyable-text {
-font-size: 24px;
-padding: 15px 20px;
-}
-
-.copy-circle {
-width: 50px;
-height: 50px;
-font-size: 10px;
-top: -40px;
-}
-}
-
-.ls{    
-border-bottom: 1px solid var(--border-color);
-padding-bottom: 10px;
-padding: 25px;
-
-}
-
-.bb {
-width: 100%;
-height: 100%;
-position: relative;
-/z-index: 1;
-overflow: hidden;
-/clip-path: polygon(2% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 65%, 2% 60%);
-}
-
-
-
-.bb img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-/clip-path: inherit;
-/background: grey; 
-/transition: transform 0.4s ease 0.1s; /* delay image scale */
-}
-
-
-
-@media
-/* tablet Landscape  */
-screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
-/* mobile/tablet */
-(max-width:1024px),
-/* Phone Landscape  */
-(max-width: 
-  1024px) and (orientation: landscape) and (max-height: 500px) {
-
-	/* === START: MOBILE LAYOUT FIX === */
-	.mobile-nav {
-	  display: flex;
-	  flex-direction: column;
-	  height: 100vh; /* Make wrapper fill the viewport */
-	}
-
-	.theme-wrapper {
-	  flex-grow: 1;
-	  /* Make content area fill available space */
-	 /height: auto;
-	  /* Override 100vh */
-		height: 100dvh;
-	}
-
-	.mobile-footer {
-	  /position: static;
-	  /* Un-fix the footer */
-	  flex-shrink: 0;
-	  /* Prevent footer from shrinking */
-	}
-	/* === END: MOBILE LAYOUT FIX === */
-
-	/* === NEW: Make main/section fill the theme-wrapper === */
-	main {
-	  height: 100%;
-	  position: static; /* <-- MODIFICATION: Allow modal to position to theme-wrapper */
-	}
-
-	body {
-	  overflow: hidden;
-	}
-
-	section {
-	  /* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
-	  padding: 2rem 0rem ;
-	  align-items: center;
-	  height: 100%; /* NEW: Make section height fill theme-wrapper */
-	}
-
-	.hero-text-large {
-	  font-size: 1.875rem;
-	}
-
-	.section-title-combined {
-	  font-size: 2.5rem;
-	}
-
-	.modal-panel {
-	  width: 100%;
-	  height: 50%;
-	}
-	
-	.modal-panel.left {
-	  border-right: none;
-	  border-bottom: 1px solid var(--border-color);
-	}
-
-	.marquee-content span {
-	  font-size: 1.5rem!important;
-	}
-
-	.mobile-footer-top {
-	  padding: 0.2rem 1.5rem!important;
-	  border-bottom:none!important;
-	}
-
-	.mobile-footer-links a {
-	  border-left: none!important;
-	  padding: 0.75rem 0.5rem;
-	  padding: 0.75rem;
-	  color: var(--text-color)!important;
-	}
-
-	.icon-button {
-	  width: 1.5rem!important;
-	  height: 1.5rem!important;
-	  /position: absolute;
-	  /bottom: 45px;
-	  position: fixed;
-	  bottom: 90px;
-	  right: 5px;
-	}
-
-	.mobile-footer-links {
-	  display: grid;
-	  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	  justify-content: center;
-	  align-items: center;
-	  justify-items: center;
-		/height: 100svh;
-        /height: 100%;
-
-	}
-
-	/* === NEW: Mobile Info Toggle Button Styles === */
-	#mobile-info-toggle {
-	  display: flex;
-	  width: 1.75rem;
-	  height: 1.75rem;
-	  bottom: 0.75rem;
-	  top: auto; 
-	  left: 0.75rem;
-	  z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
-	}
-	#mobile-info-toggle svg {
-	  width: 1rem;
-	  /* 16px */
-	  height: 1rem;
-	  /* 16px */
-	}
-	/* === END: Mobile Info Toggle Button Styles === */
-
-
-	.right{
-	  display: flex;
-	  align-items: flex-end;
-	}
-
-	/.bb {
-	  width: 100%;
-	  height: 80%;
-	  position: relative;
-	  overflow: hidden;
-	  bottom: 0;
-
-	}
-	.modal-panel {
-	  width: 100%;
-	  height: 100%;
-	}
-
-	/* === MODAL STYLING UPDATES FOR MOBILE === */
-	.modal-content {
-	  /flex-direction: column;
-	  width: 100vw;
-	  /* CHANGED: Make modal content fill the available space in .mobile-nav */
-	  height: 100%; 
-	  margin-bottom: 0; /* REMOVED margin-bottom */
-	  border-radius: 0; /* REMOVED border-radius */
-	  box-shadow: none; /* REMOVED box-shadow */
-	}
-
-
-	.modal-panel p {
-	  font-size: smaller;
-
-	}
-
-
-	.bb {
-	  width: 100%;
-	  height: 152%;
-	  position: absolute;
-	  overflow: hidden;
-	  top: 0;
-	  left: 10%;
-	  z-index: -1;
-	}
-
-	.modal-background {
-	  background: rgba(0, 0, 0, 0);
-	  /* CHANGED: Use theme background color instead of overlay */
-	  background-color: var(--bg-color);
-	  align-items: stretch; /* CHANGED: Don't center, fill height */
-	  justify-content: stretch; /* CHANGED: Don't center, fill width */
-	}
-
-	#modal-container-side {
-	  /* CHANGED: Make modal container part of the .mobile-nav flow */
-	  position: absolute; /* Position relative to .theme-wrapper */
-
-	  top: 0;
-	  left: 0;
-	  height: 100%; /* Fill the .theme-wrapper container */
-	  z-index: 200; /* MODIFIED: Ensure it's on top of sections */
-	}
-	/* === END MODAL STYLING UPDATES === */
-
-
-	#section-2{
-	  /height:unset;
-	  /height: 100vh;
-	  padding:0;
-	}
-
-	#section-2 .section-content{
-	  height: 100%;
-	}
-
-	.portfolio-item {
-	  /max-width: 42vh;
-	  /margin-left: 5rem;
-	  /margin-right: 5rem;
-	  margin-right: 5.5rem;
-	  max-width: 100%;
-	  height:100%;
-
-	}
-
-	.portfolio-item:hover {
-	  transform: none;
-	  box-shadow: none;
-	}
-
-
-	.portfolio-main {
-	  grid-template-columns: 1fr;
-	  /* Content (1fr) on top, Nav (auto) on bottom */
-	  grid-template-rows: 1fr auto;
-	  /height: 100vh;
-	  overflow: hidden;
-	  height: 100%;
-	  min-height: auto;
-	}
-
-	/* NEW: Content area takes the top spot and stacks its children */
-	.portfolio-content-area {
-	  order: 1;
-	  /* Show this first (top) */
-	  display: flex;
-	  flex-direction: column;
-	  height: 100%; /* Take the 1fr space */
-	  overflow: hidden;
-	  grid-template-columns: 1fr; /* Override desktop grid */
-	  position: relative;
-	  /* ADDED: For absolute positioning of info panel */
-	}
-
-	.portfolio-nav {
-	  display: flex;
-	  flex-direction: row;
-	  order: 2; /* Show this second (bottom) */
-	  gap: 0;
-	  justify-content: stretch;
-	  padding-bottom: env(safe-area-inset-bottom, 0);
-	  /display:none; 
-	}
-
-	.category-group {
-	  flex: 1;
-	  /border-top: 1px solid var(--border-color);
-	  border-bottom: none;
-	  border-top: none;
-	  border:none;
-	}
-
-	/.category-group:first-of-type {
-	  border-left: none;
-	}
-
-	/.category-group:not(:first-of-type) {
-	  border-left: 1px solid var(--border-color);
-	}
-
-	.category-group:last-of-type {
-	  /border-bottom: none;
-	  /border-top: none;
-	  border:none;
-
-	}
-
-	.section-btn {
-	  font-size: 0.75rem;
-	  padding: 0.6rem;
-	  height: 100%;
-	  display: flex;
-	  align-items: center;
-	  justify-content: center;
-	  text-align: center;
-	  font-weight: normal;
-	  letter-spacing: 0.1em;
-	}
-	.section-btn span {
-	  padding: 0;
-	  /* Remove desktop padding */
-	  justify-content: center;
-	}
-	.section-btn:hover {
-	  transform: none;
-	}
-
-	/* Gallery takes 60% height, Info takes 40% */
-	.portfolio-gallery {
-	  padding: 0;
-	  /* UPDATED: Set order to 2 */
-	  order: 2;
-	  /* UPDATED: Let flexbox control height */
-	  height: auto;
-	  flex-grow: 1;
-	  flex-shrink: 1;
-	  border: none;
-	  width: 100%;
-	  position: relative;
-	  overflow: hidden;
-	}
-
-	.scroller {
-	  height: 100%;
-	  width: 100%; 
-	  touch-action: auto;
-	  overscroll-behavior: auto;
-	  /* Center items and show one at a time */
-	  /padding-left: calc(50vw - 25vh);
-	  /* Centers items based on max-width */
-	  /padding-right: calc(50vw - 25vh);
-	  scroll-padding: 0 calc(50vw - 21vh);
-	  padding-top: 1rem;
-	  padding-bottom: 1rem;
-	}
-
-
-	/* NEW: Style info section for mobile */
-	.portfolio-info {
-	  /* UPDATED: Changed to an absolute overlay */
-	  position: absolute;
-	  bottom: 0;
-	  left: 0;
-	  width: 100%;
-	  height: 70%; /* Height of the panel when open */
-	  z-index: 40;
-	  /* Above button (20) and scrollers (10) */
-
-	  background-color: var(--bg-color);
-	  border-top: 1px solid var(--border-color);
-	  overflow: hidden; /* Hides its own content overflow */
-
-	  /* This is the "shown" state */
-	  transform: translateY(0);
-	  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-
-	  /* Clear any conflicting old styles */
-	  /* UPDATED: Set order to 3 to not interfere with gallery */
-	  order: 3;
-	  max-height: none;
-	  flex-grow: 0;
-	  flex-shrink: 0;
-	  border-bottom: none;
-	}
-
-	/* === NEW: Collapsed state for info panel === */
-	.portfolio-info.info-collapsed {
-	  /* This is the "hidden" state */
-	  transform: translateY(100%);
-	  /* Slides it down, off-screen */
-	  border-top-width: 0;
-	  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-		border-width 0.1s linear 0.4s;
-	  /* Clear old properties */
-	  max-height: none !important;
-	  border-bottom-width: 0;
-	}
-	/* === END: Collapsed state === */
-
-
-	.info-content {
-	  padding: 1rem;
-	  /* Padding on the content itself */
-	  position: absolute;
-	  inset: 0;
-	  opacity: 0;
-	  transform: translateY(20px);
-	  transition: opacity 0.4s ease, transform 0.4s ease;
-	  pointer-events: none;
-	}
-
-	.info-content.active {
-	  opacity: 1;
-	  transform: translateY(0);
-	  pointer-events: auto;
-	  position: relative; /* Override absolute */
-	  height: 100%;
-	  /* Ensure it fills the space */
-	  overflow-y: auto;
-	  /* Allow content to scroll if it's too long */
-	}
-
-	.info-content h3 {
-	  font-size: 1.0rem;
-	  margin-bottom: 0.2rem;
-	  text-align: center;
-	}
-
-	.info-content p {
-	  font-size: 0.8rem;
-	  line-height: 1.2;
-	  margin-bottom: 0.5rem;
-	}
-
-	.nav-link.logo-button.active{background: none;}
-
-}
-
+...
 </style>
-
+</head>
+<body>
 
 <input type="checkbox" id="theme-checkbox">
 
 <div class="mobile-nav">
+  
+  <div id="modal-container-side">
+    <div class="modal-background">
+      <div class="modal-content">
+        
+        <div class="modal-panel left">
+          <p class="ls">
+            EMAIL:
+          </p>
+          <div class="copyable-text" id="textEl" data-copy="kevin.hernandez@example.com">
+            <span id="emailText">EMAIL: kevin.hernandez@example.com</span>
+            <button id="copyButton" class="copy-circle" aria-label="Copy email to clipboard">
+              COPY
+            </button>
+          </div>
+          <p class="ls">
+            SOCIALS
+          </p>
+          <p class="ls">
+            INSTAGRAM
+          </p>
+          <p class="ls">
+            LINKEDIN
+          </p>
+        </div>
+        
+        <div class="modal-panel right">
+          <div class="bb">
+            <img src="https://assets.codepen.io/1480814/av+1.png" alt="Masked">
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+</div>
 
 <div class="theme-wrapper">
 
-<div class="sidebar-left">
-  <a href="#" 
-	 data-navlink="section-1" class="nav-link logo-button active">
-	<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
-	  <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
-	  <polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
-	  <polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
-	  <line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
-	  <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
-	  <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
-	  <line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
-	  <circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
-	  <circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
-	  <circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
-	  <polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
-	  <polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
-	  <line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
-	  <line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
-	  <polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
-	  <circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
-	  <circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
-	  <polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
-	  <circle class="st4" cx="84" cy="401.1" r="20.2"/>
-	  <polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
-	  <line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
-	  <line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
-	</svg>
-	<span class="dot dot-bottom">•</span>
-	<span class="dot dot-left">•</span>
-	<span class="dot dot-right">•</span>
-  </a>
-  <div class="sidebar-left-bottom-content">
-	<button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
-	  <svg viewBox="0 0 
-					20 20" fill="currentColor">
-		<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-	  </svg>
-	</button>
-	<label for="theme-checkbox" class="theme-toggle-label" title="Toggle theme">
-
-	  <span id="theme-toggle" class="icon-button">
-		<span id="theme-dot"></span>
-	  </span>
-	</label>
-  </div>
-</div>
-
-<nav class="nav-stacked-left">
-  <a href="#" data-navlink="section-2" class="nav-link-left">
-	<span class="nav-number">•</span>
-	<span class="nav-text vertical-text">Work</span>
-  </a>
-  <a href="#" data-navlink="section-3" class="nav-link-left">
-	<span class="nav-number">••</span>
-	<span class="nav-text vertical-text">Services</span>
-
-  </a>
-  <a href="#" data-navlink="section-4" class="nav-link-left">
-	<span class="nav-number">•••</span>
-	<span class="nav-text vertical-text">Inquiries</span>
-  </a>
-</nav>
-
-<main>
-  <section id="section-1">
-	<div class="section-1-wrapper"> 
-
-	  <div id="canvas-container"></div>
-
-	  <div class="marquee-container">
-		<div class="marquee-content-wrapper">
-		  <div class="marquee-content">
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-
-		  </div>
-		  <div class="marquee-content" aria-hidden="true">
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-			<span>Kelvin Hernan</span>
-
-		  </div>
-		</div>
-	  </div>
-
-	</div>
-  </section>
-
-  <section id="section-2" class="center-section">
-	<div class="section-content">
-
-	  <main class="portfolio-main">
-		<div class="portfolio-nav">
-		  <div class="category-group">
-			<button class="section-btn active" data-gallery="3d"><span>3D</span></button>
-		  </div>
-		  <div class="category-group">
-
-			<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
-		  </div>
-		  <div class="category-group">
-			<button class="section-btn" data-gallery="product"><span>Product</span></button>
-		  </div>
-
-		</div>
-
-		<div class="portfolio-content-area">
-
-		  <div class="portfolio-gallery">
-
-			<button id="mobile-info-toggle" class="icon-button info-button" aria-label="Toggle Info">
-			  <svg viewBox="0 0 20 20" fill="currentColor">
-				<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 
-											 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-			  </svg>
-			</button>
-			<div class="scroller active" id="scroller-3d">
-
-			  <div class="portfolio-item">3D Project 1</div>
-			  <div class="portfolio-item">3D Project 2</div>
-			  <div class="portfolio-item">3D Project 3</div>
-			  <div class="portfolio-item">3D Project 4</div>
-
-			  <div class="portfolio-item">3D Project 5</div>
-			  <div class="portfolio-item">3D Project 6</div>
-			  <div class="portfolio-item">3D Project 7</div>
-			</div>
-
-			<div class="scroller" id="scroller-graphic">
-
-			  <div class="portfolio-item">Graphic Design 1</div>
-			  <div class="portfolio-item">Graphic Design 2</div>
-			  <div class="portfolio-item">Graphic Design 3</div>
-			  <div class="portfolio-item">Graphic Design 4</div>
-
-			  <div class="portfolio-item">Graphic Design 5</div>
-			  <div class="portfolio-item">Graphic Design 6</div>
-			</div>
-
-			<div class="scroller" id="scroller-product">
-
-			  <div class="portfolio-item">Product Shot 1</div>
-			  <div class="portfolio-item">Product Shot 2</div>
-			  <div class="portfolio-item">Product Shot 3</div>
-			  <div class="portfolio-item">Product Shot 4</div>
-
-			  <div class="portfolio-item">Product Shot 5</div>
-			  <div class="portfolio-item">Product Shot 6</div>
-			  <div class="portfolio-item">Product Shot 7</div>
-			  <div class="portfolio-item">Product Shot 8</div>
-
-			</div>
-		  </div>
-
-		  <div class="portfolio-info info-collapsed">
-			<div class="info-content active" data-info="3d">
-			  <h3>3D Artwork</h3>
-			  <p>Welcome to my 3D gallery.
-				This collection showcases my work in modeling, texturing, and rendering.
-				I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and V-Ray.</p>
-			  <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
-			</div>
-			<div class="info-content" data-info="graphic">
-
-			  <h3>Graphic Design</h3>
-			  <p>This section highlights my graphic design portfolio.
-				My philosophy centers on clean, communicative, and compelling visuals. I have experience in branding, UI/UX design, and print media.</p>
-			  <p>You'll find examples of logo systems, mobile app interfaces, and editorial layouts.</p>
-			</div>
-			<div class="info-content" data-info="product">
-
-			  <h3>Product Photography</h3>
-			  <p>Explore my product photography, where the goal is to make every item tangible and desirable.
-				I focus on capturing precise details, rich textures, and perfect lighting to showcase products in their best possible light.</p>
-			  <p>This gallery features work for e-commerce, advertising, and catalogs.</p>
-			</div>
-		  </div>
-
-		</div>
-	  </main>
-
-	  <div class="portfolio-modal" id="portfolio-modal">
-		<div class="modal-gall">
-
-		  <div class="modal-gall-inner" id="modal-gall-inner">
-		  </div>
-		</div>
-	  </div>
-
-
-	</div>
-
-  </section>
-
-  <section id="section-3" class="center-section">
-	<div class="section-content">
-
-	  <div class="container">
-		<div class="grid-side">
-
-		  <div class="grid-item" data-service="art">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="ux">
-
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">UX/UI</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="branding">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Brand" class="grid-item-bg">
-
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Branding</h3></div>
-		  </div>
-
-		  <div class="grid-item" data-service="development">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Code" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Development</h3></div>
-
-		  </div>
-
-		  <div class="grid-item" data-service="strategy">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Strategy" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Strategy</h3></div>
-		  </div>
-
-
-		  <div class="grid-item" data-service="photography">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Photo" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Photography</h3></div>
-		  </div>
-
-		  <div 
-			   class="grid-item" data-service="motion">
-			<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
-			<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
-		  </div>
-		</div>
-
-		<div class="display-side">
-
-		  <div class="service-content" data-service="default">
-			<div class="service-content-inner">
-			  <h2>Key Services</h2>
-			  <p>This is what I focus on.<br>Additional services are available upon request.</p>
-
-			</div>
-		  </div>
-
-		  <div class="service-content" data-service="art"><div class="service-content-inner"><h2>Art Direction</h2><p>Creating compelling visual narratives.</p></div></div>
-		  <div class="service-content" data-service="ux"><div class="service-content-inner"><h2>UX/UI</h2><p>Designing intuitive digital experiences.</p></div></div>
-		  <div class="service-content" 
-			   data-service="branding"><div class="service-content-inner"><h2>Branding</h2><p>Building memorable brand identities.</p></div></div>
-		  <div class="service-content" data-service="development"><div class="service-content-inner"><h2>Development</h2><p>Modern, clean, performant builds.</p></div></div>
-		  <div class="service-content" data-service="strategy"><div class="service-content-inner"><h2>Strategy</h2><p>Data-driven planning.</p></div></div>
-		  <div class="service-content" data-service="photography"><div class="service-content-inner"><h2>Photography</h2><p>High-impact visual storytelling.</p></div></div>
-		  <div class="service-content" data-service="motion"><div class="service-content-inner"><h2>Motion</h2><p>Dynamic motion graphics.</p></div></div>
-
-		</div>
-	  </div>
-
-	</div>
-  </section>
-
-  <section id="section-4" class="center-section">
-	<div class="section-content">
-
-	  <div class="text-container">
-		<div class="copyable-text" id="textToCopy" data-copy="YADADA@GMAIL.COM">
-		  YADADA@GMAIL.COM
-		</div>
-		<div class="copy-circle" id="copyButton">Copy Me</div>
-	  </div>
-
-
-	  <canvas id="breathingGrid"></canvas>
-	</div> </section>
-
-  <div id="modal-container-side">
-	<div class="modal-background">
-	  <div class="modal-content">
-
-		<div class="modal-panel left">
-		  <p class="ls">
-			I began my journey in 2019 with a focus on 3D and digital design, gradually expanding my expertise into animation and interactive development.
-			Today, as an independent designer, I combine design, programming, and 3D visualization to deliver innovative and impactful solutions.
-			<br>
-			<br>
-			My work spans two complementary areas.
-			For brands and companies, I design and develop interactive interfaces and experiences that prioritize clarity, function, and meaningful outcomes.
-			In parallel, I create 3D-driven visual art for musicians and public figures, producing work that blends technical precision with narrative depth and visual impact.
-		  </p>
-
-		  <br>   <p class="ls">
-		  CONTACT:
-		  YADADA@GMAIL.COM
-		  </p>
-		  <br>   <p class="ls">
-
-		  LINKEDIN
-		  </p>
-		</div>
-		<div class="modal-panel right">
-		  <div class="bb">
-
-			<img src="https://assets.codepen.io/1480814/av+1.png" alt="Masked">
-		  </div> 
-		</div>
-	  </div>
-	</div>
+  <div id="canvas-container">
+    <canvas id="dot-canvas"></canvas>
   </div>
 
-</main>
+  <div class="sidebar-left">
+    <a href="#section-1" data-navlink="section-1" class="nav-link logo-button active" title="Back to top">
+      <svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
+        <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.7 640,300 640,84.1 72.7,84.1 72.7,628.1 640,628.1"/>
+        <polyline class="st0" points="640,628.1 356.3,478.7 72.7,628.1"/>
+        <line class="st0" x1="356.3" y1="478.7" x2="356.3" y2="84.1"/>
+      </svg>
+      <div class="dot dot-bottom"></div>
+      <div class="dot dot-left"></div>
+      <div class="dot dot-right"></div>
+    </a>
+    
+    <button class="icon-button desktop-info-button" id="desktop-info-button-trigger" title="Show info">
+      <span class="nav-text vertical-text">Info</span>
+    </button>
+  </div>
 
-<nav class="nav-stacked-right">
-  <a href="#" data-navlink="section-2" class="nav-link">
-	<span class="nav-number">•</span>
-	<span class="nav-text vertical-text">Work</span>
-  </a>
-  <a href="#" data-navlink="section-3" class="nav-link">
-	<span class="nav-number">••</span>
+  <nav class="nav-stacked-left">
+    <a href="#" data-navlink="section-2" class="nav-link-left">
+      <span class="nav-number">•</span>
+      <span class="nav-text vertical-text">Work</span>
+    </a>
+    <a href="#" data-navlink="section-3" class="nav-link-left">
+      <span class="nav-number">••</span>
+      <span class="nav-text vertical-text">Services</span>
+    </a>
+    <a href="#" data-navlink="section-4" class="nav-link-left">
+      <span class="nav-number">•••</span>
+      <span class="nav-text vertical-text">Inquiries</span>
+    </a>
+  </nav>
 
-	<span class="nav-text vertical-text">Services</span>
-  </a>
-  <a href="#" data-navlink="section-4" class="nav-link">
-	<span class="nav-number">•••</span>
-	<span class="nav-text vertical-text">Inquiries</span>
-  </a>
-</nav>
+  <main>
+    
+    <section id="section-1" class="section">
+      <div class="section-1-wrapper">
+        <div class="section-grid">
+          
+          <div class="text-column">
+            <h1 class="hero-text-large">
+              Kevin Hernandez is a <span class="brand-name">Brand Designer & 3D Artist</span> based in Los Angeles, helping brands discover their visual identity.
+            </h1>
+            <div class="text-divider">
+              CURRENTLY @ <span class="brand-name">FREELANCE</span>
+              <br>
+              PREVIOUSLY @ <span class="brand-name">BASIC/DEPT®</span>
+            </div>
+          </div>
+          
+          <div class="marquee-container">
+            <div class="marquee-content-wrapper">
+              <div class="marquee-content">
+                KEVIN HERNANDEZ • BRAND DESIGNER & 3D ARTIST •
+                KEVIN HERNANDEZ • BRAND DESIGNER & 3D ARTIST •
+                KEVIN HERNANDEZ • BRAND DESIGNER & 3D ARTIST •
+                KEVIN HERNANDEZ • BRAND DESIGNER & 3D ARTIST •
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </section>
 
+    <section id="section-2" class="section section-portfolio">
+      <div class="portfolio-container">
+        
+        <button id="mobile-info-toggle" class="icon-button">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 11.9999C12.5523 11.9999 13 11.5522 13 10.9999C13 10.4476 12.5523 9.99991 12 9.99991C11.4477 9.99991 11 10.4476 11 10.9999C11 11.5522 11.4477 11.9999 12 11.9999Z" fill="currentColor"></path><path d="M12 13.9999C11.4477 13.9999 11 14.4476 11 14.9999V16.9999C11 17.5522 11.4477 17.9999 12 17.9999C12.5523 17.9999 13 17.5522 13 16.9999V14.9999C13 14.4476 12.5523 13.9999 12 13.9999Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.9999C17.5228 21.9999 22 17.5227 22 11.9999C22 6.47704 17.5228 1.99991 12 1.99991C6.47715 1.99991 2 6.47704 2 11.9999C2 17.5227 6.47715 21.9999 12 21.9999ZM12 3.99991C16.4183 3.99991 20 7.58164 20 11.9999C20 16.4182 16.4183 19.9999 12 19.9999C7.58172 19.9999 4 16.4182 4 11.9999C4 7.58164 7.58172 3.99991 12 3.99991Z" fill="currentColor"></path></svg>
+        </button>
+        
+        <div class="portfolio-nav">
+          <div class="category-group">
+            <button class="section-btn active" data-gallery="3d">
+              <span>01: 3D</span>
+            </button>
+          </div>
+          <div class="category-group">
+            <button class="section-btn" data-gallery="graphic">
+              <span>02: Graphic</span>
+            </button>
+          </div>
+          <div class="category-group">
+            <button class="section-btn" data-gallery="product">
+              <span>03: Product</span>
+            </button>
+          </div>
+        </div>
+        
+        <div class="portfolio-content-area">
+          <div class="portfolio-gallery">
+            <div class="scroller active" id="scroller-3d">
+              <div class="grid-item"><img class="grid-item-bg" src="https://assets.codepen.io/1480814/3.png" loading="lazy"><span class="item-title">Project One</span></div>
+              <div class="grid-item"><img class="grid-item-bg" src="https://assets.codepen.io/1480814/2.png" loading="lazy"><span class="item-title">Project Two</span></div>
+              <div class="grid-item"><img class="grid-item-bg" src="https://assets.codepen.io/1480814/1.png" loading="lazy"><span class="item-title">Project Three</span></div>
+              <div class="grid-item"><img class="grid-item-bg" src="https://assets.codepen.io/1480814/4.png" loading="lazy"><span class="item-title">Project Four</span></div>
+              <div class="grid-item"><img class="grid-item-bg" src="https://assets.codepen.io/1480814/5.png" loading="lazy"><span class="item-title">Project Five</span></div>
+            </div>
+            <div class="scroller" id="scroller-graphic">
+              <div class="grid-item"><span class="item-title">Project Six</span></div>
+              <div class="grid-item"><span class="item-title">Project Seven</span></div>
+            </div>
+            <div class="scroller" id="scroller-product">
+              <div class="grid-item"><span class="item-title">Project Eight</span></div>
+            </div>
+          </div>
+          
+          <div class="portfolio-info info-collapsed">
+            <div class="info-content active" data-info="3d">
+              <h3>3D</h3>
+              <p>Exploring form, light, and texture. This gallery showcases a collection of 3D rendering and modeling work.</p>
+            </div>
+            <div class="info-content" data-info="graphic">
+              <h3>Graphic</h3>
+              <p>Visual communication through typography, layout, and imagery. Identity systems and print collateral.</p>
+            </div>
+            <div class="info-content" data-info="product">
+              <h3>Product</h3>
+              <p>Designing digital experiences. User interface and interaction design for web and mobile applications.</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section>
 
-</div> 
-<footer class="mobile-footer">
-<label for="theme-checkbox" class="icon-button theme-toggle-label" title="Toggle theme">
+    <section id="section-3" class="section center-section">
+      <div class="section-content">
+        <h2 class="section-title-combined">
+          <span class="section-number-inline">02</span>
+          Services
+        </h2>
+        <p class="section-description">
+          Brand Strategy, Identity Design, 3D Modeling, Art Direction, Web Design, and UI/UX.
+        </p>
+      </div>
+    </section>
 
-  <span id="theme-toggle" class="icon-button">
-	<span id="theme-dot"></span>
-  </span>
-</label>
+    <section id="section-4" class="section center-section">
+      <div class="section-content">
+        <h2 class="section-title-combined">
+          <span class="section-number-inline">03</span>
+          Inquiries
+        </h2>
+        <p class="section-description" style="color: var(--text-color);">
+          Let's build something.
+        </p>
+        <p class="section-description">
+          Available for freelance projects and collaborations.
+        </p>
+      </div>
+    </section>
 
+  </main>
 
-<div class="mobile-footer-links">
-  <a href="#section-2" data-navlink="section-2">Work</a>
-  <a href="#section-3" data-navlink="section-3">Services</a>
-  <a href="#section-1" data-navlink="section-1" class="nav-link logo-button active">
-	<svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
-	  <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
-	  <polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
-	  <polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
-	  <line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
-	  <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
-	  <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
-	  <line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
-	  <circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
-	  <circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
-	  <circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
-	  <polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
-	  <polyline class="st0" points="73.1,282.1 292.6,62.6 351,62.6 351,88 107.5,331.5 96.3,343.6 72.5,343.6 "/>
-	  <line class="st3" x1="39.2" y1="75.3" x2="39.2" y2="298.2"/>
-	  <line class="st3" x1="39.2" y1="419.7" x2="39.2" y2="642.5"/>
-	  <polyline class="st7" points="315.1,63.2 315.1,91.8 124.1,275.5 "/>
-	  <circle class="st4" cx="39.2" cy="358.9" r="20.2"/>
-	  <circle class="st4" cx="83.8" cy="310.9" r="20.2"/>
-	  <polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
-	  <circle class="st4" cx="84" cy="401.1" r="20.2"/>
-	  <polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
-	  <line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
-	  <line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
-	</svg>
-	<span class="dot dot-bottom">•</span>
-	<span class="dot dot-left">•</span>
-	<span class="dot dot-right">•</span>
-  </a>
-  <a href="#section-4" data-navlink="section-4">Inquiries</a>
-  <button id="mobile-about-button" class="abt" aria-label="About">
-	<a> About </a>
-  </button>
+  <nav class="nav-stacked-right">
+    <a href="#" data-navlink="section-2" class="nav-link">
+      <span class="nav-number">•</span>
+      <span class="nav-text vertical-text">Work</span>
+    </a>
+    <a href="#" data-navlink="section-3" class="nav-link">
+      <span class="nav-number">••</span>
+      <span class="nav-text vertical-text">Services</span>
+    </a>
+    <a href="#" data-navlink="section-4" class="nav-link">
+      <span class="nav-number">•••</span>
+      <span class="nav-text vertical-text">Inquiries</span>
+    </a>
+  </nav>
 
-</div>
-
+</div> <footer class="mobile-footer">
+  
+  <div id="mobile-work-nav" class="mobile-work-nav">
+    <a class="mobile-work-nav-link active" data-gallery="3d"><span>3D</span></a>
+    <a class="mobile-work-nav-link" data-gallery="graphic"><span>Graphic</span></a>
+    <a class="mobile-work-nav-link" data-gallery="product"><span>Product</span></a>
+  </div>
+  
+  <div class="mobile-footer-top">
+    <button class="icon-button info-button" id="mobile-info-button-trigger" title="Show info">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 11.9999C12.5523 11.9999 13 11.5522 13 10.9999C13 10.4476 12.5523 9.99991 12 9.99991C11.4477 9.99991 11 10.4476 11 10.9999C11 11.5522 11.4477 11.9999 12 11.9999Z" fill="currentColor"></path><path d="M12 13.9999C11.4477 13.9999 11 14.4476 11 14.9999V16.9999C11 17.5522 11.4477 17.9999 12 17.9999C12.5523 17.9999 13 17.5522 13 16.9999V14.9999C13 14.4476 12.5523 13.9999 12 13.9999Z" fill="currentColor"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.9999C17.5228 21.9999 22 17.5227 22 11.9999C22 6.47704 17.5228 1.99991 12 1.99991C6.47715 1.99991 2 6.47704 2 11.9999C2 17.5227 6.47715 21.9999 12 21.9999ZM12 3.99991C16.4183 3.99991 20 7.58164 20 11.9999C20 16.4182 16.4183 19.9999 12 19.9999C7.58172 19.9999 4 16.4182 4 11.9999C4 7.58164 7.58172 3.99991 12 3.99991Z" fill="currentColor"></path></svg>
+    </button>
+    
+    <a href="#section-1" data-navlink="section-1" class="nav-link logo-button active" title="Back to top">
+      <svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
+        <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.7 640,300 640,84.1 72.7,84.1 72.7,628.1 640,628.1"/>
+        <polyline class="st0" points="640,628.1 356.3,478.7 72.7,628.1"/>
+        <line class="st0" x1="356.3" y1="478.7" x2="356.3" y2="84.1"/>
+      </svg>
+      <div class="dot dot-bottom"></div>
+      <div class="dot dot-left"></div>
+      <div class="dot dot-right"></div>
+    </a>
+    
+    <label for="theme-checkbox" class="icon-button theme-toggle-label" title="Toggle theme">
+      <span id="theme-toggle" class="icon-button">
+        <span id="theme-dot"></span>
+      </span>
+    </label>
+  </div>
+  
+  <div class="mobile-footer-links">
+    <a href="#section-2" data-navlink="section-2">Work</a>
+    <a href="#section-3" data-navlink="section-3">Services</a>
+    <a href="#section-4" data-navlink="section-4" id="mobile-about-button">Inquiries</a>
+  </div>
 </footer>
-</div> 
 
-	
-<script type="module">
-
-
-// --- Scroll Logic (Desktop & Mobile) ---
-
-const sections = document.querySelectorAll('section');
-const numSections = sections.length;
+<script>
+// Global state
 let currentSectionIndex = 0;
-
+let isDesktop = window.innerWidth >= 1025;
 let isWheeling = false;
-const scrollCooldown = 900;
-const desktopNavLinksRight = document.querySelectorAll('.nav-stacked-right .nav-link');
-const desktopNavLinksLeft = document.querySelectorAll('.nav-stacked-left .nav-link-left');
-const desktopKHLink = document.querySelector('.sidebar-left .logo-button'); 
+let touchStartY = 0;
+let touchEndY = 0;
+const scrollCooldown = 1000; // 1 second cooldown
+let sections;
+let numSections;
+let desktopNavLinksRight;
+let desktopNavLinksLeft;
+let mobileNavLinks;
+let themeWrapper;
+let canvasContainer;
 
-const mobileFooterLinks = document.querySelectorAll('.mobile-footer-links a');
-const mobileKHLink = document.querySelector('.mobile-footer-top .logo-button'); 
+document.addEventListener("DOMContentLoaded", () => {
+  sections = document.querySelectorAll(".section");
+  numSections = sections.length;
+  desktopNavLinksRight = document.querySelectorAll(".nav-stacked-right .nav-link");
+  desktopNavLinksLeft = document.querySelectorAll(".nav-stacked-left .nav-link-left");
+  mobileNavLinks = document.querySelectorAll(".mobile-footer-links a");
+  themeWrapper = document.querySelector(".theme-wrapper");
+  canvasContainer = document.getElementById('canvas-container');
 
-const canvasContainer = document.getElementById('canvas-container');
+  // Initial setup
+  setupEventListeners();
 
-function updateDesktopActiveNav(index) {
-if (desktopKHLink) {
-  desktopKHLink.classList.toggle('active', index === 0);
-}
-desktopNavLinksRight.forEach((link, i) => link.classList.toggle('active', i < index));
-desktopNavLinksLeft.forEach((link, i) => link.classList.toggle('active', i < index));
-
-// --- FIX: Hide right nav border when last section is active ---
-const rightNav = document.querySelector('.nav-stacked-right');
-if (rightNav) {
-  // numSections is defined in the global script scope
-  rightNav.classList.toggle('is-complete', index === numSections - 1);
-}
-// --- END FIX ---
-
-if (canvasContainer) {
-  canvasContainer.classList.add('is-visible');
-}
-}
-
-function scrollToSectionDesktop(index) {
-if (document.body.classList.contains('modal-active')) return;
-if (index < 0 || index >= numSections || isWheeling) return; 
-if (index === currentSectionIndex) return; 
-
-isWheeling = true;
-sections.forEach((section, i) => {
-  if (i <= index) {
-	section.style.transform = 'translateX(0)';
-	section.classList.add('is-active'); 
-  } else {
-	section.style.transform = 'translateX(100%)';
-	section.classList.remove('is-active'); 
-  }
-
+  // Trigger intro animations
+  setTimeout(() => {
+    document.querySelector(".theme-wrapper").classList.add("is-loaded");
+    if (isDesktop) {
+      // On desktop, activate section 1 immediately
+      activateSection(0);
+    } else {
+      // On mobile, let the observer handle activation
+      // But we can still fade in the canvas if it's on section 1
+      if (themeWrapper.scrollTop < window.innerHeight / 2) {
+        if (canvasContainer) {
+          canvasContainer.classList.add('is-visible');
+        }
+        document.getElementById('section-1')?.classList.add('is-active');
+      }
+    }
+  }, 100); // Short delay to ensure transition readiness
 });
 
-currentSectionIndex = index;
-updateDesktopActiveNav(currentSectionIndex);
-
-setTimeout(() => {
-  isWheeling = false;
-}, scrollCooldown);
+function isMobile() {
+  return window.innerWidth < 1025;
 }
 
+function setupEventListeners() {
+  // Remove all existing listeners to prevent duplicates
+  themeWrapper.removeEventListener("wheel", handleDesktopWheel);
+  themeWrapper.removeEventListener("touchstart", handleTouchStart);
+  themeWrapper.removeEventListener("touchmove", handleTouchMove);
+  themeWrapper.removeEventListener("touchend", handleTouchEnd);
+  document.removeEventListener("keydown", handleKeyDown);
+  if (observer) {
+    observer.disconnect();
+  }
+  
+  // Reset styles
+  sections.forEach(section => {
+    section.style.transform = '';
+    section.classList.remove('is-active');
+  });
+
+  if (isDesktop) {
+    // --- DESKTOP ---
+    themeWrapper.style.overflowY = 'hidden'; // Disable native scrolling
+    // ^-- This was the key!
+    
+    document.addEventListener("keydown", handleKeyDown);
+    themeWrapper.addEventListener("wheel", handleDesktopWheel, { passive: false });
+    themeWrapper.addEventListener("touchstart", handleTouchStart, { passive: false });
+    themeWrapper.addEventListener("touchmove", handleTouchMove, { passive: false });
+    themeWrapper.addEventListener("touchend", handleTouchEnd, { passive: false });
+
+    // Reset to section 0 and update navs
+    scrollToSectionDesktop(0);
+    
+  } else {
+    // --- MOBILE ---
+    themeWrapper.style.overflowY = 'auto'; // Enable native scrolling
+    
+    // Clear desktop inline styles and active classes
+    sections.forEach(section => {
+      section.style.transform = '';
+    });
+    
+    // Re-initialize mobile observer
+    initMobileScrollObserver();
+  }
+}
+
+function handleTouchStart(e) {
+  if (isDesktop) {
+    // e.preventDefault(); // This might be too aggressive, let's test
+  }
+  touchStartY = e.touches[0].clientY;
+  isSwipeProcessed = false;
+// Reset swipe flag
+}
+
+function handleTouchMove(e) {
+  if (isDesktop) {
+    e.preventDefault(); // Prevent scrolling on desktop
+    touchEndY = e.touches[0].clientY;
+    handleDesktopSwipe();
+  }
+}
+
+function handleTouchEnd(e) {
+  if (isDesktop) {
+    touchEndY = e.changedTouches[0].clientY;
+    handleDesktopSwipe();
+  }
+  touchStartY = 0;
+  touchEndY = 0;
+}
+
+function activateSection(index) {
+  if (index < 0 || index >= numSections) return;
+
+  // Deactivate all sections
+  sections.forEach((section, i) => {
+    // Only remove 'is-active' if it's not the new index
+    if (i !== index) {
+      section.classList.remove('is-active');
+    }
+  });
+  
+  // Activate the new section
+  sections[index].classList.add('is-active');
+  
+  // Update mobile nav
+  mobileNavLinks.forEach((link, i) => {
+    const linkSection = link.getAttribute('data-navlink');
+    // Use 'section-' + (index + 1) to match
+    link.classList.toggle('active', linkSection === `section-${index + 1}`);
+  });
+  
+  // Logo button logic (active if not section 1)
+  const logoButtons = document.querySelectorAll('.logo-button');
+  logoButtons.forEach(btn => {
+    btn.classList.toggle('active', index === 0);
+  });
+  
+  // --- NEW: Toggle mobile work nav ---
+  const mobileFooter = document.querySelector('.mobile-footer');
+  if(mobileFooter) {
+    mobileFooter.classList.toggle('section-2-active', index === 1); // Index 1 is Section 2
+  }
+  // --- END NEW ---
+
+  // Update desktop navs
+  updateDesktopActiveNav(index);
+
+  // Special case for section 1 canvas
+  if (canvasContainer) {
+    if (index === 0) {
+      canvasContainer.classList.add('is-visible');
+    } else {
+      // Optionally hide canvas if not on section 1
+      // canvasContainer.classList.remove('is-visible');
+    }
+  }
+}
+
+// This function is for *instant* visual updates (desktop)
+function updateDesktopActiveNav(index) {
+  if (!isDesktop) return;
+  
+  // Right-side nav (Sections 2, 3, 4)
+  desktopNavLinksRight.forEach((link, i) => {
+    // i=0 is for section-2 (index 1)
+    // i=1 is for section-3 (index 2)
+    // i=2 is for section-4 (index 3)
+    link.classList.toggle('active', i === (index - 1));
+  });
+
+  // Left-side nav (Sections 2, 3, 4)
+  desktopNavLinksLeft.forEach((link, i) => {
+    // i=0 is for section-2 (index 1)
+    // i=1 is for section-3 (index 2)
+    // i=2 is for section-4 (index 3)
+    link.classList.toggle('active', i === (index - 1));
+  });
+  
+  // Logo button (Section 1)
+  document.querySelectorAll('.sidebar-left .logo-button').forEach(btn => {
+    btn.classList.toggle('active', index === 0);
+  });
+  
+  // --- FIX: Hide right nav border when last section is active ---
+  const rightNav = document.querySelector('.nav-stacked-right');
+  if (rightNav) {
+    rightNav.classList.toggle('is-complete', index === numSections - 1);
+  }
+  // --- END FIX ---
+}
+
+// This function is for *animating* the scroll (desktop)
+function scrollToSectionDesktop(index) {
+  if (document.body.classList.contains('modal-active')) return;
+  if (index < 0 || index >= numSections || isWheeling) return;
+  if (index === currentSectionIndex) return;
+
+  isWheeling = true;
+  
+  const direction = index > currentSectionIndex ? 'down' : 'up';
+  
+  if (direction === 'down') {
+    // Sliding a new section *in* from the right
+    sections[index].style.transform = 'translateX(100%)';
+    sections[index].style.transition = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+    
+    // Must trigger reflow
+    sections[index].getBoundingClientRect(); 
+    
+    sections[index].classList.add('is-active'); // Activate it *before* animation
+    sections[index].style.transform = 'translateX(0)';
+    
+  } else {
+    // Sliding the *current* section *out* to the right
+    sections[currentSectionIndex].style.transform = 'translateX(100%)';
+    sections[currentSectionIndex].style.transition = 'transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+    sections[currentSectionIndex].classList.remove('is-active');
+    
+    sections[index].classList.add('is-active'); // Activate new one
+  }
+  
+  currentSectionIndex = index;
+  updateDesktopActiveNav(currentSectionIndex);
+
+  // --- FIX: Hide right nav border when last section is active ---
+  const rightNav = document.querySelector('.nav-stacked-right');
+if (rightNav) { // numSections is defined in the global script scope
+    rightNav.classList.toggle('is-complete', index === numSections - 1);
+}
+  // --- END FIX ---
+
+  if (canvasContainer) {
+    canvasContainer.classList.add('is-visible');
+  }
+}
+function scrollToSectionDesktop(index) {
+  if (document.body.classList.contains('modal-active')) return;
+if (index < 0 || index >= numSections || isWheeling) return;
+  if (index === currentSectionIndex) return;
+  isWheeling = true;
+sections.forEach((section, i) => {
+    if (i <= index) {
+      section.style.transform = 'translateX(0)';
+      section.classList.add('is-active');
+    } else {
+      section.style.transform = 'translateX(100%)';
+      section.classList.remove('is-active');
+    }
+  });
+currentSectionIndex = index;
+  updateDesktopActiveNav(currentSectionIndex);
+
+  setTimeout(() => {
+    isWheeling = false;
+  }, scrollCooldown);
+}
 let wheelTimeout = null;
 let wheelDirection = 0;
+
 function handleDesktopWheel(e) {
-if (document.body.classList.contains('modal-active')) return;
+  if (document.body.classList.contains('modal-active')) return;
+
 // Check if the wheel event is happening inside a horizontally scrollable element
-let target = e.target;
+  let target = e.target;
 let scrollerElement = null;
-
-while (target && target !== document.body) {
-  if (target.classList && target.classList.contains('scroller')) {
-	scrollerElement = target;
-	break;
+  
+  while (target) {
+    if (target.classList && target.classList.contains('scroller')) {
+      scrollerElement = target;
+      break;
+    }
+    if (target === themeWrapper) break; // Stop at the main wrapper
+    target = target.parentElement;
   }
-  target = target.parentElement;
-}
 
-// If inside a scroller and scrolling horizontally (or diagonally with horizontal component)
-if (scrollerElement && Math.abs(e.deltaX) > 0) {
-  // Check if there's room to scroll horizontally
-  const canScrollLeft = scrollerElement.scrollLeft > 0;
-  const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
-  // If there's horizontal scroll room and user is scrolling horizontally, allow it
-  if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
-	return;
-	// Allow natural horizontal scrolling
+  // If inside a scroller, let it scroll horizontally
+  if (scrollerElement) {
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    
+    // Check if we can scroll more in the wheel's direction
+    const canScrollMore = (delta > 0 && scrollerElement.scrollLeft + scrollerElement.clientWidth < scrollerElement.scrollWidth - 1) ||
+                          (delta < 0 && scrollerElement.scrollLeft > 1);
+
+    if (canScrollMore) {
+      // Let the horizontal scroll happen
+      scrollerElement.scrollLeft += delta;
+      return; // Do not trigger vertical section scroll
+    }
+  }
+
+  // --- Vertical Section Scroll Logic ---
+  e.preventDefault(); // Prevent default only if we're not horizontal scrolling
+
+  if (isWheeling) return;
+
+  const deltaY = e.deltaY;
+  
+  if (deltaY > 0) {
+    // Scrolling down
+    scrollToSectionDesktop(currentSectionIndex + 1);
+  } else if (deltaY < 0) {
+    // Scrolling up
+    scrollToSectionDesktop(currentSectionIndex - 1);
   }
 }
 
-e.preventDefault();
-if (isWheeling) return; 
+function handleKeyDown(e) {
+  if (document.body.classList.contains('modal-active')) return;
 
-if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-  return;
-}
-
-// Accumulate wheel direction
-wheelDirection += e.deltaY;
-// Clear existing timeout
-if (wheelTimeout) {
-  clearTimeout(wheelTimeout);
-}
-
-// Wait for wheel events to finish (debounce)
-wheelTimeout = setTimeout(() => {
-  if (Math.abs(wheelDirection) > 10) { // Threshold to detect intentional scroll
-	if (wheelDirection > 0) {
-	  scrollToSectionDesktop(currentSectionIndex + 1);
-	} else {
-
-	  scrollToSectionDesktop(currentSectionIndex - 1);
-	}
+  if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+    e.preventDefault();
+    scrollToSectionDesktop(currentSectionIndex + 1);
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    scrollToSectionDesktop(currentSectionIndex - 1);
+  } else if (e.key === 'Home') {
+    e.preventDefault();
+    scrollToSectionDesktop(0);
+  } else if (e.key === 'End') {
+    e.preventDefault();
+    scrollToSectionDesktop(numSections - 1);
   }
-  wheelDirection = 0;
-  wheelTimeout = null;
-}, 10);
-// Short delay to group wheel events together
-}
-
-function handleDesktopKeydown(e) {
-if (document.body.classList.contains('modal-active')) return;
-if (isWheeling) return;
-
-if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-  e.preventDefault();
-  scrollToSectionDesktop(currentSectionIndex + 1);
-} else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-  e.preventDefault();
-  scrollToSectionDesktop(currentSectionIndex - 1);
-} else if (e.key === 'Home') {
-  e.preventDefault();
-  scrollToSectionDesktop(0);
-} else if (e.key === 'End') {
-  e.preventDefault();
-  scrollToSectionDesktop(numSections - 1);
-}
 }
 
 let isSwipeProcessed = false;
-function handleDesktopSwipe() {
-if (isWheeling || isSwipeProcessed) return; 
-if (document.body.classList.contains('modal-active')) return;
-const swipeThreshold = 50;
-const swipeDistance = Math.abs(touchStartY - touchEndY);
-if (swipeDistance > swipeThreshold) {
-  isSwipeProcessed = true;
-  if (touchStartY - touchEndY > swipeThreshold) {
-	scrollToSectionDesktop(currentSectionIndex + 1);
-  } else if (touchEndY - touchStartY > swipeThreshold) {
-	scrollToSectionDesktop(currentSectionIndex - 1);
-  }
 
-  setTimeout(() => {
-	isSwipeProcessed = false;
-  }, scrollCooldown);
-}
+function handleDesktopSwipe() {
+  if (isWheeling || isSwipeProcessed) return;
+  if (document.body.classList.contains('modal-active')) return;
+  const swipeThreshold = 50;
+  const swipeDistance = Math.abs(touchStartY - touchEndY);
+
+  if (swipeDistance > swipeThreshold) {
+    isSwipeProcessed = true;
+    if (touchStartY - touchEndY > swipeThreshold) {
+      // Swiped up
+      scrollToSectionDesktop(currentSectionIndex + 1);
+    } else if (touchEndY - touchStartY > swipeThreshold) {
+      // Swiped down
+      scrollToSectionDesktop(currentSectionIndex - 1);
+    }
+    
+    setTimeout(() => {
+      isSwipeProcessed = false;
+    }, scrollCooldown);
+  }
 }
 
 let observer;
 function initMobileScrollObserver() {
-if (!('IntersectionObserver' in window)) {
-  console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
-  document.getElementById('section-1')?.classList.add('is-active');
-  if (canvasContainer) canvasContainer.classList.add('is-visible');
-  return;
-}
+  if (!('IntersectionObserver' in window)) {
+    console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
+    document.getElementById('section-1')?.classList.add('is-active');
+    if (canvasContainer) canvasContainer.classList.add('is-visible');
+    return;
+  }
 
-observer = new IntersectionObserver((entries) => {
-  const mobileFooter = document.querySelector('.mobile-footer'); // Get footer once
-
-  entries.forEach(entry => {
-	const id = entry.target.id;
-	if (entry.isIntersecting) {
-
-	  // === NEW LOGIC to toggle footer menu ===
-
-	  if (mobileFooter) {
-		mobileFooter.classList.toggle('section-2-active', id === 'section-2');
-	  }
-	  // === END NEW LOGIC ===
-
-	  mobileFooterLinks.forEach(link => {
-		link.classList.toggle('active', link.hash 
-							  === `#${id}`);
-	  });
-
-	  if (mobileKHLink) {
-		mobileKHLink.classList.toggle('active', id === 'section-1');
-	  }
-
-	  entry.target.classList.add('is-active');
-
-	  if (id === 'section-1' && canvasContainer) {
-
-		canvasContainer.classList.add('is-visible');
-	  }
-	} else {
-	  entry.target.classList.remove('is-active');
-	}
+  observer = new IntersectionObserver((entries) => {
+    const mobileFooter = document.querySelector('.mobile-footer');
+    
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        const index = Array.from(sections).indexOf(entry.target);
+        
+        // Update URL hash
+        // window.location.hash = id; // This causes jumps, disable
+        
+        // Activate the corresponding section
+        activateSection(index);
+      }
+    });
+  }, {
+    root: themeWrapper, // Observe inside the scrolling container
+    threshold: 0.5, // 50% of the section must be visible
+    rootMargin: '0px 0px -50px 0px' // Adjust root margin to be more accurate
   });
-}, {
-  root: document.querySelector('.theme-wrapper'), 
-  threshold: 0.5
-});
-sections.forEach(section => observer.observe(section));
-}
-
-function cleanupMobileScrollObserver() {
-if (observer) {
-  sections.forEach(section => observer.unobserve(section));
-  observer.disconnect();
-  observer = null;
-}
-}
-
-let touchStartY = 0;
-let touchEndY = 0;
-
-function handleTouchStart(e) {
-if (document.body.classList.contains('modal-active')) return;
-touchStartY = e.changedTouches[0].screenY;
-}
-
-function handleTouchEnd(e) {
-if (document.body.classList.contains('modal-active')) return;
-touchEndY = e.changedTouches[0].screenY;
-
-if (window.innerWidth >= 1025) { 
-  handleDesktopSwipe();
-}
-}
-
-let isDesktop = window.innerWidth >= 1025;
-function setupEventListeners() {
-if (isDesktop) {
-  window.addEventListener('wheel', handleDesktopWheel, { passive: false });
-  window.addEventListener('keydown', handleDesktopKeydown);
-  window.addEventListener('touchstart', handleTouchStart, { passive: false });
-  window.addEventListener('touchend', handleTouchEnd, { passive: false });
-  sections.forEach((section, i) => {
-	if (i === 0) {
-	  section.style.transform = 'translateX(0)';
-	  section.classList.add('is-active'); 
-	} else {
-	  section.style.transform = 'translateX(100%)';
-	  section.classList.remove('is-active');
-
-	}
-  });
-  updateDesktopActiveNav(0);
-
-  cleanupMobileScrollObserver();
-  // NEW: Trigger intro animations for desktop navs
-  setTimeout(() => {
-	if (document.querySelector('.theme-wrapper')) {
-	  document.querySelector('.theme-wrapper').classList.add('is-loaded');
-	}
-  }, 100);
-  // Small delay to ensure initial styles are applied
-
-} else {
-  window.removeEventListener('wheel', handleDesktopWheel);
-  window.removeEventListener('keydown', handleDesktopKeydown);
-  window.removeEventListener('touchstart', handleTouchStart);
-  window.removeEventListener('touchend', handleTouchEnd);
 
   sections.forEach(section => {
-	section.style.transform = '';
+    observer.observe(section);
   });
-  initMobileScrollObserver();
-}
+  
+  // Manually check which section is active on load
+  setTimeout(() => {
+    let maxVisible = 0;
+    let activeIndex = 0;
+    const containerRect = themeWrapper.getBoundingClientRect();
+
+    sections.forEach((section, index) => {
+      const rect = section.getBoundingClientRect();
+      const visibleHeight = Math.max(0, Math.min(rect.bottom, containerRect.bottom) - Math.max(rect.top, containerRect.top));
+      
+      if (visibleHeight > maxVisible) {
+        maxVisible = visibleHeight;
+        activeIndex = index;
+      }
+    });
+    
+    if (maxVisible > 0) {
+      activateSection(activeIndex);
+    } else if (themeWrapper.scrollTop < window.innerHeight / 2) {
+      activateSection(0); // Default to first section if nothing else
+    }
+  }, 100); // Small delay to let layout settle
 }
 
+// Re-setup listeners on resize
 window.addEventListener('resize', () => {
-// onWindowResize(); // Removed this line which was causing an error
-
-const newIsDesktop = window.innerWidth >= 1025; 
-if (newIsDesktop !== isDesktop) {
-  isDesktop = newIsDesktop;
-  setupEventListeners();
-}
+  // onWindowResize(); // Removed this line which was causing an error
+  const newIsDesktop = window.innerWidth >= 1025;
+  if (newIsDesktop !== isDesktop) {
+    isDesktop = newIsDesktop;
+    setupEventListeners();
+  }
 });
+
+// Click handlers for nav links
 document.querySelectorAll('.nav-link, .nav-link-left, .sidebar-left .logo-button').forEach(link => {
-link.addEventListener('click', (e) => {
-  e.preventDefault(); 
-  if (isDesktop) {
-	if (document.body.classList.contains('modal-active')) return;
-	const targetId = link.getAttribute('data-navlink');
-	if (!targetId) return; 
-
-	const targetIndex = parseInt(targetId.split('-')[1]) - 
-		  1;
-	if (targetIndex !== currentSectionIndex) {
-	  scrollToSectionDesktop(targetIndex); 
-	}
-  }
-});
-});
-document.querySelectorAll('.mobile-footer-top a, .mobile-footer-links a').forEach(link => {
-link.addEventListener('click', (e) => {
-  if (!isDesktop) {
-	e.preventDefault();
-	const targetId = link.getAttribute('href');
-	const targetElement = document.querySelector(targetId);
-	if (targetElement) {
-	  targetElement.scrollIntoView({ behavior: 
-									'smooth' });
-	}
-  } else {
-	e.preventDefault();
-  }
-});
-});
-setupEventListeners();
-</script>
-
-
-<script type="module">
-let scene, camera, renderer, p, torus1, torus2, torus3;
-// 'models' will hold the loaded GLB objects instead of a single 'planet'
-let models = [];
-// Animation mixers for each model
-let mixers = [];
-let currentSphereColor = null;
-let container;
-
-// =========================================================
-// 📌 CONFIGURATION ARRAYS
-// =========================================================
-// Define the URLs for all models to be loaded
-const modelPaths = [
-'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', // Index 0 (Theme Color)
-'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'  // Index 1 (Inverted Theme Color)
-];
-
-// [x, y, z] position offsets for each model
-const MODEL_POSITIONS = [
-[0, -0.5, -5],        // Model 1: Centered at -2 on Z
-[0.0, -0.425, -4.95]   // Model 2: Slight Y offset
-];
-
-// Individual scale for each model
-const MODEL_SCALES = [1.75, 1.75];
-
-// [x, y, z] rotation in radians for each model
-// Note: Math.PI = 180 degrees, Math.PI/2 = 90 degrees, etc.
-const MODEL_ROTATIONS = [
-[45, 0, 0],        // Model 1: No rotation
-[45, 0, 0]         // Model 2: No rotation
-];
-
-// [x, y, z] rotation speed for each model (added per frame)
-// Set to [0, 0, 0] to disable animation for that model
-const MODEL_ROTATION_SPEED = [
-[-0.0000, 0.00, -0.00015],    // Model 1: Rotate on Y and Z
-[-0.0000, 0.00, -0.00015]     // Model 2: Rotate on Y and Z
-];
-
-// Function to invert a color (returns inverted THREE.Color)
-function invertColor(color) {
-return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
-}
-// =========================================================
-
-let gu, sizes = [], shift = [], clock;
-
-function getSpherePoints(count, radius) {
-const points = [];
-for (let i = 0; i < count; i++) {
-  const phi = Math.acos(-1 + (2 * i) / count);
-  const theta = Math.sqrt(count * Math.PI) * phi;
-  const p = new THREE.Vector3();
-  p.setFromSphericalCoords(radius, phi, theta);
-  points.push(p);
-}
-return points;
-}
-
-function getTorusPoints(count, radius, tube, tiltX, tiltY) {
-const points = [];
-for (let i = 0; i < count; i++) {
-  const u = (i / count) * Math.PI * 2;
-  const v = ((i * 137.5) % count / count) * Math.PI * 2;
-
-  const x = (radius + tube * Math.cos(v)) * Math.cos(u);
-  const y = (radius + tube * Math.cos(v)) * Math.sin(u);
-  const z = tube * Math.sin(v);
-
-  const p = new THREE.Vector3(x, y, z);
-  p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
-  points.push(p);
-}
-return points;
-}
-
-function initThreeJS() {
-container = document.getElementById('canvas-container');
-if (!container) {
-  setTimeout(initThreeJS, 500);
-  return;
-}
-
-// Force container to full viewport height
-container.style.width = '100%';
-container.style.height = '100svh';
-container.style.position = 'relative';
-
-scene = new THREE.Scene();
-
-const fov = 75;
-const aspect = window.innerWidth / window.innerHeight;
-const near = 0.1;
-const far = 1000;
-camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-const isDesktop = window.innerWidth >= 1025;
-camera.position.z = isDesktop ? 5.25 : 6; 
-
-renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-container.appendChild(renderer.domElement);
-
-container.classList.add('is-visible');
-
-const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
-currentSphereColor = parseInt(initialColor, 16);
-
-// =========================================================
-// 🔄 GLB LOADING LOGIC WITH INDIVIDUAL POSITIONS & SCALES
-// =========================================================
-const loader = new THREE.GLTFLoader();
-const themeColor = new THREE.Color(currentSphereColor);
-
-modelPaths.forEach((path, index) => {
-  // Get the specific scale for this model
-  const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
-
-  // Get the specific position for this model
-  const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
-
-  // Get the specific rotation for this model
-  const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
-
-  loader.load(path, function (gltf) {
-	const model = gltf.scene;
-
-	// ** Store the index on the model itself **
-	model.userData.modelIndex = index;
-
-	// ** Apply individual scale and position **
-	model.scale.set(modelScale, modelScale, modelScale);
-	model.position.set(position[0], position[1], position[2]);
-
-	// ** Apply individual rotation **
-	model.rotation.set(rotation[0], rotation[1], rotation[2]); 
-
-	// ** Setup animation mixer BEFORE material changes **
-	console.log(`Model ${index} loaded from: ${path}`);
-	console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
-
-	if (gltf.animations && gltf.animations.length > 0) {
-	  const mixer = new THREE.AnimationMixer(model);
-	  mixers.push(mixer);
-
-	  // Play all animations in the model
-	  gltf.animations.forEach((clip, clipIndex) => {
-		console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
-		const action = mixer.clipAction(clip);
-		action.play();
-	  });
-	} else {
-	  console.log(`No animations found in model ${index}`);
-	}
-
-	// Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
-	model.traverse((child) => {
-	  if (child.isMesh && child.material) {
-		const originalMaterial = child.material;
-
-		if (index === 1) {
-		  // Model 2: inverted color with MeshBasicMaterial
-		  const invertedColor = new THREE.Color(
-			1 - themeColor.r,
-			1 - themeColor.g,
-			1 - themeColor.b
-		  );
-		  child.material = new THREE.MeshBasicMaterial({ 
-			color: invertedColor,
-			side: THREE.DoubleSide,
-			skinning: originalMaterial.skinning || false,
-			morphTargets: originalMaterial.morphTargets || false
-		  });
-		} else {
-		  // Model 1: theme color with MeshBasicMaterial
-		  child.material = new THREE.MeshBasicMaterial({ 
-			color: themeColor.clone(),
-			side: THREE.DoubleSide,
-			skinning: originalMaterial.skinning || false,
-			morphTargets: originalMaterial.morphTargets || false
-		  });
-		}
-	  }
-	});
-
-	scene.add(model);
-	models.push(model); // Add to the array for animation/update
-
-  }, 
-			  undefined, 
-			  function (error) {
-	console.error('An error occurred loading the GLB model:', path, error);
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (isDesktop) {
+      if (document.body.classList.contains('modal-active')) return;
+      const targetId = link.getAttribute('data-navlink');
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const index = Array.from(sections).indexOf(targetElement);
+        scrollToSectionDesktop(index);
+      }
+    } else {
+      // On mobile, use native smooth scroll
+      const targetId = link.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        themeWrapper.scrollTo({
+          top: targetElement.offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
   });
 });
-// =========================================================
 
-// Torus creation remains the same
-const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial1 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
-});
-torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
-torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
-scene.add(torus1);
-
-const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial2 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
-});
-torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
-torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
-scene.add(torus2);
-
-const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial3 = new THREE.MeshBasicMaterial({
-  color: currentSphereColor,
-  transparent: false,
-  opacity: 1.0
-});
-torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
-torus3.rotation.set(Math.PI / 2.5, -0, 0);
-scene.add(torus3);
-
-gu = { time: { value: 0 } };
-sizes = [];
-shift = [];
-
-let pushShift = () => {
-  shift.push(
-	Math.random() * Math.PI,
-	Math.random() * Math.PI * 2,
-	(Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
-	Math.random() * 0.25 + 0.1
-  );
-}
-
-const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
-const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-const outerSpherePoints = getSpherePoints(100, 6.5);
-
-const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
-
-pts.forEach(pt => {
-  sizes.push(Math.random() * 0.5 + 1);
-  pushShift();
-});
-
-let g = new THREE.BufferGeometry().setFromPoints(pts);
-g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
-g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
-
-let m = new THREE.PointsMaterial({
-  size: 0.1,
-  transparent: true,
-  depthTest: false,
-  blending: THREE.AdditiveBlending,
-  onBeforeCompile: shader => {
-	shader.uniforms.time = gu.time;
-	shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
-
-	shader.vertexShader = `
-	  uniform float time;
-	  uniform vec3 color;
-	  attribute float sizes;
-	  attribute vec4 shift;
-	  varying vec3 vColor;
-	  ${shader.vertexShader}
-	`.replace(
-	  `gl_PointSize = size;`,
-	  `gl_PointSize = size * sizes;`
-	).replace(
-	  `#include <color_vertex>`,
-	  `#include <color_vertex>
-		float d = length(abs(position) / vec3(40., 10., 40));
-		d = clamp(d, 0., 1.);
-		vColor = color;
-	  `
-	).replace(
-	  `#include <begin_vertex>`,
-	  `#include <begin_vertex>
-		float t = time;
-		float moveT = mod(shift.x + shift.z * t, PI2);
-		float moveS = mod(shift.y + shift.z * t, PI2);
-		transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
-	  `
-	);
-	shader.fragmentShader = `
-	  ${shader.fragmentShader}
-	`.replace(
-	  `vec4 diffuseColor = vec4( diffuse, opacity );`,
-	  `
-	  vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
-	  float d = length(uv - vec2(1));
-	  float f = 1. - step(d, 1.);
-	  if (f < 0.1) discard;
-	  vec4 diffuseColor = vec4( diffuse, opacity );`
-	);
-  }
-});
-
-p = new THREE.Points(g, m);
-scene.add(p);
-
-clock = new THREE.Clock();
-renderer.setAnimationLoop(animate);
-}
-
-function animate() {
-if (!clock || !gu || !renderer) return;
-
-// Get delta ONCE per frame
-const delta = clock.getDelta();
-
-// Use delta for time calculation
-let t = clock.getElapsedTime() * 0.25;
-gu.time.value = t * Math.PI;
-
-// Update animation mixers with delta
-mixers.forEach(mixer => mixer.update(delta));
-
-const newColorHex = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
-const newColor = parseInt(newColorHex, 16);
-const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
-
-if (newBgColor === '#ffffff') {
-  if (p) {
-	p.material.blending = THREE.NormalBlending;
-	p.material.transparent = false;
-	p.material.opacity = 1.0;
-	p.material.size = 0.1;
-	p.material.needsUpdate = true;
-  }
-} else {
-  if (p) {
-	p.material.blending = THREE.AdditiveBlending;
-	p.material.transparent = true;
-	p.material.opacity = 1.0;
-	p.material.size = 0.1;
-	p.material.needsUpdate = true;
-  }
-}
-
-if (newColor !== currentSphereColor) {
-  currentSphereColor = newColor;
-
-  const newThreeColor = new THREE.Color(currentSphereColor);
-
-  if (gu.color) {
-	gu.color.value.setHex(currentSphereColor);
-  }
-
-  if (p && p.material) {
-	p.material.color.setHex(currentSphereColor);
-	p.material.needsUpdate = true;
-  }
-
-  // 🔄 THEME UPDATE FOR ALL GLB MODELS
-  if (models.length > 0) { 
-	models.forEach((model) => {
-	  const modelIndex = model.userData.modelIndex;
-
-	  model.traverse((child) => {
-		if (child.isMesh && child.material) {
-		  // Model 0 gets the theme color, Model 1 gets inverted theme color
-		  if (modelIndex === 1) {
-			// Invert for model 2
-			const invertedColor = new THREE.Color(
-			  1 - newThreeColor.r,
-			  1 - newThreeColor.g,
-			  1 - newThreeColor.b
-			);
-			child.material.color.copy(invertedColor);
-		  } else {
-			// Normal theme color for model 1
-			child.material.color.copy(newThreeColor);
-		  }
-		  child.material.needsUpdate = true;
-		}
-	  });
-	});
-  }
-
-  if (torus1 && torus1.material) {
-	torus1.material.color.setHex(currentSphereColor);
-  }
-  if (torus2 && torus2.material) {
-	torus2.material.color.setHex(currentSphereColor);
-  }
-  if (torus3 && torus3.material) {
-	torus3.material.color.setHex(currentSphereColor);
-  }
-}
-
-if (p) {
-  p.rotation.y += 0.001;
-  p.rotation.x += 0.0005;
-}
-
-// 🔄 ANIMATED ROTATION FOR GLB MODELS
-if (models.length > 0) {
-  models.forEach(model => {
-	const modelIndex = model.userData.modelIndex;
-	const rotSpeed = MODEL_ROTATION_SPEED[modelIndex] || [0, 0, 0];
-
-	// Always face camera on X axis at 45 degrees (converted to radians: 45 * PI/180 = 0.785398)
-	model.rotation.x = Math.PI / 4; // 45 degrees in radians
-
-	// Apply rotation speed only to Y and Z axes
-	model.rotation.y += rotSpeed[1];
-	model.rotation.z += rotSpeed[2];
+// Mobile footer links
+document.querySelectorAll('.mobile-footer-links a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const targetId = link.getAttribute('href');
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      themeWrapper.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: 'smooth'
+      });
+    }
   });
-}
-
-if (torus1) {
-  torus1.rotation.y += 0.001;
-  torus1.rotation.x += 0.0005;
-}
-if (torus2) {
-  torus2.rotation.y += 0.001;
-  torus2.rotation.x += 0.0005;
-}
-if (torus3) {
-  torus3.rotation.y += 0.001;
-  torus3.rotation.x += 0.0005;
-}
-
-renderer.render(scene, camera);
-}
-
-function onWindowResize() {
-if (camera && renderer && container) {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
-  const aspect = width / height;
-  camera.aspect = aspect;
-
-  const isDesktop = window.innerWidth >= 1025;
-  camera.position.z = isDesktop ? 5.25 : 6; 
-
-  camera.updateProjectionMatrix();
-  renderer.setSize(width, height);
-}
-}
-window.addEventListener('resize', onWindowResize, false);
-
-document.addEventListener('DOMContentLoaded', () => {
-setTimeout(initThreeJS, 100);
 });
 </script>
-<!-- about-->
 
 <script>
+// Modal Logic (using jQuery)
 $(document).ready(function() {
-// Get references to elements
-const modal = $('#modal-container-side');
-const themeWrapper = $('.theme-wrapper');
-// Check if we're on the mobile layout (matching your CSS breakpoint)
-const isMobile = () => window.innerWidth <= 1024; 
+  const modal = $('#modal-container-side');
+  const themeWrapper = $('.theme-wrapper'); // Get the scrolling container
 
-$('#desktop-about-button, #mobile-about-button').on('click', function(e){
-  e.preventDefault();
-
-  if (modal.hasClass('visible')) {
-	// --- CLOSE MODAL ---
-	modal.addClass('out');
-	$('body').removeClass('modal-active');
-
-	// Reset top style only if we're on mobile
-	if (isMobile()) {
-	  // Use a timeout to reset *after* the close animation
-	  setTimeout(() => {
-		modal.css('top', ''); 
-	  }, 500); // Match animation duration
-	}
-  } else {
-	// --- OPEN MODAL ---
-
-	// On mobile, we need to align the modal to the current scroll position
-	if (isMobile()) {
-	  const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
-	  modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
-	}
-
-	modal.removeAttr('class').addClass('visible');
-	$('body').addClass('modal-active');
+  function isMobile() {
+    return window.innerWidth < 1025;
   }
-});
 
+  // Combined trigger for desktop and mobile
+  $('#desktop-info-button-trigger, #mobile-info-button-trigger').on('click', function() {
+    
+    if (modal.hasClass('visible')) {
+      // --- CLOSE MODAL ---
+      modal.addClass('out');
+      $('body').removeClass('modal-active');
+      
+      // On mobile, reset the modal's top position
+      if (isMobile()) {
+        // Delay to reset *after* the close animation
+        setTimeout(() => {
+          modal.css('top', '');
+        }, 500); // Match animation duration
+      }
+      
+    } else {
+      // --- OPEN MODAL ---
+      
+      // On mobile, we need to align the modal to the current scroll position
+      if (isMobile()) {
+        const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
+        modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
+      }
+      
+      modal.removeAttr('class').addClass('visible');
+      $('body').addClass('modal-active');
+    }
+  });
 
-$('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
-  if (e.target === this && $(this).hasClass('out')) {
-	$(this).removeAttr('class');
-  }
-});
+  // Clean up classes after animation
+  $('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
+    if (e.target === this && $(this).hasClass('out')) {
+      $(this).removeAttr('class');
+    }
+  });
 });
 </script>
 
-<!-- theme-->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-const themeCheckbox = document.getElementById('theme-checkbox');
-if (themeCheckbox) {
-  themeCheckbox.addEventListener('change', function() {
-	document.body.classList.toggle('light-mode', this.checked);
-  });
-
-  document.body.classList.toggle('light-mode', themeCheckbox.checked);
-}
-
+  const themeCheckbox = document.getElementById('theme-checkbox');
+  
+  if (themeCheckbox) {
+    themeCheckbox.addEventListener('change', function() {
+      document.body.classList.toggle('light-mode', this.checked);
+    });
+    
+    // Set initial theme based on checkbox state (if it was checked/unchecked)
+    document.body.classList.toggle('light-mode', themeCheckbox.checked);
+  }
 });
-
-
 </script>
-<!-- S2-->
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  
+  // --- NEW: Mobile Info Toggle Logic ---
+  const mobileInfoToggle = document.getElementById('mobile-info-toggle');
+  const portfolioInfoSection = document.querySelector('.portfolio-info');
 
-// --- NEW: Mobile Info Toggle Logic ---
-const mobileInfoToggle = document.getElementById('mobile-info-toggle');
-const portfolioInfoSection = document.querySelector('.portfolio-info');
-
-if (mobileInfoToggle && portfolioInfoSection) {
-  mobileInfoToggle.addEventListener('click', () => {
-
-	portfolioInfoSection.classList.toggle('info-collapsed');
-	mobileInfoToggle.classList.toggle('active');
-  });
-}
-// --- END: Mobile Info Toggle Logic ---
-
-
-const buttons = document.querySelectorAll('.section-btn');
-const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
-const scrollers = {
-  '3d': document.getElementById('scroller-3d'),
-
-  'graphic': document.getElementById('scroller-graphic'),
-  'product': document.getElementById('scroller-product')
-};
-// Select info content
-const infoContents = {
-  '3d': document.querySelector('.info-content[data-info="3d"]'),
-  'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-  'product': document.querySelector('.info-content[data-info="product"]')
-};
-// NEW: Save scroll positions
-const scrollPositions = {
-  '3d': 0,
-  'graphic': 0,
-  'product': 0
-};
-let currentGallery = '3d';
-
-function updateProgress(scroller, button) {
-  if (!button) return;
-  const scrollLeft = scroller.scrollLeft;
-  const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
-  const progress = scrollWidth > 0 ?
-		(scrollLeft / scrollWidth) * 100 : 0;
-  button.style.setProperty('--progress', `${progress}%`);
-}
-
-// UPDATED: Function now also switches info content and saves/restores scroll
-function switchGallery(newGallery) {
-  if (newGallery === currentGallery) return;
-  // Save current scroll position
-  scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-  // --- Gallery Scroller ---
-  scrollers[currentGallery].classList.remove('active');
-  scrollers[newGallery].classList.add('active');
-  // Restore new gallery's scroll position
-  scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-  // --- Info Content ---
-  infoContents[currentGallery].classList.remove('active');
-  infoContents[newGallery].classList.add('active');
-
-  currentGallery = newGallery;
-  const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-  const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-  updateProgress(scrollers[newGallery], activeButton);
-  updateProgress(scrollers[newGallery], activeMobileLink);
-}
-
-buttons.forEach(btn => {
-  btn.addEventListener('click', () => {
-	const galleryType = btn.dataset.gallery;
-	buttons.forEach(b => b.classList.remove('active'));
-	btn.classList.add('active');
-
-	// Sync mobile links
-	mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-
-	const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-	matchingLink?.classList.add('active');
-
-	switchGallery(galleryType);
-  });
-});
-// Add listeners for mobile links
-mobileWorkNavLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-	e.preventDefault();
-	const galleryType = link.dataset.gallery;
-
-	mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-	link.classList.add('active');
-
-	// Sync desktop/tablet buttons
-
-	buttons.forEach(b => b.classList.remove('active'));
-	const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-	matchingButton?.classList.add('active');
-
-	switchGallery(galleryType);
-  });
-});
-Object.keys(scrollers).forEach(key => {
-  scrollers[key].addEventListener('scroll', () => {
-	if (key === currentGallery) {
-	  const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-	  const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
-
-	  updateProgress(scrollers[key], activeButton);
-	  updateProgress(scrollers[key], activeMobileLink);
-
-
-	  // NEW: Save scroll position as user scrolls
-	  scrollPositions[key] = scrollers[key].scrollLeft;
-	}
-  });
-});
-const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
-const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
-updateProgress(scrollers[currentGallery], initialButton);
-updateProgress(scrollers[currentGallery], initialMobileLink);
-// --- NEW: Lightbox/Modal Logic ---
-const modal = document.getElementById('portfolio-modal');
-const modalContentInner = document.getElementById('modal-gall-inner');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-portfolioItems.forEach(item => {
-  item.addEventListener('click', () => {
-	// Clone the item's content (in this case, just the text)
-	const itemContent = item.innerHTML; 
-	modalContentInner.innerHTML = itemContent;
-
-	// Show the modal
-
-	modal.classList.add('active');
-  });
-});
-function closeModal() {
-  modal.classList.remove('active');
-  // Clear content after transition
-  setTimeout(() => {
-	modalContentInner.innerHTML = '';
-  }, 300);
-}
-
-// Close modal by clicking on the background or the content
-modal.addEventListener('click', closeModal);
-modalContentInner.addEventListener('click', closeModal);
-});
-</script>
-<!-- S3-->
-<script>
-const isMobile = window.matchMedia("(max-width: 1024px)").matches;
-if (isMobile) {
-const items = document.querySelectorAll(".grid-item");
-items.forEach(item => {
-  item.addEventListener("click", () => {
-	const service = item.getAttribute("data-service");
-	const targetPanel = document.querySelector(`.service-content[data-service="${service}"]`);
-
-	// Check if clicking the already active item (double-click behavior)
-	if (item.classList.contains("active")) {
-	  // Return to key services (default state)
-	  items.forEach(i => i.classList.remove("active"));
-	  document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
-
-	  // Show the default/key services panel
-	  const defaultPanel = document.querySelector('.service-content[data-service="default"]');
-	  if (defaultPanel) {
-
-		defaultPanel.classList.add("active");
-	  }
-
-	  document.body.classList.remove("mobile-has-active");
-	} else {
-	  // Normal click - activate the clicked item
-	  items.forEach(i => i.classList.remove("active"));
-	  document.querySelectorAll(".service-content").forEach(s => s.classList.remove("active"));
-	  item.classList.add("active");
-	  if (targetPanel) {
-		targetPanel.classList.add("active");
-	  }
-	  document.body.classList.add("mobile-has-active");
-	}
-  });
-});
-}
-</script>
-<!-- S4-->
-<script> 
-const canvas = document.getElementById('breathingGrid');
-const ctx = canvas.getContext('2d');
-const textEl = document.getElementById('textToCopy');
-let dots = [];
-let spacing = 80;
-let mouse = { x: -1000, y: -1000 };
-
-// Function to get current theme color
-function getThemeColor() {
-try {
-  const computedStyle = getComputedStyle(document.body);
-  const textColor = computedStyle.getPropertyValue('--text-color').trim();
-
-  // Convert hex to RGB
-  if (textColor && textColor.startsWith('#')) {
-	const hex = textColor.replace('#', '');
-	const r = parseInt(hex.substring(0, 2), 16);
-	const g = parseInt(hex.substring(2, 4), 16);
-	const b = parseInt(hex.substring(4, 6), 16);
-
-	// Validate the parsed values
-	if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-	  return { r, g, b };
-	}
+  if (mobileInfoToggle && portfolioInfoSection) {
+    mobileInfoToggle.addEventListener('click', () => {
+      portfolioInfoSection.classList.toggle('info-collapsed');
+      mobileInfoToggle.classList.toggle('active');
+    });
   }
-} catch (e) {
-  console.error('Error parsing theme color:', e);
+  // --- END: Mobile Info Toggle Logic ---
+  
+  const buttons = document.querySelectorAll('.section-btn');
+  const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
+  const scrollers = {
+    '3d': document.getElementById('scroller-3d'),
+    'graphic': document.getElementById('scroller-graphic'),
+    'product': document.getElementById('scroller-product')
+  };
+  
+  // Select info content
+  const infoContents = {
+    '3d': document.querySelector('.info-content[data-info="3d"]'),
+    'graphic': document.querySelector('.info-content[data-info="graphic"]'),
+    'product': document.querySelector('.info-content[data-info="product"]')
+  };
+  const allInfoContent = document.querySelectorAll('.info-content');
+
+  let currentGallery = '3d';
+  let scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0 }; // NEW: Save scroll positions
+
+  function switchGallery(galleryType) {
+    if (currentGallery === galleryType) return;
+
+    const oldScroller = scrollers[currentGallery];
+    const newScroller = scrollers[galleryType];
+    
+    // Fade out old, fade in new
+    if (oldScroller) {
+      oldScroller.classList.remove('active');
+    }
+    if (newScroller) {
+      newScroller.classList.add('active');
+      // NEW: Restore scroll position
+      newScroller.scrollLeft = scrollPositions[galleryType];
+    }
+    
+    // Switch info content
+    allInfoContent.forEach(content => content.classList.remove('active'));
+    if (infoContents[galleryType]) {
+      infoContents[galleryType].classList.add('active');
+    }
+
+    currentGallery = galleryType;
+  }
+
+  function updateProgress(scroller, button) {
+    if (!scroller || !button) return;
+    const scrollPercent = scroller.scrollLeft / (scroller.scrollWidth - scroller.clientWidth);
+    button.style.setProperty('--progress', `${scrollPercent * 100}%`);
+  }
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const galleryType = button.getAttribute('data-gallery');
+      
+      buttons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Sync mobile links
+      mobileWorkNavLinks.forEach(link => link.classList.remove('active'));
+      const matchingMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
+      matchingMobileLink?.classList.add('active');
+
+      switchGallery(galleryType);
+    });
+  });
+
+  // --- NEW: Mobile Nav Link Listeners ---
+  mobileWorkNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      const galleryType = link.getAttribute('data-gallery');
+      
+      mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      
+      // Sync desktop/tablet buttons
+      buttons.forEach(b => b.classList.remove('active'));
+      const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
+      matchingButton?.classList.add('active');
+
+      switchGallery(galleryType);
+    });
+  });
+
+  Object.keys(scrollers).forEach(key => {
+    scrollers[key].addEventListener('scroll', () => {
+      if (key === currentGallery) {
+        const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
+        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
+        updateProgress(scrollers[key], activeButton);
+        updateProgress(scrollers[key], activeMobileLink);
+        
+        // NEW: Save scroll position as user scrolls
+        scrollPositions[key] = scrollers[key].scrollLeft;
+      }
+    });
+  });
+
+  const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
+  const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
+  if (initialButton) initialButton.classList.add('active');
+  if (initialMobileLink) initialMobileLink.classList.add('active');
+  if (scrollers[currentGallery]) scrollers[currentGallery].classList.add('active');
+  if (infoContents[currentGallery]) infoContents[currentGallery].classList.add('active');
+});
+</script>
+
+<script>
+// Dot Canvas Animation
+const canvas = document.getElementById('dot-canvas');
+const ctx = canvas.getContext('2d');
+const canvasContainer = document.getElementById('canvas-container');
+
+// Debounce function
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
 }
 
-// Default to white for dark theme (base theme)
-return { r: 255, g: 255, b: 255 };
-}
+let dots = [];
+const dotCount = 800; // Total dots
+const gridSize = 25; // Spacing
+let columns, rows;
+let color = { r: 255, g: 255, b: 255 }; // Default (light mode)
+let targetColor = { r: 255, g: 255, b: 255 };
+
+const mouse = {
+  x: Infinity,
+  y: Infinity
+};
+
+// Wave properties
+let currentWave = 0;
+const waveSpeed = 20; // How fast the wave travels
+const waveThickness = 200; // How wide the wave is
 
 function resizeCanvas() {
-// NEW: Size canvas to its parent container (.section-content)
-const rect = canvas.parentElement.getBoundingClientRect();
-canvas.width = rect.width;
-canvas.height = rect.height;
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvasContainer.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  
+  canvas.style.width = `${rect.width}px`;
+  canvas.style.height = `${rect.height}px`;
 
-// Adjust spacing for mobile
-spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
-dots = [];
-
-// NEW: Calculate grid and center it, creating padding at edges
-const numCols = Math.floor(canvas.width / spacing) + 1;
-const numRows = Math.floor(canvas.height / spacing) + 1;
-
-const gridWidth = (numCols - 1) * spacing;
-const gridHeight = (numRows - 1) * spacing;
-
-const offsetX = (canvas.width - gridWidth) / 2;
-const offsetY = (canvas.height - gridHeight) / 2;
-
-for(let r = 0; r < numRows; r++){
-  for(let c = 0; c < numCols; c++){
-	dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
+  dots = [];
+  columns = Math.floor(canvas.width / dpr / gridSize) + 1;
+  rows = Math.floor(canvas.height / dpr / gridSize) + 1;
+  const startX = (canvas.width / dpr - (columns - 1) * gridSize) / 2;
+  const startY = (canvas.height / dpr - (rows - 1) * gridSize) / 2;
+  
+  for(let i = 0; i < columns; i++) {
+    for(let j = 0; j < rows; j++) {
+      dots.push({
+        x: startX + i * gridSize,
+        y: startY + j * gridSize,
+        baseX: startX + i * gridSize,
+        baseY: startY + j * gridSize
+      });
+    }
   }
 }
+
+// Debounced resize
+const debouncedResize = debounce(resizeCanvas, 100);
+window.addEventListener('resize', debouncedResize);
+
+// Initial theme check
+function updateColors() {
+  const bodyStyles = window.getComputedStyle(document.body);
+  const sphereColorHex = bodyStyles.getPropertyValue('--sphere-color').trim().replace('0x', '#');
+  
+  // Convert hex to RGB
+  const hex = sphereColorHex.substring(1);
+  targetColor.r = parseInt(hex.substring(0, 2), 16);
+  targetColor.g = parseInt(hex.substring(2, 4), 16);
+  targetColor.b = parseInt(hex.substring(4, 6), 16);
+}
+updateColors(); // Initial set
+
+// Listen for theme changes
+const themeCheckbox = document.getElementById('theme-checkbox');
+themeCheckbox.addEventListener('change', updateColors);
+
+
+canvasContainer.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+
+canvasContainer.addEventListener('mouseleave', () => {
+  mouse.x = Infinity;
+  mouse.y = Infinity;
+});
+
+let lastTime = 0;
+function animate(timestamp) {
+  const deltaTime = timestamp - lastTime;
+  lastTime = timestamp;
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Animate wave
+  currentWave += waveSpeed * (deltaTime / 1000 || 0.016);
+  const maxDist = Math.hypot(canvas.width / 2, canvas.height / 2);
+  if (currentWave > maxDist + waveThickness) {
+    currentWave = 0; // Reset wave
+  }
+
+  // Lerp color
+  color.r += (targetColor.r - color.r) * 0.1;
+  color.g += (targetColor.g - color.g) * 0.1;
+  color.b += (targetColor.b - color.b) * 0.1;
+  
+  const centerX = (canvas.width / (window.devicePixelRatio || 1)) / 2;
+  const centerY = (canvas.height / (window.devicePixelRatio || 1)) / 2;
+
+  dots.forEach(dot => {
+    // Wave pulse effect
+    const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+    const distToWave = Math.abs(dist - currentWave);
+    let pulseFactor = 0;
+    if(distToWave < waveThickness/2){
+      pulseFactor = 1 - distToWave / (waveThickness/2);
+      pulseFactor = Math.sin(pulseFactor*Math.PI/2);
+    }
+    
+    // Mouse glow effect
+    const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+    let glowFactor = 0;
+    const glowRadius = 50;
+    if(mouseDist < glowRadius){
+      glowFactor = (1 - mouseDist/glowRadius);
+    }
+    
+    const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
+    const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
+    
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+    ctx.fill();
+  });
+  
+  requestAnimationFrame(animate);
 }
 
+// Start animation and initial resize
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+animate(0);
 
-window.addEventListener('mousemove', (e)=>{
-const rect = canvas.getBoundingClientRect();
-mouse.x = e.clientX - rect.left;
-mouse.y = e.clientY - rect.top;
-});
-
-let time = 0;
-function animate() {
-time += 0.016;
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-// NEW: Get coordinates relative to the canvas
-const rect = textEl.getBoundingClientRect();
-const canvasRect = canvas.getBoundingClientRect();
-const textPadding = 20;
-
-// Calculate text box boundaries in canvas-relative coordinates
-const textLeft = rect.left - canvasRect.left - textPadding;
-const textRight = rect.right - canvasRect.left + textPadding;
-const textTop = rect.top - canvasRect.top - textPadding;
-const textBottom = rect.bottom - canvasRect.top + textPadding;
-
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-const waveSpeed = 60;
-const waveThickness = 40;
-const maxDist = Math.hypot(centerX, centerY) + waveThickness;
-const currentWave = (time * waveSpeed) % maxDist;
-
-// Get current theme color
-const color = getThemeColor();
-
-dots.forEach(dot=>{
-  if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
-	return;
-  }
-  const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
-  const distToWave = Math.abs(dist - currentWave);
-  let pulseFactor = 0;
-  if(distToWave < waveThickness/2){
-	pulseFactor = 1 - distToWave / (waveThickness/2);
-	pulseFactor = Math.sin(pulseFactor*Math.PI/2);
-  }
-  const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-  let glowFactor = 0;
-  const glowRadius = 50;
-  if(mouseDist < glowRadius){
-	glowFactor = (1 - mouseDist/glowRadius);
-  }
-  const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
-  const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
-  ctx.beginPath();
-  ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
-  // Use theme color instead of hardcoded white
-  ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-  ctx.fill();
-});
-requestAnimationFrame(animate);
-}
-
-animate();
 
 // Copy button logic
 const copyButton = document.getElementById('copyButton');
+const textEl = document.getElementById('textEl');
+const emailText = document.getElementById('emailText');
+
 function copyToClipboard() {
-const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
-navigator.clipboard.writeText(textToCopy).then(() => {
-  copyButton.textContent = 'Copied!';
-  copyButton.classList.add('copied');
-  setTimeout(() => {
-	copyButton.textContent = 'Copy Me';
-	copyButton.classList.remove('copied');
-  }, 1500);
-}).catch(err => console.error(err));
+  const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    copyButton.textContent = 'COPIED';
+    emailText.textContent = 'COPIED TO CLIPBOARD';
+    
+    setTimeout(() => {
+      copyButton.textContent = 'COPY';
+      emailText.textContent = 'EMAIL: ' + textToCopy;
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+    copyButton.textContent = 'FAILED';
+    setTimeout(() => {
+      copyButton.textContent = 'COPY';
+    }, 2000);
+  });
 }
 
 copyButton.addEventListener('click', copyToClipboard);
-textEl.addEventListener('click', copyToClipboard);
-textEl.addEventListener('touchstart', (e) => e.preventDefault());
-</script> 
 
+</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
