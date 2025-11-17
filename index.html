@@ -888,83 +888,6 @@ object-fit: contain;
 }
 
 
-/* === CONSOLIDATED MEDIA QUERIES === */
-@media (min-width: 1025px) {
-.theme-wrapper {
-  overflow: hidden;
-  scroll-snap-type: none;
-  display: flex;
-  flex-direction: row;
-}
-
-main {
-  overflow: hidden;
-  flex-grow: 1;
-  height: 100vh;
-  width: 100%;
-}
-
-section {
-  position: absolute;
-  top: 0; 
-  left: 0; 
-  height: 100%;
-  width: 100%;
-  /* UPDATED: Removed background-color transition */
-  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-  transform: translateX(100%); 
-  padding: 4rem 0rem;
-}
-
-#section-1 {
-  transform: translateX(0);
-}
-
-/* Show/Hide UI */
-.mobile-footer {
-  display: none;
-}
-.nav-stacked-right, .sidebar-left, .nav-stacked-left {
-  display: flex;
-}
-
-/* Section 1 Layout */
-.section-grid {
-  flex-direction: row;
-  align-items: stretch;
-}
-.section-1-wrapper {
-  height: auto;
-  justify-content: center;
-}
-
-.text-column {
-  padding-top: 0;
-  padding-left: 2rem;
-}
-
-/* Typography */
-.section-title-combined {
-  font-size: 2.5rem;
-}
-
-/* Desktop Modal Styles */
-#modal-container-side {
-  position: absolute;
-  /* Fit to <main> */
-  z-index: 200;
-  /* Stay on top of sections */
-}
-
-.modal-content {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-}
-
 /*WORK///////////////////////////*/
 
 #section-2 .section-content {
@@ -1805,6 +1728,88 @@ background-clip: text;
 
 /* === END: Mobile Work Nav === */
 
+
+
+/* === DESKTOP  === */
+@media (min-width: 1025px) {
+.theme-wrapper {
+  overflow: hidden;
+  scroll-snap-type: none;
+  display: flex;
+  flex-direction: row;
+}
+
+main {
+  overflow: hidden;
+  flex-grow: 1;
+  height: 100vh;
+  width: 100%;
+}
+
+section {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  height: 100%;
+  width: 100%;
+  /* UPDATED: Removed background-color transition */
+  transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(100%); 
+  padding: 4rem 0rem;
+}
+
+#section-1 {
+  transform: translateX(0);
+}
+
+/* Show/Hide UI */
+.mobile-footer {
+  display: none;
+}
+.nav-stacked-right, .sidebar-left, .nav-stacked-left {
+  display: flex;
+}
+
+/* Section 1 Layout */
+.section-grid {
+  flex-direction: row;
+  align-items: stretch;
+}
+.section-1-wrapper {
+  height: auto;
+  justify-content: center;
+}
+
+.text-column {
+  padding-top: 0;
+  padding-left: 2rem;
+}
+
+/* Typography */
+.section-title-combined {
+  font-size: 2.5rem;
+}
+
+/* Desktop Modal Styles */
+#modal-container-side {
+  position: absolute;
+  /* Fit to <main> */
+  z-index: 200;
+  /* Stay on top of sections */
+}
+
+.modal-content {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+}
+
+
+
+	
 @media
 /* tablet Landscape  */
 screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
@@ -3029,7 +3034,7 @@ if (!container) {
 
 // Force container to full viewport height
 container.style.width = '100%';
-container.style.height = '100%';
+container.style.height = '100svh';
 container.style.position = 'relative';
 
 scene = new THREE.Scene();
@@ -3797,6 +3802,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
