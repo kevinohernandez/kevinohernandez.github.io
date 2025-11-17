@@ -55,6 +55,8 @@ padding: 0;
 -webkit-tap-highlight-color: transparent;
 -webkit-focus-ring-color: transparent;
 outline: none;
+touch-action: manipulation;
+	
 }
 
 html {
@@ -3831,6 +3833,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
