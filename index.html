@@ -1818,8 +1818,8 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	.mobile-nav {
 	  display: flex;
 	  flex-direction: column;
-	  height: 100vh; /* Make wrapper fill the viewport */
-		/height: 100%;
+	  height: 100svh; /* Make wrapper fill the viewport */
+	/height: 100%;
 	}
 
 	.theme-wrapper {
@@ -1830,8 +1830,9 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	/height: 100dvh;
 	}
 
-	/.mobile-footer {
+	.mobile-footer {
 	  /position: static;
+		position: relative;
 	  /* Un-fix the footer */
 	  flex-shrink: 0;
 	  /* Prevent footer from shrinking */
@@ -3792,6 +3793,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
