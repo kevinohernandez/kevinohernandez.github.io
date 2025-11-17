@@ -1843,16 +1843,13 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	  flex-grow: 1;
 	  /* Make content area fill available space */
 	 height: auto;
-	  /* Override 100vh */
 	/height: 100dvh;
 	}
 
 	.mobile-footer {
 	  /position: static;
 		position: relative;
-	  /* Un-fix the footer */
 	  flex-shrink: 0;
-	  /* Prevent footer from shrinking */
 	}
 	/* === END: MOBILE LAYOUT FIX === */
 
@@ -1888,7 +1885,7 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	
 	.modal-panel.left {
 	  border-right: none;
-	  border-bottom: 1px solid var(--border-color);
+	  /border-bottom: 1px solid var(--border-color);
 	}
 
 	.marquee-content span {
@@ -3834,6 +3831,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
