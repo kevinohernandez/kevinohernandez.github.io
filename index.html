@@ -879,13 +879,10 @@ object-fit: contain;
 /* === END MODAL STYLES === */
 
 /* === Section Z-Indexes === */
-#section-1 { z-index: 10;
-}
+#section-1 { z-index: 10; }
 #section-2 { z-index: 12; }
-#section-3 { z-index: 13;
-}
-#section-4 { z-index: 14;
-}
+#section-3 { z-index: 13; }
+#section-4 { z-index: 14; }
 
 
 /*WORK///////////////////////////*/
@@ -1622,7 +1619,10 @@ border-left: 1px solid var(--border-color);
 transition: background-color 0.3s ease, opacity 0.3s ease; /* MODIFIED: Added opacity */
 /* Keep hover transition */
 color: var(--text-muted-color);
+opacity: 0.25;	
 }
+
+
 	
 .mobile-footer-links a:first-child {
 border-left: none;
@@ -1630,9 +1630,14 @@ border-left: none;
 	
 .mobile-footer-links a.active {
 color: var(--text-color);
-background-color: var(--accent-color);
+/background-color: var(--accent-color);
+	opacity: 1;
 }
 
+.mobile-footer-links a:third-child {
+opacity: 1;
+}
+	
 /* === NEW: Mobile Work Nav (Section 2) === */
 #mobile-work-nav {
 /* display: none;
@@ -3824,6 +3829,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
