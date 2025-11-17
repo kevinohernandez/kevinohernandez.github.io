@@ -1827,7 +1827,7 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 	}
 
 	.mobile-footer {
-	  position: static;
+	  /position: static;
 	  /* Un-fix the footer */
 	  flex-shrink: 0;
 	  /* Prevent footer from shrinking */
@@ -2205,8 +2205,7 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 }
 
 </style>
-</head>
-<body>
+
 
 <input type="checkbox" id="theme-checkbox">
 
@@ -2611,6 +2610,8 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 
 </footer>
 </div> 
+
+	
 <script type="module">
 
 
@@ -3787,6 +3788,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
