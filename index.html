@@ -3024,8 +3024,8 @@ const MODEL_ROTATIONS = [
 // Sine wave rotation settings for Y axis
 // [amplitude in radians, speed multiplier]
 const MODEL_Y_SINE_WAVE = [
-  [Math.PI / 6, 0.5],    // Model 1: ±30 degrees oscillation, medium speed
-  [Math.PI / 6, 0.5]     // Model 2: ±30 degrees oscillation, medium speed
+  [Math.PI / 6, 0.15],    // Model 1: ±30 degrees oscillation, medium speed
+  [Math.PI / 6, 0.15]     // Model 2: ±30 degrees oscillation, medium speed
 ];
 
 // [x, y, z] rotation speed for each model (added per frame)
@@ -3861,6 +3861,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
