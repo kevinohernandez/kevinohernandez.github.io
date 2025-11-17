@@ -693,7 +693,7 @@ white-space: nowrap;
 margin-top: 20rem;
 position: absolute;
 z-index: 5;
-transform: translateX(100%), translateZ(0);
+transform: translateX(100%);
 transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 align-self: anchor-center;
 backface-visibility: hidden;
@@ -704,7 +704,7 @@ will-change: transform;
 
 /* --- NEW: Marquee Animation Trigger --- */
 section.is-active .marquee-container {
-transform: translateX(0);
+transform: translateX(0), translateZ(0);
 transition-delay: 0.5s; /* Stagger after canvas fade-in */
 }
 
@@ -3865,6 +3865,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
