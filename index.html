@@ -1927,6 +1927,11 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 
 	}
 
+	.nav-link:hover, .nav-link-left:hover, .mobile-footer-links a:hover {
+    color: var(--text-color);
+    background-color: transparent;
+}
+
 	/* === NEW: Mobile Info Toggle Button Styles === */
 	#mobile-info-toggle {
 	  display: flex;
@@ -3833,6 +3838,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
