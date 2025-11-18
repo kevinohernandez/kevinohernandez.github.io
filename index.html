@@ -700,8 +700,8 @@ transform: translateX(100%) translateZ(0);
 transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 align-self: anchor-center;
 backface-visibility: hidden;
+will-change: transform;  
 touch-action: manipulation;
-will-change: transform;
 user-select: none;
 -webkit-user-select: none;
 
@@ -719,12 +719,20 @@ display: flex;
 width: fit-content; 
 animation: marquee-scroll 100s linear infinite;
 backface-visibility: hidden;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+  
 }
 
 .marquee-content {
 display: flex;
 white-space: nowrap; 
-flex-shrink: 0    
+flex-shrink: 0;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+  
 }
 
 .marquee-content span {
@@ -736,7 +744,11 @@ color: var(--text-color);
 /* transition: color 0.3s ease;
 */ /* REMOVED */
 padding-right: 2rem;
-display: inline-block  
+display: inline-block;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+  
 }
 
 
@@ -3878,6 +3890,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
