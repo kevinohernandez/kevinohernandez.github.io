@@ -702,6 +702,8 @@ align-self: anchor-center;
 backface-visibility: hidden;
 touch-action: manipulation;
 will-change: transform;
+user-select: none;
+-webkit-user-select: none;
 
 }
 
@@ -3876,6 +3878,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
