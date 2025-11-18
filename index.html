@@ -78,7 +78,7 @@ font-family: 'Neue Haas Display', -apple-system, BlinkMacSystemFont, sans-serif;
 /* Hide scrollbar */
 -ms-overflow-style: none;  /* IE and Edge */
 scrollbar-width: none;  /* Firefox */
-
+touch-action: manipulation;
 /* UPDATED: Single source of truth for color transitions */
 background-color: var(--bg-color);
 color: var(--text-color);
@@ -3876,6 +3876,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
