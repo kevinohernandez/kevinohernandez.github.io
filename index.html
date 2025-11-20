@@ -1541,7 +1541,7 @@ z-index: 0; /* Behind .text-container */
 
 /* === DESKTOP  === */
     
-@media (min-width: 1025px) {
+@media (min-width: 1025px) and (pointer: fine) and (hover: hover) {
 .theme-wrapper {
 overflow: hidden;
 scroll-snap-type: none;
@@ -4011,6 +4011,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
