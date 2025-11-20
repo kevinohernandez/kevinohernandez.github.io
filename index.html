@@ -927,7 +927,7 @@ width: 100%;
 }
 
 :root {
---left-width: 22.5%;
+--left-width: 20%;
 /* --right-width: 70%;
 <-- This is now controlled by portfolio-content-area */
 }
@@ -943,7 +943,7 @@ height: 100vh;
 /* NEW: This wrapper holds the gallery and the new info section */
 .portfolio-content-area {
 display: grid;
-grid-template-columns: 75% 25%; /* This splits the right-hand side into gallery (75%) and info (25%) */
+grid-template-columns: 85% 15%; /* This splits the right-hand side into gallery (75%) and info (25%) */
 height: 100%;
 overflow: hidden;
 }
@@ -970,7 +970,7 @@ background-color: var(--bg-color);
 color: var(--text-color);
 border: none;
 padding: 0rem;
-font-size: 3.25vw;
+font-size: 3vw;
 cursor: pointer;
 transition: all 0.3s ease;
 text-align: left;
@@ -1053,7 +1053,7 @@ object-fit: contain;
 
 .scroller {
 height: 100%;
-width: 100%; /* <-- CHANGED from 98% */
+width: 100%; 
 display: flex;
 align-items: center;
 overscroll-behavior: none;
@@ -4013,6 +4013,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
