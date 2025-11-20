@@ -42,7 +42,8 @@ font-display: swap;
 
 button:focus-visible {
 outline: none;
-box-shadow: 0 0 0 0px #000; /* custom focus ring */
+box-shadow: 0 0 0 0px #000;
+/* custom focus ring */
 }
 
 
@@ -54,7 +55,6 @@ padding: 0;
 -webkit-focus-ring-color: transparent;
 outline: none;
 touch-action: manipulation;
-
 }
 
 html {
@@ -64,7 +64,8 @@ height: 100%;
 scrollbar-width: none;  /* Firefox */
 overscroll-behavior: none;
 touch-action: manipulation;
-
+/* FIX 3: Ensure bg color is on HTML to prevent gap flash */
+background-color: var(--bg-color); 
 }
 html::-webkit-scrollbar {
 display: none; /* Chrome, Safari */
@@ -81,6 +82,8 @@ touch-action: manipulation;
 background-color: var(--bg-color);
 color: var(--text-color);
 transition: background-color 0.3s ease, color 0.3s ease;
+/* FIX 3: Use dvh to handle address bar resizing */
+min-height: 100dvh; 
 }
 
 body.modal-active {
@@ -96,7 +99,8 @@ overflow-y: hidden;
 body.modal-active .mobile-footer-links a,
 body.modal-active .mobile-footer-top .logo-button {
 pointer-events: none;
-opacity: 0.25; /* Make them look disabled */
+opacity: 0.25;
+/* Make them look disabled */
 }
 
 body.modal-active .mobile-footer-top .info-button,
@@ -116,10 +120,12 @@ background: none;
 /* --- Layout & Spacing --- */
 /padding: 1rem 0.5rem;
 text-align: center; /* Center the 'a' tag's text */
-width: 100%; /* Ensure it fills the grid cell */
+width: 100%;
+/* Ensure it fills the grid cell */
 /* --- Text Styles --- */
 /* (these will be inherited by the <a> tag) */
-font-family: inherit; /* Use the main site font */
+font-family: inherit;
+/* Use the main site font */
 font-size: 0.75rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
@@ -129,7 +135,7 @@ transition: background-color 0.3s ease, opacity 0.3s ease, color 0.3s ease;
 }
 
 #mobile-about-button a {
-color: inherit; 
+color: inherit;
 }
 
 /#mobile-about-button:hover {
@@ -148,7 +154,8 @@ height: 100svh;
 overflow-x: hidden;
 overflow-y: auto; 
 scroll-snap-type: y mandatory;
-position: relative; /* Needed for z-index stacking */
+position: relative;
+/* Needed for z-index stacking */
 }
 
 
@@ -159,7 +166,7 @@ display: none;
 /* === Main Container for Scrolling === */
 main {
 width: 100vw;
-position: relative; 
+position: relative;
 z-index: 10; /* Sit on top of canvas */
 }
 
@@ -313,17 +320,18 @@ top: 0;
 left: 0;
 padding: 1.5rem 0;
 z-index: 10; 
-display: none; /* Hidden by default */
+display: none;
+/* Hidden by default */
 flex-direction: column;
 height: 100%;
 justify-content: space-between;
 align-items: center;
 border-right: 1px solid var(--border-color);
 width: 2.5rem;
-flex-shrink: 0; 
-
+flex-shrink: 0;
 background-color: var(--bg-color);
-/* transition: border-color 0.3s ease, background-color 0.3s ease; */ /* REMOVED */
+/* transition: border-color 0.3s ease, background-color 0.3s ease;
+*/ /* REMOVED */
 
 /* --- NEW: Added transition and initial state --- */
 transform: translateY(-100%);
@@ -586,7 +594,8 @@ width: 100%;
 height: 100%;
 z-index: 1; /* Sit behind the content */
 opacity: 0;
-transition: opacity 0.8s ease 0.2s; /* Fade in */
+transition: opacity 0.8s ease 0.2s;
+/* Fade in */
 align-content: center;
 justify-items: center;
 }
@@ -606,7 +615,8 @@ display: flex;
 flex-direction: column;
 width: 100%;
 position: relative; /* ADD THIS */
-z-index: 2; /* ADD THIS (to sit on top of z-index: 1 canvas) */
+z-index: 2;
+/* ADD THIS (to sit on top of z-index: 1 canvas) */
 }
 
 .section-grid {
@@ -682,7 +692,7 @@ justify-content: center;
 text-align: left;
 }
 
-/* === Marquee Styles === */
+/* === Marquee Styles (FIX 2 Applied) === */
 .marquee-container {
 width: 100%;
 padding: 0.1rem 0;
@@ -697,44 +707,39 @@ z-index: 5;
 transform: translateX(100%) translateZ(0);
 transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 align-self: anchor-center;
+/* FIX 2: Add perspective for 3D transform stability */
+perspective: 1000px;
+-webkit-perspective: 1000px;
+transform-style: preserve-3d;
 backface-visibility: hidden;
-will-change: transform;  
 touch-action: manipulation;
 user-select: none;
 -webkit-user-select: none;
-/* ADD THESE: */
-    perspective: 1000px;
-    -webkit-perspective: 1000px;
-    transform-style: preserve-3d;
 }
 
 /* --- NEW: Marquee Animation Trigger --- */
 section.is-active .marquee-container {
 transform: translateX(0) translateZ(0);
-transition-delay: 0.5s; /* Stagger after canvas fade-in */
+transition-delay: 0.5s;
+/* Stagger after canvas fade-in */
 }
 
 
-/.marquee-content-wrapper {
+.marquee-content-wrapper {
 display: flex;
-width: fit-content; 
+/* FIX 2: Use max-content to prevent sub-pixel gaps */
+width: max-content; 
 animation: marquee-scroll 100s linear infinite;
 backface-visibility: hidden;
+-webkit-backface-visibility: hidden; /* Ensure standard webkit prefix */
 touch-action: manipulation;
 user-select: none;
 -webkit-user-select: none;
+/* FIX 2: Promote to GPU */
+will-change: transform;
+transform-style: preserve-3d;
 }
 
-.marquee-content-wrapper {
-    display: flex;
-    width: max-content; /* Changed from fit-content to prevent sub-pixel calculation errors */
-    animation: marquee-scroll 100s linear infinite;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform; /* Tells browser to keep this in GPU memory */
-    transform-style: preserve-3d; /* Prevents flattening/flashing */
-}
-    
 .marquee-content {
 display: flex;
 white-space: nowrap; 
@@ -742,7 +747,6 @@ flex-shrink: 0;
 touch-action: manipulation;
 user-select: none;
 -webkit-user-select: none;
-
 }
 
 .marquee-content span {
@@ -758,7 +762,6 @@ display: inline-block;
 touch-action: manipulation;
 user-select: none;
 -webkit-user-select: none;
-
 }
 
 
@@ -863,29 +866,19 @@ height: 100%;
 object-fit: contain;
 /clip-path: inherit;
 /background: grey; 
-/transition: transform 0.4s ease 0.1s; /* delay image scale */
+/transition: transform 0.4s ease 0.1s;
+/* delay image scale */
 }
 
 
 
-/* --- KEYFRAMES --- */
-/* ---  
+/* --- KEYFRAMES (FIX 2: UPDATED FOR GPU) --- */
+
 @keyframes marquee-scroll {
-0% { transform: translateX(0);
+0% { transform: translate3d(0, 0, 0); }
+100% { transform: translate3d(-50%, 0, 0); }
 }
-100% { transform: translateX(-50%);
-}
-}
---- */
-@keyframes marquee-scroll {
-    0% { 
-        transform: translate3d(0, 0, 0); 
-    }
-    100% { 
-        transform: translate3d(-50%, 0, 0); 
-    }
-}
-    
+
 @keyframes containerFadeIn {
 0% { opacity: 0;
 }
@@ -913,7 +906,8 @@ transform: translateY(0); }
 /* === END MODAL STYLES === */
 
 /* === Section Z-Indexes === */
-#section-1 { z-index: 10; }
+#section-1 { z-index: 10;
+}
 #section-2 { z-index: 12; }
 #section-3 { z-index: 13; }
 #section-4 { z-index: 14; }
@@ -942,7 +936,8 @@ height: 100vh;
 /* NEW: This wrapper holds the gallery and the new info section */
 .portfolio-content-area {
 display: grid;
-grid-template-columns: 75% 25%; /* This splits the right-hand side into gallery (75%) and info (25%) */
+grid-template-columns: 75% 25%;
+/* This splits the right-hand side into gallery (75%) and info (25%) */
 height: 100%;
 overflow: hidden;
 }
@@ -1050,19 +1045,22 @@ object-fit: contain;
 
 .scroller {
 height: 100%;
-width: 100%; /* <-- CHANGED from 98% */
+width: 100%;
+/* <-- CHANGED from 98% */
 display: flex;
 align-items: center;
 overscroll-behavior: none;
 overflow-x: scroll;
 overflow-y: hidden;
-touch-action: pan-x; /* <-- ADDED */
+touch-action: pan-x;
+/* <-- ADDED */
 scroll-snap-type: x mandatory;
 scroll-behavior: smooth;
 padding-top: 2rem;
 padding-bottom: 2rem;
 padding-left: 15px; /* CHANGED: Was 15px */
-padding-right: 15px; /* CHANGED: Was 15px */
+padding-right: 15px;
+/* CHANGED: Was 15px */
 opacity: 1;
 transform: translateX(0);
 transition: opacity 0.4s ease, transform 0.4s ease;
@@ -1152,7 +1150,8 @@ align-content: center;
 opacity: 1;
 transform: translateY(0);
 pointer-events: auto;
-position: relative; /* Override absolute */
+position: relative;
+/* Override absolute */
 }
 
 .info-content h3 {
@@ -1402,7 +1401,8 @@ top: 50%;
 left: 50%;
 transform: translate(-50%, -50%);
 display: inline-block;
-z-index: 1; /* Ensure text is above canvas */
+z-index: 1;
+/* Ensure text is above canvas */
 text-align: center;
 }
 
@@ -1464,7 +1464,8 @@ background-color 0.3s ease,
 color 0.3s ease, 
 border-color 0.3s ease,
 box-shadow 0.3s ease;
-z-index: 10; /* Ensure this is above .text-container */
+z-index: 10;
+/* Ensure this is above .text-container */
 pointer-events: none;
 }
 
@@ -1544,13 +1545,13 @@ width: 100%;
 
 section {
 position: absolute;
-top: 0; 
+top: 0;
 left: 0; 
 height: 100%;
 width: 100%;
 /* UPDATED: Removed background-color transition */
 transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-transform: translateX(100%); 
+transform: translateX(100%);
 padding: 4rem 0rem;
 }
 
@@ -1618,10 +1619,9 @@ screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscap
 
 
 /* === MOBILE: Header & Footer === */
-
+/* FIX 3: Fixed position to prevent gap */
 .mobile-footer {
 position: fixed;
-/position: sticky;
 bottom: 0;
 left: 0;
 width: 100%;
@@ -1631,12 +1631,12 @@ flex-direction: column;
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
 /* transition: background-color 0.3s ease, border-color 0.3s ease; */ /* REMOVED */
-/padding-bottom: env(safe-area-inset-bottom);
+padding-bottom: env(safe-area-inset-bottom);
 }
 
 .mobile-footer-top {
 display: grid;
-grid-template-columns: 1fr 1fr 1fr; 
+grid-template-columns: 1fr 1fr 1fr;
 align-items: center;
 padding: 1rem 1.5rem;
 border-bottom: 1px solid var(--border-color);
@@ -1664,7 +1664,8 @@ font-size: 0.75rem;
 text-transform: uppercase;
 letter-spacing: 0.1em;
 border-left: 1px solid var(--border-color);
-transition: background-color 0.3s ease, opacity 0.3s ease; /* MODIFIED: Added opacity */
+transition: background-color 0.3s ease, opacity 0.3s ease;
+/* MODIFIED: Added opacity */
 /* Keep hover transition */
 color: var(--text-muted-color);
 opacity: 0.5;	
@@ -1692,15 +1693,17 @@ padding: 0;
 margin: 0;
 font-size: unset;
 letter-spacing: unset;	
-background-color: inherit;    
+background-color: inherit;
 }	
 
 /* === NEW: Mobile Work Nav (Section 2) === */
 #mobile-work-nav {
-/* display: none; */ /* MODIFIED: No longer using display */
+/* display: none;
+*/ /* MODIFIED: No longer using display */
 overflow: hidden;
 max-height: 0;
-transform: translateY(100%); /* NEW: Slide-in/out styles */
+transform: translateY(100%);
+/* NEW: Slide-in/out styles */
 transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
 transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
 border-width 0.1s linear;
@@ -1718,7 +1721,8 @@ max-height: 60px;
 /* Adjust as needed for padding */
 transform: translateY(0);
 border-bottom-width: 1px;
-transition-delay: 0s, 0s, 0.3s; /* Delay border appearing */
+transition-delay: 0s, 0s, 0.3s;
+/* Delay border appearing */
 }
 
 /* Styling for the new work-nav links */
@@ -1803,11 +1807,13 @@ flex-grow: 1;
 /* Make content area fill available space */
 height: auto;
 /height: 100dvh;
+/* FIX 3: Add padding to prevent content being hidden by fixed footer */
+padding-bottom: 140px;
 }
 
 .mobile-footer {
 /position: static;
-position: relative;
+/* FIXED above: position: fixed */
 flex-shrink: 0;
 }
 /* === END: MOBILE LAYOUT FIX === */
@@ -1880,7 +1886,6 @@ align-items: center;
 justify-items: center;
 /height: 100svh;
 /height: 100%;
-
 }
 
 .nav-link:hover, .nav-link-left:hover, .mobile-footer-links a:hover {
@@ -1898,7 +1903,6 @@ margin-top: 25rem;
 
 .marquee-content-wrapper {
 animation: marquee-scroll 80s linear infinite;
-
 }
 
 .theme-toggle-label:hover #theme-toggle #theme-dot {
@@ -1934,7 +1938,8 @@ width: 100vw;
 /* CHANGED: Make modal content fill the available space in .mobile-nav */
 height: 100%; 
 margin-bottom: 0; /* REMOVED margin-bottom */
-border-radius: 0; /* REMOVED border-radius */
+border-radius: 0;
+/* REMOVED border-radius */
 box-shadow: none; /* REMOVED box-shadow */
 }
 
@@ -1961,17 +1966,20 @@ z-index: -1;
 .modal-background {
 background: rgba(0, 0, 0, 0);
 background-color: var(--bg-color);
-align-items: stretch; /* CHANGED: Don't center, fill height */
+align-items: stretch;
+/* CHANGED: Don't center, fill height */
 justify-content: stretch; /* CHANGED: Don't center, fill width */
 }
 
 #modal-container-side {
 /* CHANGED: Make modal container part of the .mobile-nav flow */
-position: absolute; /* Position relative to .theme-wrapper */
+position: absolute;
+/* Position relative to .theme-wrapper */
 top: 0;
 left: 0;
 height: 100%; /* Fill the .theme-wrapper container */
-z-index: 200; /* MODIFIED: Ensure it's on top of sections */
+z-index: 200;
+/* MODIFIED: Ensure it's on top of sections */
 }
 /* === END MODAL STYLING UPDATES === */
 
@@ -1987,40 +1995,24 @@ padding:0;
 height: 100%;
 }
 
-/.portfolio-item {
-margin-right: 5.5rem;
-max-width: 100%;
-/height:90%;
+/* FIX 1: Updated Mobile Gallery CSS */
+.portfolio-item {
+width: 80vw; /* Standard width ensures centering works correctly */
+max-width: 80vw;
+margin-right: 1.5rem; /* Clean consistent gap */
+margin-left: 0;
 height: auto;
 aspect-ratio: auto;  
-transform: scale(0.925);
+transform: none; /* Remove scale, handle size via width above */
 border: 2.5px solid var(--border-color);  
 }
 
-.portfolio-item {
-    width: 80vw; /* Standard width ensures centering works correctly */
-    max-width: 80vw;
-    margin-right: 1.5rem; /* Clean consistent gap */
-    margin-left: 0;
-    height: auto;
-    aspect-ratio: auto;  
-    transform: none; /* Remove scale, handle size via width above */
-    border: 2.5px solid var(--border-color);  
-}
-
-    
-/.portfolio-item:last-child {
-margin-right: 0;
-margin-left: 5.5rem;    
-}
-
-
-/* 2. Remove the weird margins on the last item */
 .portfolio-item:last-child {
-    margin-right: 0;
-    margin-left: 0;    
+margin-right: 0;
+margin-left: 0;    
 }
-    
+
+
 .portfolio-item:hover {
 transform: none;
 box-shadow: none;
@@ -2045,7 +2037,8 @@ display: flex;
 flex-direction: column;
 height: 100%; /* Take the 1fr space */
 overflow: hidden;
-grid-template-columns: 1fr; /* Override desktop grid */
+grid-template-columns: 1fr;
+/* Override desktop grid */
 position: relative;
 /* ADDED: For absolute positioning of info panel */
 }
@@ -2104,7 +2097,6 @@ background: none;
 padding: 0;
 justify-content: center; /* Remove desktop padding */
 opacity: 0.5;
-
 }
 
 .section-btn.active span {
@@ -2119,7 +2111,8 @@ transform: none;
 /* Gallery takes 60% height, Info takes 40% */
 .portfolio-gallery {
 padding: 0;
-order: 2; /* UPDATED: Set order to 2 */
+order: 2;
+/* UPDATED: Set order to 2 */
 height: auto; /* UPDATED: Let flexbox control height */
 flex-grow: 1;
 flex-shrink: 1;
@@ -2129,37 +2122,21 @@ position: relative;
 overflow: hidden;
 }
 
-/.scroller {
+.scroller {
 height: 100%;
 width: 100%; 
 touch-action: auto;
 overscroll-behavior: auto;
-/padding-left: calc(50vw - 25vh); /* Center items and show one at a time */
-/padding-right: calc(50vw - 25vh); /* Centers items based on max-width */
+/* FIX 1: Added padding rails for centering */
+padding-left: 10vw; 
+padding-right: 10vw;
 scroll-padding: 0 calc(50vw - 21vh);
 padding-top: 0rem;
 padding-bottom: 1.5rem;
+display: flex; /* Ensure flex behavior */
+align-items: center; /* Vertically center */
 }
 
-/* 3. Add padding to scroller so first/last items can reach the center */
-.scroller {
-    height: 100%;
-    width: 100%; 
-    touch-action: auto;
-    overscroll-behavior: auto;
-    
-    /* Calculation: (Viewport Width - Item Width) / 2 */
-    /* (100vw - 80vw) / 2 = 10vw padding on each side */
-    padding-left: 10vw; 
-    padding-right: 10vw;
-    
-    padding-top: 0rem;
-    padding-bottom: 1.5rem;
-    
-    display: flex; /* Ensure flex behavior */
-    align-items: center; /* Vertically center */
-}
-    
 
 /* NEW: Style info section for mobile */
 .portfolio-info {
@@ -2167,7 +2144,8 @@ position: absolute;
 bottom: 0;
 left: 0;
 width: 100%;
-height: 70%; /* Height of the panel when open */
+height: 70%;
+/* Height of the panel when open */
 z-index: 40; /* Above button (20) and scrollers (10) */
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
@@ -2205,7 +2183,8 @@ height: 1.75rem;
 bottom: 0.75rem;
 top: auto; 
 left: 0.75rem;
-z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
+z-index: 50;
+/* ADDED: Ensures button is above info panel (z-index: 40) */
 }
 
 #mobile-info-toggle svg {
@@ -2232,7 +2211,8 @@ transform: translateY(0);
 pointer-events: auto;
 position: relative; /* Override absolute */
 height: 100%; /* Ensure it fills the space */
-overflow-y: auto; /* Allow content to scroll if it's too long */
+overflow-y: auto;
+/* Allow content to scroll if it's too long */
 }
 
 .info-content h3 {
@@ -2251,18 +2231,6 @@ margin-bottom: 0.5rem;
 transform: none;
 }
 
-.modal-gall-inner {
-
-    width: 100%;
-    height: 100%;
-    max-width: unset;
-    aspect-ratio: auto;
-}
-
-.modal-gall {
-    max-width: 100%;
-    max-height: 100%;
-}
 
 /* === WORK SECTION 2 END=== */
 
@@ -2302,7 +2270,8 @@ pointer-events: none !important;
 padding: 0rem 0rem 0rem 1rem;
 min-height: calc(100svh / 7.333);
 }
-.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
+.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem;
+}
 .item-title { font-size: 1rem; }
 
 .service-content h2 { 
@@ -2376,7 +2345,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
 <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
 <line class="st3" x1="675.3" y1="413.3" x2="675.3" y2="625"/>
-<circle class="st4" cx="558.3" cy="368.1" r="20.2"/>
+<circle 
+class="st4" cx="558.3" cy="368.1" r="20.2"/>
 <circle class="st4" cx="444.6" cy="368.5" r="20.2"/>
 <circle class="st4" cx="675.3" cy="368.5" r="20.2"/>
 <polyline class="st0" points="73.1,628.1 73.1,88.5 65,71.8 57.9,57.1 5.4,57.1 5.4,652.7 59.8,652.7 "/>
@@ -2400,7 +2370,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 <button id="desktop-about-button" class="icon-button info-button desktop-info-button" aria-label="About">
 <svg viewBox="0 0 
 20 20" fill="currentColor">
-<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+<path fill-rule="evenodd" d="M18 
+10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
 </svg>
 </button>
 <label for="theme-checkbox" class="theme-toggle-label" title="Toggle theme">
@@ -2476,7 +2447,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 </div>
 <div class="category-group">
 
-<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
+<button class="section-btn" 
+data-gallery="graphic"><span>Graphic</span></button>
 </div>
 <div class="category-group">
 <button class="section-btn" data-gallery="product"><span>Product</span></button>
@@ -2501,7 +2473,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr13.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr16.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr6.jpg" alt="" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr15.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img 
+class="portfolio-img" src="images/fulls/pr15.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr14.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr4.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/slab.jpg" alt="" /> </div>
@@ -2519,7 +2492,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd2.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd10.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd7.jpg" alt="" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd11.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img 
+class="portfolio-img" src="images/fulls/gd11.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd9.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd8.jpg" alt="" /> </div>
 
@@ -2536,7 +2510,8 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d7.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d8.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d9.jpg" alt="" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" 
+alt="" /> </div>
 
 </div>
 
@@ -2634,7 +2609,8 @@ class="grid-item" data-service="motion">
 <div class="service-content" data-service="default">
 <div class="service-content-inner">
 <h2>Key Services</h2>
-<p>This is what I focus on.<br>Additional services are available upon request.</p>
+<p>This is what I focus on.<br>Additional services are available 
+upon request.</p>
 
 </div>
 </div>
@@ -2722,14 +2698,13 @@ LINKEDIN
 
 
 </div> 
-  
 <footer class="mobile-footer">
 <label for="theme-checkbox" class="icon-button theme-toggle-label" title="Toggle theme">
 
 <span id="theme-toggle" class="icon-button">
 <span id="theme-dot"></span>
 </span>
-</label>  
+</label>
 
 
 <div class="mobile-footer-links">
@@ -2739,7 +2714,8 @@ LINKEDIN
 <svg class="logo-svg" viewBox="0 0 712.7 712" xmlns="http://www.w3.org/2000/svg">
 <polyline class="st0" points="640,628.1 640,443.7 645.9,427.9 645.9,315.1 640,300.3 640,88.5 648.1,71.8 655.2,57.1 685.6,57.1 	707.7,68.8 707.7,82.8 707.7,635.7 700.8,644.1 692.2,652.7 653.3,652.7 "/>
 <polygon class="st0" points="640,327.8 630,327.8 623,339.2 500.2,339.2 485.8,327.8 476.6,327.8 476.6,408.5 485.2,408.5 	498.3,398.5 615.8,398.5 629.1,408.5 640,408.5 "/>
-<polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
+<polyline class="st0" points="476.6,628.1 476.6,443.7 470.6,427.9 470.6,315.1 476.6,300.3 476.6,88.5 468.5,71.8 461.4,57.1 
+	431,57.1 408.9,68.8 408.9,82.8 408.9,635.7 415.8,644.1 424.4,652.7 463.2,652.7 "/>
 <line class="st3" x1="442.7" y1="97.5" x2="442.7" y2="320.3"/>
 <line class="st3" x1="442.7" y1="413.3" x2="442.7" y2="625"/>
 <line class="st3" x1="675.3" y1="97.5" x2="675.3" y2="320.3"/>
@@ -2757,7 +2733,8 @@ LINKEDIN
 <polyline class="st0" points="73.1,429.7 292.6,649.1 351,649.1 351,623.8 107.5,380.2 96.3,368.1 72.5,368.1 "/>
 <circle class="st4" cx="84" cy="401.1" r="20.2"/>
 <polyline class="st7" points="315.1,648.7 315.1,620.1 124.1,435.3 "/>
-<line class="st3" x1="640" y1="368.1" x2="476.6" y2="368.1"/>
+<line class="st3" 
+x1="640" y1="368.1" x2="476.6" y2="368.1"/>
 <line class="st3" x1="558.3" y1="397.8" x2="558.3" y2="339.2"/>
 </svg>
 <span class="dot dot-bottom">•</span>
@@ -2791,13 +2768,11 @@ themeWrapper.scrollTop = 0;
 window.scrollTo(0, 0);
 }
 });
-
 // --- Scroll Logic (Desktop & Mobile) ---
 
 const sections = document.querySelectorAll('section');
 const numSections = sections.length;
 let currentSectionIndex = 0;
-
 let isWheeling = false;
 const scrollCooldown = 900;
 const desktopNavLinksRight = document.querySelectorAll('.nav-stacked-right .nav-link');
@@ -2808,7 +2783,6 @@ const mobileFooterLinks = document.querySelectorAll('.mobile-footer-links a');
 const mobileKHLink = document.querySelector('.mobile-footer-top .logo-button'); 
 
 const canvasContainer = document.getElementById('canvas-container');
-
 function updateDesktopActiveNav(index) {
 if (desktopKHLink) {
 desktopKHLink.classList.toggle('active', index === 0);
@@ -2828,7 +2802,7 @@ canvasContainer.classList.add('is-visible');
 
 function scrollToSectionDesktop(index) {
 if (document.body.classList.contains('modal-active')) return;
-if (index < 0 || index >= numSections || isWheeling) return; 
+if (index < 0 || index >= numSections || isWheeling) return;
 if (index === currentSectionIndex) return; 
 
 isWheeling = true;
@@ -2841,7 +2815,6 @@ section.style.transform = 'translateX(100%)';
 section.classList.remove('is-active'); 
 }
 });
-
 currentSectionIndex = index;
 updateDesktopActiveNav(currentSectionIndex);
 
@@ -2852,13 +2825,11 @@ isWheeling = false;
 
 let wheelTimeout = null;
 let wheelDirection = 0;
-
 function handleDesktopWheel(e) {
 if (document.body.classList.contains('modal-active')) return;
 
 let target = e.target;
 let scrollerElement = null;
-
 while (target && target !== document.body) {
 if (target.classList && target.classList.contains('scroller')) {
 scrollerElement = target;
@@ -2876,8 +2847,7 @@ return;
 }
 
 e.preventDefault();
-if (isWheeling) return; 
-
+if (isWheeling) return;
 if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
 return;
 }
@@ -2954,7 +2924,6 @@ return;
 // Immediately mark section-1 as active
 document.getElementById('section-1')?.classList.add('is-active');
 if (canvasContainer) canvasContainer.classList.add('is-visible');
-
 observer = new IntersectionObserver((entries) => {
 const mobileFooter = document.querySelector('.mobile-footer');
 
@@ -2986,7 +2955,6 @@ entry.target.classList.remove('is-active');
 root: document.querySelector('.theme-wrapper'), 
 threshold: 0.5
 });
-
 sections.forEach(section => observer.observe(section));
 }
 
@@ -3009,14 +2977,12 @@ touchStartY = e.changedTouches[0].screenY;
 function handleTouchEnd(e) {
 if (document.body.classList.contains('modal-active')) return;
 touchEndY = e.changedTouches[0].screenY;
-
 if (window.innerWidth >= 1025) { 
 handleDesktopSwipe();
 }
 }
 
 let isDesktop = window.innerWidth >= 1025;
-
 function setupEventListeners() {
 if (isDesktop) {
 window.addEventListener('wheel', handleDesktopWheel, { passive: false });
@@ -3033,7 +2999,6 @@ section.style.transform = 'translateX(100%)';
 section.classList.remove('is-active');
 }
 });
-
 updateDesktopActiveNav(0);
 cleanupMobileScrollObserver();
 
@@ -3048,7 +3013,6 @@ window.removeEventListener('wheel', handleDesktopWheel);
 window.removeEventListener('keydown', handleDesktopKeydown);
 window.removeEventListener('touchstart', handleTouchStart);
 window.removeEventListener('touchend', handleTouchEnd);
-
 sections.forEach(section => {
 section.style.transform = '';
 });
@@ -3070,7 +3034,6 @@ isDesktop = newIsDesktop;
 setupEventListeners();
 }
 });
-
 document.querySelectorAll('.nav-link, .nav-link-left, .sidebar-left .logo-button').forEach(link => {
 link.addEventListener('click', (e) => {
 e.preventDefault(); 
@@ -3086,7 +3049,6 @@ scrollToSectionDesktop(targetIndex);
 }
 });
 });
-
 document.querySelectorAll('.mobile-footer-top a, .mobile-footer-links a').forEach(link => {
 link.addEventListener('click', (e) => {
 if (!isDesktop) {
@@ -3101,7 +3063,6 @@ e.preventDefault();
 }
 });
 });
-
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
 // Force scroll to top on mobile
@@ -3125,7 +3086,6 @@ let models = [];
 let mixers = [];
 let currentSphereColor = null;
 let container;
-
 // =========================================================
 // 📌 CONFIGURATION ARRAYS
 // =========================================================
@@ -3134,43 +3094,36 @@ const modelPaths = [
 'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', // Index 0 (Theme Color)
 'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'  // Index 1 (Inverted Theme Color)
 ];
-
 // [x, y, z] position offsets for each model
 const MODEL_POSITIONS = [
 [0, -0.5, -3.5],        // Model 1: Centered at -2 on Z
 [0.0, -0.425, -3.45]   // Model 2: Slight Y offset
 ];
-
 // Individual scale for each model
 const MODEL_SCALES = [1.75, 1.75];
-
 // [x, y, z] rotation in radians for each model
 // Note: Math.PI = 180 degrees, Math.PI/2 = 90 degrees, etc.
 const MODEL_ROTATIONS = [
 [0, 0, 0],        // Model 1: Static rotation (X will always face camera)
 [0, 0, 0]         // Model 2: Static rotation (X will always face camera)
 ];
-
 // Sine wave rotation settings for Y axis
 // [amplitude in radians, speed multiplier]
 const MODEL_Y_SINE_WAVE = [
 [Math.PI / 6, 0.15],    // Model 1: ±30 degrees oscillation, medium speed
 [Math.PI / 6, 0.15]     // Model 2: ±30 degrees oscillation, medium speed
 ];
-
 // Camera Y position offset (desktop, mobile)
 const CAMERA_Y_POSITION = {
 desktop: 0,    // No offset for desktop
 mobile: 0.6   // Move camera down (or scene appears to move up) on mobile
 };
-
 // [x, y, z] rotation speed for each model (added per frame)
 // Set to [0, 0, 0] to disable animation for that model
 const MODEL_ROTATION_SPEED = [
 [-0.0002, -0.0002, 0.00025],    // Model 1: Rotate on Y and Z
 [-0.0002, -0.0002, 0.00025]     // Model 2: Rotate on Y and Z
 ];
-
 // Function to invert a color (returns inverted THREE.Color)
 function invertColor(color) {
 return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
@@ -3196,7 +3149,6 @@ const points = [];
 for (let i = 0; i < count; i++) {
 const u = (i / count) * Math.PI * 2;
 const v = ((i * 137.5) % count / count) * Math.PI * 2;
-
 const x = (radius + tube * Math.cos(v)) * Math.cos(u);
 const y = (radius + tube * Math.cos(v)) * Math.sin(u);
 const z = tube * Math.sin(v);
@@ -3227,11 +3179,9 @@ const aspect = window.innerWidth / window.innerHeight;
 const near = 0.1;
 const far = 1000;
 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
 const isDesktop = window.innerWidth >= 1025;
 camera.position.z = isDesktop ? 5.25 : 6;
-camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
-
+camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile;
 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -3271,14 +3221,13 @@ model.position.set(position[0], position[1], position[2]);
 // ** Apply individual rotation **
 model.rotation.set(rotation[0], rotation[1], rotation[2]); 
 
-// ** Setup animation mixer BEFORE material changes **
+// ** Setup animation 
+mixer BEFORE material changes **
 console.log(`Model ${index} loaded from: ${path}`);
 console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
-
 if (gltf.animations && gltf.animations.length > 0) {
 const mixer = new THREE.AnimationMixer(model);
 mixers.push(mixer);
-
 // Play all animations in the model
 gltf.animations.forEach((clip, clipIndex) => {
 console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
@@ -3318,7 +3267,6 @@ morphTargets: originalMaterial.morphTargets || false
 }
 }
 });
-
 scene.add(model);
 models.push(model); // Add to the array for animation/update
 
@@ -3350,7 +3298,6 @@ opacity: 1.0
 torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
 torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
 scene.add(torus2);
-
 const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
 const torusMaterial3 = new THREE.MeshBasicMaterial({
 color: currentSphereColor,
@@ -3377,7 +3324,6 @@ Math.random() * 0.25 + 0.1
 const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
 const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
 const outerSpherePoints = getSpherePoints(100, 6.5);
-
 const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
 
 pts.forEach(pt => {
@@ -3427,7 +3373,8 @@ transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)
 shader.fragmentShader = `
 ${shader.fragmentShader}
 `.replace(
-`vec4 diffuseColor = vec4( diffuse, opacity );`,
+`vec4 diffuseColor = vec4( diffuse, 
+opacity );`,
 `
 vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
 float d = length(uv - vec2(1));
@@ -3437,7 +3384,6 @@ vec4 diffuseColor = vec4( diffuse, opacity );`
 );
 }
 });
-
 p = new THREE.Points(g, m);
 scene.add(p);
 
@@ -3447,7 +3393,6 @@ renderer.setAnimationLoop(animate);
 
 function animate() {
 if (!clock || !gu || !renderer) return;
-
 // Get delta ONCE per frame
 const delta = clock.getDelta();
 
@@ -3482,7 +3427,6 @@ p.material.needsUpdate = true;
 
 if (newColor !== currentSphereColor) {
 currentSphereColor = newColor;
-
 const newThreeColor = new THREE.Color(currentSphereColor);
 
 if (gu.color) {
@@ -3576,12 +3520,12 @@ function onWindowResize() {
 if (camera && renderer && container) {
 const width = window.innerWidth;
 const height = window.innerHeight;
-
 const aspect = width / height;
 camera.aspect = aspect;
 
 const isDesktop = window.innerWidth >= 1025;
-camera.position.z = isDesktop ? 5.25 : 6;
+camera.position.z = isDesktop ?
+5.25 : 6;
 camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
 
 camera.updateProjectionMatrix();
@@ -3589,7 +3533,6 @@ renderer.setSize(width, height);
 }
 }
 window.addEventListener('resize', onWindowResize, false);
-
 document.addEventListener('DOMContentLoaded', () => {
 setTimeout(initThreeJS, 100);
 });
@@ -3625,7 +3568,8 @@ modal.css('top', '');
 
 // On mobile, we need to align the modal to the current scroll position
 if (isMobile()) {
-const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
+const scrollTop = themeWrapper.scrollTop(); // 
+Get current scroll position
 modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
 }
 
@@ -3633,8 +3577,6 @@ modal.removeAttr('class').addClass('visible');
 $('body').addClass('modal-active');
 }
 });
-
-
 $('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
 if (e.target === this && $(this).hasClass('out')) {
 $(this).removeAttr('class');
@@ -3656,8 +3598,6 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 }
 
 });
-
-
 </script>
 
 
@@ -3701,7 +3641,6 @@ const scrollPositions = {
 'product': 0
 };
 let currentGallery = '3d';
-
 function updateProgress(scroller, button) {
 if (!button) return;
 const scrollLeft = scroller.scrollLeft;
@@ -3788,7 +3727,6 @@ updateProgress(scrollers[currentGallery], initialMobileLink);
 const modal = document.getElementById('portfolio-modal');
 const modalContentInner = document.getElementById('modal-gall-inner');
 const portfolioItems = document.querySelectorAll('.portfolio-item');
-
 portfolioItems.forEach(item => {
 item.addEventListener('click', () => {
 // Clone the item's content (in this case, just the text)
@@ -3875,7 +3813,6 @@ const hex = textColor.replace('#', '');
 const r = parseInt(hex.substring(0, 2), 16);
 const g = parseInt(hex.substring(2, 4), 16);
 const b = parseInt(hex.substring(4, 6), 16);
-
 // Validate the parsed values
 if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
 return { r, g, b };
@@ -3894,7 +3831,6 @@ function resizeCanvas() {
 const rect = canvas.parentElement.getBoundingClientRect();
 canvas.width = rect.width;
 canvas.height = rect.height;
-
 // Adjust spacing for mobile
 spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
 dots = [];
@@ -3950,7 +3886,6 @@ const currentWave = (time * waveSpeed) % maxDist;
 
 // Get current theme color
 const color = getThemeColor();
-
 dots.forEach(dot=>{
 if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
 return;
@@ -3998,52 +3933,5 @@ copyButton.classList.remove('copied');
 copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
-</script> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+</script>
+</html>
