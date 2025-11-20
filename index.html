@@ -1619,12 +1619,24 @@ box-shadow: none;
 align-content: center;
 }  
     
-.modal-panel.right{
-bottom: -2.5px;
+/.modal-panel.right{
+bottom: -5px;
 position: fixed;
 right: 0;
 
 }   
+
+.modal-panel.right {
+        bottom: -5px;
+        position: fixed;
+        right: -120px;
+        z-index: -1;
+    }
+
+
+.modal-panel {
+    width: 55%;
+}
     
 .ls:first-child{
 border-top: 1px solid var(--border-color);
@@ -4022,6 +4034,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
