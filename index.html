@@ -1671,16 +1671,15 @@ padding: 0;
 margin: 0;
 font-size: unset;
 letter-spacing: unset;	
+background-color: inherit;    
 }	
 
 /* === NEW: Mobile Work Nav (Section 2) === */
 #mobile-work-nav {
-/* display: none;
-*/ /* MODIFIED: No longer using display */
-/* NEW: Slide-in/out styles */
+/* display: none; */ /* MODIFIED: No longer using display */
 overflow: hidden;
 max-height: 0;
-transform: translateY(100%);
+transform: translateY(100%); /* NEW: Slide-in/out styles */
 transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), 
 transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
 border-width 0.1s linear;
@@ -3929,6 +3928,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
