@@ -703,9 +703,9 @@ touch-action: manipulation;
 user-select: none;
 -webkit-user-select: none;
 /* ADD THESE: */
-    perspective: 1000px;
-    -webkit-perspective: 1000px;
-    transform-style: preserve-3d;
+perspective: 1000px;
+-webkit-perspective: 1000px;
+transform-style: preserve-3d;
 }
 
 /* --- NEW: Marquee Animation Trigger --- */
@@ -726,15 +726,15 @@ user-select: none;
 }
 
 .marquee-content-wrapper {
-    display: flex;
-    width: max-content; /* Changed from fit-content to prevent sub-pixel calculation errors */
-    animation: marquee-scroll 100s linear infinite;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    will-change: transform; /* Tells browser to keep this in GPU memory */
-    transform-style: preserve-3d; /* Prevents flattening/flashing */
+display: flex;
+width: max-content; /* Changed from fit-content to prevent sub-pixel calculation errors */
+animation: marquee-scroll 100s linear infinite;
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+will-change: transform; /* Tells browser to keep this in GPU memory */
+transform-style: preserve-3d; /* Prevents flattening/flashing */
 }
-    
+
 .marquee-content {
 display: flex;
 white-space: nowrap; 
@@ -878,14 +878,14 @@ object-fit: contain;
 }
 --- */
 @keyframes marquee-scroll {
-    0% { 
-        transform: translate3d(0, 0, 0); 
-    }
-    100% { 
-        transform: translate3d(-50%, 0, 0); 
-    }
+0% { 
+transform: translate3d(0, 0, 0); 
 }
-    
+100% { 
+transform: translate3d(-50%, 0, 0); 
+}
+}
+
 @keyframes containerFadeIn {
 0% { opacity: 0;
 }
@@ -1037,8 +1037,10 @@ border: 1px solid var(--border-color);
 border-right: 0;
 background-color: var(--bg-color);
 color: var(--text-color);
-/* height: 100%;
-*/ /* <-- REMOVED */
+/* height: 100%; */ /* <-- REMOVED */
+border-top: none;
+border-bottom: none;
+    
 }
 
 .portfolio-img {
@@ -1133,7 +1135,10 @@ height: 100%;
 overflow: hidden; /* Hide overflowing content */
 border: 1px solid var(--border-color);
 border-left: 1px solid var(--border-color);
-align-content: center;    
+align-content: center;
+border-top: none;
+border-bottom: none;
+   
 }
 
 .info-content {
@@ -1234,7 +1239,7 @@ aspect-ratio: 4/5;
 
 
 /*SERVICES///////////////////////////*/
-    
+
 #section-3 .section-content {
 width: 100%;
 }
@@ -1378,7 +1383,7 @@ pointer-events: auto;
 }
 
 /*SERVICES END///////////////////////////*/
-    
+
 
 /*INQUIRY///////////////////////////*/
 
@@ -1998,17 +2003,17 @@ border: 2.5px solid var(--border-color);
 }
 
 .portfolio-item {
-    width: 80vw; /* Standard width ensures centering works correctly */
-    max-width: 80vw;
-    margin-right: 1.5rem; /* Clean consistent gap */
-    margin-left: 0;
-    height: auto;
-    aspect-ratio: auto;  
-    transform: none; /* Remove scale, handle size via width above */
-    border: 2.5px solid var(--border-color);  
+width: 80vw; /* Standard width ensures centering works correctly */
+max-width: 80vw;
+margin-right: 1.5rem; /* Clean consistent gap */
+margin-left: 0;
+height: auto;
+aspect-ratio: auto;  
+transform: none; /* Remove scale, handle size via width above */
+border: 2.5px solid var(--border-color);  
 }
 
-    
+
 /.portfolio-item:last-child {
 margin-right: 0;
 margin-left: 5.5rem;    
@@ -2017,10 +2022,10 @@ margin-left: 5.5rem;
 
 /* 2. Remove the weird margins on the last item */
 .portfolio-item:last-child {
-    margin-right: 0;
-    margin-left: 0;    
+margin-right: 0;
+margin-left: 0;    
 }
-    
+
 .portfolio-item:hover {
 transform: none;
 box-shadow: none;
@@ -2143,23 +2148,23 @@ padding-bottom: 1.5rem;
 
 /* 3. Add padding to scroller so first/last items can reach the center */
 .scroller {
-    height: 100%;
-    width: 100%; 
-    touch-action: auto;
-    overscroll-behavior: auto;
-    
-    /* Calculation: (Viewport Width - Item Width) / 2 */
-    /* (100vw - 80vw) / 2 = 10vw padding on each side */
-    padding-left: 10vw; 
-    padding-right: 10vw;
-    
-    padding-top: 0rem;
-    padding-bottom: 1.5rem;
-    
-    display: flex; /* Ensure flex behavior */
-    align-items: center; /* Vertically center */
+height: 100%;
+width: 100%; 
+touch-action: auto;
+overscroll-behavior: auto;
+
+/* Calculation: (Viewport Width - Item Width) / 2 */
+/* (100vw - 80vw) / 2 = 10vw padding on each side */
+padding-left: 10vw; 
+padding-right: 10vw;
+
+padding-top: 0rem;
+padding-bottom: 1.5rem;
+
+display: flex; /* Ensure flex behavior */
+align-items: center; /* Vertically center */
 }
-    
+
 
 /* NEW: Style info section for mobile */
 .portfolio-info {
@@ -2253,15 +2258,15 @@ transform: none;
 
 .modal-gall-inner {
 
-    width: 100%;
-    height: 100%;
-    max-width: unset;
-    aspect-ratio: auto;
+width: 100%;
+height: 100%;
+max-width: unset;
+aspect-ratio: auto;
 }
 
 .modal-gall {
-    max-width: 100%;
-    max-height: 100%;
+max-width: 100%;
+max-height: 100%;
 }
 
 /* === WORK SECTION 2 END=== */
@@ -2348,9 +2353,9 @@ height: 50px;
 font-size: 10px;
 top: -40px;
 }
-    
+
 /* === INQUIRY SECTION 4 END === */
-    
+
 
 }
 
@@ -2543,27 +2548,32 @@ data-navlink="section-1" class="nav-link logo-button active">
 </div>
 
 <div class="portfolio-info info-collapsed">
+    
 <div class="info-content active" data-info="3d">
 <h3>3D Artwork</h3>
-<p>Welcome to my 3D gallery.
+<p>
 This collection showcases my work in modeling, texturing, and rendering.
 I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and V-Ray.</p>
 <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
 </div>
+    
 <div class="info-content" data-info="graphic">
-
 <h3>Graphic Design</h3>
-<p>This section highlights my graphic design portfolio.
-My philosophy centers on clean, communicative, and compelling visuals. I have experience in branding, UI/UX design, and print media.</p>
-<p>You'll find examples of logo systems, mobile app interfaces, and editorial layouts.</p>
+<p>
+This section showcases my work in branding, layout, and visual systems.
+My philosophy centers on clean, communicative, and compelling visuals  using tools like Adobe Illustrator, Photoshop, and Figma. </p>
+<p>You'll find examples of logo systems, Posters, and editorial layouts.</p>
 </div>
+    
 <div class="info-content" data-info="product">
-
-<h3>Product Photography</h3>
-<p>Explore my product photography, where the goal is to make every item tangible and desirable.
-I focus on capturing precise details, rich textures, and perfect lighting to showcase products in their best possible light.</p>
-<p>This gallery features work for e-commerce, advertising, and catalogs.</p>
+<h3>Product Renders</h3>
+<p>
+In this section, I focus on translating product ideas into polished 3D visuals that feel tactile and true to life.
+Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct complex materials, fine-tune lighting, and deliver hyper-realistic product visualizations.
+</p>
+<p>Scroll through the gallery to see high-resolution renders of consumer goods, packaging concepts, and product hero shots designed for advertising, ecommerce, and branding.</p>
 </div>
+    
 </div>
 
 </div>
@@ -2722,7 +2732,7 @@ LINKEDIN
 
 
 </div> 
-  
+
 <footer class="mobile-footer">
 <label for="theme-checkbox" class="icon-button theme-toggle-label" title="Toggle theme">
 
@@ -3999,6 +4009,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
