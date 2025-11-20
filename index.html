@@ -923,8 +923,7 @@ height: 100vh;
 /* NEW: This wrapper holds the gallery and the new info section */
 .portfolio-content-area {
 display: grid;
-/* This splits the right-hand side into gallery (75%) and info (25%) */
-grid-template-columns: 75% 25%;
+grid-template-columns: 75% 25%; /* This splits the right-hand side into gallery (75%) and info (25%) */
 height: 100%;
 overflow: hidden;
 }
@@ -1045,8 +1044,7 @@ scroll-behavior: smooth;
 padding-top: 2rem;
 padding-bottom: 2rem;
 padding-left: 15px; /* CHANGED: Was 15px */
-padding-right: 15px;
-/* CHANGED: Was 15px */
+padding-right: 15px; /* CHANGED: Was 15px */
 opacity: 1;
 transform: translateX(0);
 transition: opacity 0.4s ease, transform 0.4s ease;
@@ -1086,7 +1084,7 @@ justify-content: center;
 align-items: center;
 width: 100%;
 max-width: 62.5vh;
-aspect-ratio: 4/5;
+/aspect-ratio: 4/5;
 margin-right: 2rem;
 margin-left: 0;
 margin-top: auto;
@@ -1109,10 +1107,7 @@ transform: scale(1.02);
 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
-.portfolio-item:last-child {
-margin-right: 0;
-margin-left: 5.5rem;    
-}
+
 
 /* === NEW: Info Section === */
 .portfolio-info {
@@ -2062,6 +2057,11 @@ transform: scale(0.925);
 border: 2.5px solid var(--border-color);  
 }
 
+.portfolio-item:last-child {
+margin-right: 0;
+margin-left: 5.5rem;    
+}
+    
 
 .portfolio-item:hover {
 transform: none;
@@ -3921,6 +3921,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
