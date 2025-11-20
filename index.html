@@ -1040,7 +1040,7 @@ color: var(--text-color);
 /* height: 100%; */ /* <-- REMOVED */
 border-top: none;
 border-bottom: none;
-    
+
 }
 
 .portfolio-img {
@@ -1138,7 +1138,7 @@ border-left: 1px solid var(--border-color);
 align-content: center;
 border-top: none;
 border-bottom: none;
-   
+
 }
 
 .info-content {
@@ -1353,6 +1353,7 @@ padding: 3rem;
 opacity: 0;
 transition: opacity 0.5s ease;
 pointer-events: none;
+margin-left: -40px;    
 }
 
 .service-content[data-service="default"] {
@@ -1368,14 +1369,15 @@ pointer-events: auto;
 opacity: 0;
 pointer-events: none;
 }
-
-.grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"],
+.grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] ,
+.grid-side:has([data-service="animation"]:hover) ~ .display-side [data-service="animation"] ,    
 .grid-side:has([data-service="ux"]:hover) ~ .display-side [data-service="ux"],
 .grid-side:has([data-service="branding"]:hover) ~ .display-side [data-service="branding"],
 .grid-side:has([data-service="development"]:hover) ~ .display-side [data-service="development"],
 .grid-side:has([data-service="strategy"]:hover) ~ .display-side [data-service="strategy"],
 .grid-side:has([data-service="photography"]:hover) ~ .display-side [data-service="photography"],
-.grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] {
+.grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"]
+{
 opacity: 1;
 pointer-events: auto;
 }
@@ -1531,6 +1533,8 @@ z-index: 0; /* Behind .text-container */
 
 /*INQUIRY END///////////////////////////*/
 
+
+
 /* === DESKTOP  === */
 @media (min-width: 1025px) {
 .theme-wrapper {
@@ -1604,6 +1608,21 @@ height: 100%;
 max-width: none;
 border-radius: 0;
 box-shadow: none;
+}
+
+modal-panel.left {
+align-content: center;
+}  
+    
+modal-panel.right{
+bottom: 0;
+position: fixed;
+right: 0;
+
+}   
+    
+.ls:first-child{
+border-top: 1px solid var(--border-color);
 }
 
 }
@@ -2241,15 +2260,15 @@ overflow-y: auto; /* Allow content to scroll if it's too long */
 }
 
 .info-content h3 {
-font-size: 1.0rem;
+/font-size: 1.0rem;
 margin-bottom: 0.2rem;
 text-align: center;
 }
 
 .info-content p {
-font-size: 0.8rem;
+/font-size: 0.8rem;
 line-height: 1.2;
-margin-bottom: 0.5rem;
+/margin-bottom: 0.5rem;
 }
 
 .info-button:hover svg {
@@ -2548,15 +2567,15 @@ data-navlink="section-1" class="nav-link logo-button active">
 </div>
 
 <div class="portfolio-info info-collapsed">
-    
+
 <div class="info-content active" data-info="3d">
 <h3>3D Visualization</h3>
 <p>
 This collection showcases my work in modeling, texturing, and rendering.
-I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and Marvelous Designer</p>
+I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and Marvelous Designer.</p>
 <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
 </div>
-    
+
 <div class="info-content" data-info="graphic">
 <h3>Graphic Design</h3>
 <p>
@@ -2564,7 +2583,7 @@ This section showcases my work in branding, layout, and visual systems.
 My philosophy centers on clean, communicative, and compelling visuals  using tools like Adobe Illustrator, Photoshop, and Figma. </p>
 <p>You'll find examples of logo systems, Posters, and editorial layouts.</p>
 </div>
-    
+
 <div class="info-content" data-info="product">
 <h3>Product Renders</h3>
 <p>
@@ -2573,7 +2592,7 @@ Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct 
 </p>
 <p>Scroll through the gallery to see high-resolution renders of consumer goods, packaging concepts, and product hero shots designed for advertising, ecommerce, and branding.</p>
 </div>
-    
+
 </div>
 
 </div>
@@ -2598,13 +2617,19 @@ Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct 
 <div class="container">
 <div class="grid-side">
 
-<div class="grid-item" data-service="art">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
-<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
+<div 
+class="grid-item" data-service="motion">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
 </div>
 
-<div class="grid-item" data-service="ux">
+<div 
+class="grid-item" data-service="animation">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Animation" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Animation</h3></div>
+</div>    
 
+<div class="grid-item" data-service="ux">
 <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">UX/UI</h3></div>
 </div>
@@ -2622,21 +2647,23 @@ Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct 
 </div>
 
 <div class="grid-item" data-service="strategy">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Strategy" class="grid-item-bg">
-<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Strategy</h3></div>
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Interactivity" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Interactive Displays</h3></div>
 </div>
 
 
 <div class="grid-item" data-service="photography">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Photo" class="grid-item-bg">
-<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Photography</h3></div>
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Staging" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Stage + Lighting Design</h3></div>
 </div>
 
-<div 
-class="grid-item" data-service="motion">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
-<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
+
+
+<div class="grid-item" data-service="art">
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
+<div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
 </div>
+    
 </div>
 
 <div class="display-side">
@@ -2648,15 +2675,31 @@ class="grid-item" data-service="motion">
 
 </div>
 </div>
-
-<div class="service-content" data-service="art"><div class="service-content-inner"><h2>Art Direction</h2><p>Creating compelling visual narratives.</p></div></div>
-<div class="service-content" data-service="ux"><div class="service-content-inner"><h2>UX/UI</h2><p>Designing intuitive digital experiences.</p></div></div>
-<div class="service-content" 
-data-service="branding"><div class="service-content-inner"><h2>Branding</h2><p>Building memorable brand identities.</p></div></div>
-<div class="service-content" data-service="development"><div class="service-content-inner"><h2>Development</h2><p>Modern, clean, performant builds.</p></div></div>
-<div class="service-content" data-service="strategy"><div class="service-content-inner"><h2>Strategy</h2><p>Data-driven planning.</p></div></div>
-<div class="service-content" data-service="photography"><div class="service-content-inner"><h2>Photography</h2><p>High-impact visual storytelling.</p></div></div>
-<div class="service-content" data-service="motion"><div class="service-content-inner"><h2>Motion</h2><p>Dynamic motion graphics.</p></div></div>
+    
+<div class="service-content" data-service="animation"><div class="service-content-inner"><h2>Animation </h2>
+<p>Dynamic graphics that bring stories, products, and concepts to life through polished movement, expressive timing, and visually engaging sequences.</p>
+</div></div>
+<div class="service-content" data-service="motion"><div class="service-content-inner"><h2>Motion Graphics </h2>
+    <p>Clean, modern motion design that blends typography, shape language, and visual rhythm to communicate ideas with clarity and energy.</p>
+</div></div>    
+<div class="service-content" data-service="ux"><div class="service-content-inner"><h2>UX/UI</h2>
+   <p>Designing intuitive digital experiences focused on clarity, usability, and seamless interaction across platforms and devices.</p>
+</div></div>
+<div class="service-content" data-service="branding"><div class="service-content-inner"><h2>Branding</h2>
+   <p>Building memorable brand identities with thoughtful visuals, consistent messaging, and cohesive design systems that resonate with audiences.</p>
+</div></div>
+<div class="service-content" data-service="development"><div class="service-content-inner"><h2> Web Development</h2>
+   <p>Modern, clean, performant builds crafted with responsive layouts, smooth interactions, and scalable architecture.</p>
+</div></div>
+<div class="service-content" data-service="strategy"><div class="service-content-inner"><h2>Interactive Displays </h2>
+    <p>Creating immersive interactive installations that respond to user input, showcasing content through motion, light, and real-time design elements.</p>
+</div></div>
+<div class="service-content" data-service="photography"><div class="service-content-inner"><h2>Stage + Lighting Design</h2>
+   <p>High-impact visual storytelling through intentional lighting, spatial composition, and atmosphere tailored to performances and live environments.</p>
+</div></div>
+<div class="service-content" data-service="art"><div class="service-content-inner"><h2>Art Direction</h2>
+   <p>Crafting compelling visual narratives by guiding style, tone, and aesthetic choices across every creative touchpoint.</p>
+</div></div>
 
 </div>
 </div>
@@ -2668,8 +2711,8 @@ data-service="branding"><div class="service-content-inner"><h2>Branding</h2><p>B
 <div class="section-content">
 
 <div class="text-container">
-<div class="copyable-text" id="textToCopy" data-copy="YADADA@GMAIL.COM">
-YADADA@GMAIL.COM
+<div class="copyable-text" id="textToCopy" data-copy="hi@gmail.com">
+HI@GMAIL.COM
 </div>
 <div class="copy-circle" id="copyButton">Copy Me</div>
 </div>
@@ -2693,13 +2736,14 @@ For brands and companies, I design and develop interactive interfaces and experi
 In parallel, I create 3D-driven visual art for musicians and public figures, producing work that blends technical precision with narrative depth and visual impact.
 </p>
 
-<br>   <p class="ls">
+<br>   
+<p class="ls">
 CONTACT:
-YADADA@GMAIL.COM
+HI@GMAIL.COM
 </p>
-<br>   <p class="ls">
-
-LINKEDIN
+<br>   
+<p class="ls">
+<a href="https://www.linkedin.com/yourprofile" target="_blank">LINKEDIN</a>
 </p>
 </div>
 <div class="modal-panel right">
@@ -3355,9 +3399,10 @@ Math.random() * 0.25 + 0.1
 
 const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
 const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
+const torus3Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, 0);
 const outerSpherePoints = getSpherePoints(100, 6.5);
 
-const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
+const pts = [...torus1Points, ...torus2Points, ...torus3Points, ...outerSpherePoints];
 
 pts.forEach(pt => {
 sizes.push(Math.random() * 0.5 + 1);
@@ -3955,6 +4000,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
