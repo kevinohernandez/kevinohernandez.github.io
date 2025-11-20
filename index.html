@@ -319,7 +319,7 @@ height: 100%;
 justify-content: space-between;
 align-items: center;
 border-right: 1px solid var(--border-color);
-width: 2.5rem;
+width: 2rem;
 flex-shrink: 0; 
 
 background-color: var(--bg-color);
@@ -393,8 +393,8 @@ transform: translateY(0);
 
 /* === Icon Button Base Class === */
 .icon-button {
-width: 2rem;
-height: 2rem;
+width: 1.5rem;
+height: 1.5rem;
 border-radius: 50%;
 cursor: pointer;
 position: relative;
@@ -1634,6 +1634,9 @@ border-top: 1px solid var(--border-color);
 
 .item-title br{display:none}    
 
+
+.logo-button{ transform: scale(0.925); }
+    
 }
 
 
@@ -3410,10 +3413,10 @@ Math.random() * 0.25 + 0.1
 );
 }
 
-const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
-const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-const torus3Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, 0);
-const outerSpherePoints = getSpherePoints(100, 6.5);
+const torus1Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
+const torus2Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
+const torus3Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, 0);
+const outerSpherePoints = getSpherePoints(150, 6.5);
 
 const pts = [...torus1Points, ...torus2Points, ...torus3Points, ...outerSpherePoints];
 
@@ -4013,6 +4016,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
