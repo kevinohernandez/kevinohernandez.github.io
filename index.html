@@ -1620,7 +1620,7 @@ align-content: center;
 }  
     
 .modal-panel.right{
-bottom: 0;
+bottom: -2.5px;
 position: fixed;
 right: 0;
 
@@ -1636,6 +1636,11 @@ border-top: 1px solid var(--border-color);
 
 
 .logo-button{ transform: scale(0.9); }
+
+/.bb img {
+    position: relative;
+    bottom: -5px;
+}
     
 }
 
@@ -4017,6 +4022,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
