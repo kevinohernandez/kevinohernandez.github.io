@@ -1260,7 +1260,7 @@ overflow-y: auto;
 
 .grid-item {
 flex: 1;
-min-height: calc(100vh / 7);
+min-height: calc(100vh / 8);
 border-bottom: 1px solid #4a4a4a;
 position: relative;
 padding: 2rem;
@@ -1349,13 +1349,20 @@ height: 100%;
 display: flex;
 align-items: center;
 justify-content: center;
-padding: 3rem;
+/padding: 3rem;
+padding: 7rem;    
 opacity: 0;
 transition: opacity 0.5s ease;
 pointer-events: none;
 margin-left: -40px;    
 }
 
+.service-content-inner.h2{
+    
+padding-bottom:5px;
+    
+}
+    
 .service-content[data-service="default"] {
 opacity: 1;
 pointer-events: auto;
@@ -1610,11 +1617,11 @@ border-radius: 0;
 box-shadow: none;
 }
 
-modal-panel.left {
+.modal-panel.left {
 align-content: center;
 }  
     
-modal-panel.right{
+.modal-panel.right{
 bottom: 0;
 position: fixed;
 right: 0;
@@ -2276,7 +2283,6 @@ transform: none;
 }
 
 .modal-gall-inner {
-
 width: 100%;
 height: 100%;
 max-width: unset;
@@ -2324,7 +2330,7 @@ pointer-events: none !important;
 
 .grid-item { 
 padding: 0rem 0rem 0rem 1rem;
-min-height: calc(100svh / 7.333);
+min-height: calc(100svh / 8.333);
 }
 .circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
 .item-title { font-size: 1rem; }
@@ -2352,6 +2358,7 @@ justify-content: flex-start;
 
 .service-content {
 padding: 1rem;
+margin-left: 0;    
 }
 .grid-side {
 width: 40%;
@@ -4000,6 +4007,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
