@@ -2124,7 +2124,7 @@ border:none;
 
 .section-btn {
 font-size: 0.75rem;
-padding: 0.6rem;
+padding: 0.5rem;
 height: 100%;
 display: flex;
 align-items: center;
@@ -2133,11 +2133,22 @@ text-align: center;
 font-weight: normal;
 letter-spacing: 0.1em;
 }
+
+.section-btn.active {
+background: none;
+}
+
 .section-btn span {
 padding: 0;
-/* Remove desktop padding */
-justify-content: center;
+justify-content: center; /* Remove desktop padding */
+opacity: 0.5;
+
 }
+
+section-btn.active span {
+opacity: 1;
+}
+
 
 .section-btn:hover {
 transform: none;
@@ -2146,10 +2157,8 @@ transform: none;
 /* Gallery takes 60% height, Info takes 40% */
 .portfolio-gallery {
 padding: 0;
-/* UPDATED: Set order to 2 */
-order: 2;
-/* UPDATED: Let flexbox control height */
-height: auto;
+order: 2; /* UPDATED: Set order to 2 */
+height: auto; /* UPDATED: Let flexbox control height */
 flex-grow: 1;
 flex-shrink: 1;
 border: none;
@@ -2163,13 +2172,11 @@ height: 100%;
 width: 100%; 
 touch-action: auto;
 overscroll-behavior: auto;
-/* Center items and show one at a time */
-/padding-left: calc(50vw - 25vh);
-/* Centers items based on max-width */
-/padding-right: calc(50vw - 25vh);
+/padding-left: calc(50vw - 25vh); /* Center items and show one at a time */
+/padding-right: calc(50vw - 25vh); /* Centers items based on max-width */
 scroll-padding: 0 calc(50vw - 21vh);
-padding-top: 1rem;
-padding-bottom: 1rem;
+padding-top: 0rem;
+padding-bottom: 1.5rem;
 }
 
 
@@ -2411,7 +2418,7 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/slab.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr17.jpg" alt="" /> </div>
 
-  
+
 </div>
 
 <div class="scroller" id="scroller-graphic">
@@ -2426,7 +2433,7 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd11.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd9.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd8.jpg" alt="" /> </div>
-  
+
 </div>
 
 <div class="scroller" id="scroller-product">
@@ -2443,7 +2450,7 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" alt="" /> </div>
 
 </div>
-  
+
 </div>
 
 <div class="portfolio-info info-collapsed">
@@ -3179,55 +3186,55 @@ console.log(`Model ${index} loaded from: ${path}`);
 console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
 
 if (gltf.animations && gltf.animations.length > 0) {
-  const mixer = new THREE.AnimationMixer(model);
-  mixers.push(mixer);
-  
-  // Play all animations in the model
-  gltf.animations.forEach((clip, clipIndex) => {
-    console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
-    const action = mixer.clipAction(clip);
-    action.play();
-  });
+const mixer = new THREE.AnimationMixer(model);
+mixers.push(mixer);
+
+// Play all animations in the model
+gltf.animations.forEach((clip, clipIndex) => {
+console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
+const action = mixer.clipAction(clip);
+action.play();
+});
 } else {
-  console.log(`No animations found in model ${index}`);
+console.log(`No animations found in model ${index}`);
 }
 
 // Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
 model.traverse((child) => {
-  if (child.isMesh && child.material) {
-    const originalMaterial = child.material;
-    
-    if (index === 1) {
-      // Model 2: inverted color with MeshBasicMaterial
-      const invertedColor = new THREE.Color(
-        1 - themeColor.r,
-        1 - themeColor.g,
-        1 - themeColor.b
-      );
-      child.material = new THREE.MeshBasicMaterial({ 
-        color: invertedColor,
-        side: THREE.DoubleSide,
-        skinning: originalMaterial.skinning || false,
-        morphTargets: originalMaterial.morphTargets || false
-      });
-    } else {
-      // Model 1: theme color with MeshBasicMaterial
-      child.material = new THREE.MeshBasicMaterial({ 
-        color: themeColor.clone(),
-        side: THREE.DoubleSide,
-        skinning: originalMaterial.skinning || false,
-        morphTargets: originalMaterial.morphTargets || false
-      });
-    }
-  }
+if (child.isMesh && child.material) {
+const originalMaterial = child.material;
+
+if (index === 1) {
+// Model 2: inverted color with MeshBasicMaterial
+const invertedColor = new THREE.Color(
+1 - themeColor.r,
+1 - themeColor.g,
+1 - themeColor.b
+);
+child.material = new THREE.MeshBasicMaterial({ 
+color: invertedColor,
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+} else {
+// Model 1: theme color with MeshBasicMaterial
+child.material = new THREE.MeshBasicMaterial({ 
+color: themeColor.clone(),
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+}
+}
 });
 
 scene.add(model);
 models.push(model); // Add to the array for animation/update
 
 }, 
-          undefined, 
-          function (error) {
+  undefined, 
+  function (error) {
 console.error('An error occurred loading the GLB model:', path, error);
 });
 });
@@ -3302,41 +3309,41 @@ shader.uniforms.time = gu.time;
 shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
 
 shader.vertexShader = `
-        uniform float time;
-        uniform vec3 color;
-        attribute float sizes;
-        attribute vec4 shift;
-        varying vec3 vColor;
-        ${shader.vertexShader}
-      `.replace(
-  `gl_PointSize = size;`,
-  `gl_PointSize = size * sizes;`
+uniform float time;
+uniform vec3 color;
+attribute float sizes;
+attribute vec4 shift;
+varying vec3 vColor;
+${shader.vertexShader}
+`.replace(
+`gl_PointSize = size;`,
+`gl_PointSize = size * sizes;`
 ).replace(
-  `#include <color_vertex>`,
-  `#include <color_vertex>
-          float d = length(abs(position) / vec3(40., 10., 40));
-          d = clamp(d, 0., 1.);
-          vColor = color;
-        `
+`#include <color_vertex>`,
+`#include <color_vertex>
+  float d = length(abs(position) / vec3(40., 10., 40));
+  d = clamp(d, 0., 1.);
+  vColor = color;
+`
 ).replace(
-  `#include <begin_vertex>`,
-  `#include <begin_vertex>
-          float t = time;
-          float moveT = mod(shift.x + shift.z * t, PI2);
-          float moveS = mod(shift.y + shift.z * t, PI2);
-          transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
-        `
+`#include <begin_vertex>`,
+`#include <begin_vertex>
+  float t = time;
+  float moveT = mod(shift.x + shift.z * t, PI2);
+  float moveS = mod(shift.y + shift.z * t, PI2);
+  transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
+`
 );
 shader.fragmentShader = `
-        ${shader.fragmentShader}
-      `.replace(
-  `vec4 diffuseColor = vec4( diffuse, opacity );`,
-  `
-        vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
-        float d = length(uv - vec2(1));
-        float f = 1. - step(d, 1.);
-        if (f < 0.1) discard;
-        vec4 diffuseColor = vec4( diffuse, opacity );`
+${shader.fragmentShader}
+`.replace(
+`vec4 diffuseColor = vec4( diffuse, opacity );`,
+`
+vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
+float d = length(uv - vec2(1));
+float f = 1. - step(d, 1.);
+if (f < 0.1) discard;
+vec4 diffuseColor = vec4( diffuse, opacity );`
 );
 }
 });
@@ -3400,26 +3407,26 @@ p.material.needsUpdate = true;
 // 🔄 THEME UPDATE FOR ALL GLB MODELS
 if (models.length > 0) { 
 models.forEach((model) => {
-  const modelIndex = model.userData.modelIndex;
+const modelIndex = model.userData.modelIndex;
 
-  model.traverse((child) => {
-    if (child.isMesh && child.material) {
-      // Model 0 gets the theme color, Model 1 gets inverted theme color
-      if (modelIndex === 1) {
-        // Invert for model 2
-        const invertedColor = new THREE.Color(
-          1 - newThreeColor.r,
-          1 - newThreeColor.g,
-          1 - newThreeColor.b
-        );
-        child.material.color.copy(invertedColor);
-      } else {
-        // Normal theme color for model 1
-        child.material.color.copy(newThreeColor);
-      }
-      child.material.needsUpdate = true;
-    }
-  });
+model.traverse((child) => {
+if (child.isMesh && child.material) {
+// Model 0 gets the theme color, Model 1 gets inverted theme color
+if (modelIndex === 1) {
+// Invert for model 2
+const invertedColor = new THREE.Color(
+  1 - newThreeColor.r,
+  1 - newThreeColor.g,
+  1 - newThreeColor.b
+);
+child.material.color.copy(invertedColor);
+} else {
+// Normal theme color for model 1
+child.material.color.copy(newThreeColor);
+}
+child.material.needsUpdate = true;
+}
+});
 });
 }
 
@@ -3902,6 +3909,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
