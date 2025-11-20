@@ -1123,8 +1123,8 @@ cursor: pointer;
 }
 
 .portfolio-item:hover {
-/transform: scale(1.02);
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+transform: scale(1.02);
+/box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
 
 
@@ -1144,7 +1144,7 @@ border-bottom: none;
 .info-content {
 position: absolute;
 inset: 0;
-padding: 1.5rem;
+padding: 1.25rem;
 opacity: 0;
 transform: translateY(20px);
 transition: opacity 0.4s ease, transform 0.4s ease;
@@ -2550,10 +2550,10 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-info info-collapsed">
     
 <div class="info-content active" data-info="3d">
-<h3>3D Artwork</h3>
+<h3>3D Visualization</h3>
 <p>
 This collection showcases my work in modeling, texturing, and rendering.
-&nbsp; I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and V-Ray.</p>
+I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and Marvelous Designer</p>
 <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
 </div>
     
@@ -2569,7 +2569,7 @@ My philosophy centers on clean, communicative, and compelling visuals  using too
 <h3>Product Renders</h3>
 <p>
 In this section, I focus on translating product ideas into polished 3D visuals that feel tactile and true to life.
-Using Software such as: Houdini, Octane, and Substance 3D Designer, &nbsp; I construct complex materials, fine-tune lighting, and deliver hyper-realistic product visualizations.
+Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct complex materials, fine-tune lighting, and deliver hyper-realistic product visualizations.
 </p>
 <p>Scroll through the gallery to see high-resolution renders of consumer goods, packaging concepts, and product hero shots designed for advertising, ecommerce, and branding.</p>
 </div>
@@ -3128,7 +3128,7 @@ setupEventListeners();
 </script>
 
 <script type="module">
-let scene, camera, renderer, p, torus1, torus2, torus3;
+let scene, camera, renderer, p;
 // 'models' will hold the loaded GLB objects instead of a single 'planet'
 let models = [];
 // Animation mixers for each model
@@ -3340,37 +3340,6 @@ console.error('An error occurred loading the GLB model:', path, error);
 });
 // =========================================================
 
-// Torus creation remains the same
-const torusGeometry1 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial1 = new THREE.MeshBasicMaterial({
-color: currentSphereColor,
-transparent: false,
-opacity: 1.0
-});
-torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
-torus1.rotation.set(Math.PI / 2.5, Math.PI / 4, 0);
-scene.add(torus1);
-
-const torusGeometry2 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial2 = new THREE.MeshBasicMaterial({
-color: currentSphereColor,
-transparent: false,
-opacity: 1.0
-});
-torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
-torus2.rotation.set(Math.PI / 2.5, -Math.PI / 4, 0);
-scene.add(torus2);
-
-const torusGeometry3 = new THREE.TorusGeometry(3, 0.0125, 16, 100);
-const torusMaterial3 = new THREE.MeshBasicMaterial({
-color: currentSphereColor,
-transparent: false,
-opacity: 1.0
-});
-torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
-torus3.rotation.set(Math.PI / 2.5, 0, 0);
-scene.add(torus3);
-
 gu = { time: { value: 0 } };
 sizes = [];
 shift = [];
@@ -3529,16 +3498,6 @@ child.material.needsUpdate = true;
 });
 });
 }
-
-if (torus1 && torus1.material) {
-torus1.material.color.setHex(currentSphereColor);
-}
-if (torus2 && torus2.material) {
-torus2.material.color.setHex(currentSphereColor);
-}
-if (torus3 && torus3.material) {
-torus3.material.color.setHex(currentSphereColor);
-}
 }
 
 if (p) {
@@ -3564,19 +3523,6 @@ model.rotation.y = staticRotation[1] + Math.sin(clock.getElapsedTime() * speed) 
 // Apply static Z rotation from configuration
 model.rotation.z = staticRotation[2];
 });
-}
-
-if (torus1) {
-torus1.rotation.y += 0.001;
-torus1.rotation.x += 0.0005;
-}
-if (torus2) {
-torus2.rotation.y += 0.001;
-torus2.rotation.x += 0.0005;
-}
-if (torus3) {
-torus3.rotation.y += 0.001;
-torus3.rotation.x += 0.0005;
 }
 
 renderer.render(scene, camera);
@@ -4009,6 +3955,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
