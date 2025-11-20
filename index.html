@@ -3416,7 +3416,7 @@ Math.random() * 0.25 + 0.1
 const torus1Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
 const torus2Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
 const torus3Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, 0);
-const outerSpherePoints = getSpherePoints(150, 6.5);
+const outerSpherePoints = getSpherePoints(100, 6.5);
 
 const pts = [...torus1Points, ...torus2Points, ...torus3Points, ...outerSpherePoints];
 
@@ -4016,6 +4016,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
