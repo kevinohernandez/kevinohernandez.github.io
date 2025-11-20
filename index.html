@@ -64,7 +64,6 @@ height: 100%;
 scrollbar-width: none;  /* Firefox */
 overscroll-behavior: none;
 touch-action: manipulation;
-/* FIX 3: Ensure bg color is on HTML to prevent gap flash */
 background-color: var(--bg-color); 
 }
 html::-webkit-scrollbar {
@@ -82,7 +81,7 @@ touch-action: manipulation;
 background-color: var(--bg-color);
 color: var(--text-color);
 transition: background-color 0.3s ease, color 0.3s ease;
-/* FIX 3: Use dvh to handle address bar resizing */
+/* Use dvh to handle address bar resizing */
 min-height: 100dvh; 
 }
 
@@ -1828,10 +1827,12 @@ body {
 overflow: hidden;
 }
 
-section { /* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
+section { /* MODIFIED: Reverted to strict 100svh to prevent disappearing/squishing */
 padding: 2rem 0rem ;
 align-items: center;
-height: 100%; /* NEW: Make section height fill theme-wrapper */
+min-height: 100svh; /* NEW: Enforce full viewport height */
+height: 100svh;     /* NEW: Enforce full viewport height */
+position: relative;
 }
 
 .hero-text-large {
@@ -1972,14 +1973,12 @@ justify-content: stretch; /* CHANGED: Don't center, fill width */
 }
 
 #modal-container-side {
-/* CHANGED: Make modal container part of the .mobile-nav flow */
-position: absolute;
-/* Position relative to .theme-wrapper */
+/* FIX 4: Use position: fixed to ensure modal is always on screen */
+position: fixed;
 top: 0;
 left: 0;
-height: 100%; /* Fill the .theme-wrapper container */
+height: 100%; 
 z-index: 200;
-/* MODIFIED: Ensure it's on top of sections */
 }
 /* === END MODAL STYLING UPDATES === */
 
@@ -3542,12 +3541,10 @@ setTimeout(initThreeJS, 100);
 <script>
 // ABOUT  
 $(document).ready(function() {
-// Get references to elements
 const modal = $('#modal-container-side');
-const themeWrapper = $('.theme-wrapper');
-// Check if we're on the mobile layout (matching your CSS breakpoint)
-const isMobile = () => window.innerWidth <= 1024; 
 
+// FIX: Simplified click handler using simple class toggling
+// CSS position: fixed handles the placement automatically now
 $('#desktop-about-button, #mobile-about-button').on('click', function(e){
 e.preventDefault();
 
@@ -3555,28 +3552,13 @@ if (modal.hasClass('visible')) {
 // --- CLOSE MODAL ---
 modal.addClass('out');
 $('body').removeClass('modal-active');
-
-// Reset top style only if we're on mobile
-if (isMobile()) {
-// Use a timeout to reset *after* the close animation
-setTimeout(() => {
-modal.css('top', ''); 
-}, 500); // Match animation duration
-}
 } else {
 // --- OPEN MODAL ---
-
-// On mobile, we need to align the modal to the current scroll position
-if (isMobile()) {
-const scrollTop = themeWrapper.scrollTop(); // 
-Get current scroll position
-modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
-}
-
 modal.removeAttr('class').addClass('visible');
 $('body').addClass('modal-active');
 }
 });
+
 $('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
 if (e.target === this && $(this).hasClass('out')) {
 $(this).removeAttr('class');
