@@ -2050,7 +2050,7 @@ max-width: 100%;
 /height:90%;
 height: auto;
 aspect-ratio: auto;  
-transform: scale(0.95);  
+transform: scale(0.925);  
 }
 
 .portfolio-img {
@@ -2174,26 +2174,18 @@ padding-bottom: 1rem;
 
 /* NEW: Style info section for mobile */
 .portfolio-info {
-/* UPDATED: Changed to an absolute overlay */
 position: absolute;
 bottom: 0;
 left: 0;
 width: 100%;
 height: 70%; /* Height of the panel when open */
-z-index: 40;
-/* Above button (20) and scrollers (10) */
-
+z-index: 40; /* Above button (20) and scrollers (10) */
 background-color: var(--bg-color);
 border-top: 1px solid var(--border-color);
 overflow: hidden; /* Hides its own content overflow */
-
-/* This is the "shown" state */
 transform: translateY(0);
 transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-
-/* Clear any conflicting old styles */
-/* UPDATED: Set order to 3 to not interfere with gallery */
-order: 3;
+order: 3; /* UPDATED: Set order to 3 to not interfere with gallery */
 max-height: none;
 flex-grow: 0;
 flex-shrink: 0;
@@ -2411,7 +2403,6 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr2.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr13.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr16.jpg" alt="" /> </div>
-
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr6.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr15.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr14.jpg" alt="" /> </div>
@@ -2425,27 +2416,33 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="scroller" id="scroller-graphic">
 
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd1.jpg" alt="" />   </div>
-<div class="portfolio-item">Graphic Design 2    </div>
-<div class="portfolio-item">Graphic Design 3    </div>
-<div class="portfolio-item">Graphic Design 4    </div>
-
-<div class="portfolio-item">Graphic Design 5    </div>
-<div class="portfolio-item">Graphic Design 6    </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr10.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd6.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd5.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd2.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd10.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gs7.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd11.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd9.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd8.jpg" alt="" /> </div>
+  
 </div>
 
 <div class="scroller" id="scroller-product">
 
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d5.jpg" alt="" />     </div>
-<div class="portfolio-item">Product Shot 2      </div>
-<div class="portfolio-item">Product Shot 3      </div>
-<div class="portfolio-item">Product Shot 4      </div>
-
-<div class="portfolio-item">Product Shot 5      </div>
-<div class="portfolio-item">Product Shot 6      </div>
-<div class="portfolio-item">Product Shot 7      </div>
-<div class="portfolio-item">Product Shot 8      </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d5.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d2.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d12.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d13.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d4.1.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d6.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d7.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d8.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d9.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" alt="" /> </div>
 
 </div>
+  
 </div>
 
 <div class="portfolio-info info-collapsed">
@@ -3904,6 +3901,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
