@@ -30,7 +30,9 @@ body.light-mode {
 --sphere-color: 0x000000;
 }
 
+/* === Base Styles === */
 
+    
 @font-face {
 font-family: 'Neue Haas Display';
 src: url('assets/webfonts/NeueHaasDisplayThin.ttf') format('truetype');
@@ -39,15 +41,12 @@ font-style: normal;
 font-display: swap;
 }
 
-/* Global Styles */
-
 button:focus-visible {
 outline: none;
 box-shadow: 0 0 0 0px #000; /* custom focus ring */
 }
 
 
-/* === Base Styles === */
 * {
 box-sizing: border-box;
 margin: 0;
@@ -951,7 +950,6 @@ color: var(--text-color);
 border: none;
 padding: 0rem;
 font-size: 4vw;
-font-weight: 600;
 cursor: pointer;
 transition: all 0.3s ease;
 text-align: left;
@@ -1212,6 +1210,19 @@ aspect-ratio: 4/5;
 }
 /* === End Modal / Lightbox === */
 
+@media
+/* tablet Landscape  */
+screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
+/* mobile/tablet */
+(max-width:1024px),
+/* Phone Landscape  */
+(max-width: 
+1024px) and (orientation: landscape) and (max-height: 500px) {
+
+
+}    
+
+    
 /*WORK END///////////////////////////*/
 
 
@@ -1355,10 +1366,17 @@ pointer-events: none;
 opacity: 1;
 pointer-events: auto;
 }
+    
 }
 
-/* MOBILE ACTIVE STATES */
-@media (max-width: 1024px) {
+@media
+/* tablet Landscape  */
+screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
+/* mobile/tablet */
+(max-width:1024px),
+/* Phone Landscape  */
+(max-width: 
+1024px) and (orientation: landscape) and (max-height: 500px) {
 
 #section-3 .section-content {
 height: 100%;
@@ -1423,6 +1441,7 @@ padding: 1rem;
 .grid-side {
 width: 40%;
 }
+    
 }
 
 
@@ -1586,6 +1605,100 @@ font-size: 10px;
 top: -40px;
 }
 }
+
+
+
+
+
+
+/* === DESKTOP  === */
+@media (min-width: 1025px) {
+.theme-wrapper {
+overflow: hidden;
+scroll-snap-type: none;
+display: flex;
+flex-direction: row;
+}
+
+main {
+overflow: hidden;
+flex-grow: 1;
+height: 100vh;
+width: 100%;
+}
+
+section {
+position: absolute;
+top: 0; 
+left: 0; 
+height: 100%;
+width: 100%;
+/* UPDATED: Removed background-color transition */
+transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+transform: translateX(100%); 
+padding: 4rem 0rem;
+}
+
+#section-1 {
+transform: translateX(0);
+}
+
+/* Show/Hide UI */
+.mobile-footer {
+display: none;
+}
+.nav-stacked-right, .sidebar-left, .nav-stacked-left {
+display: flex;
+}
+
+/* Section 1 Layout */
+.section-grid {
+flex-direction: row;
+align-items: stretch;
+}
+.section-1-wrapper {
+height: auto;
+justify-content: center;
+}
+
+.text-column {
+padding-top: 0;
+padding-left: 2rem;
+}
+
+/* Typography */
+.section-title-combined {
+font-size: 2.5rem;
+}
+
+/* Desktop Modal Styles */
+#modal-container-side {
+position: absolute;
+z-index: 200;/* Stay on top of sections */
+
+}
+
+.modal-content {
+width: 100%;
+height: 100%;
+max-width: none;
+border-radius: 0;
+box-shadow: none;
+}
+    
+}
+
+
+
+
+@media
+/* tablet Landscape  */
+screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
+/* mobile/tablet */
+(max-width:1024px),
+/* Phone Landscape  */
+(max-width: 
+1024px) and (orientation: landscape) and (max-height: 500px) {
 
 
 
@@ -1762,98 +1875,7 @@ background-clip: text;
 }
 
 /* === END: Mobile Work Nav === */
-
-
-
-/* === DESKTOP  === */
-@media (min-width: 1025px) {
-.theme-wrapper {
-overflow: hidden;
-scroll-snap-type: none;
-display: flex;
-flex-direction: row;
-}
-
-main {
-overflow: hidden;
-flex-grow: 1;
-height: 100vh;
-width: 100%;
-}
-
-section {
-position: absolute;
-top: 0; 
-left: 0; 
-height: 100%;
-width: 100%;
-/* UPDATED: Removed background-color transition */
-transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
-transform: translateX(100%); 
-padding: 4rem 0rem;
-}
-
-#section-1 {
-transform: translateX(0);
-}
-
-/* Show/Hide UI */
-.mobile-footer {
-display: none;
-}
-.nav-stacked-right, .sidebar-left, .nav-stacked-left {
-display: flex;
-}
-
-/* Section 1 Layout */
-.section-grid {
-flex-direction: row;
-align-items: stretch;
-}
-.section-1-wrapper {
-height: auto;
-justify-content: center;
-}
-
-.text-column {
-padding-top: 0;
-padding-left: 2rem;
-}
-
-/* Typography */
-.section-title-combined {
-font-size: 2.5rem;
-}
-
-/* Desktop Modal Styles */
-#modal-container-side {
-position: absolute;
-/* Fit to <main> */
-z-index: 200;
-/* Stay on top of sections */
-}
-
-.modal-content {
-width: 100%;
-height: 100%;
-max-width: none;
-border-radius: 0;
-box-shadow: none;
-}
-}
-
-
-
-
-@media
-/* tablet Landscape  */
-screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
-/* mobile/tablet */
-(max-width:1024px),
-/* Phone Landscape  */
-(max-width: 
-1024px) and (orientation: landscape) and (max-height: 500px) {
-
+    
 /* === START: MOBILE LAYOUT FIX === */
 .mobile-nav {
 display: flex;
@@ -1886,8 +1908,7 @@ body {
 overflow: hidden;
 }
 
-section {
-/* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
+section { /* MODIFIED: Set height to 100% of container, restored 2rem top/bottom padding */
 padding: 2rem 0rem ;
 align-items: center;
 height: 100%; /* NEW: Make section height fill theme-wrapper */
@@ -1953,23 +1974,27 @@ color: var(--text-color);
 background-color: transparent;
 }
 
-/* === NEW: Mobile Info Toggle Button Styles === */
-#mobile-info-toggle {
-display: flex;
-width: 1.75rem;
-height: 1.75rem;
-bottom: 0.75rem;
-top: auto; 
-left: 0.75rem;
-z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
+.nav-link.logo-button.active{
+background: none;
 }
 
-#mobile-info-toggle svg {
-width: 1.2rem;
-height: 1.2rem;
+.marquee-container {
+margin-top: 25rem;
 }
-/* === END: Mobile Info Toggle Button Styles === */
 
+.marquee-content-wrapper {
+animation: marquee-scroll 80s linear infinite;
+
+}
+
+.theme-toggle-label:hover #theme-toggle #theme-dot {
+    transform: none;
+}
+
+    
+
+
+/* === MODAL STYLING UPDATES FOR MOBILE === */
 
 .right{
 display: flex;
@@ -1989,7 +2014,6 @@ width: 100%;
 height: 100%;
 }
 
-/* === MODAL STYLING UPDATES FOR MOBILE === */
 .modal-content {
 /flex-direction: column;
 width: 100vw;
@@ -2037,7 +2061,8 @@ z-index: 200; /* MODIFIED: Ensure it's on top of sections */
 }
 /* === END MODAL STYLING UPDATES === */
 
-
+/* === WORK SECTION 2=== */
+    
 #section-2{
 /height:unset;
 /height: 100vh;
@@ -2221,10 +2246,26 @@ border-bottom-width: 0;
 }
 /* === END: Collapsed state === */
 
+/* === NEW: Mobile Info Toggle Button Styles === */
+#mobile-info-toggle {
+display: flex;
+width: 1.75rem;
+height: 1.75rem;
+bottom: 0.75rem;
+top: auto; 
+left: 0.75rem;
+z-index: 50; /* ADDED: Ensures button is above info panel (z-index: 40) */
+}
+
+#mobile-info-toggle svg {
+width: 1.2rem;
+height: 1.2rem;
+}
+/* === END: Mobile Info Toggle Button Styles === */
+    
 
 .info-content {
-padding: 1rem;
-/* Padding on the content itself */
+padding: 1rem; /* Padding on the content itself */
 position: absolute;
 inset: 0;
 opacity: 0;
@@ -2239,10 +2280,8 @@ opacity: 1;
 transform: translateY(0);
 pointer-events: auto;
 position: relative; /* Override absolute */
-height: 100%;
-/* Ensure it fills the space */
-overflow-y: auto;
-/* Allow content to scroll if it's too long */
+height: 100%; /* Ensure it fills the space */
+overflow-y: auto; /* Allow content to scroll if it's too long */
 }
 
 .info-content h3 {
@@ -2257,28 +2296,13 @@ line-height: 1.2;
 margin-bottom: 0.5rem;
 }
 
-.nav-link.logo-button.active{
-background: none;
-}
-
-.marquee-container {
-margin-top: 25rem;
-}
-
-.marquee-content-wrapper {
-animation: marquee-scroll 80s linear infinite;
-
-}
-
-.theme-toggle-label:hover #theme-toggle #theme-dot {
-    transform: none;
-}
-
 .info-button:hover svg {
     transform: none;
 }
   
-  
+
+
+    
 }
 
 
@@ -3925,6 +3949,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
