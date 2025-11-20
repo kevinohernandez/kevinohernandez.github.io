@@ -2132,6 +2132,7 @@ justify-content: center;
 text-align: center;
 font-weight: normal;
 letter-spacing: 0.1em;
+background-color: inherit; 
 }
 
 .section-btn.active {
@@ -2145,7 +2146,7 @@ opacity: 0.5;
 
 }
 
-section-btn.active span {
+.section-btn.active span {
 opacity: 1;
 }
 
@@ -2262,7 +2263,15 @@ animation: marquee-scroll 80s linear infinite;
 
 }
 
+.theme-toggle-label:hover #theme-toggle #theme-dot {
+    transform: none;
+}
 
+.info-button:hover svg {
+    transform: none;
+}
+  
+  
 }
 
 
@@ -3909,6 +3918,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
