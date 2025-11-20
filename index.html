@@ -3413,12 +3413,11 @@ Math.random() * 0.25 + 0.1
 );
 }
 
-const torus1Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
-const torus2Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-const torus3Points = getTorusPoints(90, 3, 0.0125, Math.PI / 2.5, 0);
+const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
+const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
 const outerSpherePoints = getSpherePoints(100, 6.5);
 
-const pts = [...torus1Points, ...torus2Points, ...torus3Points, ...outerSpherePoints];
+const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
 
 pts.forEach(pt => {
 sizes.push(Math.random() * 0.5 + 1);
@@ -4016,6 +4015,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
