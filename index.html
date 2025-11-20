@@ -1357,10 +1357,8 @@ pointer-events: none;
 margin-left: -40px;    
 }
 
-.service-content-inner.h2{
-    
-padding-bottom:5px;
-    
+.service-content h2{
+padding-bottom:5px;    
 }
     
 .service-content[data-service="default"] {
@@ -1540,9 +1538,8 @@ z-index: 0; /* Behind .text-container */
 
 /*INQUIRY END///////////////////////////*/
 
-
-
 /* === DESKTOP  === */
+    
 @media (min-width: 1025px) {
 .theme-wrapper {
 overflow: hidden;
@@ -1635,8 +1632,7 @@ border-top: 1px solid var(--border-color);
 }
 
 
-
-
+/* === MOBILE-ETC === */
 @media
 /* tablet Landscape  */
 screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
@@ -2178,15 +2174,12 @@ height: 100%;
 width: 100%; 
 touch-action: auto;
 overscroll-behavior: auto;
-
 /* Calculation: (Viewport Width - Item Width) / 2 */
 /* (100vw - 80vw) / 2 = 10vw padding on each side */
 padding-left: 10vw; 
 padding-right: 10vw;
-
 padding-top: 0rem;
 padding-bottom: 1.5rem;
-
 display: flex; /* Ensure flex behavior */
 align-items: center; /* Vertically center */
 }
@@ -2329,11 +2322,11 @@ pointer-events: none !important;
 }
 
 .grid-item { 
-padding: 0rem 0rem 0rem 1rem;
-min-height: calc(100svh / 8.333);
+padding: 0rem 0rem 0rem 0.75rem;
+min-height: calc(100svh / 9.333);
 }
 .circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
-.item-title { font-size: 1rem; }
+.item-title { font-size: 0.9rem; }
 
 .service-content h2 { 
 font-size: clamp(1.5rem, 5vw, 2rem);
@@ -2626,48 +2619,57 @@ Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct 
 
 <div 
 class="grid-item" data-service="motion">
+<!--  
 <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Motion" class="grid-item-bg">
+   -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Motion</h3></div>
 </div>
 
 <div 
 class="grid-item" data-service="animation">
+    <!-- 
 <img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Animation" class="grid-item-bg">
+       -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Animation</h3></div>
 </div>    
 
 <div class="grid-item" data-service="ux">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">
+    <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Design" class="grid-item-bg">   -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">UX/UI</h3></div>
 </div>
 
 <div class="grid-item" data-service="branding">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Brand" class="grid-item-bg">
-
+    <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Brand" class="grid-item-bg">   -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Branding</h3></div>
 </div>
 
 <div class="grid-item" data-service="development">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Code" class="grid-item-bg">
+    <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Code" class="grid-item-bg">    -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Development</h3></div>
 
 </div>
 
 <div class="grid-item" data-service="strategy">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Interactivity" class="grid-item-bg">
+    <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Interactivity" class="grid-item-bg">   -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Interactive Displays</h3></div>
 </div>
 
 
 <div class="grid-item" data-service="photography">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Staging" class="grid-item-bg">
+    <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Staging" class="grid-item-bg">    -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Stage + Lighting Design</h3></div>
 </div>
 
 
 
 <div class="grid-item" data-service="art">
-<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">
+        <!-- 
+<img src="https://placehold.co/600x400/1a1a1a/ffffff?text=Art" class="grid-item-bg">   -->    
 <div class="grid-item-content"><div class="circle"></div><h3 class="item-title">Art Direction</h3></div>
 </div>
     
@@ -4007,6 +4009,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
