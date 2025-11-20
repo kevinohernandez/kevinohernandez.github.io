@@ -5,7 +5,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -32,7 +31,7 @@ body.light-mode {
 
 /* === Base Styles === */
 
-    
+
 @font-face {
 font-family: 'Neue Haas Display';
 src: url('assets/webfonts/NeueHaasDisplayThin.ttf') format('truetype');
@@ -1027,7 +1026,7 @@ height: 100%;
 object-fit: contain;
 }  
 
-    
+
 .scroller {
 height: 100%;
 width: 100%; /* <-- CHANGED from 98% */
@@ -1104,7 +1103,6 @@ cursor: pointer;
 transform: scale(1.02);
 box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
 }
-
 
 
 /* === NEW: Info Section === */
@@ -1210,23 +1208,12 @@ aspect-ratio: 4/5;
 }
 /* === End Modal / Lightbox === */
 
-@media
-/* tablet Landscape  */
-screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
-/* mobile/tablet */
-(max-width:1024px),
-/* Phone Landscape  */
-(max-width: 
-1024px) and (orientation: landscape) and (max-height: 500px) {
 
-
-}    
-
-    
 /*WORK END///////////////////////////*/
 
 
 /*SERVICES///////////////////////////*/
+    
 #section-3 .section-content {
 width: 100%;
 }
@@ -1366,90 +1353,15 @@ pointer-events: none;
 opacity: 1;
 pointer-events: auto;
 }
+
+}
+
+/*SERVICES END///////////////////////////*/
     
-}
-
-@media
-/* tablet Landscape  */
-screen and (min-width: 768px) and (max-width: 1368px) and (orientation: landscape) and (hover: none) and (pointer: coarse) ,
-/* mobile/tablet */
-(max-width:1024px),
-/* Phone Landscape  */
-(max-width: 
-1024px) and (orientation: landscape) and (max-height: 500px) {
-
-#section-3 .section-content {
-height: 100%;
-}
-#section-3 {padding:0}
-
-.container {
-height: 100%;
-}
-
-.grid-item.active {
-background-color: #1a1a1a;
-}
-.grid-item.active .grid-item-bg {
-opacity: 0.3;
-}
-.grid-item.active .circle {
-border-color: #ffffff;
-background-color: var(--text-color);
-}
-.service-content.active {
-opacity: 1 !important;
-pointer-events: auto;
-}
-/* Hide default ONLY when a mobile tap has activated something */
-body.mobile-has-active [data-service="default"] {
-opacity: 0 !important;
-pointer-events: none !important;
-}
-
-.grid-item { 
-padding: 0rem 0rem 0rem 1rem;
-min-height: calc(100svh / 7.333);
-}
-.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
-.item-title { font-size: 1rem; }
-
-.service-content h2 { 
-font-size: clamp(1.5rem, 5vw, 2rem);
-word-wrap: break-word;
-overflow-wrap: break-word;
-}
-
-.service-content p { 
-font-size: clamp(0.875rem, 3vw, 1rem);
-word-wrap: break-word;
-overflow-wrap: break-word;
-}
-
-.display-side { 
-padding: 2rem; 
-width: 60%;
-}
-
-.grid-item-content {
-justify-content: flex-start;
-}
-
-.service-content {
-padding: 1rem;
-}
-.grid-side {
-width: 40%;
-}
-    
-}
-
-
 
 /*INQUIRY///////////////////////////*/
 
-/* NEW: Remove padding from section 4 so its content can be 100vh */
-#section-4 {
+#section-4 { /* NEW: Remove padding from section 4 so its content can be 100vh */
 padding: 0 !important;
 }
 
@@ -1591,25 +1503,7 @@ height: 100%;
 z-index: 0; /* Behind .text-container */
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-.copyable-text {
-font-size: 24px;
-padding: 15px 20px;
-}
-
-.copy-circle {
-width: 50px;
-height: 50px;
-font-size: 10px;
-top: -40px;
-}
-}
-
-
-
-
-
+/*INQUIRY END///////////////////////////*/
 
 /* === DESKTOP  === */
 @media (min-width: 1025px) {
@@ -1685,7 +1579,7 @@ max-width: none;
 border-radius: 0;
 box-shadow: none;
 }
-    
+
 }
 
 
@@ -1875,7 +1769,7 @@ background-clip: text;
 }
 
 /* === END: Mobile Work Nav === */
-    
+
 /* === START: MOBILE LAYOUT FIX === */
 .mobile-nav {
 display: flex;
@@ -1988,10 +1882,10 @@ animation: marquee-scroll 80s linear infinite;
 }
 
 .theme-toggle-label:hover #theme-toggle #theme-dot {
-    transform: none;
+transform: none;
 }
 
-    
+
 
 
 /* === MODAL STYLING UPDATES FOR MOBILE === */
@@ -2062,7 +1956,7 @@ z-index: 200; /* MODIFIED: Ensure it's on top of sections */
 /* === END MODAL STYLING UPDATES === */
 
 /* === WORK SECTION 2=== */
-    
+
 #section-2{
 /height:unset;
 /height: 100vh;
@@ -2087,7 +1981,7 @@ border: 2.5px solid var(--border-color);
 margin-right: 0;
 margin-left: 5.5rem;    
 }
-    
+
 
 .portfolio-item:hover {
 transform: none;
@@ -2229,7 +2123,7 @@ flex-grow: 0;
 flex-shrink: 0;
 border-bottom: none;
 align-content: unset;    
-    
+
 }
 
 /* === NEW: Collapsed state for info panel === */
@@ -2262,7 +2156,7 @@ width: 1.2rem;
 height: 1.2rem;
 }
 /* === END: Mobile Info Toggle Button Styles === */
-    
+
 
 .info-content {
 padding: 1rem; /* Padding on the content itself */
@@ -2297,12 +2191,98 @@ margin-bottom: 0.5rem;
 }
 
 .info-button:hover svg {
-    transform: none;
+transform: none;
 }
-  
 
 
+/* === WORK SECTION 2 END=== */
+
+/* === SERVICES SECTION 3=== */
+
+
+#section-3 .section-content {
+height: 100%;
+}
+#section-3 {padding:0}
+
+.container {
+height: 100%;
+}
+
+.grid-item.active {
+background-color: #1a1a1a;
+}
+.grid-item.active .grid-item-bg {
+opacity: 0.3;
+}
+.grid-item.active .circle {
+border-color: #ffffff;
+background-color: var(--text-color);
+}
+.service-content.active {
+opacity: 1 !important;
+pointer-events: auto;
+}
+/* Hide default ONLY when a mobile tap has activated something */
+body.mobile-has-active [data-service="default"] {
+opacity: 0 !important;
+pointer-events: none !important;
+}
+
+.grid-item { 
+padding: 0rem 0rem 0rem 1rem;
+min-height: calc(100svh / 7.333);
+}
+.circle { width: 0.875rem; height: 0.875rem; margin-right: 0.5rem; }
+.item-title { font-size: 1rem; }
+
+.service-content h2 { 
+font-size: clamp(1.5rem, 5vw, 2rem);
+word-wrap: break-word;
+overflow-wrap: break-word;
+}
+
+.service-content p { 
+font-size: clamp(0.875rem, 3vw, 1rem);
+word-wrap: break-word;
+overflow-wrap: break-word;
+}
+
+.display-side { 
+padding: 2rem; 
+width: 60%;
+}
+
+.grid-item-content {
+justify-content: flex-start;
+}
+
+.service-content {
+padding: 1rem;
+}
+.grid-side {
+width: 40%;
+}
+
+/* === SERVICES SECTION 3=== */
+
+/* === INQUIRY SECTION 4=== */
+
+.copyable-text {
+font-size: 24px;
+padding: 15px 20px;
+}
+
+.copy-circle {
+width: 50px;
+height: 50px;
+font-size: 10px;
+top: -40px;
+}
     
+/* === INQUIRY SECTION 4 END === */
+    
+
 }
 
 
@@ -3273,8 +3253,8 @@ scene.add(model);
 models.push(model); // Add to the array for animation/update
 
 }, 
-  undefined, 
-  function (error) {
+undefined, 
+function (error) {
 console.error('An error occurred loading the GLB model:', path, error);
 });
 });
@@ -3361,17 +3341,17 @@ ${shader.vertexShader}
 ).replace(
 `#include <color_vertex>`,
 `#include <color_vertex>
-  float d = length(abs(position) / vec3(40., 10., 40));
-  d = clamp(d, 0., 1.);
-  vColor = color;
+float d = length(abs(position) / vec3(40., 10., 40));
+d = clamp(d, 0., 1.);
+vColor = color;
 `
 ).replace(
 `#include <begin_vertex>`,
 `#include <begin_vertex>
-  float t = time;
-  float moveT = mod(shift.x + shift.z * t, PI2);
-  float moveS = mod(shift.y + shift.z * t, PI2);
-  transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
+float t = time;
+float moveT = mod(shift.x + shift.z * t, PI2);
+float moveS = mod(shift.y + shift.z * t, PI2);
+transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
 `
 );
 shader.fragmentShader = `
@@ -3455,9 +3435,9 @@ if (child.isMesh && child.material) {
 if (modelIndex === 1) {
 // Invert for model 2
 const invertedColor = new THREE.Color(
-  1 - newThreeColor.r,
-  1 - newThreeColor.g,
-  1 - newThreeColor.b
+1 - newThreeColor.r,
+1 - newThreeColor.g,
+1 - newThreeColor.b
 );
 child.material.color.copy(invertedColor);
 } else {
@@ -3949,6 +3929,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
