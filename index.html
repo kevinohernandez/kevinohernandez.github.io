@@ -1116,6 +1116,7 @@ height: 100%;
 overflow: hidden; /* Hide overflowing content */
 border: 1px solid var(--border-color);
 border-left: 1px solid var(--border-color);
+align-content: center;    
 }
 
 .info-content {
@@ -1126,8 +1127,8 @@ opacity: 0;
 transform: translateY(20px);
 transition: opacity 0.4s ease, transform 0.4s ease;
 pointer-events: none;
-overflow-y: auto;
-/* Allow info to scroll if it's long */
+overflow-y: auto;/* Allow info to scroll if it's long */
+align-content: center;    
 }
 
 .info-content.active {
@@ -2202,6 +2203,8 @@ max-height: none;
 flex-grow: 0;
 flex-shrink: 0;
 border-bottom: none;
+align-content: unset;    
+    
 }
 
 /* === NEW: Collapsed state for info panel === */
@@ -2228,6 +2231,7 @@ opacity: 0;
 transform: translateY(20px);
 transition: opacity 0.4s ease, transform 0.4s ease;
 pointer-events: none;
+align-content: unset;    
 }
 
 .info-content.active {
@@ -3921,6 +3925,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
