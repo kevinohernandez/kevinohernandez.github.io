@@ -10,81 +10,82 @@
 <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <style>
-/* === CSS Variables for Theming === */
+/* === CSS Variables === */
 :root {
---bg-color: #000;
---text-color: #fff;
---text-muted-color: #6b7280;
---border-color: #4b5563;
---accent-color: #1f2937;
---sphere-color: 0xffffff;
+    --bg-color: #000;
+    --text-color: #fff;
+    --text-muted-color: #6b7280;
+    --border-color: #4b5563;
+    --accent-color: #1f2937;
+    --sphere-color: 0xffffff;
 }
 
 body.light-mode {
---bg-color: #ffffff;
---text-color: #000000;
---text-muted-color: #4b5563;
---border-color: #d1d5db;
---accent-color: #e5e7eb;
---sphere-color: 0x000000;
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --text-muted-color: #4b5563;
+    --border-color: #d1d5db;
+    --accent-color: #e5e7eb;
+    --sphere-color: 0x000000;
 }
 
 /* === Base Styles === */
 @font-face {
-font-family: 'Neue Haas Display';
-src: url('assets/webfonts/NeueHaasDisplayThin.ttf') format('truetype');
-font-weight: 100;
-font-style: normal;
-font-display: swap;
+    font-family: 'Neue Haas Display';
+    src: url('assets/webfonts/NeueHaasDisplayThin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
 }
 
 button:focus-visible { outline: none; box-shadow: 0 0 0 0px #000; }
 
 * {
-box-sizing: border-box; margin: 0; padding: 0;
--webkit-tap-highlight-color: transparent; -webkit-focus-ring-color: transparent;
-outline: none; touch-action: manipulation;
+    box-sizing: border-box; margin: 0; padding: 0;
+    -webkit-tap-highlight-color: transparent; -webkit-focus-ring-color: transparent;
+    outline: none; touch-action: manipulation;
 }
 
 html {
-height: 100%;
--ms-overflow-style: none; scrollbar-width: none; overscroll-behavior: none;
-touch-action: manipulation; background-color: var(--bg-color); 
+    height: 100%;
+    -ms-overflow-style: none; scrollbar-width: none; overscroll-behavior: none;
+    background-color: var(--bg-color); 
 }
 html::-webkit-scrollbar { display: none; }
 
 body {
-font-family: 'Neue Haas Display', -apple-system, BlinkMacSystemFont, sans-serif;
--ms-overflow-style: none; scrollbar-width: none; touch-action: manipulation;
-background-color: var(--bg-color); color: var(--text-color);
-transition: background-color 0.3s ease, color 0.3s ease;
-/* FIX: Lock body to viewport */
-height: 100dvh;
-overflow: hidden; 
+    font-family: 'Neue Haas Display', -apple-system, BlinkMacSystemFont, sans-serif;
+    -ms-overflow-style: none; scrollbar-width: none;
+    background-color: var(--bg-color); color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* CRITICAL: Lock body height, prevent window scroll */
+    height: 100dvh;
+    overflow: hidden; 
 }
 
 /* === DESKTOP DEFAULTS === */
 .theme-wrapper {
-background-color: var(--bg-color); color: var(--text-color);
-height: 100svh; overflow-x: hidden; overflow-y: auto; 
-scroll-snap-type: y mandatory; position: relative;
+    background-color: var(--bg-color); color: var(--text-color);
+    height: 100svh; overflow-x: hidden; overflow-y: auto; 
+    scroll-snap-type: y mandatory; position: relative;
 }
 
 main { width: 100vw; position: relative; z-index: 10; }
 
 section {
-height: 100vh; width: 100vw; display: flex; overflow: hidden;
-padding: 2rem 1.5rem 8rem; background-color: var(--bg-color);
-scroll-snap-align: start; scroll-snap-stop: always; position: relative;
+    height: 100vh; width: 100vw; display: flex; overflow: hidden;
+    padding: 2rem 1.5rem 8rem; background-color: var(--bg-color);
+    scroll-snap-align: start; scroll-snap-stop: always; position: relative;
 }
 #section-1 { background-color: transparent; }
 
+/* Animations */
 .hero-text-large, .text-divider, .section-content {
-opacity: 0; transform: translateY(20px);
-transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1), transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 section.is-active .hero-text-large, section.is-active .text-divider, section.is-active .section-content {
-opacity: 1; transform: translateY(0);
+    opacity: 1; transform: translateY(0);
 }
 section.is-active .hero-text-large { transition-delay: 0.4s; }
 section.is-active .text-divider { transition-delay: 0.6s; }
@@ -94,22 +95,22 @@ section.is-active .section-content { transition-delay: 0.4s; }
 a { color: inherit; text-decoration: none; }
 button { background: none; border: none; padding: 0; color: inherit; cursor: pointer; }
 .nav-link:hover, .nav-link-left:hover, .mobile-footer-links a:hover {
-color: var(--text-color); background-color: var(--accent-color);
+    color: var(--text-color); background-color: var(--accent-color);
 }
 
 /* === DESKTOP NAVS === */
 .nav-stacked-right {
-top: 0; right: 0; height: 100%; z-index: 100; display: none; flex-direction: row; flex-shrink: 0; 
-border-left: 1px solid var(--border-color); background-color: var(--bg-color);
-transition: border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
-transform: translateY(-100%);
+    top: 0; right: 0; height: 100%; z-index: 100; display: none; flex-direction: row; flex-shrink: 0; 
+    border-left: 1px solid var(--border-color); background-color: var(--bg-color);
+    transition: border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+    transform: translateY(-100%);
 }
 .nav-stacked-right.is-complete { border-left-width: 0; }
 .nav-stacked-right .nav-link {
-display: flex; flex-direction: column; justify-content: space-between; align-items: center;
-height: 100%; width: 2rem; padding: 2rem 0rem; border-left: 1px solid var(--border-color);
-transition: background-color 0.3s ease, width 0.5s cubic-bezier(0.76, 0, 0.24, 1), padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease, border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+    height: 100%; width: 2rem; padding: 2rem 0rem; border-left: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, width 0.5s cubic-bezier(0.76, 0, 0.24, 1), padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease, border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    overflow: hidden;
 }
 .nav-stacked-right .nav-link:first-child { border-left: none; }
 .nav-stacked-right .nav-link.active { width: 0; padding: 0; opacity: 0; border-left-width: 0; }
@@ -120,21 +121,21 @@ overflow: hidden;
 .nav-stacked-left .vertical-text { transform: rotate(180deg); }
 
 .sidebar-left {
-top: 0; left: 0; padding: 1.5rem 0; z-index: 10; display: none; flex-direction: column;
-height: 100%; justify-content: space-between; align-items: center;
-border-right: 1px solid var(--border-color); width: 2.5rem; flex-shrink: 0; background-color: var(--bg-color);
-transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+    top: 0; left: 0; padding: 1.5rem 0; z-index: 10; display: none; flex-direction: column;
+    height: 100%; justify-content: space-between; align-items: center;
+    border-right: 1px solid var(--border-color); width: 2.5rem; flex-shrink: 0; background-color: var(--bg-color);
+    transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
 }
 .nav-stacked-left {
-top: 0; height: 100%; z-index: 100; display: none; flex-direction: row;
-border-right: 1px solid var(--border-color); flex-shrink: 0; background-color: var(--bg-color);
-transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
+    top: 0; height: 100%; z-index: 100; display: none; flex-direction: row;
+    border-right: 1px solid var(--border-color); flex-shrink: 0; background-color: var(--bg-color);
+    transform: translateY(-100%); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.5s;
 }
 .nav-link-left {
-display: flex; flex-direction: column; justify-content: space-between; align-items: center;
-height: 100%; padding: 2rem 0rem; border-left: 1px solid var(--border-color);
-transition: background-color 0.3s ease, width 0.5s cubic-bezier(0.76, 0, 0.24, 1), padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease, border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-overflow: hidden; width: 0; padding: 0; opacity: 0; border-left-width: 0;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+    height: 100%; padding: 2rem 0rem; border-left: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, width 0.5s cubic-bezier(0.76, 0, 0.24, 1), padding 0.5s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease, border-width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    overflow: hidden; width: 0; padding: 0; opacity: 0; border-left-width: 0;
 }
 .nav-link-left:first-child { border-left: none; }
 .nav-link-left.active { width: 2rem; padding: 2rem 1rem; opacity: 1; border-left-width: 1px; }
@@ -178,19 +179,19 @@ overflow: hidden; width: 0; padding: 0; opacity: 0; border-left-width: 0;
 
 /* === MARQUEE === */
 .marquee-container {
-width: 100%; padding: 0.1rem 0; background-color: var(--bg-color);
-border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
-overflow: hidden; white-space: nowrap; margin-top: 20rem; position: absolute; z-index: 5;
-transform: translateX(100%) translateZ(0); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-align-self: anchor-center; perspective: 1000px; -webkit-perspective: 1000px; transform-style: preserve-3d;
-backface-visibility: hidden; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+    width: 100%; padding: 0.1rem 0; background-color: var(--bg-color);
+    border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);
+    overflow: hidden; white-space: nowrap; margin-top: 20rem; position: absolute; z-index: 5;
+    transform: translateX(100%) translateZ(0); transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    align-self: anchor-center; perspective: 1000px; -webkit-perspective: 1000px; transform-style: preserve-3d;
+    backface-visibility: hidden; touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
 section.is-active .marquee-container { transform: translateX(0) translateZ(0); transition-delay: 0.5s; }
 .marquee-content-wrapper { display: flex; width: max-content; animation: marquee-scroll 100s linear infinite; backface-visibility: hidden; will-change: transform; transform-style: preserve-3d; }
 .marquee-content { display: flex; white-space: nowrap; flex-shrink: 0; }
 .marquee-content span { font-size: 5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-color); padding-right: 2rem; display: inline-block; }
 
-/* === MODAL (BASE) === */
+/* === MODAL (Moved to Fixed overlay) === */
 #modal-container-side { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 9999; pointer-events: none; opacity: 0; }
 #modal-container-side.visible { pointer-events: auto; animation: containerFadeIn 0.5s forwards; }
 #modal-container-side.visible.out { animation: containerFadeOut 0.5s forwards; }
@@ -235,7 +236,7 @@ section.is-active .marquee-container { transform: translateX(0) translateZ(0); t
 .portfolio-item { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 62.5vh; margin: auto 2rem auto 0; background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--border-color); scroll-snap-align: center; font-size: 1.5rem; border-radius: 20px; position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; flex-shrink: 0; cursor: pointer; }
 .portfolio-item:hover { transform: scale(1.02); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); }
 .portfolio-info { position: relative; height: 100%; overflow: hidden; border: 1px solid var(--border-color); border-left: 1px solid var(--border-color); align-content: center; }
-.info-content { position: absolute; inset: 0; padding: 2rem; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; overflow-y: auto; align-content: center; }
+.info-content { position: absolute; inset: 0; padding: 2rem; opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; pointer-events: none; align-content: unset; }
 .info-content.active { opacity: 1; transform: translateY(0); pointer-events: auto; position: relative; }
 .info-content h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; }
 .info-content p { font-size: 1rem; line-height: 1.6; color: var(--text-color); margin-bottom: 1rem; }
@@ -314,54 +315,49 @@ section { position: absolute; top: 0; left: 0; height: 100%; width: 100%; transi
 (max-width:1024px),
 (max-width: 1024px) and (orientation: landscape) and (max-height: 500px) {
 
-/* 1. FIX LAYOUT: Use Flexbox Column with correct wrapping */
+/* 1. FLEX COLUMN LAYOUT */
 .mobile-nav {
-display: flex;
-flex-direction: column;
-height: 100dvh; /* Use dvh for viewport accuracy */
-width: 100%;
-overflow: hidden; /* Prevent double scrollbars */
+    display: flex;
+    flex-direction: column;
+    height: 100dvh; /* Viewport height */
+    width: 100%;
+    overflow: hidden; /* Body doesn't scroll */
 }
 
-/* 2. FOOTER: Standard block flow at bottom */
+/* 2. FOOTER: Sticky bottom */
 .mobile-footer {
-flex-shrink: 0; /* PREVENT SQUISHING */
-width: 100%;
-z-index: 100;
-display: flex; flex-direction: column;
-background-color: var(--bg-color); border-top: 1px solid var(--border-color);
-padding-bottom: env(safe-area-inset-bottom);
+    flex-shrink: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex; flex-direction: column;
+    background-color: var(--bg-color); border-top: 1px solid var(--border-color);
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* 3. SCROLLABLE WRAPPER: Fills remaining space */
+/* 3. WRAPPER: Handles the internal scroll */
 .theme-wrapper {
-flex: 1; /* Grow to fill space */
-display: flex; /* Keep flex to stack sections */
-flex-direction: column;
-overflow-y: auto; /* Scrollable here */
-overflow-x: hidden;
-scroll-snap-type: y mandatory;
-padding-bottom: 0;
+    flex: 1;
+    display: block; /* FIX: Block layout restores vertical stacking */
+    overflow-y: auto; /* Scroll content inside */
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    position: relative;
 }
 
-/* 4. SECTIONS: CRITICAL FIX - PREVENT COLLAPSE */
+/* 4. SECTIONS: Stacked cleanly */
 section {
-height: 100%;
-min-height: 100%; /* Ensure it takes full height of the wrapper */
-width: 100%;
-padding: 2rem 0rem;
-align-items: center;
-position: relative;
-scroll-snap-align: start;
-scroll-snap-stop: always;
-display: flex;
-flex-direction: column;
-justify-content: center;
-flex-shrink: 0; /* FIX: Stop sections from shrinking to 0 height */
+    min-height: 100%; /* Fill the visible wrapper area */
+    width: 100%;
+    padding: 2rem 0rem;
+    align-items: center;
+    position: relative;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex; flex-direction: column; justify-content: center;
 }
 
-/* Fix Modal */
-#modal-container-side { position: fixed; top: 0; left: 0; height: 100%; z-index: 9999; }
+/* Fix Modal Overlay */
+#modal-container-side { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; }
 
 /* Mobile UI Elements */
 .mobile-footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); }
