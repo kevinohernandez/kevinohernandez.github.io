@@ -1141,7 +1141,6 @@ border-left: 1px solid var(--border-color);
 align-content: center;
 border-top: none;
 border-bottom: none;
-border-right: none;
 }
 
 .info-content {
@@ -1522,6 +1521,7 @@ z-index: 0; /* Behind .text-container */
 /* === DESKTOP  === */
 
 @media (min-width: 1025px) and (pointer: fine) and (hover: hover) {
+  
 .theme-wrapper {
 overflow: hidden;
 scroll-snap-type: none;
@@ -1548,9 +1548,7 @@ transform: translateX(100%);
 padding: 4rem 0rem;
 }
 
-#section-1 {
-transform: translateX(0);
-}
+.logo-button{ transform: scale(0.85); }
 
 /* Show/Hide UI */
 .mobile-footer {
@@ -1560,11 +1558,18 @@ display: none;
 display: flex;
 }
 
+  
 /* Section 1 Layout */
+  
+#section-1 {
+transform: translateX(0);
+}
+
 .section-grid {
 flex-direction: row;
 align-items: stretch;
 }
+  
 .section-1-wrapper {
 height: auto;
 justify-content: center;
@@ -1580,7 +1585,41 @@ padding-left: 2rem;
 font-size: 2.5rem;
 }
 
-/* Desktop Modal Styles */
+
+/* SECTION 2 */
+
+.portfolio-info {
+border-right: none;
+}
+
+  
+/* SECTION 3 */
+
+.item-title br{display:none}    
+
+  
+.grid-side:hover ~ .display-side [data-service="default"] {
+opacity: 0;
+pointer-events: none;
+}
+.grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] ,
+.grid-side:has([data-service="animation"]:hover) ~ .display-side [data-service="animation"] ,    
+.grid-side:has([data-service="ux"]:hover) ~ .display-side [data-service="ux"],
+.grid-side:has([data-service="branding"]:hover) ~ .display-side [data-service="branding"],
+.grid-side:has([data-service="development"]:hover) ~ .display-side [data-service="development"],
+.grid-side:has([data-service="strategy"]:hover) ~ .display-side [data-service="strategy"],
+.grid-side:has([data-service="photography"]:hover) ~ .display-side [data-service="photography"],
+.grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"]
+{
+opacity: 1;
+pointer-events: auto;
+}
+
+
+
+  
+/*  Modal  */
+  
 #modal-container-side {
 position: absolute;
 z-index: 200;/* Stay on top of sections */
@@ -1613,7 +1652,6 @@ right: -70px;
 z-index: -1;
 }
 
-
 .modal-panel {
 width: 55%;
 }
@@ -1624,34 +1662,13 @@ border-top: 1px solid var(--border-color);
 
 .lik:hover {opacity:0.75}  
 
-.item-title br{display:none}    
-
-.logo-button{ transform: scale(0.85); }
 
 /.bb img {
 position: relative;
 bottom: -5px;
 }
 
-/* SECTION 3 */
-
-.grid-side:hover ~ .display-side [data-service="default"] {
-opacity: 0;
-pointer-events: none;
-}
-.grid-side:has([data-service="motion"]:hover) ~ .display-side [data-service="motion"] ,
-.grid-side:has([data-service="animation"]:hover) ~ .display-side [data-service="animation"] ,    
-.grid-side:has([data-service="ux"]:hover) ~ .display-side [data-service="ux"],
-.grid-side:has([data-service="branding"]:hover) ~ .display-side [data-service="branding"],
-.grid-side:has([data-service="development"]:hover) ~ .display-side [data-service="development"],
-.grid-side:has([data-service="strategy"]:hover) ~ .display-side [data-service="strategy"],
-.grid-side:has([data-service="photography"]:hover) ~ .display-side [data-service="photography"],
-.grid-side:has([data-service="art"]:hover) ~ .display-side [data-service="art"]
-{
-opacity: 1;
-pointer-events: auto;
-}
-
+  
   
 }
 
@@ -1998,7 +2015,9 @@ text-align: left;
 }
 
 .ls {
-padding: 15px;
+/padding: 15px;
+padding: 10px 10px 10px 5px;  
+border-bottom: none;  
 }
 
 .bb {
@@ -3249,7 +3268,7 @@ const MODEL_Y_SINE_WAVE = [
 // Camera Y position offset (desktop, mobile)
 const CAMERA_Y_POSITION = {
 desktop: 0,    // No offset for desktop
-mobile: 0.25   // Move camera down (or scene appears to move up) on mobile
+mobile: 0.15   // Move camera down (or scene appears to move up) on mobile
 };
 
 // [x, y, z] rotation speed for each model (added per frame)
@@ -4033,6 +4052,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
