@@ -1141,7 +1141,7 @@ border-left: 1px solid var(--border-color);
 align-content: center;
 border-top: none;
 border-bottom: none;
-
+border-right: none;
 }
 
 .info-content {
@@ -3249,7 +3249,7 @@ const MODEL_Y_SINE_WAVE = [
 // Camera Y position offset (desktop, mobile)
 const CAMERA_Y_POSITION = {
 desktop: 0,    // No offset for desktop
-mobile: 0.3   // Move camera down (or scene appears to move up) on mobile
+mobile: 0.25   // Move camera down (or scene appears to move up) on mobile
 };
 
 // [x, y, z] rotation speed for each model (added per frame)
@@ -3317,7 +3317,7 @@ const far = 1000;
 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
 const isDesktop = window.innerWidth >= 1025;
-camera.position.z = isDesktop ? 5.25 : 5.25;
+camera.position.z = isDesktop ? 5 : 5;
 camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
 
 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -3615,7 +3615,7 @@ const aspect = width / height;
 camera.aspect = aspect;
 
 const isDesktop = window.innerWidth >= 1025;
-camera.position.z = isDesktop ? 5.25 : 5.25;
+camera.position.z = isDesktop ? 5 : 5;
 camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
 
 camera.updateProjectionMatrix();
@@ -4033,6 +4033,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
