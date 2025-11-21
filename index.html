@@ -2020,15 +2020,26 @@ padding: 10px 10px 10px 5px;
 border-bottom: none;  
 }
 
-.bb {
+/.bb {
 width: 130%;
 height: 120%;
 position: absolute;
 overflow: hidden;
 top: 0;
-left: 5%;
+left: 7.5%;
 z-index: -1;
 }
+
+.bb {
+width: 150%;
+height: 105vh;
+position: absolute;
+overflow: hidden;
+top: 0;
+left: 3%;
+z-index: -1;
+}  
+  
 
 .modal-background {
 background: rgba(0, 0, 0, 0);
@@ -4052,6 +4063,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
