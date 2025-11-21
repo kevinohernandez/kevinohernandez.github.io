@@ -2573,11 +2573,11 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr16.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr6.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr15.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr17.jpg" alt="" /> </div>  
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr2.jpg" alt="" /> </div>  
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr14.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr4.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/slab.jpg" alt="" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr17.jpg" alt="" /> </div>
 
 </div>
 
@@ -2607,7 +2607,7 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d8.1.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d9.jpg" alt="" /> </div>
 <div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" alt="" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d4.1.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr12.jpg" alt="" /> </div>
 
 </div>
 
@@ -3455,9 +3455,8 @@ Math.random() * 0.25 + 0.1
 
 const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
 const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-const outerSpherePoints = getSpherePoints(100, 6.5);
 
-const pts = [...torus1Points, ...torus2Points, ...outerSpherePoints];
+const pts = [...torus1Points, ...torus2Points];
 
 pts.forEach(pt => {
 sizes.push(Math.random() * 0.5 + 1);
@@ -4055,6 +4054,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
