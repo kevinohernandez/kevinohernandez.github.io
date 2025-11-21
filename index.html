@@ -3306,7 +3306,7 @@ return;
 
 // Force container to full viewport height
 container.style.width = '100%';
-container.style.height = '100vh';
+container.style.height = '100svh';
 container.style.position = 'relative';
 
 scene = new THREE.Scene();
@@ -4034,6 +4034,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
