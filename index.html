@@ -3922,151 +3922,181 @@ document.body.classList.add("mobile-has-active");
 </script>
 
 
-<script> 
-// S-4    
-const canvas = document.getElementById('breathingGrid');
-const ctx = canvas.getContext('2d');
-const textEl = document.getElementById('textToCopy');
-let dots = [];
-let spacing = 80;
-let mouse = { x: -1000, y: -1000 };
+<script>
+// S-4 (Inquiries & Breathing Grid) - OPTIMIZED
+document.addEventListener('DOMContentLoaded', () => {
+    const canvas = document.getElementById('breathingGrid');
+    const ctx = canvas.getContext('2d');
+    const textEl = document.getElementById('textToCopy');
+    const section4 = document.getElementById('section-4'); // Reference to the container
+    
+    let dots = [];
+    let spacing = 80;
+    let mouse = { x: -1000, y: -1000 };
+    let time = 0;
+    
+    // Animation State Control
+    let animationFrameId;
+    let isAnimating = false;
 
-// Function to get current theme color
-function getThemeColor() {
-try {
-const computedStyle = getComputedStyle(document.body);
-const textColor = computedStyle.getPropertyValue('--text-color').trim();
+    // Function to get current theme color
+    function getThemeColor() {
+        try {
+            const computedStyle = getComputedStyle(document.body);
+            const textColor = computedStyle.getPropertyValue('--text-color').trim();
+            if (textColor && textColor.startsWith('#')) {
+                const hex = textColor.replace('#', '');
+                const r = parseInt(hex.substring(0, 2), 16);
+                const g = parseInt(hex.substring(2, 4), 16);
+                const b = parseInt(hex.substring(4, 6), 16);
+                if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+                    return { r, g, b };
+                }
+            }
+        } catch (e) { console.error(e); }
+        return { r: 255, g: 255, b: 255 };
+    }
 
-// Convert hex to RGB
-if (textColor && textColor.startsWith('#')) {
-const hex = textColor.replace('#', '');
-const r = parseInt(hex.substring(0, 2), 16);
-const g = parseInt(hex.substring(2, 4), 16);
-const b = parseInt(hex.substring(4, 6), 16);
+    function resizeCanvas() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
+        
+        dots = [];
+        const numCols = Math.floor(canvas.width / spacing) + 1;
+        const numRows = Math.floor(canvas.height / spacing) + 1;
+        const gridWidth = (numCols - 1) * spacing;
+        const gridHeight = (numRows - 1) * spacing;
+        const offsetX = (canvas.width - gridWidth) / 2;
+        const offsetY = (canvas.height - gridHeight) / 2;
 
-// Validate the parsed values
-if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-return { r, g, b };
-}
-}
-} catch (e) {
-console.error('Error parsing theme color:', e);
-}
+        for(let r = 0; r < numRows; r++){
+            for(let c = 0; c < numCols; c++){
+                dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
+            }
+        }
+        
+        // If we resize while paused, we force one frame draw so it doesn't look broken
+        if (!isAnimating) {
+             requestAnimationFrame(drawFrame);
+        }
+    }
 
-// Default to white for dark theme (base theme)
-return { r: 255, g: 255, b: 255 };
-}
+    // Initialize Canvas
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
 
-function resizeCanvas() {
-// NEW: Size canvas to its parent container (.section-content)
-const rect = canvas.parentElement.getBoundingClientRect();
-canvas.width = rect.width;
-canvas.height = rect.height;
+    // The Logic that draws a single frame
+    function drawFrame() {
+        time += 0.016;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-// Adjust spacing for mobile
-spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
-dots = [];
+        const rect = textEl.getBoundingClientRect();
+        const canvasRect = canvas.getBoundingClientRect();
+        const textPadding = 20;
 
-// NEW: Calculate grid and center it, creating padding at edges
-const numCols = Math.floor(canvas.width / spacing) + 1;
-const numRows = Math.floor(canvas.height / spacing) + 1;
+        const textLeft = rect.left - canvasRect.left - textPadding;
+        const textRight = rect.right - canvasRect.left + textPadding;
+        const textTop = rect.top - canvasRect.top - textPadding;
+        const textBottom = rect.bottom - canvasRect.top + textPadding;
 
-const gridWidth = (numCols - 1) * spacing;
-const gridHeight = (numRows - 1) * spacing;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const waveSpeed = 60;
+        const waveThickness = 40;
+        const maxDist = Math.hypot(centerX, centerY) + waveThickness;
+        const currentWave = (time * waveSpeed) % maxDist;
+        const color = getThemeColor();
 
-const offsetX = (canvas.width - gridWidth) / 2;
-const offsetY = (canvas.height - gridHeight) / 2;
+        dots.forEach(dot => {
+            // Skip dots under the text box
+            if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom) return;
 
-for(let r = 0; r < numRows; r++){
-for(let c = 0; c < numCols; c++){
-dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
-}
-}
-}
+            const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+            const distToWave = Math.abs(dist - currentWave);
+            let pulseFactor = 0;
+            
+            if(distToWave < waveThickness/2){
+                pulseFactor = 1 - distToWave / (waveThickness/2);
+                pulseFactor = Math.sin(pulseFactor * Math.PI / 2);
+            }
 
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+            const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+            let glowFactor = 0;
+            const glowRadius = 50;
+            if(mouseDist < glowRadius){
+                glowFactor = (1 - mouseDist / glowRadius);
+            }
 
-window.addEventListener('mousemove', (e)=>{
-const rect = canvas.getBoundingClientRect();
-mouse.x = e.clientX - rect.left;
-mouse.y = e.clientY - rect.top;
+            const size = (canvas.width < 480 ? 2 : 4) + pulseFactor * 12 + glowFactor * 10;
+            const opacity = Math.min(1, 0.2 + pulseFactor * 0.8 + glowFactor * 0.9);
+
+            ctx.beginPath();
+            ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+            ctx.fill();
+        });
+    }
+
+    // The Animation Loop
+    function animate() {
+        if (!isAnimating) return; // Stop recursion if flag is false
+        drawFrame();
+        animationFrameId = requestAnimationFrame(animate);
+    }
+
+    // --- OPTIMIZATION: Intersection Observer ---
+    // Only run the loop when #section-4 is visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Section is visible: Start the loop if not already running
+                if (!isAnimating) {
+                    isAnimating = true;
+                    animate();
+                }
+            } else {
+                // Section is hidden: Stop the loop
+                isAnimating = false;
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+            }
+        });
+    }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+
+    if (section4) {
+        observer.observe(section4);
+    }
+
+    // --- Copy Button Logic ---
+    const copyButton = document.getElementById('copyButton');
+    function copyToClipboard() {
+        const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            copyButton.textContent = 'Copied!';
+            copyButton.classList.add('copied');
+            setTimeout(() => {
+                copyButton.textContent = 'Copy Me';
+                copyButton.classList.remove('copied');
+            }, 1500);
+        }).catch(err => console.error(err));
+    }
+
+    if (copyButton && textEl) {
+        copyButton.addEventListener('click', copyToClipboard);
+        textEl.addEventListener('click', copyToClipboard);
+        textEl.addEventListener('touchstart', (e) => e.preventDefault());
+    }
 });
+</script>
 
-let time = 0;
-function animate() {
-time += 0.016;
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-// NEW: Get coordinates relative to the canvas
-const rect = textEl.getBoundingClientRect();
-const canvasRect = canvas.getBoundingClientRect();
-const textPadding = 20;
-
-// Calculate text box boundaries in canvas-relative coordinates
-const textLeft = rect.left - canvasRect.left - textPadding;
-const textRight = rect.right - canvasRect.left + textPadding;
-const textTop = rect.top - canvasRect.top - textPadding;
-const textBottom = rect.bottom - canvasRect.top + textPadding;
-
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
-const waveSpeed = 60;
-const waveThickness = 40;
-const maxDist = Math.hypot(centerX, centerY) + waveThickness;
-const currentWave = (time * waveSpeed) % maxDist;
-
-// Get current theme color
-const color = getThemeColor();
-
-dots.forEach(dot=>{
-if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
-return;
-}
-const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
-const distToWave = Math.abs(dist - currentWave);
-let pulseFactor = 0;
-if(distToWave < waveThickness/2){
-pulseFactor = 1 - distToWave / (waveThickness/2);
-pulseFactor = Math.sin(pulseFactor*Math.PI/2);
-}
-const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-let glowFactor = 0;
-const glowRadius = 50;
-if(mouseDist < glowRadius){
-glowFactor = (1 - mouseDist/glowRadius);
-}
-const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
-const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
-ctx.beginPath();
-ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
-// Use theme color instead of hardcoded white
-ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-ctx.fill();
-});
-requestAnimationFrame(animate);
-}
-
-animate();
-
-// Copy button logic
-const copyButton = document.getElementById('copyButton');
-function copyToClipboard() {
-const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
-navigator.clipboard.writeText(textToCopy).then(() => {
-copyButton.textContent = 'Copied!';
-copyButton.classList.add('copied');
-setTimeout(() => {
-copyButton.textContent = 'Copy Me';
-copyButton.classList.remove('copied');
-}, 1500);
-}).catch(err => console.error(err));
-}
-
-copyButton.addEventListener('click', copyToClipboard);
-textEl.addEventListener('click', copyToClipboard);
-textEl.addEventListener('touchstart', (e) => e.preventDefault());
-</script> 
 
 
 
