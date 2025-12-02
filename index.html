@@ -3665,151 +3665,167 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 document.addEventListener('DOMContentLoaded', () => {
 
-// --- NEW: Mobile Info Toggle Logic ---
-const mobileInfoToggle = document.getElementById('mobile-info-toggle');
-const portfolioInfoSection = document.querySelector('.portfolio-info');
+    // --- Mobile Info Toggle Logic ---
+    const mobileInfoToggle = document.getElementById('mobile-info-toggle');
+    const portfolioInfoSection = document.querySelector('.portfolio-info');
 
-if (mobileInfoToggle && portfolioInfoSection) {
-mobileInfoToggle.addEventListener('click', () => {
-
-portfolioInfoSection.classList.toggle('info-collapsed');
-mobileInfoToggle.classList.toggle('active');
-});
-}
-// --- END: Mobile Info Toggle Logic ---
-
-
-const buttons = document.querySelectorAll('.section-btn');
-const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
-const scrollers = {
-'3d': document.getElementById('scroller-3d'),
-
-'graphic': document.getElementById('scroller-graphic'),
-'product': document.getElementById('scroller-product')
-};
-// Select info content
-const infoContents = {
-'3d': document.querySelector('.info-content[data-info="3d"]'),
-'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-'product': document.querySelector('.info-content[data-info="product"]')
-};
-// NEW: Save scroll positions
-const scrollPositions = {
-'3d': 0,
-'graphic': 0,
-'product': 0
-};
-let currentGallery = '3d';
-
-function updateProgress(scroller, button) {
-if (!button) return;
-const scrollLeft = scroller.scrollLeft;
-const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
-const progress = scrollWidth > 0 ?
-(scrollLeft / scrollWidth) * 100 : 0;
-button.style.setProperty('--progress', `${progress}%`);
-}
-
-// UPDATED: Function now also switches info content and saves/restores scroll
-function switchGallery(newGallery) {
-if (newGallery === currentGallery) return;
-// Save current scroll position
-scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-// --- Gallery Scroller ---
-scrollers[currentGallery].classList.remove('active');
-scrollers[newGallery].classList.add('active');
-// Restore new gallery's scroll position
-scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-// --- Info Content ---
-infoContents[currentGallery].classList.remove('active');
-infoContents[newGallery].classList.add('active');
-
-currentGallery = newGallery;
-const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-updateProgress(scrollers[newGallery], activeButton);
-updateProgress(scrollers[newGallery], activeMobileLink);
-}
-
-buttons.forEach(btn => {
-btn.addEventListener('click', () => {
-const galleryType = btn.dataset.gallery;
-buttons.forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-
-// Sync mobile links
-mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-
-const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-matchingLink?.classList.add('active');
-
-switchGallery(galleryType);
-});
-});
-// Add listeners for mobile links
-mobileWorkNavLinks.forEach(link => {
-link.addEventListener('click', (e) => {
-e.preventDefault();
-const galleryType = link.dataset.gallery;
-
-mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-link.classList.add('active');
-
-// Sync desktop/tablet buttons
-
-buttons.forEach(b => b.classList.remove('active'));
-const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-matchingButton?.classList.add('active');
-
-switchGallery(galleryType);
-});
-});
-Object.keys(scrollers).forEach(key => {
-scrollers[key].addEventListener('scroll', () => {
-if (key === currentGallery) {
-const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
-
-updateProgress(scrollers[key], activeButton);
-updateProgress(scrollers[key], activeMobileLink);
+    if (mobileInfoToggle && portfolioInfoSection) {
+        mobileInfoToggle.addEventListener('click', () => {
+            portfolioInfoSection.classList.toggle('info-collapsed');
+            mobileInfoToggle.classList.toggle('active');
+        });
+    }
+    // --- END: Mobile Info Toggle Logic ---
 
 
-// NEW: Save scroll position as user scrolls
-scrollPositions[key] = scrollers[key].scrollLeft;
-}
-});
-});
-const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
-const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
-updateProgress(scrollers[currentGallery], initialButton);
-updateProgress(scrollers[currentGallery], initialMobileLink);
-// --- NEW: Lightbox/Modal Logic ---
-const modal = document.getElementById('portfolio-modal');
-const modalContentInner = document.getElementById('modal-gall-inner');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
+    const buttons = document.querySelectorAll('.section-btn');
+    const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); 
+    
+    const scrollers = {
+        '3d': document.getElementById('scroller-3d'),
+        'graphic': document.getElementById('scroller-graphic'),
+        'product': document.getElementById('scroller-product')
+    };
 
-portfolioItems.forEach(item => {
-item.addEventListener('click', () => {
-// Clone the item's content (in this case, just the text)
-const itemContent = item.innerHTML; 
-modalContentInner.innerHTML = itemContent;
+    // Select info content
+    const infoContents = {
+        '3d': document.querySelector('.info-content[data-info="3d"]'),
+        'graphic': document.querySelector('.info-content[data-info="graphic"]'),
+        'product': document.querySelector('.info-content[data-info="product"]')
+    };
 
-// Show the modal
+    // Save scroll positions
+    const scrollPositions = {
+        '3d': 0,
+        'graphic': 0,
+        'product': 0
+    };
 
-modal.classList.add('active');
-});
-});
-function closeModal() {
-modal.classList.remove('active');
-// Clear content after transition
-setTimeout(() => {
-modalContentInner.innerHTML = '';
-}, 300);
-}
+    let currentGallery = '3d';
 
-// Close modal by clicking on the background or the content
-modal.addEventListener('click', closeModal);
-modalContentInner.addEventListener('click', closeModal);
+    function updateProgress(scroller, button) {
+        if (!button) return;
+        const scrollLeft = scroller.scrollLeft;
+        const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
+        const progress = scrollWidth > 0 ? (scrollLeft / scrollWidth) * 100 : 0;
+        button.style.setProperty('--progress', `${progress}%`);
+    }
+
+    // Function switches gallery, info content and restores scroll
+    function switchGallery(newGallery) {
+        if (newGallery === currentGallery) return;
+
+        // Save current scroll position
+        scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+
+        // --- Gallery Scroller ---
+        scrollers[currentGallery].classList.remove('active');
+        scrollers[newGallery].classList.add('active');
+
+        // Restore new gallery's scroll position
+        scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
+
+        // --- Info Content ---
+        infoContents[currentGallery].classList.remove('active');
+        infoContents[newGallery].classList.add('active');
+
+        currentGallery = newGallery;
+
+        const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
+        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+        
+        updateProgress(scrollers[newGallery], activeButton);
+        updateProgress(scrollers[newGallery], activeMobileLink);
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const galleryType = btn.dataset.gallery;
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Sync mobile links
+            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+            const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
+            matchingLink?.classList.add('active');
+
+            switchGallery(galleryType);
+        });
+    });
+
+    // Add listeners for mobile links
+    mobileWorkNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const galleryType = link.dataset.gallery;
+
+            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            // Sync desktop/tablet buttons
+            buttons.forEach(b => b.classList.remove('active'));
+            const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
+            matchingButton?.classList.add('active');
+
+            switchGallery(galleryType);
+        });
+    });
+
+    Object.keys(scrollers).forEach(key => {
+        scrollers[key].addEventListener('scroll', () => {
+            if (key === currentGallery) {
+                const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
+                const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
+
+                updateProgress(scrollers[key], activeButton);
+                updateProgress(scrollers[key], activeMobileLink);
+
+                // Save scroll position as user scrolls
+                scrollPositions[key] = scrollers[key].scrollLeft;
+            }
+        });
+    });
+
+    const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
+    const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
+    updateProgress(scrollers[currentGallery], initialButton);
+    updateProgress(scrollers[currentGallery], initialMobileLink);
+
+
+    // --- UPDATED: Lightbox/Modal Logic ---
+    const modal = document.getElementById('portfolio-modal');
+    const modalContentInner = document.getElementById('modal-gall-inner');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Clone the item's content (in this case, just the text/image)
+            const itemContent = item.innerHTML; 
+            modalContentInner.innerHTML = itemContent;
+
+            // Show the modal
+            modal.classList.add('active');
+            
+            // LOCK SCROLLING: Prevent section navigation
+            document.body.classList.add('modal-active');
+        });
+    });
+
+    function closeModal() {
+        modal.classList.remove('active');
+        
+        // UNLOCK SCROLLING: Resume section navigation
+        document.body.classList.remove('modal-active');
+
+        // Clear content after transition
+        setTimeout(() => {
+            modalContentInner.innerHTML = '';
+        }, 300);
+    }
+
+    // Close modal by clicking on the background or the content
+    modal.addEventListener('click', closeModal);
+    modalContentInner.addEventListener('click', closeModal);
 });
 </script>
 
@@ -4027,6 +4043,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
