@@ -2621,43 +2621,43 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="scroller" id="scroller-motion">
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo2.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo2.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo3.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo3.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo4.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo4.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo7.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo7.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo8.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo8.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo6.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo6.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo5.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo5.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo9.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo9.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo.mp4" loop muted playsinline preload="none"></video>
   </div>
   
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo10.mp4" autoplay loop muted playsinline></video>
+    <video class="portfolio-img" src="images/fulls/mo10.mp4" loop muted playsinline preload="none"></video>
   </div>
 
 </div>
@@ -3724,161 +3724,224 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2  
-
+// S-2 OPTIMIZED
 document.addEventListener('DOMContentLoaded', () => {
 
-// --- NEW: Mobile Info Toggle Logic ---
-const mobileInfoToggle = document.getElementById('mobile-info-toggle');
-const portfolioInfoSection = document.querySelector('.portfolio-info');
+    // --- Mobile Info Toggle Logic ---
+    const mobileInfoToggle = document.getElementById('mobile-info-toggle');
+    const portfolioInfoSection = document.querySelector('.portfolio-info');
 
-if (mobileInfoToggle && portfolioInfoSection) {
-mobileInfoToggle.addEventListener('click', () => {
+    if (mobileInfoToggle && portfolioInfoSection) {
+        mobileInfoToggle.addEventListener('click', () => {
+            portfolioInfoSection.classList.toggle('info-collapsed');
+            mobileInfoToggle.classList.toggle('active');
+        });
+    }
 
-portfolioInfoSection.classList.toggle('info-collapsed');
-mobileInfoToggle.classList.toggle('active');
-});
-}
-// --- END: Mobile Info Toggle Logic ---
+    // --- Data & Selectors ---
+    const buttons = document.querySelectorAll('.section-btn');
+    const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
+    
+    const scrollers = {
+        '3d': document.getElementById('scroller-3d'),
+        'graphic': document.getElementById('scroller-graphic'),
+        'product': document.getElementById('scroller-product'),
+        'motion': document.getElementById('scroller-motion')
+    };
+
+    const infoContents = {
+        '3d': document.querySelector('.info-content[data-info="3d"]'),
+        'graphic': document.querySelector('.info-content[data-info="graphic"]'),
+        'product': document.querySelector('.info-content[data-info="product"]'),
+        'motion': document.querySelector('.info-content[data-info="motion"]')
+    };
+
+    // Save scroll positions
+    const scrollPositions = {
+        '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0
+    };
+    
+    let currentGallery = '3d'; // Default gallery
+
+    // --- VIDEO OPTIMIZATION: Intersection Observer ---
+    // This ensures only the video visible on screen plays, saving massive battery/CPU
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Play video when visible
+                entry.target.play().catch(() => {}); 
+            } else {
+                // Pause video when off-screen
+                entry.target.pause();
+            }
+        });
+    }, {
+        root: scrollers['motion'], // The container
+        threshold: 0.5             // Play when 50% visible
+    });
+
+    // Helper to manage video observers
+    function manageVideoState(galleryType, isActive) {
+        if (galleryType !== 'motion') return;
+        
+        const videos = scrollers['motion'].querySelectorAll('video');
+        if (isActive) {
+            // Start observing videos so they play on scroll
+            videos.forEach(v => videoObserver.observe(v));
+        } else {
+            // Stop observing and force pause all videos
+            videos.forEach(v => {
+                videoObserver.unobserve(v);
+                v.pause();
+            });
+        }
+    }
+
+    // --- Progress Bar Logic ---
+    function updateProgress(scroller, button) {
+        if (!button) return;
+        const scrollLeft = scroller.scrollLeft;
+        const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
+        const progress = scrollWidth > 0 ? (scrollLeft / scrollWidth) * 100 : 0;
+        button.style.setProperty('--progress', `${progress}%`);
+    }
+
+    // --- Switch Gallery Logic ---
+    function switchGallery(newGallery) {
+        if (newGallery === currentGallery) return;
+
+        // 1. Save old scroll position
+        scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+
+        // 2. Clean up old gallery (Pause videos if leaving motion)
+        scrollers[currentGallery].classList.remove('active');
+        infoContents[currentGallery].classList.remove('active');
+        manageVideoState(currentGallery, false);
+
+        // 3. Activate new gallery
+        scrollers[newGallery].classList.add('active');
+        infoContents[newGallery].classList.add('active');
+        
+        // 4. Restore scroll position
+        scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
+
+        // 5. Initialize new gallery (Start observers if entering motion)
+        manageVideoState(newGallery, true);
+
+        currentGallery = newGallery;
+
+        // 6. Update UI
+        const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
+        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+        updateProgress(scrollers[newGallery], activeButton);
+        updateProgress(scrollers[newGallery], activeMobileLink);
+    }
+
+    // --- Event Listeners: Desktop Buttons ---
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const galleryType = btn.dataset.gallery;
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Sync mobile links
+            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+            const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
+            matchingLink?.classList.add('active');
+
+            switchGallery(galleryType);
+        });
+    });
+
+    // --- Event Listeners: Mobile Links ---
+    mobileWorkNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const galleryType = link.dataset.gallery;
+
+            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            // Sync desktop buttons
+            buttons.forEach(b => b.classList.remove('active'));
+            const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
+            matchingButton?.classList.add('active');
+
+            switchGallery(galleryType);
+        });
+    });
+
+    // --- SCROLL LISTENER (Throttled for Performance) ---
+    Object.keys(scrollers).forEach(key => {
+        let ticking = false; // Flag for requestAnimationFrame
+
+        scrollers[key].addEventListener('scroll', () => {
+            // Always update position variable immediately
+            scrollPositions[key] = scrollers[key].scrollLeft;
+
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (key === currentGallery) {
+                        const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
+                        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
+                        updateProgress(scrollers[key], activeButton);
+                        updateProgress(scrollers[key], activeMobileLink);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    });
+
+    // --- Initial Setup ---
+    // Initialize progress bars for the default gallery
+    const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
+    const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
+    updateProgress(scrollers[currentGallery], initialButton);
+    updateProgress(scrollers[currentGallery], initialMobileLink);
+    
+    // Check if motion is the default (unlikely, but good safety)
+    if(currentGallery === 'motion') manageVideoState('motion', true);
 
 
-const buttons = document.querySelectorAll('.section-btn');
-const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link'); // For future use
-const scrollers = {
-'3d': document.getElementById('scroller-3d'),
+    // --- Modal / Lightbox Logic ---
+    const modal = document.getElementById('portfolio-modal');
+    const modalContentInner = document.getElementById('modal-gall-inner');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-'graphic': document.getElementById('scroller-graphic'),
-'product': document.getElementById('scroller-product'),
-'motion': document.getElementById('scroller-motion')
-  
-};
-// Select info content
-const infoContents = {
-'3d': document.querySelector('.info-content[data-info="3d"]'),
-'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-'product': document.querySelector('.info-content[data-info="product"]'),
-'motion': document.querySelector('.info-content[data-info="motion"]')
-  
-};
-// NEW: Save scroll positions
-const scrollPositions = {
-'3d': 0,
-'graphic': 0,
-'product': 0,
-'motion': 0.
-  
-};
-let currentGallery = '3d';
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Clone content
+            modalContentInner.innerHTML = item.innerHTML;
+            
+            // If the cloned item is a video, we must manually play it
+            // because we removed 'autoplay' from the HTML
+            const video = modalContentInner.querySelector('video');
+            if (video) {
+                video.setAttribute('controls', 'true'); // Add controls for modal
+                video.play().catch(()=>{});
+            }
 
-function updateProgress(scroller, button) {
-if (!button) return;
-const scrollLeft = scroller.scrollLeft;
-const scrollWidth = scroller.scrollWidth - scroller.clientWidth;
-const progress = scrollWidth > 0 ?
-(scrollLeft / scrollWidth) * 100 : 0;
-button.style.setProperty('--progress', `${progress}%`);
-}
+            modal.classList.add('active');
+        });
+    });
 
-// UPDATED: Function now also switches info content and saves/restores scroll
-function switchGallery(newGallery) {
-if (newGallery === currentGallery) return;
-// Save current scroll position
-scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-// --- Gallery Scroller ---
-scrollers[currentGallery].classList.remove('active');
-scrollers[newGallery].classList.add('active');
-// Restore new gallery's scroll position
-scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-// --- Info Content ---
-infoContents[currentGallery].classList.remove('active');
-infoContents[newGallery].classList.add('active');
+    function closeModal() {
+        modal.classList.remove('active');
+        
+        // Optimize: Pause any video inside modal immediately
+        const modalVideo = modalContentInner.querySelector('video');
+        if (modalVideo) modalVideo.pause();
 
-currentGallery = newGallery;
-const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-updateProgress(scrollers[newGallery], activeButton);
-updateProgress(scrollers[newGallery], activeMobileLink);
-}
+        // Clear content after transition to free memory
+        setTimeout(() => {
+            modalContentInner.innerHTML = '';
+        }, 300);
+    }
 
-buttons.forEach(btn => {
-btn.addEventListener('click', () => {
-const galleryType = btn.dataset.gallery;
-buttons.forEach(b => b.classList.remove('active'));
-btn.classList.add('active');
-
-// Sync mobile links
-mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-
-const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-matchingLink?.classList.add('active');
-
-switchGallery(galleryType);
-});
-});
-// Add listeners for mobile links
-mobileWorkNavLinks.forEach(link => {
-link.addEventListener('click', (e) => {
-e.preventDefault();
-const galleryType = link.dataset.gallery;
-
-mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-link.classList.add('active');
-
-// Sync desktop/tablet buttons
-
-buttons.forEach(b => b.classList.remove('active'));
-const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-matchingButton?.classList.add('active');
-
-switchGallery(galleryType);
-});
-});
-Object.keys(scrollers).forEach(key => {
-scrollers[key].addEventListener('scroll', () => {
-if (key === currentGallery) {
-const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
-
-updateProgress(scrollers[key], activeButton);
-updateProgress(scrollers[key], activeMobileLink);
-
-
-// NEW: Save scroll position as user scrolls
-scrollPositions[key] = scrollers[key].scrollLeft;
-}
-});
-});
-const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
-const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
-updateProgress(scrollers[currentGallery], initialButton);
-updateProgress(scrollers[currentGallery], initialMobileLink);
-// --- NEW: Lightbox/Modal Logic ---
-const modal = document.getElementById('portfolio-modal');
-const modalContentInner = document.getElementById('modal-gall-inner');
-const portfolioItems = document.querySelectorAll('.portfolio-item');
-
-portfolioItems.forEach(item => {
-item.addEventListener('click', () => {
-// Clone the item's content (in this case, just the text)
-const itemContent = item.innerHTML; 
-modalContentInner.innerHTML = itemContent;
-
-// Show the modal
-
-modal.classList.add('active');
-});
-});
-function closeModal() {
-modal.classList.remove('active');
-// Clear content after transition
-setTimeout(() => {
-modalContentInner.innerHTML = '';
-}, 300);
-}
-
-// Close modal by clicking on the background or the content
-modal.addEventListener('click', closeModal);
-modalContentInner.addEventListener('click', closeModal);
+    modal.addEventListener('click', closeModal);
+    modalContentInner.addEventListener('click', closeModal);
 });
 </script>
 
@@ -4096,6 +4159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
