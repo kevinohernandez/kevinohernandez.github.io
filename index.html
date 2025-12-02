@@ -2622,43 +2622,43 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="scroller" id="scroller-motion">
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo2.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo2.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo3.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo3.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo4.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo4.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo7.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo7.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo8.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo8.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo6.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo6.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo5.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo5.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo9.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo9.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
   
   <div class="portfolio-item">
-    <video class="portfolio-img" src="images/fulls/mo10.mp4" loop muted playsinline preload="none"></video>
+    <video class="portfolio-img" src="images/fulls/mo10.mp4" loop muted playsinline preload="metadata"> </video>
   </div>
 
 </div>
@@ -3725,7 +3725,7 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2 OPTIMIZED
+// S-2 OPTIMIZED (Fixed Video Thumbnail & Threshold)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Mobile Info Toggle Logic ---
@@ -3762,35 +3762,34 @@ document.addEventListener('DOMContentLoaded', () => {
         '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0
     };
     
-    let currentGallery = '3d'; // Default gallery
+    let currentGallery = '3d'; 
 
-    // --- VIDEO OPTIMIZATION: Intersection Observer ---
-    // This ensures only the video visible on screen plays, saving massive battery/CPU
+    // --- VIDEO OPTIMIZATION ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            // Because we used preload="metadata" in HTML, the video
+            // already shows the first frame. We only call play() here.
+            
             if (entry.isIntersecting) {
-                // Play video when visible
                 entry.target.play().catch(() => {}); 
             } else {
-                // Pause video when off-screen
                 entry.target.pause();
+                // Optional: Reset time to 0 if you want it to restart every time
+                // entry.target.currentTime = 0; 
             }
         });
     }, {
-        root: scrollers['motion'], // The container
-        threshold: 0.75             // Play when 50% visible
+        root: scrollers['motion'], 
+        threshold: 0.75 // UPDATED: Only plays when 75% visible
     });
 
-    // Helper to manage video observers
     function manageVideoState(galleryType, isActive) {
         if (galleryType !== 'motion') return;
         
         const videos = scrollers['motion'].querySelectorAll('video');
         if (isActive) {
-            // Start observing videos so they play on scroll
             videos.forEach(v => videoObserver.observe(v));
         } else {
-            // Stop observing and force pause all videos
             videos.forEach(v => {
                 videoObserver.unobserve(v);
                 v.pause();
@@ -3811,27 +3810,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function switchGallery(newGallery) {
         if (newGallery === currentGallery) return;
 
-        // 1. Save old scroll position
         scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
 
-        // 2. Clean up old gallery (Pause videos if leaving motion)
         scrollers[currentGallery].classList.remove('active');
         infoContents[currentGallery].classList.remove('active');
         manageVideoState(currentGallery, false);
 
-        // 3. Activate new gallery
         scrollers[newGallery].classList.add('active');
         infoContents[newGallery].classList.add('active');
         
-        // 4. Restore scroll position
         scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
 
-        // 5. Initialize new gallery (Start observers if entering motion)
         manageVideoState(newGallery, true);
 
         currentGallery = newGallery;
 
-        // 6. Update UI
         const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
         const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
         updateProgress(scrollers[newGallery], activeButton);
@@ -3845,7 +3838,6 @@ document.addEventListener('DOMContentLoaded', () => {
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Sync mobile links
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
             matchingLink?.classList.add('active');
@@ -3863,7 +3855,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
-            // Sync desktop buttons
             buttons.forEach(b => b.classList.remove('active'));
             const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
             matchingButton?.classList.add('active');
@@ -3872,12 +3863,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- SCROLL LISTENER (Throttled for Performance) ---
+    // --- SCROLL LISTENER (Throttled) ---
     Object.keys(scrollers).forEach(key => {
-        let ticking = false; // Flag for requestAnimationFrame
+        let ticking = false;
 
         scrollers[key].addEventListener('scroll', () => {
-            // Always update position variable immediately
             scrollPositions[key] = scrollers[key].scrollLeft;
 
             if (!ticking) {
@@ -3896,46 +3886,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Initial Setup ---
-    // Initialize progress bars for the default gallery
     const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
     const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
     updateProgress(scrollers[currentGallery], initialButton);
     updateProgress(scrollers[currentGallery], initialMobileLink);
     
-    // Check if motion is the default (unlikely, but good safety)
     if(currentGallery === 'motion') manageVideoState('motion', true);
 
-
-    // --- Modal / Lightbox Logic ---
+    // --- Modal Logic ---
     const modal = document.getElementById('portfolio-modal');
     const modalContentInner = document.getElementById('modal-gall-inner');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     portfolioItems.forEach(item => {
         item.addEventListener('click', () => {
-            // Clone content
             modalContentInner.innerHTML = item.innerHTML;
-            
-            // If the cloned item is a video, we must manually play it
-            // because we removed 'autoplay' from the HTML
             const video = modalContentInner.querySelector('video');
             if (video) {
-                video.setAttribute('controls', 'true'); // Add controls for modal
+                video.setAttribute('controls', 'true'); 
                 video.play().catch(()=>{});
             }
-
             modal.classList.add('active');
         });
     });
 
     function closeModal() {
         modal.classList.remove('active');
-        
-        // Optimize: Pause any video inside modal immediately
         const modalVideo = modalContentInner.querySelector('video');
         if (modalVideo) modalVideo.pause();
-
-        // Clear content after transition to free memory
         setTimeout(() => {
             modalContentInner.innerHTML = '';
         }, 300);
@@ -4160,6 +4138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
