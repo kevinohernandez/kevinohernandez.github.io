@@ -3413,7 +3413,7 @@ function initThreeJS() {
     camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     
     const isDesktop = window.innerWidth >= 1025;
-    camera.position.z = 4;
+    camera.position.z = 3.75;
     camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile;
 
     // OPTIMIZATION: Limit pixel ratio to 2 for performance on retina screens
@@ -4167,6 +4167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
