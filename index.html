@@ -5,6 +5,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -3227,418 +3228,473 @@ setupEventListeners();
 </script>
 
 <script type="module">
-// THREE.JS SECTION - OPTIMIZED
 let scene, camera, renderer, p;
+// 'models' will hold the loaded GLB objects instead of a single 'planet'
 let models = [];
+// Animation mixers for each model
 let mixers = [];
 let currentSphereColor = null;
 let container;
-let section1; // Reference to the section
-let isVisible = true; // Track visibility
 
-// 📌 CONFIGURATION
+// =========================================================
+// 📌 CONFIGURATION ARRAYS
+// =========================================================
+// Define the URLs for all models to be loaded
 const modelPaths = [
-    'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', 
-    'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'
+'https://cdn.shopify.com/3d/models/dde04961d5909f4a/gh6.glb', // Index 0 (Theme Color)
+'https://cdn.shopify.com/3d/models/69aff6bb9e30b8fb/gh7.glb'  // Index 1 (Inverted Theme Color)
 ];
-const MODEL_POSITIONS = [[0, -0.5, -3.5], [0.0, -0.425, -3.45]];
-const MODEL_SCALES = [1.75, 1.75];
-const MODEL_ROTATIONS = [[0, 0, 0], [0, 0, 0]];
-const MODEL_Y_SINE_WAVE = [[Math.PI / 6, 0.15], [Math.PI / 6, 0.15]];
-const CAMERA_Y_POSITION = { desktop: 0, mobile: 0.15 };
 
-// Utilities
+// [x, y, z] position offsets for each model
+const MODEL_POSITIONS = [
+[0, -0.5, -3.5],        // Model 1: Centered at -2 on Z
+[0.0, -0.425, -3.45]   // Model 2: Slight Y offset
+];
+
+// Individual scale for each model
+const MODEL_SCALES = [1.75, 1.75];
+
+// [x, y, z] rotation in radians for each model
+// Note: Math.PI = 180 degrees, Math.PI/2 = 90 degrees, etc.
+const MODEL_ROTATIONS = [
+[0, 0, 0],        // Model 1: Static rotation (X will always face camera)
+[0, 0, 0]         // Model 2: Static rotation (X will always face camera)
+];
+
+// Sine wave rotation settings for Y axis
+// [amplitude in radians, speed multiplier]
+const MODEL_Y_SINE_WAVE = [
+[Math.PI / 6, 0.15],    // Model 1: ±30 degrees oscillation, medium speed
+[Math.PI / 6, 0.15]     // Model 2: ±30 degrees oscillation, medium speed
+];
+
+// Camera Y position offset (desktop, mobile)
+const CAMERA_Y_POSITION = {
+desktop: 0,    // No offset for desktop
+mobile: 0.15   // Move camera down (or scene appears to move up) on mobile
+};
+
+// [x, y, z] rotation speed for each model (added per frame)
+// Set to [0, 0, 0] to disable animation for that model
+const MODEL_ROTATION_SPEED = [
+[-0.0002, -0.0002, 0.00025],    // Model 1: Rotate on Y and Z
+[-0.0002, -0.0002, 0.00025]     // Model 2: Rotate on Y and Z
+];
+
+// Function to invert a color (returns inverted THREE.Color)
 function invertColor(color) {
-    return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
+return new THREE.Color(1 - color.r, 1 - color.g, 1 - color.b);
 }
+// =========================================================
 
 let gu, sizes = [], shift = [], clock;
 
-function getTorusPoints(count, radius, tube, tiltX, tiltY) {
-    const points = [];
-    for (let i = 0; i < count; i++) {
-        const u = (i / count) * Math.PI * 2;
-        const v = ((i * 137.5) % count / count) * Math.PI * 2;
-        const x = (radius + tube * Math.cos(v)) * Math.cos(u);
-        const y = (radius + tube * Math.cos(v)) * Math.sin(u);
-        const z = tube * Math.sin(v);
-        const p = new THREE.Vector3(x, y, z);
-        p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
-        points.push(p);
-    }
-    return points;
+function getSpherePoints(count, radius) {
+const points = [];
+for (let i = 0; i < count; i++) {
+const phi = Math.acos(-1 + (2 * i) / count);
+const theta = Math.sqrt(count * Math.PI) * phi;
+const p = new THREE.Vector3();
+p.setFromSphericalCoords(radius, phi, theta);
+points.push(p);
+}
+return points;
 }
 
-// 🔄 OPTIMIZED THEME UPDATE
-// Instead of checking every frame, we call this function only when the class changes
-function updateThemeFromCSS() {
-    if (!renderer || !p) return;
+function getTorusPoints(count, radius, tube, tiltX, tiltY) {
+const points = [];
+for (let i = 0; i < count; i++) {
+const u = (i / count) * Math.PI * 2;
+const v = ((i * 137.5) % count / count) * Math.PI * 2;
 
-    // Get styles once
-    const bodyStyle = getComputedStyle(document.body);
-    const newColorHex = bodyStyle.getPropertyValue('--sphere-color').trim();
-    const newBgColor = bodyStyle.getPropertyValue('--bg-color').trim();
-    const newColorInt = parseInt(newColorHex.replace('#', ''), 16);
+const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+const z = tube * Math.sin(v);
 
-    // Update Particles Material
-    if (newBgColor === '#ffffff' || newBgColor === 'white' || newBgColor === '#fff') {
-        p.material.blending = THREE.NormalBlending;
-        p.material.transparent = false;
-        p.material.opacity = 1.0;
-    } else {
-        p.material.blending = THREE.AdditiveBlending;
-        p.material.transparent = true;
-        p.material.opacity = 1.0;
-    }
-    
-    // Update Colors if changed
-    if (newColorInt !== currentSphereColor) {
-        currentSphereColor = newColorInt;
-        const newThreeColor = new THREE.Color(currentSphereColor);
-        
-        // Update Shader Uniform
-        if (gu && gu.color) {
-            gu.color.value.setHex(currentSphereColor);
-        }
-        
-        // Update Particle Color
-        p.material.color.setHex(currentSphereColor);
-        p.material.needsUpdate = true;
-
-        // Update Models
-        if (models.length > 0) {
-            models.forEach((model) => {
-                const modelIndex = model.userData.modelIndex;
-                model.traverse((child) => {
-                    if (child.isMesh && child.material) {
-                        if (modelIndex === 1) {
-                            // Invert for model 2
-                            const inverted = new THREE.Color(1 - newThreeColor.r, 1 - newThreeColor.g, 1 - newThreeColor.b);
-                            child.material.color.copy(inverted);
-                        } else {
-                            // Normal theme for model 1
-                            child.material.color.copy(newThreeColor);
-                        }
-                        child.material.needsUpdate = true;
-                    }
-                });
-            });
-        }
-    }
+const p = new THREE.Vector3(x, y, z);
+p.applyEuler(new THREE.Euler(tiltX, tiltY, 0));
+points.push(p);
+}
+return points;
 }
 
 function initThreeJS() {
-    container = document.getElementById('canvas-container');
-    section1 = document.getElementById('section-1');
-    if (!container) { setTimeout(initThreeJS, 500); return; }
+container = document.getElementById('canvas-container');
+if (!container) {
+setTimeout(initThreeJS, 500);
+return;
+}
 
-    container.style.width = '100%';
-    container.style.height = '100svh';
-    container.style.position = 'relative';
+// Force container to full viewport height
+container.style.width = '100%';
+container.style.height = '100svh';
+container.style.position = 'relative';
 
-    scene = new THREE.Scene();
-    const fov = 75;
-    const aspect = window.innerWidth / window.innerHeight;
-    const near = 0.1;
-    const far = 1000;
-    camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    
-    const isDesktop = window.innerWidth >= 1025;
-    camera.position.z = 4;
-    camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile;
+scene = new THREE.Scene();
 
-    // OPTIMIZATION: Limit pixel ratio to 2 for performance on retina screens
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); 
-    container.appendChild(renderer.domElement);
-    container.classList.add('is-visible');
+const fov = 75;
+const aspect = window.innerWidth / window.innerHeight;
+const near = 0.1;
+const far = 1000;
+camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
-    // Initial Color Setup
-    const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
-    currentSphereColor = parseInt(initialColor.replace('#', ''), 16);
+const isDesktop = window.innerWidth >= 1025;
+camera.position.z = isDesktop ? 4.5 : 4.5;
+camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
 
-    // --- GLB LOADER ---
-    const loader = new THREE.GLTFLoader();
-    const themeColor = new THREE.Color(currentSphereColor);
+renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
 
-    modelPaths.forEach((path, index) => {
-        loader.load(path, function (gltf) {
-            const model = gltf.scene;
-            model.userData.modelIndex = index;
+container.classList.add('is-visible');
 
-            // Apply transforms
-            const scale = MODEL_SCALES[index] || 1.5;
-            const pos = MODEL_POSITIONS[index] || [0,0,0];
-            const rot = MODEL_ROTATIONS[index] || [0,0,0];
+const initialColor = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+currentSphereColor = parseInt(initialColor, 16);
 
-            model.scale.set(scale, scale, scale);
-            model.position.set(pos[0], pos[1], pos[2]);
-            model.rotation.set(rot[0], rot[1], rot[2]);
+// =========================================================
+// 🔄 GLB LOADING LOGIC WITH INDIVIDUAL POSITIONS & SCALES
+// =========================================================
+const loader = new THREE.GLTFLoader();
+const themeColor = new THREE.Color(currentSphereColor);
 
-            // Setup Animations
-            if (gltf.animations && gltf.animations.length > 0) {
-                const mixer = new THREE.AnimationMixer(model);
-                mixers.push(mixer);
-                gltf.animations.forEach((clip) => {
-                    mixer.clipAction(clip).play();
-                });
-            }
+modelPaths.forEach((path, index) => {
+// Get the specific scale for this model
+const modelScale = MODEL_SCALES[index] !== undefined ? MODEL_SCALES[index] : 1.5;
 
-            // Apply Initial Material
-            model.traverse((child) => {
-                if (child.isMesh && child.material) {
-                    const originalMaterial = child.material;
-                    let matColor = themeColor.clone();
-                    
-                    if (index === 1) { // Invert logic
-                         matColor = new THREE.Color(1 - themeColor.r, 1 - themeColor.g, 1 - themeColor.b);
-                    }
+// Get the specific position for this model
+const position = MODEL_POSITIONS[index] !== undefined ? MODEL_POSITIONS[index] : [0, 0, 0];
 
-                    child.material = new THREE.MeshBasicMaterial({ 
-                        color: matColor,
-                        side: THREE.DoubleSide,
-                        skinning: originalMaterial.skinning || false,
-                        morphTargets: originalMaterial.morphTargets || false
-                    });
-                }
-            });
+// Get the specific rotation for this model
+const rotation = MODEL_ROTATIONS[index] !== undefined ? MODEL_ROTATIONS[index] : [0, 0, 0];
 
-            scene.add(model);
-            models.push(model);
-        });
-    });
+loader.load(path, function (gltf) {
+const model = gltf.scene;
 
-    // --- PARTICLES ---
-    gu = { time: { value: 0 }, color: { value: new THREE.Color(currentSphereColor) } };
-    let pushShift = () => {
-        shift.push(
-            Math.random() * Math.PI,
-            Math.random() * Math.PI * 2,
-            (Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
-            Math.random() * 0.25 + 0.1
-        );
-    }
+// ** Store the index on the model itself **
+model.userData.modelIndex = index;
 
-    const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
-    const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
-    const pts = [...torus1Points, ...torus2Points];
-    
-    pts.forEach(pt => {
-        sizes.push(Math.random() * 0.5 + 1);
-        pushShift();
-    });
+// ** Apply individual scale and position **
+model.scale.set(modelScale, modelScale, modelScale);
+model.position.set(position[0], position[1], position[2]);
 
-    let g = new THREE.BufferGeometry().setFromPoints(pts);
-    g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
-    g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
+// ** Apply individual rotation **
+model.rotation.set(rotation[0], rotation[1], rotation[2]); 
 
-    let m = new THREE.PointsMaterial({
-        size: 0.1,
-        transparent: true,
-        depthTest: false,
-        blending: THREE.AdditiveBlending,
-        onBeforeCompile: shader => {
-            shader.uniforms.time = gu.time;
-            shader.uniforms.color = gu.color;
-            shader.vertexShader = `
-                uniform float time;
-                uniform vec3 color;
-                attribute float sizes;
-                attribute vec4 shift;
-                varying vec3 vColor;
-                ${shader.vertexShader}
-            `.replace(
-                `gl_PointSize = size;`,
-                `gl_PointSize = size * sizes;`
-            ).replace(
-                `#include <color_vertex>`,
-                `#include <color_vertex>
-                float d = length(abs(position) / vec3(40., 10., 40));
-                d = clamp(d, 0., 1.);
-                vColor = color;`
-            ).replace(
-                `#include <begin_vertex>`,
-                `#include <begin_vertex>
-                float t = time;
-                float moveT = mod(shift.x + shift.z * t, PI2);
-                float moveS = mod(shift.y + shift.z * t, PI2);
-                transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;`
-            );
-            shader.fragmentShader = `${shader.fragmentShader}`
-            .replace(
-                `vec4 diffuseColor = vec4( diffuse, opacity );`,
-                `vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
-                float d = length(uv - vec2(1));
-                float f = 1. - step(d, 1.);
-                if (f < 0.1) discard;
-                vec4 diffuseColor = vec4( diffuse, opacity );`
-            );
-        }
-    });
+// ** Setup animation mixer BEFORE material changes **
+console.log(`Model ${index} loaded from: ${path}`);
+console.log(`Animations found: ${gltf.animations ? gltf.animations.length : 0}`);
 
-    p = new THREE.Points(g, m);
-    scene.add(p);
+if (gltf.animations && gltf.animations.length > 0) {
+const mixer = new THREE.AnimationMixer(model);
+mixers.push(mixer);
 
-    clock = new THREE.Clock();
+// Play all animations in the model
+gltf.animations.forEach((clip, clipIndex) => {
+console.log(`Playing animation ${clipIndex}: ${clip.name}, duration: ${clip.duration}`);
+const action = mixer.clipAction(clip);
+action.play();
+});
+} else {
+console.log(`No animations found in model ${index}`);
+}
 
-    // --- OPTIMIZATION: OBSERVERS ---
-    
-    // 1. Theme Observer: Watch for class changes on body to update colors
-    const themeObserver = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.attributeName === "class") {
-                updateThemeFromCSS();
-            }
-        });
-    });
-    themeObserver.observe(document.body, { attributes: true });
-    // Run once to match initial state
-    updateThemeFromCSS();
+// Apply color AFTER animation setup: Model 0 gets theme color, Model 1 gets inverted theme color
+model.traverse((child) => {
+if (child.isMesh && child.material) {
+const originalMaterial = child.material;
 
-    // 2. Visibility Observer: Only render when Section 1 is visible
-    const visibilityObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                isVisible = true;
-                renderer.setAnimationLoop(animate); // Start loop
-            } else {
-                isVisible = false;
-                renderer.setAnimationLoop(null); // Stop loop
-            }
-        });
-    }, { threshold: 0 }); // Trigger as soon as one pixel leaves/enters
-    
-    if (section1) {
-        visibilityObserver.observe(section1);
-    } else {
-        // Fallback if observer fails
-        renderer.setAnimationLoop(animate);
-    }
+if (index === 1) {
+// Model 2: inverted color with MeshBasicMaterial
+const invertedColor = new THREE.Color(
+1 - themeColor.r,
+1 - themeColor.g,
+1 - themeColor.b
+);
+child.material = new THREE.MeshBasicMaterial({ 
+color: invertedColor,
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+} else {
+// Model 1: theme color with MeshBasicMaterial
+child.material = new THREE.MeshBasicMaterial({ 
+color: themeColor.clone(),
+side: THREE.DoubleSide,
+skinning: originalMaterial.skinning || false,
+morphTargets: originalMaterial.morphTargets || false
+});
+}
+}
+});
+
+scene.add(model);
+models.push(model); // Add to the array for animation/update
+
+}, 
+undefined, 
+function (error) {
+console.error('An error occurred loading the GLB model:', path, error);
+});
+});
+// =========================================================
+
+gu = { time: { value: 0 } };
+sizes = [];
+shift = [];
+
+let pushShift = () => {
+shift.push(
+Math.random() * Math.PI,
+Math.random() * Math.PI * 2,
+(Math.random() * 0.9 + 0.1) * Math.PI * 0.1,
+Math.random() * 0.25 + 0.1
+);
+}
+
+const torus1Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, Math.PI / 4);
+const torus2Points = getTorusPoints(100, 3, 0.0125, Math.PI / 2.5, -Math.PI / 4);
+
+const pts = [...torus1Points, ...torus2Points];
+
+pts.forEach(pt => {
+sizes.push(Math.random() * 0.5 + 1);
+pushShift();
+});
+
+let g = new THREE.BufferGeometry().setFromPoints(pts);
+g.setAttribute("sizes", new THREE.Float32BufferAttribute(sizes, 1));
+g.setAttribute("shift", new THREE.Float32BufferAttribute(shift, 4));
+
+let m = new THREE.PointsMaterial({
+size: 0.1,
+transparent: true,
+depthTest: false,
+blending: THREE.AdditiveBlending,
+onBeforeCompile: shader => {
+shader.uniforms.time = gu.time;
+shader.uniforms.color = gu.color = { value: new THREE.Color(currentSphereColor) };
+
+shader.vertexShader = `
+uniform float time;
+uniform vec3 color;
+attribute float sizes;
+attribute vec4 shift;
+varying vec3 vColor;
+${shader.vertexShader}
+`.replace(
+`gl_PointSize = size;`,
+`gl_PointSize = size * sizes;`
+).replace(
+`#include <color_vertex>`,
+`#include <color_vertex>
+float d = length(abs(position) / vec3(40., 10., 40));
+d = clamp(d, 0., 1.);
+vColor = color;
+`
+).replace(
+`#include <begin_vertex>`,
+`#include <begin_vertex>
+float t = time;
+float moveT = mod(shift.x + shift.z * t, PI2);
+float moveS = mod(shift.y + shift.z * t, PI2);
+transformed += vec3(cos(moveS) * sin(moveT), cos(moveT), sin(moveS) * sin(moveT)) * shift.w;
+`
+);
+shader.fragmentShader = `
+${shader.fragmentShader}
+`.replace(
+`vec4 diffuseColor = vec4( diffuse, opacity );`,
+`
+vec2 uv = abs((gl_PointCoord - 0.5) * 2.);
+float d = length(uv - vec2(1));
+float f = 1. - step(d, 1.);
+if (f < 0.1) discard;
+vec4 diffuseColor = vec4( diffuse, opacity );`
+);
+}
+});
+
+p = new THREE.Points(g, m);
+scene.add(p);
+
+clock = new THREE.Clock();
+renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-    if (!clock || !gu || !renderer) return;
+if (!clock || !gu || !renderer) return;
 
-    const delta = clock.getDelta();
-    let t = clock.getElapsedTime() * 0.25;
-    gu.time.value = t * Math.PI;
+// Get delta ONCE per frame
+const delta = clock.getDelta();
 
-    // Update Mixers
-    mixers.forEach(mixer => mixer.update(delta));
+// Use delta for time calculation
+let t = clock.getElapsedTime() * 0.25;
+gu.time.value = t * Math.PI;
 
-    // Rotate Particles
-    if (p) {
-        p.rotation.y += 0.001;
-        p.rotation.x += 0.0005;
-    }
+// Update animation mixers with delta
+mixers.forEach(mixer => mixer.update(delta));
 
-    // Rotate Models
-    if (models.length > 0) {
-        models.forEach(model => {
-            const modelIndex = model.userData.modelIndex;
-            const staticRotation = MODEL_ROTATIONS[modelIndex] || [0, 0, 0];
-            const sineWave = MODEL_Y_SINE_WAVE[modelIndex] || [0, 1];
+const newColorHex = getComputedStyle(document.body).getPropertyValue('--sphere-color').trim();
+const newColor = parseInt(newColorHex, 16);
+const newBgColor = getComputedStyle(document.body).getPropertyValue('--bg-color').trim();
 
-            // Always face camera on X axis at 45 degrees
-            model.rotation.x = Math.PI / 4; 
+if (newBgColor === '#ffffff') {
+if (p) {
+p.material.blending = THREE.NormalBlending;
+p.material.transparent = false;
+p.material.opacity = 1.0;
+p.material.size = 0.1;
+p.material.needsUpdate = true;
+}
+} else {
+if (p) {
+p.material.blending = THREE.AdditiveBlending;
+p.material.transparent = true;
+p.material.opacity = 1.0;
+p.material.size = 0.1;
+p.material.needsUpdate = true;
+}
+}
 
-            // Sine wave oscillation
-            const amplitude = sineWave[0];
-            const speed = sineWave[1];
-            model.rotation.y = staticRotation[1] + Math.sin(clock.getElapsedTime() * speed) * amplitude;
-            model.rotation.z = staticRotation[2];
-        });
-    }
+if (newColor !== currentSphereColor) {
+currentSphereColor = newColor;
 
-    renderer.render(scene, camera);
+const newThreeColor = new THREE.Color(currentSphereColor);
+
+if (gu.color) {
+gu.color.value.setHex(currentSphereColor);
+}
+
+if (p && p.material) {
+p.material.color.setHex(currentSphereColor);
+p.material.needsUpdate = true;
+}
+
+// 🔄 THEME UPDATE FOR ALL GLB MODELS
+if (models.length > 0) { 
+models.forEach((model) => {
+const modelIndex = model.userData.modelIndex;
+
+model.traverse((child) => {
+if (child.isMesh && child.material) {
+// Model 0 gets the theme color, Model 1 gets inverted theme color
+if (modelIndex === 1) {
+// Invert for model 2
+const invertedColor = new THREE.Color(
+1 - newThreeColor.r,
+1 - newThreeColor.g,
+1 - newThreeColor.b
+);
+child.material.color.copy(invertedColor);
+} else {
+// Normal theme color for model 1
+child.material.color.copy(newThreeColor);
+}
+child.material.needsUpdate = true;
+}
+});
+});
+}
+}
+
+if (p) {
+p.rotation.y += 0.001;
+p.rotation.x += 0.0005;
+}
+
+// 🔄 CAMERA-FACING GLB MODELS WITH SINE WAVE Y ROTATION
+if (models.length > 0) {
+models.forEach(model => {
+const modelIndex = model.userData.modelIndex;
+const staticRotation = MODEL_ROTATIONS[modelIndex] || [0, 0, 0];
+const sineWave = MODEL_Y_SINE_WAVE[modelIndex] || [0, 1];
+
+// Always face camera on X axis at 45 degrees
+model.rotation.x = Math.PI / 4; // 45 degrees in radians
+
+// Apply sine wave oscillation to Y rotation
+const amplitude = sineWave[0];
+const speed = sineWave[1];
+model.rotation.y = staticRotation[1] + Math.sin(clock.getElapsedTime() * speed) * amplitude;
+
+// Apply static Z rotation from configuration
+model.rotation.z = staticRotation[2];
+});
+}
+
+renderer.render(scene, camera);
 }
 
 function onWindowResize() {
-    if (camera && renderer && container) {
-        const width = container.clientWidth; // Use container width, safer
-        const height = container.clientHeight;
-        const aspect = width / height;
-        camera.aspect = aspect;
-        
-        const isDesktop = window.innerWidth >= 1025;
-        camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile;
+if (camera && renderer && container) {
+const width = window.innerWidth;
+const height = window.innerHeight;
 
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-        
-        // Force a single render if we are paused, so layout doesn't look broken
-        if (!isVisible) {
-             renderer.render(scene, camera);
-        }
-    }
+const aspect = width / height;
+camera.aspect = aspect;
+
+const isDesktop = window.innerWidth >= 1025;
+camera.position.z = isDesktop ? 4.5 : 4.5;
+camera.position.y = isDesktop ? CAMERA_Y_POSITION.desktop : CAMERA_Y_POSITION.mobile; 
+
+camera.updateProjectionMatrix();
+renderer.setSize(width, height);
 }
-
+}
 window.addEventListener('resize', onWindowResize, false);
+
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(initThreeJS, 100);
+setTimeout(initThreeJS, 100);
 });
 </script>
 
 
 <script>
-// ABOUT (Vanilla JS)
-document.addEventListener('DOMContentLoaded', () => {
-    // Get references to elements
-    const modal = document.getElementById('modal-container-side');
-    const themeWrapper = document.querySelector('.theme-wrapper');
-    // Select both desktop and mobile buttons
-    const aboutButtons = document.querySelectorAll('#desktop-about-button, #mobile-about-button');
+// ABOUT  
+$(document).ready(function() {
+// Get references to elements
+const modal = $('#modal-container-side');
+const themeWrapper = $('.theme-wrapper');
+// Check if we're on the mobile layout (matching your CSS breakpoint)
+const isMobile = () => window.innerWidth <= 1024; 
 
-    // Check if we're on the mobile layout (matching your CSS breakpoint)
-    const isMobile = () => window.innerWidth <= 1024;
+$('#desktop-about-button, #mobile-about-button').on('click', function(e){
+e.preventDefault();
 
-    const toggleModal = (e) => {
-        // Prevent default anchor behavior
-        e.preventDefault();
+if (modal.hasClass('visible')) {
+// --- CLOSE MODAL ---
+modal.addClass('out');
+$('body').removeClass('modal-active');
 
-        // Check if modal is currently visible
-        if (modal.classList.contains('visible')) {
-            // --- CLOSE MODAL ---
-            modal.classList.add('out');
-            document.body.classList.remove('modal-active');
+// Reset top style only if we're on mobile
+if (isMobile()) {
+// Use a timeout to reset *after* the close animation
+setTimeout(() => {
+modal.css('top', ''); 
+}, 500); // Match animation duration
+}
+} else {
+// --- OPEN MODAL ---
 
-            // Reset top style only if we're on mobile
-            if (isMobile()) {
-                // Use a timeout to reset *after* the close animation
-                setTimeout(() => {
-                    modal.style.top = ''; 
-                }, 500); // Match animation duration
-            }
-        } else {
-            // --- OPEN MODAL ---
-            
-            // On mobile, we need to align the modal to the current scroll position
-            if (isMobile() && themeWrapper) {
-                const scrollTop = themeWrapper.scrollTop; // Get current scroll position
-                modal.style.top = `${scrollTop}px`; // Set modal's top to the scroll position
-            }
+// On mobile, we need to align the modal to the current scroll position
+if (isMobile()) {
+const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
+modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
+}
 
-            // Remove all existing classes (reset) then add 'visible'
-            modal.className = 'visible';
-            document.body.classList.add('modal-active');
-        }
-    };
+modal.removeAttr('class').addClass('visible');
+$('body').addClass('modal-active');
+}
+});
 
-    // Attach click listeners to both buttons
-    aboutButtons.forEach(button => {
-        button.addEventListener('click', toggleModal);
-    });
 
-    // Handle Animation End to clean up classes
-    if (modal) {
-        modal.addEventListener('animationend', (e) => {
-            // Ensure the event fired on the modal itself, not a child
-            if (e.target === modal && modal.classList.contains('out')) {
-                modal.removeAttribute('class');
-            }
-        });
-    }
+$('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
+if (e.target === this && $(this).hasClass('out')) {
+$(this).removeAttr('class');
+}
+});
 });
 </script>
 
@@ -3853,183 +3909,151 @@ document.body.classList.add("mobile-has-active");
 </script>
 
 
-<script>
-// S-4 (Inquiries & Breathing Grid) - OPTIMIZED
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('breathingGrid');
-    const ctx = canvas.getContext('2d');
-    const textEl = document.getElementById('textToCopy');
-    const section4 = document.getElementById('section-4'); // Reference to the container
-    
-    let dots = [];
-    let spacing = 80;
-    let mouse = { x: -1000, y: -1000 };
-    let time = 0;
-    
-    // Animation State Control
-    let animationFrameId;
-    let isAnimating = false;
+<script> 
+// S-4    
+const canvas = document.getElementById('breathingGrid');
+const ctx = canvas.getContext('2d');
+const textEl = document.getElementById('textToCopy');
+let dots = [];
+let spacing = 80;
+let mouse = { x: -1000, y: -1000 };
 
-    // Function to get current theme color
-    function getThemeColor() {
-        try {
-            const computedStyle = getComputedStyle(document.body);
-            const textColor = computedStyle.getPropertyValue('--text-color').trim();
-            if (textColor && textColor.startsWith('#')) {
-                const hex = textColor.replace('#', '');
-                const r = parseInt(hex.substring(0, 2), 16);
-                const g = parseInt(hex.substring(2, 4), 16);
-                const b = parseInt(hex.substring(4, 6), 16);
-                if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
-                    return { r, g, b };
-                }
-            }
-        } catch (e) { console.error(e); }
-        return { r: 255, g: 255, b: 255 };
-    }
+// Function to get current theme color
+function getThemeColor() {
+try {
+const computedStyle = getComputedStyle(document.body);
+const textColor = computedStyle.getPropertyValue('--text-color').trim();
 
-    function resizeCanvas() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-        spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
-        
-        dots = [];
-        const numCols = Math.floor(canvas.width / spacing) + 1;
-        const numRows = Math.floor(canvas.height / spacing) + 1;
-        const gridWidth = (numCols - 1) * spacing;
-        const gridHeight = (numRows - 1) * spacing;
-        const offsetX = (canvas.width - gridWidth) / 2;
-        const offsetY = (canvas.height - gridHeight) / 2;
+// Convert hex to RGB
+if (textColor && textColor.startsWith('#')) {
+const hex = textColor.replace('#', '');
+const r = parseInt(hex.substring(0, 2), 16);
+const g = parseInt(hex.substring(2, 4), 16);
+const b = parseInt(hex.substring(4, 6), 16);
 
-        for(let r = 0; r < numRows; r++){
-            for(let c = 0; c < numCols; c++){
-                dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
-            }
-        }
-        
-        // If we resize while paused, we force one frame draw so it doesn't look broken
-        if (!isAnimating) {
-             requestAnimationFrame(drawFrame);
-        }
-    }
+// Validate the parsed values
+if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+return { r, g, b };
+}
+}
+} catch (e) {
+console.error('Error parsing theme color:', e);
+}
 
-    // Initialize Canvas
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('mousemove', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-    });
+// Default to white for dark theme (base theme)
+return { r: 255, g: 255, b: 255 };
+}
 
-    // The Logic that draws a single frame
-    function drawFrame() {
-        time += 0.016;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+function resizeCanvas() {
+// NEW: Size canvas to its parent container (.section-content)
+const rect = canvas.parentElement.getBoundingClientRect();
+canvas.width = rect.width;
+canvas.height = rect.height;
 
-        const rect = textEl.getBoundingClientRect();
-        const canvasRect = canvas.getBoundingClientRect();
-        const textPadding = 20;
+// Adjust spacing for mobile
+spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
+dots = [];
 
-        const textLeft = rect.left - canvasRect.left - textPadding;
-        const textRight = rect.right - canvasRect.left + textPadding;
-        const textTop = rect.top - canvasRect.top - textPadding;
-        const textBottom = rect.bottom - canvasRect.top + textPadding;
+// NEW: Calculate grid and center it, creating padding at edges
+const numCols = Math.floor(canvas.width / spacing) + 1;
+const numRows = Math.floor(canvas.height / spacing) + 1;
 
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const waveSpeed = 60;
-        const waveThickness = 40;
-        const maxDist = Math.hypot(centerX, centerY) + waveThickness;
-        const currentWave = (time * waveSpeed) % maxDist;
-        const color = getThemeColor();
+const gridWidth = (numCols - 1) * spacing;
+const gridHeight = (numRows - 1) * spacing;
 
-        dots.forEach(dot => {
-            // Skip dots under the text box
-            if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom) return;
+const offsetX = (canvas.width - gridWidth) / 2;
+const offsetY = (canvas.height - gridHeight) / 2;
 
-            const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
-            const distToWave = Math.abs(dist - currentWave);
-            let pulseFactor = 0;
-            
-            if(distToWave < waveThickness/2){
-                pulseFactor = 1 - distToWave / (waveThickness/2);
-                pulseFactor = Math.sin(pulseFactor * Math.PI / 2);
-            }
+for(let r = 0; r < numRows; r++){
+for(let c = 0; c < numCols; c++){
+dots.push({ x: (c * spacing) + offsetX, y: (r * spacing) + offsetY });
+}
+}
+}
 
-            const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
-            let glowFactor = 0;
-            const glowRadius = 50;
-            if(mouseDist < glowRadius){
-                glowFactor = (1 - mouseDist / glowRadius);
-            }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-            const size = (canvas.width < 480 ? 2 : 4) + pulseFactor * 12 + glowFactor * 10;
-            const opacity = Math.min(1, 0.2 + pulseFactor * 0.8 + glowFactor * 0.9);
-
-            ctx.beginPath();
-            ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
-            ctx.fill();
-        });
-    }
-
-    // The Animation Loop
-    function animate() {
-        if (!isAnimating) return; // Stop recursion if flag is false
-        drawFrame();
-        animationFrameId = requestAnimationFrame(animate);
-    }
-
-    // --- OPTIMIZATION: Intersection Observer ---
-    // Only run the loop when #section-4 is visible
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Section is visible: Start the loop if not already running
-                if (!isAnimating) {
-                    isAnimating = true;
-                    animate();
-                }
-            } else {
-                // Section is hidden: Stop the loop
-                isAnimating = false;
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                }
-            }
-        });
-    }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
-
-    if (section4) {
-        observer.observe(section4);
-    }
-
-    // --- Copy Button Logic ---
-    const copyButton = document.getElementById('copyButton');
-    function copyToClipboard() {
-        const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            copyButton.textContent = 'Copied!';
-            copyButton.classList.add('copied');
-            setTimeout(() => {
-                copyButton.textContent = 'Copy Me';
-                copyButton.classList.remove('copied');
-            }, 1500);
-        }).catch(err => console.error(err));
-    }
-
-    if (copyButton && textEl) {
-        copyButton.addEventListener('click', copyToClipboard);
-        textEl.addEventListener('click', copyToClipboard);
-        textEl.addEventListener('touchstart', (e) => e.preventDefault());
-    }
+window.addEventListener('mousemove', (e)=>{
+const rect = canvas.getBoundingClientRect();
+mouse.x = e.clientX - rect.left;
+mouse.y = e.clientY - rect.top;
 });
-</script>
 
+let time = 0;
+function animate() {
+time += 0.016;
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
+// NEW: Get coordinates relative to the canvas
+const rect = textEl.getBoundingClientRect();
+const canvasRect = canvas.getBoundingClientRect();
+const textPadding = 20;
 
+// Calculate text box boundaries in canvas-relative coordinates
+const textLeft = rect.left - canvasRect.left - textPadding;
+const textRight = rect.right - canvasRect.left + textPadding;
+const textTop = rect.top - canvasRect.top - textPadding;
+const textBottom = rect.bottom - canvasRect.top + textPadding;
+
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const waveSpeed = 60;
+const waveThickness = 40;
+const maxDist = Math.hypot(centerX, centerY) + waveThickness;
+const currentWave = (time * waveSpeed) % maxDist;
+
+// Get current theme color
+const color = getThemeColor();
+
+dots.forEach(dot=>{
+if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom){
+return;
+}
+const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
+const distToWave = Math.abs(dist - currentWave);
+let pulseFactor = 0;
+if(distToWave < waveThickness/2){
+pulseFactor = 1 - distToWave / (waveThickness/2);
+pulseFactor = Math.sin(pulseFactor*Math.PI/2);
+}
+const mouseDist = Math.hypot(dot.x - mouse.x, dot.y - mouse.y);
+let glowFactor = 0;
+const glowRadius = 50;
+if(mouseDist < glowRadius){
+glowFactor = (1 - mouseDist/glowRadius);
+}
+const size = (canvas.width < 480 ? 2 : 4) + pulseFactor*12 + glowFactor*10;
+const opacity = Math.min(1, 0.2 + pulseFactor*0.8 + glowFactor*0.9);
+ctx.beginPath();
+ctx.arc(dot.x, dot.y, size, 0, Math.PI*2);
+// Use theme color instead of hardcoded white
+ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${opacity})`;
+ctx.fill();
+});
+requestAnimationFrame(animate);
+}
+
+animate();
+
+// Copy button logic
+const copyButton = document.getElementById('copyButton');
+function copyToClipboard() {
+const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
+navigator.clipboard.writeText(textToCopy).then(() => {
+copyButton.textContent = 'Copied!';
+copyButton.classList.add('copied');
+setTimeout(() => {
+copyButton.textContent = 'Copy Me';
+copyButton.classList.remove('copied');
+}, 1500);
+}).catch(err => console.error(err));
+}
+
+copyButton.addEventListener('click', copyToClipboard);
+textEl.addEventListener('click', copyToClipboard);
+textEl.addEventListener('touchstart', (e) => e.preventDefault());
+</script> 
 
 
 
