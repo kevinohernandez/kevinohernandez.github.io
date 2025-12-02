@@ -2622,47 +2622,46 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="scroller" id="scroller-motion">
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/51ce3560cb974ff3bb241e803b93a761.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/51ce3560cb974ff3bb241e803b93a761.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/9f654de1f6874521b8703dbb50aebfbc.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/9f654de1f6874521b8703dbb50aebfbc.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/a7b9dd3838e841ab9d92d14bc69a6f36.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/a7b9dd3838e841ab9d92d14bc69a6f36.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/e7c1d5cb682d4715a416b6d16cf6447b.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/e7c1d5cb682d4715a416b6d16cf6447b.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/d4ebb4216485435bae93401afe2b019a.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/d4ebb4216485435bae93401afe2b019a.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/970592d741ef418ba75c82e7d911b715.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/970592d741ef418ba75c82e7d911b715.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/461fc776a85a4d198cd0dc679e099ceb.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/461fc776a85a4d198cd0dc679e099ceb.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/61c6351aa3c048dcbe9310c130c651bf.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/61c6351aa3c048dcbe9310c130c651bf.mp4" loop muted playsinline preload="none"></video>
   </div>
 
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/97f2b735a2564a90ba6096807b8a7854.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/97f2b735a2564a90ba6096807b8a7854.mp4" loop muted playsinline preload="none"></video>
   </div>
   
   <div class="portfolio-item">
-    <video class="portfolio-img" src="https://cdn.shopify.com/videos/c/o/v/94c11060fcc24804992a7ed57c3da3f5.mp4" loop muted playsinline preload="metadata"> </video>
+    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/94c11060fcc24804992a7ed57c3da3f5.mp4" loop muted playsinline preload="none"></video>
   </div>
 
 </div>
-
   
 </div>
 
@@ -3725,7 +3724,7 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2 OPTIMIZED (Fixed Video Thumbnail & Threshold)
+// S-2 OPTIMIZED (With Lazy Loading Fix)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Mobile Info Toggle Logic ---
@@ -3764,23 +3763,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let currentGallery = '3d'; 
 
-    // --- VIDEO OPTIMIZATION ---
+    // --- VIDEO OPTIMIZATION (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // Because we used preload="metadata" in HTML, the video
-            // already shows the first frame. We only call play() here.
-            
             if (entry.isIntersecting) {
+                // Play if visible
                 entry.target.play().catch(() => {}); 
             } else {
+                // Pause if not visible to save resources
                 entry.target.pause();
-                // Optional: Reset time to 0 if you want it to restart every time
-                // entry.target.currentTime = 0; 
             }
         });
     }, {
         root: scrollers['motion'], 
-        threshold: 0.95 // UPDATED: Only plays when 75% visible
+        threshold: 0.95 // Play when 95% visible
     });
 
     function manageVideoState(galleryType, isActive) {
@@ -3806,25 +3802,44 @@ document.addEventListener('DOMContentLoaded', () => {
         button.style.setProperty('--progress', `${progress}%`);
     }
 
-    // --- Switch Gallery Logic ---
+    // --- Switch Gallery Logic (UPDATED FOR LAZY LOADING) ---
     function switchGallery(newGallery) {
         if (newGallery === currentGallery) return;
 
+        // 1. Check if we are switching TO motion, and if so, load videos
+        if (newGallery === 'motion') {
+            const lazyVideos = scrollers['motion'].querySelectorAll('video');
+            lazyVideos.forEach(video => {
+                // If we have a data-src but no actual src yet, inject it now
+                if (video.dataset.src && !video.getAttribute('src')) {
+                    video.src = video.dataset.src;
+                    video.load(); // Trigger load
+                    video.removeAttribute('data-src'); // Cleanup
+                    video.classList.remove('lazy-video');
+                }
+            });
+        }
+
+        // 2. Save current scroll position
         scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
 
+        // 3. Deactivate current
         scrollers[currentGallery].classList.remove('active');
         infoContents[currentGallery].classList.remove('active');
         manageVideoState(currentGallery, false);
 
+        // 4. Activate new
         scrollers[newGallery].classList.add('active');
         infoContents[newGallery].classList.add('active');
         
+        // Restore scroll position
         scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
 
         manageVideoState(newGallery, true);
 
         currentGallery = newGallery;
-
+        
+        // Update Progress Bars
         const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
         const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
         updateProgress(scrollers[newGallery], activeButton);
@@ -3835,6 +3850,8 @@ document.addEventListener('DOMContentLoaded', () => {
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             const galleryType = btn.dataset.gallery;
+            
+            // UI Updates
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -3852,6 +3869,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const galleryType = link.dataset.gallery;
 
+            // UI Updates
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
@@ -3900,9 +3918,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     portfolioItems.forEach(item => {
         item.addEventListener('click', () => {
+            // Clone content into modal
             modalContentInner.innerHTML = item.innerHTML;
+            
             const video = modalContentInner.querySelector('video');
             if (video) {
+                // Ensure video in modal has controls and plays
+                if (video.dataset.src) video.src = video.dataset.src; // Handle lazy load case for modal
                 video.setAttribute('controls', 'true'); 
                 video.play().catch(()=>{});
             }
@@ -3914,6 +3936,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('active');
         const modalVideo = modalContentInner.querySelector('video');
         if (modalVideo) modalVideo.pause();
+        
         setTimeout(() => {
             modalContentInner.innerHTML = '';
         }, 300);
@@ -4138,6 +4161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
