@@ -92,11 +92,11 @@ body.modal-active .theme-wrapper {
 overflow-y: hidden;
 }
 
-/* --- NEW: Disable footer links when modal is active --- */
+/* --- NEW: Disable footer links when modal is active --- 
 body.modal-active .mobile-footer-links a,
 body.modal-active .mobile-footer-top .logo-button {
 pointer-events: none;
-opacity: 0.25; /* Make them look disabled */
+opacity: 0.25; /* Make them look disabled
 }
 
 body.modal-active .mobile-footer-top .info-button,
@@ -104,14 +104,32 @@ body.modal-active .mobile-footer-top .theme-toggle-label {
 pointer-events: auto;
 opacity: 1;
 }
+ */
 
-
-/* This targets the <a> tag inside the button to ensure its color updates */
+/* This targets the <a> tag inside the button to ensure its color updates 
 body.modal-active #mobile-about-button a {
 opacity:1;
 background: none;
 }
+*/
+  
+/* --- NEW: Disable footer links when modal is active --- */
+/* Updated to include #mobile-about-button in the disabled list */
+body.modal-active .mobile-footer-links a,
+body.modal-active .mobile-footer-top .logo-button,
+body.modal-active #mobile-about-button { 
+    pointer-events: none;
+    opacity: 0.25; /* Fades out the button */
+}
 
+/* Keep top buttons (Info/Theme) active if you still want them clickable, 
+   otherwise remove this block to fade them too */
+body.modal-active .mobile-footer-top .info-button,
+body.modal-active .mobile-footer-top .theme-toggle-label {
+    pointer-events: auto;
+    opacity: 1;
+}
+  
 #mobile-about-button {
 /* --- Layout & Spacing --- */
 /padding: 1rem 0.5rem;
@@ -4043,6 +4061,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
