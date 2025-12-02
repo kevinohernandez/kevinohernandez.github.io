@@ -150,6 +150,7 @@ overflow-x: hidden;
 overflow-y: auto; 
 scroll-snap-type: y mandatory;
 position: relative; /* Needed for z-index stacking */
+overscroll-behavior: none; /* <--- ADD THIS LINE */  
 }
 
 
@@ -4054,6 +4055,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
