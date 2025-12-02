@@ -2542,17 +2542,23 @@ data-navlink="section-1" class="nav-link logo-button active">
 
 <main class="portfolio-main">
 <div class="portfolio-nav">
+  
 <div class="category-group">
 <button class="section-btn active" data-gallery="3d"><span>3D</span></button>
 </div>
+  
 <div class="category-group">
-
 <button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
 </div>
+  
 <div class="category-group">
 <button class="section-btn" data-gallery="product"><span>Product</span></button>
 </div>
 
+<div class="category-group">
+<button class="section-btn" data-gallery="motion"><span>Motion</span></button>
+</div>
+  
 </div>
 
 <div class="portfolio-content-area">
@@ -2610,6 +2616,23 @@ data-navlink="section-1" class="nav-link logo-button active">
 
 </div>
 
+
+
+<div class="scroller" id="scroller-motion">
+
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d5.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d12.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d13.jpg" alt="" /> </div>  
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d2.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d6.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d7.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d8.1.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d9.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.jpg" alt="" /> </div>
+<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr12.jpg" alt="" /> </div>
+
+</div>
+  
 </div>
 
 <div class="portfolio-info info-collapsed">
@@ -3685,19 +3708,25 @@ const scrollers = {
 '3d': document.getElementById('scroller-3d'),
 
 'graphic': document.getElementById('scroller-graphic'),
-'product': document.getElementById('scroller-product')
+'product': document.getElementById('scroller-product'),
+'motion': document.getElementById('scroller-motion')
+  
 };
 // Select info content
 const infoContents = {
 '3d': document.querySelector('.info-content[data-info="3d"]'),
 'graphic': document.querySelector('.info-content[data-info="graphic"]'),
-'product': document.querySelector('.info-content[data-info="product"]')
+'product': document.querySelector('.info-content[data-info="product"]'),
+'motion': document.querySelector('.info-content[data-info="motion"]')
+  
 };
 // NEW: Save scroll positions
 const scrollPositions = {
 '3d': 0,
 'graphic': 0,
-'product': 0
+'product': 0.
+'motion': 0
+  
 };
 let currentGallery = '3d';
 
@@ -4027,6 +4056,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
