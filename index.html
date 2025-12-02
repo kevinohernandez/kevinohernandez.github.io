@@ -5,7 +5,6 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
@@ -3652,49 +3651,63 @@ setTimeout(initThreeJS, 100);
 
 
 <script>
-// ABOUT  
-$(document).ready(function() {
-// Get references to elements
-const modal = $('#modal-container-side');
-const themeWrapper = $('.theme-wrapper');
-// Check if we're on the mobile layout (matching your CSS breakpoint)
-const isMobile = () => window.innerWidth <= 1024; 
+// ABOUT (Vanilla JS)
+document.addEventListener('DOMContentLoaded', () => {
+    // Get references to elements
+    const modal = document.getElementById('modal-container-side');
+    const themeWrapper = document.querySelector('.theme-wrapper');
+    // Select both desktop and mobile buttons
+    const aboutButtons = document.querySelectorAll('#desktop-about-button, #mobile-about-button');
 
-$('#desktop-about-button, #mobile-about-button').on('click', function(e){
-e.preventDefault();
+    // Check if we're on the mobile layout (matching your CSS breakpoint)
+    const isMobile = () => window.innerWidth <= 1024;
 
-if (modal.hasClass('visible')) {
-// --- CLOSE MODAL ---
-modal.addClass('out');
-$('body').removeClass('modal-active');
+    const toggleModal = (e) => {
+        // Prevent default anchor behavior
+        e.preventDefault();
 
-// Reset top style only if we're on mobile
-if (isMobile()) {
-// Use a timeout to reset *after* the close animation
-setTimeout(() => {
-modal.css('top', ''); 
-}, 500); // Match animation duration
-}
-} else {
-// --- OPEN MODAL ---
+        // Check if modal is currently visible
+        if (modal.classList.contains('visible')) {
+            // --- CLOSE MODAL ---
+            modal.classList.add('out');
+            document.body.classList.remove('modal-active');
 
-// On mobile, we need to align the modal to the current scroll position
-if (isMobile()) {
-const scrollTop = themeWrapper.scrollTop(); // Get current scroll position
-modal.css('top', scrollTop + 'px'); // Set modal's top to the scroll position
-}
+            // Reset top style only if we're on mobile
+            if (isMobile()) {
+                // Use a timeout to reset *after* the close animation
+                setTimeout(() => {
+                    modal.style.top = ''; 
+                }, 500); // Match animation duration
+            }
+        } else {
+            // --- OPEN MODAL ---
+            
+            // On mobile, we need to align the modal to the current scroll position
+            if (isMobile() && themeWrapper) {
+                const scrollTop = themeWrapper.scrollTop; // Get current scroll position
+                modal.style.top = `${scrollTop}px`; // Set modal's top to the scroll position
+            }
 
-modal.removeAttr('class').addClass('visible');
-$('body').addClass('modal-active');
-}
-});
+            // Remove all existing classes (reset) then add 'visible'
+            modal.className = 'visible';
+            document.body.classList.add('modal-active');
+        }
+    };
 
+    // Attach click listeners to both buttons
+    aboutButtons.forEach(button => {
+        button.addEventListener('click', toggleModal);
+    });
 
-$('#modal-container-side').on('animationend webkitAnimationEnd', function(e) {
-if (e.target === this && $(this).hasClass('out')) {
-$(this).removeAttr('class');
-}
-});
+    // Handle Animation End to clean up classes
+    if (modal) {
+        modal.addEventListener('animationend', (e) => {
+            // Ensure the event fired on the modal itself, not a child
+            if (e.target === modal && modal.classList.contains('out')) {
+                modal.removeAttribute('class');
+            }
+        });
+    }
 });
 </script>
 
@@ -4054,6 +4067,7 @@ copyButton.addEventListener('click', copyToClipboard);
 textEl.addEventListener('click', copyToClipboard);
 textEl.addEventListener('touchstart', (e) => e.preventDefault());
 </script> 
+
 
 
 
