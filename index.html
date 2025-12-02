@@ -4032,7 +4032,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rect = canvas.parentElement.getBoundingClientRect();
         canvas.width = rect.width;
         canvas.height = rect.height;
-        spacing = canvas.width < 480 ? 40 : canvas.width < 768 ? 60 : 80;
+        spacing = canvas.width < 480 ? 55 : canvas.width < 768 ? 70 : 80;
         
         dots = [];
         const numCols = Math.floor(canvas.width / spacing) + 1;
@@ -4167,6 +4167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
