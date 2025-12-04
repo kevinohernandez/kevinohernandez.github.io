@@ -1067,8 +1067,8 @@ overscroll-behavior: none;
 overflow-x: scroll;
 overflow-y: hidden;
 touch-action: pan-x; /* <-- ADDED */
-scroll-snap-type: x mandatory;
-scroll-behavior: smooth;
+/scroll-snap-type: x mandatory;
+/scroll-behavior: smooth;
 padding-top: 2rem;
 padding-bottom: 2rem;
 padding-left: 15px; /* CHANGED: Was 15px */
@@ -1082,7 +1082,9 @@ opacity: 0;
 transform: translateX(50px);
 transition: opacity 0.4s ease, transform 0.4s ease;
 pointer-events: none;
-cursor: grab;    
+cursor: grab;
+user-select: none; 
+-webkit-user-select: none;    
 }
 
 /* --- NEW: Active grabbing cursor --- */
@@ -3472,11 +3474,18 @@ const allScrollers = Object.values(scrollers);
             }
         };
 
-        // 3. Mouse Up (Stop Drag)
+// 3. Mouse Up (Stop Drag)
         const onMouseUp = () => {
             isDown = false;
             slider.classList.remove('is-dragging');
             
+            // --- NEW FIX: Remove all snapping behavior after drag stops ---
+            // This prevents the gallery from abruptly snapping back to the nearest item
+            // and allows the natural scroll momentum to take over.
+            slider.style.scrollSnapType = 'none'; 
+            slider.style.scrollBehavior = 'auto'; 
+            // -----------------------------------------------------------------
+
             // Clean up window listeners to save memory
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
@@ -3892,6 +3901,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
