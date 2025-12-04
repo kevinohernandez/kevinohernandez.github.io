@@ -3032,71 +3032,53 @@ let wheelTimeout = null;
 let wheelDirection = 0;
 
 function handleDesktopWheel(e) {
-    if (document.body.classList.contains('modal-active')) return;
+if (document.body.classList.contains('modal-active')) return;
 
-    // 1. Detect if mouse is over the gallery (your 'scroller' element)
-    let target = e.target;
-    let scrollerElement = null;
-    while (target && target !== document.body) {
-        if (target.classList && target.classList.contains('scroller')) {
-            scrollerElement = target;
-            break;
-        }
-        target = target.parentElement;
-    }
+let target = e.target;
+let scrollerElement = null;
 
-    // 2. GALLERY INTERACTION LOGIC (Scroll Trap)
-    if (scrollerElement) {
-        // Prevent default page scrolling/section switching when over the gallery
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Check if horizontal movement (trackpad swipe) is dominant
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            // This path handles horizontal trackpad swiping.
-            // We use a multiplier to make the small deltaX values result in a visible scroll.
-            const TRACKPAD_MULTIPLIER = 8.5; 
-            scrollerElement.scrollLeft += e.deltaX * TRACKPAD_MULTIPLIER;
-        } 
-        // This path handles mouse wheel scrolling (vertical input translated to horizontal output).
-        else {
-            // This is the working fix for the mouse wheel. 
-            // deltaY is usually large enough that no multiplier is needed.
-            scrollerElement.scrollLeft += e.deltaY;
-        }
-        
-        return; // Exit here. The gallery will never accidentally switch sections.
-    }
-
-    // 3. GLOBAL SECTION SWITCHING (Only runs if the mouse is NOT over the gallery)
-    e.preventDefault();
-    if (isWheeling) return;
-
-    // Ignore small diagonal movements or trackpad noise
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        return;
-    }
-
-    // Standard section switching logic
-    wheelDirection += e.deltaY;
-
-    if (wheelTimeout) {
-        clearTimeout(wheelTimeout);
-    }
-
-    wheelTimeout = setTimeout(() => {
-        if (Math.abs(wheelDirection) > 10) {
-            if (wheelDirection > 0) {
-                scrollToSectionDesktop(currentSectionIndex + 1);
-            } else {
-                scrollToSectionDesktop(currentSectionIndex - 1);
-            }
-        }
-        wheelDirection = 0;
-        wheelTimeout = null;
-    }, 10);
+while (target && target !== document.body) {
+if (target.classList && target.classList.contains('scroller')) {
+scrollerElement = target;
+break;
 }
-    
+target = target.parentElement;
+}
+
+if (scrollerElement && Math.abs(e.deltaX) > 0) {
+const canScrollLeft = scrollerElement.scrollLeft > 0;
+const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
+if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
+return;
+}
+}
+
+e.preventDefault();
+if (isWheeling) return; 
+
+if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+return;
+}
+
+wheelDirection += e.deltaY;
+
+if (wheelTimeout) {
+clearTimeout(wheelTimeout);
+}
+
+wheelTimeout = setTimeout(() => {
+if (Math.abs(wheelDirection) > 10) {
+if (wheelDirection > 0) {
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else {
+scrollToSectionDesktop(currentSectionIndex - 1);
+}
+}
+wheelDirection = 0;
+wheelTimeout = null;
+}, 10);
+}
+
 function handleDesktopKeydown(e) {
 if (document.body.classList.contains('modal-active')) return;
 if (isWheeling) return;
@@ -4185,23 +4167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
