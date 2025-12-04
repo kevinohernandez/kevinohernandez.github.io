@@ -3032,51 +3032,80 @@ let wheelTimeout = null;
 let wheelDirection = 0;
 
 function handleDesktopWheel(e) {
-if (document.body.classList.contains('modal-active')) return;
+    if (document.body.classList.contains('modal-active')) return;
 
-let target = e.target;
-let scrollerElement = null;
+    // 1. Check if the mouse is currently hovering over a gallery scroller
+    let target = e.target;
+    let scrollerElement = null;
+    while (target && target !== document.body) {
+        if (target.classList && target.classList.contains('scroller')) {
+            scrollerElement = target;
+            break;
+        }
+        target = target.parentElement;
+    }
 
-while (target && target !== document.body) {
-if (target.classList && target.classList.contains('scroller')) {
-scrollerElement = target;
-break;
-}
-target = target.parentElement;
-}
+    // 2. NEW LOGIC: Translate Vertical Wheel to Horizontal Gallery Scroll
+    if (scrollerElement) {
+        // We prioritize deltaY (vertical wheel) to allow standard mice to scroll sideways
+        // We also check deltaX in case they are using a trackpad
+        let scrollAmount = e.deltaY;
 
-if (scrollerElement && Math.abs(e.deltaX) > 0) {
-const canScrollLeft = scrollerElement.scrollLeft > 0;
-const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
-if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
-return;
-}
-}
+        // If it's a pure horizontal scroll (trackpad), use that instead
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            scrollAmount = e.deltaX;
+        }
 
-e.preventDefault();
-if (isWheeling) return; 
+        const currentScroll = scrollerElement.scrollLeft;
+        const maxScroll = scrollerElement.scrollWidth - scrollerElement.clientWidth;
 
-if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-return;
-}
+        const canScrollRight = Math.ceil(currentScroll) < maxScroll;
+        const canScrollLeft = currentScroll > 0;
 
-wheelDirection += e.deltaY;
+        // IF: 
+        // 1. We are scrolling Down/Right (positive) AND there is room to the right
+        // OR
+        // 2. We are scrolling Up/Left (negative) AND there is room to the left
+        if ((scrollAmount > 0 && canScrollRight) || (scrollAmount < 0 && canScrollLeft)) {
+            
+            e.preventDefault(); // STOP the Global Section Switch
+            e.stopPropagation(); 
+            
+            // Manually scroll the gallery
+            scrollerElement.scrollLeft += scrollAmount; 
+            
+            return; // Exit function so we don't trigger the section change below
+        }
+        // Note: If they hit the edge of the gallery, the code will continue 
+        // past this block and trigger the section change (natural flow).
+    }
 
-if (wheelTimeout) {
-clearTimeout(wheelTimeout);
-}
+    // 3. GLOBAL SECTION SWITCHING (Standard behavior for non-gallery areas)
+    e.preventDefault();
+    if (isWheeling) return;
 
-wheelTimeout = setTimeout(() => {
-if (Math.abs(wheelDirection) > 10) {
-if (wheelDirection > 0) {
-scrollToSectionDesktop(currentSectionIndex + 1);
-} else {
-scrollToSectionDesktop(currentSectionIndex - 1);
-}
-}
-wheelDirection = 0;
-wheelTimeout = null;
-}, 10);
+    // Ignore small diagonal movements if not in gallery
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        return;
+    }
+
+    wheelDirection += e.deltaY;
+
+    if (wheelTimeout) {
+        clearTimeout(wheelTimeout);
+    }
+
+    wheelTimeout = setTimeout(() => {
+        if (Math.abs(wheelDirection) > 10) {
+            if (wheelDirection > 0) {
+                scrollToSectionDesktop(currentSectionIndex + 1);
+            } else {
+                scrollToSectionDesktop(currentSectionIndex - 1);
+            }
+        }
+        wheelDirection = 0;
+        wheelTimeout = null;
+    }, 10);
 }
 
 function handleDesktopKeydown(e) {
@@ -4167,6 +4196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
