@@ -3435,7 +3435,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // === NEW: Desktop Drag-to-Scroll Logic ===
     // ==========================================
-const allScrollers = Object.values(scrollers); 
+// ==========================================
+    // === "Snap-on-Release" Desktop Drag Logic ===
+    // ==========================================
+    const allScrollers = Object.values(scrollers); 
     let isDown = false;
     let startX;
     let scrollLeft;
@@ -3450,6 +3453,10 @@ const allScrollers = Object.values(scrollers);
             isDragging = false; 
             slider.classList.add('is-dragging');
             
+            // Temporarily remove snapping styles to allow free movement
+            slider.style.scrollSnapType = 'none'; 
+            slider.style.scrollBehavior = 'auto'; 
+            
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
             
@@ -3461,10 +3468,10 @@ const allScrollers = Object.values(scrollers);
         // 2. Mouse Move (The dragging action)
         const onMouseMove = (e) => {
             if (!isDown) return;
-            e.preventDefault(); // Stop text selection
+            e.preventDefault(); 
             
             const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 1.5; // Multiplier: 1.5 is smoother than 2
+            const walk = (x - startX) * 1.5; // Multiplier controls drag speed
             
             slider.scrollLeft = scrollLeft - walk;
 
@@ -3474,19 +3481,18 @@ const allScrollers = Object.values(scrollers);
             }
         };
 
-// 3. Mouse Up (Stop Drag)
+        // 3. Mouse Up (Stop Drag and Re-snap)
         const onMouseUp = () => {
             isDown = false;
             slider.classList.remove('is-dragging');
             
-            // --- NEW FIX: Remove all snapping behavior after drag stops ---
-            // This prevents the gallery from abruptly snapping back to the nearest item
-            // and allows the natural scroll momentum to take over.
-            slider.style.scrollSnapType = 'none'; 
-            slider.style.scrollBehavior = 'auto'; 
-            // -----------------------------------------------------------------
+            // ✨ FIX: Re-enable smooth snap now that dragging is finished. 
+            // The browser will automatically animate (smoothly) to the next item.
+            slider.style.scrollSnapType = 'x mandatory'; 
+            slider.style.scrollBehavior = 'smooth'; 
+            // ------------------------------------------------------
 
-            // Clean up window listeners to save memory
+            // Clean up window listeners
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('mouseup', onMouseUp);
 
@@ -3494,6 +3500,7 @@ const allScrollers = Object.values(scrollers);
             setTimeout(() => { isDragging = false; }, 50);
         };
     });
+    // ==========================================
     // ==========================================
 
 
@@ -3901,6 +3908,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
