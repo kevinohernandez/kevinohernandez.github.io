@@ -3057,7 +3057,7 @@ function handleDesktopWheel(e) {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * SENSITIVITY_THRESHOLD) {
             
             // Apply a multiplier for noticeable trackpad movement
-            const TRACKPAD_MULTIPLIER = 10; // Can be 10 or 20
+            const TRACKPAD_MULTIPLIER = 5; // Can be 10 or 20
             scrollerElement.scrollLeft += e.deltaX * TRACKPAD_MULTIPLIER;
         } 
         // Check if vertical movement is dominant (likely a mouse wheel or trackpad vertical scroll)
@@ -4189,6 +4189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
