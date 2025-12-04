@@ -3034,7 +3034,7 @@ let wheelDirection = 0;
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
-    // 1. Detect if mouse is over the gallery
+    // 1. Detect if mouse is over the gallery (your 'scroller' element)
     let target = e.target;
     let scrollerElement = null;
     while (target && target !== document.body) {
@@ -3045,28 +3045,30 @@ function handleDesktopWheel(e) {
         target = target.parentElement;
     }
 
-    // 2. LOGIC SPLIT: Gallery Interaction
+    // 2. GALLERY INTERACTION LOGIC (Scroll Trap)
     if (scrollerElement) {
-        // ALWAYS prevent default behavior when over the gallery.
-        // This ensures we NEVER switch sections while the mouse is here.
+        // Prevent default page scrolling/section switching when over the gallery
         e.preventDefault();
         e.stopPropagation();
 
-        // PATH A: Touchpad / Horizontal Scroll
-        // If the user is swiping horizontally (deltaX is dominant), use that natural movement.
+        // Check if horizontal movement (trackpad swipe) is dominant
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            scrollerElement.scrollLeft += e.deltaX;
+            // This path handles horizontal trackpad swiping.
+            // We use a multiplier to make the small deltaX values result in a visible scroll.
+            const TRACKPAD_MULTIPLIER = 5; 
+            scrollerElement.scrollLeft += e.deltaX * TRACKPAD_MULTIPLIER;
         } 
-        // PATH B: Mouse Wheel / Vertical Scroll
-        // If the user is scrolling vertically (deltaY is dominant), translate it to horizontal.
+        // This path handles mouse wheel scrolling (vertical input translated to horizontal output).
         else {
+            // This is the working fix for the mouse wheel. 
+            // deltaY is usually large enough that no multiplier is needed.
             scrollerElement.scrollLeft += e.deltaY;
         }
         
-        return; // Stop here. Do not trigger section switching.
+        return; // Exit here. The gallery will never accidentally switch sections.
     }
 
-    // 3. GLOBAL SECTION SWITCHING (Only happens if mouse is NOT over the gallery)
+    // 3. GLOBAL SECTION SWITCHING (Only runs if the mouse is NOT over the gallery)
     e.preventDefault();
     if (isWheeling) return;
 
@@ -3075,6 +3077,7 @@ function handleDesktopWheel(e) {
         return;
     }
 
+    // Standard section switching logic
     wheelDirection += e.deltaY;
 
     if (wheelTimeout) {
@@ -4182,6 +4185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
