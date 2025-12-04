@@ -2955,18 +2955,19 @@ kevin.hernandez.529@my.csun.edu
 
 <script type="module">
 
+
 // Reset scroll position on page load/refresh
 if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
+history.scrollRestoration = 'manual';
 }
 
 // Force initial scroll position
 window.addEventListener('load', function() {
-    const themeWrapper = document.querySelector('.theme-wrapper');
-    if (themeWrapper && window.innerWidth < 1025) {
-        themeWrapper.scrollTop = 0;
-        window.scrollTo(0, 0);
-    }
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper && window.innerWidth < 1025) {
+themeWrapper.scrollTop = 0;
+window.scrollTo(0, 0);
+}
 });
 
 // --- Scroll Logic (Desktop & Mobile) ---
@@ -2987,371 +2988,310 @@ const mobileKHLink = document.querySelector('.mobile-footer-top .logo-button');
 const canvasContainer = document.getElementById('canvas-container');
 
 function updateDesktopActiveNav(index) {
-    if (desktopKHLink) {
-        desktopKHLink.classList.toggle('active', index === 0);
-    }
-    desktopNavLinksRight.forEach((link, i) => link.classList.toggle('active', i < index));
-    desktopNavLinksLeft.forEach((link, i) => link.classList.toggle('active', i < index));
+if (desktopKHLink) {
+desktopKHLink.classList.toggle('active', index === 0);
+}
+desktopNavLinksRight.forEach((link, i) => link.classList.toggle('active', i < index));
+desktopNavLinksLeft.forEach((link, i) => link.classList.toggle('active', i < index));
 
-    const rightNav = document.querySelector('.nav-stacked-right');
-    if (rightNav) {
-        rightNav.classList.toggle('is-complete', index === numSections - 1);
-    }
+const rightNav = document.querySelector('.nav-stacked-right');
+if (rightNav) {
+rightNav.classList.toggle('is-complete', index === numSections - 1);
+}
 
-    if (canvasContainer) {
-        canvasContainer.classList.add('is-visible');
-    }
+if (canvasContainer) {
+canvasContainer.classList.add('is-visible');
+}
 }
 
 function scrollToSectionDesktop(index) {
-    if (document.body.classList.contains('modal-active')) return;
-    if (index < 0 || index >= numSections || isWheeling) return; 
-    if (index === currentSectionIndex) return; 
+if (document.body.classList.contains('modal-active')) return;
+if (index < 0 || index >= numSections || isWheeling) return; 
+if (index === currentSectionIndex) return; 
 
-    isWheeling = true;
-    sections.forEach((section, i) => {
-        if (i <= index) {
-            section.style.transform = 'translateX(0)';
-            section.classList.add('is-active'); 
-        } else {
-            section.style.transform = 'translateX(100%)';
-            section.classList.remove('is-active'); 
-        }
-    });
+isWheeling = true;
+sections.forEach((section, i) => {
+if (i <= index) {
+section.style.transform = 'translateX(0)';
+section.classList.add('is-active'); 
+} else {
+section.style.transform = 'translateX(100%)';
+section.classList.remove('is-active'); 
+}
+});
 
-    currentSectionIndex = index;
-    updateDesktopActiveNav(currentSectionIndex);
+currentSectionIndex = index;
+updateDesktopActiveNav(currentSectionIndex);
 
-    setTimeout(() => {
-        isWheeling = false;
-    }, scrollCooldown);
+setTimeout(() => {
+isWheeling = false;
+}, scrollCooldown);
 }
 
-// --- GALLERY SCROLL LOGIC ---
-let isGalleryScrolling = false; // Prevents rapid-fire scrolling
+let wheelTimeout = null;
+let wheelDirection = 0;
 
 function handleDesktopWheel(e) {
-    if (document.body.classList.contains('modal-active')) return;
+if (document.body.classList.contains('modal-active')) return;
 
-    let target = e.target;
-    let scrollerElement = null;
+let target = e.target;
+let scrollerElement = null;
 
-    // 1. Detect if the mouse is over a ".scroller" element
-    while (target && target !== document.body) {
-        if (target.classList && target.classList.contains('scroller')) {
-            scrollerElement = target;
-            break;
-        }
-        target = target.parentElement;
-    }
+while (target && target !== document.body) {
+if (target.classList && target.classList.contains('scroller')) {
+scrollerElement = target;
+break;
+}
+target = target.parentElement;
+}
 
-    // 2. Logic for Scrollers (Galleries)
-    if (scrollerElement) {
-        // CASE A: Horizontal Swipe (Trackpad) - Allow native handling
-        // (Trackpads usually send deltaX, Mice usually don't)
-        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            return; 
-        }
+if (scrollerElement && Math.abs(e.deltaX) > 0) {
+const canScrollLeft = scrollerElement.scrollLeft > 0;
+const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
+if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
+return;
+}
+}
 
-        // CASE B: Vertical Scroll (Mouse Wheel)
-        // Check for strict verticality to identify a physical mouse wheel
-        if (e.deltaX === 0) {
-            e.preventDefault(); // Trap the scroll
-            
-            // IF we are currently animating a scroll, ignore this wheel event
-            if (isGalleryScrolling) return;
+e.preventDefault();
+if (isWheeling) return; 
 
-            const direction = e.deltaY > 0 ? 1 : -1; // 1 = Next, -1 = Prev
-            
-            // Get all image items in the scroller
-            // We assume the children of .scroller are the images/items
-            const items = Array.from(scrollerElement.children);
-            if (items.length === 0) return;
+if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+return;
+}
 
-            // Find the item currently closest to the left edge
-            const currentScroll = scrollerElement.scrollLeft;
-            let bestIndex = 0;
-            let minDiff = Infinity;
+wheelDirection += e.deltaY;
 
-            // This loop handles variable image widths perfectly
-            items.forEach((item, index) => {
-                // We use offsetLeft relative to the parent scroller
-                const diff = Math.abs(item.offsetLeft - currentScroll);
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    bestIndex = index;
-                }
-            });
+if (wheelTimeout) {
+clearTimeout(wheelTimeout);
+}
 
-            // Calculate Target Index
-            let targetIndex = bestIndex + direction;
-
-            // Clamp Target (Don't go past first or last image)
-            if (targetIndex < 0) targetIndex = 0;
-            if (targetIndex >= items.length) targetIndex = items.length - 1;
-
-            // If we are already at the edge, do nothing (and definitely don't switch sections)
-            if (targetIndex === bestIndex) return;
-
-            // PERFORM THE SCROLL
-            isGalleryScrolling = true;
-            
-            // "behavior: smooth" gives the inertia/touchpad feel
-            scrollerElement.scrollTo({
-                left: items[targetIndex].offsetLeft,
-                behavior: 'smooth' 
-            });
-
-            // Set Cooldown: Wait for the smooth scroll to finish before accepting new input.
-            // 600ms is a good balance for smooth animations.
-            setTimeout(() => {
-                isGalleryScrolling = false;
-            }, 600);
-
-            return; // Stop here.
-        }
-    }
-
-    // 3. Standard Section Switching Logic
-    e.preventDefault();
-    if (isWheeling) return; 
-
-    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        return;
-    }
-
-    wheelDirection += e.deltaY;
-
-    if (wheelTimeout) {
-        clearTimeout(wheelTimeout);
-    }
-
-    wheelTimeout = setTimeout(() => {
-        if (Math.abs(wheelDirection) > 10) {
-            if (wheelDirection > 0) {
-                scrollToSectionDesktop(currentSectionIndex + 1);
-            } else {
-                scrollToSectionDesktop(currentSectionIndex - 1);
-            }
-        }
-        wheelDirection = 0;
-        wheelTimeout = null;
-    }, 10);
+wheelTimeout = setTimeout(() => {
+if (Math.abs(wheelDirection) > 10) {
+if (wheelDirection > 0) {
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else {
+scrollToSectionDesktop(currentSectionIndex - 1);
+}
+}
+wheelDirection = 0;
+wheelTimeout = null;
+}, 10);
 }
 
 function handleDesktopKeydown(e) {
-    if (document.body.classList.contains('modal-active')) return;
-    if (isWheeling) return;
+if (document.body.classList.contains('modal-active')) return;
+if (isWheeling) return;
 
-    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
-        e.preventDefault();
-        scrollToSectionDesktop(currentSectionIndex + 1);
-    } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-        e.preventDefault();
-        scrollToSectionDesktop(currentSectionIndex - 1);
-    } else if (e.key === 'Home') {
-        e.preventDefault();
-        scrollToSectionDesktop(0);
-    } else if (e.key === 'End') {
-        e.preventDefault();
-        scrollToSectionDesktop(numSections - 1);
-    }
+if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+e.preventDefault();
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+e.preventDefault();
+scrollToSectionDesktop(currentSectionIndex - 1);
+} else if (e.key === 'Home') {
+e.preventDefault();
+scrollToSectionDesktop(0);
+} else if (e.key === 'End') {
+e.preventDefault();
+scrollToSectionDesktop(numSections - 1);
+}
 }
 
 let isSwipeProcessed = false;
 
 function handleDesktopSwipe() {
-    if (isWheeling || isSwipeProcessed) return; 
-    if (document.body.classList.contains('modal-active')) return;
-    const swipeThreshold = 50;
-    const swipeDistance = Math.abs(touchStartY - touchEndY);
-    if (swipeDistance > swipeThreshold) {
-        isSwipeProcessed = true;
-        if (touchStartY - touchEndY > swipeThreshold) {
-            scrollToSectionDesktop(currentSectionIndex + 1);
-        } else if (touchEndY - touchStartY > swipeThreshold) {
-            scrollToSectionDesktop(currentSectionIndex - 1);
-        }
+if (isWheeling || isSwipeProcessed) return; 
+if (document.body.classList.contains('modal-active')) return;
+const swipeThreshold = 50;
+const swipeDistance = Math.abs(touchStartY - touchEndY);
+if (swipeDistance > swipeThreshold) {
+isSwipeProcessed = true;
+if (touchStartY - touchEndY > swipeThreshold) {
+scrollToSectionDesktop(currentSectionIndex + 1);
+} else if (touchEndY - touchStartY > swipeThreshold) {
+scrollToSectionDesktop(currentSectionIndex - 1);
+}
 
-        setTimeout(() => {
-            isSwipeProcessed = false;
-        }, scrollCooldown);
-    }
+setTimeout(() => {
+isSwipeProcessed = false;
+}, scrollCooldown);
+}
 }
 
 let observer;
 
 function initMobileScrollObserver() {
-    if (!('IntersectionObserver' in window)) {
-        console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
-        document.getElementById('section-1')?.classList.add('is-active');
-        if (canvasContainer) canvasContainer.classList.add('is-visible');
-        return;
-    }
+if (!('IntersectionObserver' in window)) {
+console.warn('IntersectionObserver not supported, mobile nav highlighting will not work.');
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
+return;
+}
 
-    // Immediately mark section-1 as active
-    document.getElementById('section-1')?.classList.add('is-active');
-    if (canvasContainer) canvasContainer.classList.add('is-visible');
+// Immediately mark section-1 as active
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
 
-    observer = new IntersectionObserver((entries) => {
-        const mobileFooter = document.querySelector('.mobile-footer');
+observer = new IntersectionObserver((entries) => {
+const mobileFooter = document.querySelector('.mobile-footer');
 
-        entries.forEach(entry => {
-            const id = entry.target.id;
-            if (entry.isIntersecting) {
-                if (mobileFooter) {
-                    mobileFooter.classList.toggle('section-2-active', id === 'section-2');
-                }
+entries.forEach(entry => {
+const id = entry.target.id;
+if (entry.isIntersecting) {
+if (mobileFooter) {
+mobileFooter.classList.toggle('section-2-active', id === 'section-2');
+}
 
-                mobileFooterLinks.forEach(link => {
-                    link.classList.toggle('active', link.hash === `#${id}`);
-                });
+mobileFooterLinks.forEach(link => {
+link.classList.toggle('active', link.hash === `#${id}`);
+});
 
-                if (mobileKHLink) {
-                    mobileKHLink.classList.toggle('active', id === 'section-1');
-                }
+if (mobileKHLink) {
+mobileKHLink.classList.toggle('active', id === 'section-1');
+}
 
-                entry.target.classList.add('is-active');
+entry.target.classList.add('is-active');
 
-                if (id === 'section-1' && canvasContainer) {
-                    canvasContainer.classList.add('is-visible');
-                }
-            } else {
-                entry.target.classList.remove('is-active');
-            }
-        });
-    }, {
-        root: document.querySelector('.theme-wrapper'), 
-        threshold: 0.5
-    });
+if (id === 'section-1' && canvasContainer) {
+canvasContainer.classList.add('is-visible');
+}
+} else {
+entry.target.classList.remove('is-active');
+}
+});
+}, {
+root: document.querySelector('.theme-wrapper'), 
+threshold: 0.5
+});
 
-    sections.forEach(section => observer.observe(section));
+sections.forEach(section => observer.observe(section));
 }
 
 function cleanupMobileScrollObserver() {
-    if (observer) {
-        sections.forEach(section => observer.unobserve(section));
-        observer.disconnect();
-        observer = null;
-    }
+if (observer) {
+sections.forEach(section => observer.unobserve(section));
+observer.disconnect();
+observer = null;
+}
 }
 
 let touchStartY = 0;
 let touchEndY = 0;
 
 function handleTouchStart(e) {
-    if (document.body.classList.contains('modal-active')) return;
-    touchStartY = e.changedTouches[0].screenY;
+if (document.body.classList.contains('modal-active')) return;
+touchStartY = e.changedTouches[0].screenY;
 }
 
 function handleTouchEnd(e) {
-    if (document.body.classList.contains('modal-active')) return;
-    touchEndY = e.changedTouches[0].screenY;
+if (document.body.classList.contains('modal-active')) return;
+touchEndY = e.changedTouches[0].screenY;
 
-    if (window.innerWidth >= 1025) { 
-        handleDesktopSwipe();
-    }
+if (window.innerWidth >= 1025) { 
+handleDesktopSwipe();
+}
 }
 
 let isDesktop = window.innerWidth >= 1025;
 
 function setupEventListeners() {
-    if (isDesktop) {
-        window.addEventListener('wheel', handleDesktopWheel, { passive: false });
-        window.addEventListener('keydown', handleDesktopKeydown);
-        window.addEventListener('touchstart', handleTouchStart, { passive: false });
-        window.addEventListener('touchend', handleTouchEnd, { passive: false });
+if (isDesktop) {
+window.addEventListener('wheel', handleDesktopWheel, { passive: false });
+window.addEventListener('keydown', handleDesktopKeydown);
+window.addEventListener('touchstart', handleTouchStart, { passive: false });
+window.addEventListener('touchend', handleTouchEnd, { passive: false });
 
-        sections.forEach((section, i) => {
-            if (i === 0) {
-                section.style.transform = 'translateX(0)';
-                section.classList.add('is-active'); 
-            } else {
-                section.style.transform = 'translateX(100%)';
-                section.classList.remove('is-active');
-            }
-        });
+sections.forEach((section, i) => {
+if (i === 0) {
+section.style.transform = 'translateX(0)';
+section.classList.add('is-active'); 
+} else {
+section.style.transform = 'translateX(100%)';
+section.classList.remove('is-active');
+}
+});
 
-        updateDesktopActiveNav(0);
-        cleanupMobileScrollObserver();
+updateDesktopActiveNav(0);
+cleanupMobileScrollObserver();
 
-        setTimeout(() => {
-            if (document.querySelector('.theme-wrapper')) {
-                document.querySelector('.theme-wrapper').classList.add('is-loaded');
-            }
-        }, 100);
+setTimeout(() => {
+if (document.querySelector('.theme-wrapper')) {
+document.querySelector('.theme-wrapper').classList.add('is-loaded');
+}
+}, 100);
 
-    } else {
-        window.removeEventListener('wheel', handleDesktopWheel);
-        window.removeEventListener('keydown', handleDesktopKeydown);
-        window.removeEventListener('touchstart', handleTouchStart);
-        window.removeEventListener('touchend', handleTouchEnd);
+} else {
+window.removeEventListener('wheel', handleDesktopWheel);
+window.removeEventListener('keydown', handleDesktopKeydown);
+window.removeEventListener('touchstart', handleTouchStart);
+window.removeEventListener('touchend', handleTouchEnd);
 
-        sections.forEach(section => {
-            section.style.transform = '';
-        });
+sections.forEach(section => {
+section.style.transform = '';
+});
 
-        // Ensure we start at top on mobile
-        const themeWrapper = document.querySelector('.theme-wrapper');
-        if (themeWrapper) {
-            themeWrapper.scrollTop = 0;
-        }
+// Ensure we start at top on mobile
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper) {
+themeWrapper.scrollTop = 0;
+}
 
-        initMobileScrollObserver();
-    }
+initMobileScrollObserver();
+}
 }
 
 window.addEventListener('resize', () => {
-    const newIsDesktop = window.innerWidth >= 1025; 
-    if (newIsDesktop !== isDesktop) {
-        isDesktop = newIsDesktop;
-        setupEventListeners();
-    }
+const newIsDesktop = window.innerWidth >= 1025; 
+if (newIsDesktop !== isDesktop) {
+isDesktop = newIsDesktop;
+setupEventListeners();
+}
 });
 
 document.querySelectorAll('.nav-link, .nav-link-left, .sidebar-left .logo-button').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault(); 
-        if (isDesktop) {
-            if (document.body.classList.contains('modal-active')) return;
-            const targetId = link.getAttribute('data-navlink');
-            if (!targetId) return; 
+link.addEventListener('click', (e) => {
+e.preventDefault(); 
+if (isDesktop) {
+if (document.body.classList.contains('modal-active')) return;
+const targetId = link.getAttribute('data-navlink');
+if (!targetId) return; 
 
-            const targetIndex = parseInt(targetId.split('-')[1]) - 1;
-            if (targetIndex !== currentSectionIndex) {
-                scrollToSectionDesktop(targetIndex); 
-            }
-        }
-    });
+const targetIndex = parseInt(targetId.split('-')[1]) - 1;
+if (targetIndex !== currentSectionIndex) {
+scrollToSectionDesktop(targetIndex); 
+}
+}
+});
 });
 
 document.querySelectorAll('.mobile-footer-top a, .mobile-footer-links a').forEach(link => {
-    link.addEventListener('click', (e) => {
-        if (!isDesktop) {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
-        } else {
-            e.preventDefault();
-        }
-    });
+link.addEventListener('click', (e) => {
+if (!isDesktop) {
+e.preventDefault();
+const targetId = link.getAttribute('href');
+const targetElement = document.querySelector(targetId);
+if (targetElement) {
+targetElement.scrollIntoView({ behavior: 'smooth' });
+}
+} else {
+e.preventDefault();
+}
+});
 });
 
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Force scroll to top on mobile
-    const themeWrapper = document.querySelector('.theme-wrapper');
-    if (themeWrapper && window.innerWidth < 1025) {
-        themeWrapper.scrollTop = 0;
-        window.scrollTo(0, 0);
-        document.getElementById('section-1')?.classList.add('is-active');
-        if (canvasContainer) canvasContainer.classList.add('is-visible');
-    }
+// Force scroll to top on mobile
+const themeWrapper = document.querySelector('.theme-wrapper');
+if (themeWrapper && window.innerWidth < 1025) {
+themeWrapper.scrollTop = 0;
+window.scrollTo(0, 0);
+document.getElementById('section-1')?.classList.add('is-active');
+if (canvasContainer) canvasContainer.classList.add('is-visible');
+}
 
-    setupEventListeners();
+setupEventListeners();
 });
 </script>
 
@@ -4227,77 +4167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
