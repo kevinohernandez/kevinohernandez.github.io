@@ -1090,6 +1090,7 @@ cursor: grab;
     cursor: grabbing;
     scroll-snap-type: none; /* Disable snap while dragging for smoothness */
     scroll-behavior: auto;  /* Disable smooth scroll for instant 1:1 movement */
+    user-select: none; /* Prevents highlighting text/images while dragging */
 }
     
 .scroller.active {
@@ -4233,6 +4234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
