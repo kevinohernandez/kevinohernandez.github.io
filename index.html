@@ -3055,7 +3055,7 @@ function handleDesktopWheel(e) {
         
         // Heuristic: If deltaY is small (e.g., less than 30), it's likely a trackpad.
         const TRACKPAD_THRESHOLD = 30;
-        const TRACKPAD_MULTIPLIER = 20; // Adjust this value (e.g., 15-30) if it's too fast/slow.
+        const TRACKPAD_MULTIPLIER = 30; // Adjust this value (e.g., 15-30) if it's too fast/slow.
 
         // Apply a multiplier if the scroll delta is small (i.e., from a trackpad)
         if (Math.abs(scrollAmount) < TRACKPAD_THRESHOLD) {
@@ -4185,6 +4185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
