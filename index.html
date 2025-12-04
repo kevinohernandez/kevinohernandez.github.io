@@ -3030,7 +3030,7 @@ function scrollToSectionDesktop(index) {
 let wheelTimeout = null;
 let wheelDirection = 0;
 
-// --- UPDATED WHEEL HANDLER ---
+// --- UPDATED WHEEL HANDLER (MOUSE ONLY FIX) ---
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
@@ -3049,38 +3049,48 @@ function handleDesktopWheel(e) {
     // 2. Logic for Scrollers (Galleries)
     if (scrollerElement) {
         // Calculate scroll limits
-        // We accept a small error margin (1px) for cross-browser safety
         const canScrollLeft = scrollerElement.scrollLeft > 1;
         const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
 
-        // CASE A: Horizontal Swipe (Trackpad or Shift+Wheel)
+        // CASE A: Horizontal Scroll (Trackpad Swipe or Shift+Wheel)
+        // If there is ANY significant horizontal movement, we assume it's a trackpad or native intention.
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
                 return; // Allow native horizontal scroll
             }
         }
-        // CASE B: Vertical Wheel (Standard Mouse) -> Convert to Horizontal Scroll
+        // CASE B: Vertical Scroll (Potentially Mouse Wheel)
         else {
-            const direction = e.deltaY > 0 ? 1 : -1; // 1 = Down/Right, -1 = Up/Left
+            // --- STRICT MOUSE CHECK ---
+            // Mice almost always have deltaX === 0.
+            // Trackpads almost always have a tiny non-zero deltaX (jitter) even when scrolling vertically.
+            const isPureVertical = (e.deltaX === 0);
 
-            // Check if we can scroll the gallery in the requested direction
-            if ((direction === 1 && canScrollRight) || (direction === -1 && canScrollLeft)) {
-                
-                // IMPORTANT: Temporarily disable smooth scroll to allow immediate control
-                scrollerElement.style.scrollBehavior = 'auto';
-                
-                // Manually scroll. Multiplied by 2 for better feel on standard mice
-                scrollerElement.scrollLeft += (e.deltaY * 2);
-                
-                e.preventDefault(); // Stop the page from switching sections
-                return; 
+            // Only run the custom translation if it's a pure vertical scroll (Mouse)
+            if (isPureVertical) {
+                const direction = e.deltaY > 0 ? 1 : -1; // 1 = Down/Right, -1 = Up/Left
+
+                // Check if we can scroll the gallery in the requested direction
+                if ((direction === 1 && canScrollRight) || (direction === -1 && canScrollLeft)) {
+                    
+                    // Temporarily disable smooth scroll for instant mouse control
+                    scrollerElement.style.scrollBehavior = 'auto';
+                    
+                    // Manually scroll. 
+                    scrollerElement.scrollLeft += (e.deltaY * 2);
+                    
+                    e.preventDefault(); // Stop the page from switching sections
+                    return; 
+                }
             }
-            // If we are at the edge (e.g. at the start and scrolling UP),
-            // we do nothing here, allowing the code below to switch sections.
+            // If it's NOT pure vertical (likely a Trackpad vertical swipe), 
+            // we do nothing here. We let the code fall through to step 3, 
+            // which will handle Section Switching normally.
         }
     }
 
     // 3. Standard Section Switching Logic
+    // (This runs for normal areas OR if the Trackpad was used vertically over the gallery)
     e.preventDefault();
     if (isWheeling) return; 
 
@@ -4196,6 +4206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
