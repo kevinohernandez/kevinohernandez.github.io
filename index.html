@@ -3027,10 +3027,36 @@ function scrollToSectionDesktop(index) {
     }, scrollCooldown);
 }
 
+// --- SMOOTH SCROLL VARIABLES ---
+let galleryScrollTarget = 0;
+let isGalleryAnimating = false;
+let activeScroller = null;
+
+// This loop creates the smooth "gliding" effect for the mouse wheel
+function updateGalleryScroll() {
+    if (!activeScroller || !isGalleryAnimating) return;
+
+    // Calculate distance to target
+    const diff = galleryScrollTarget - activeScroller.scrollLeft;
+
+    // If we are very close, stop the animation
+    if (Math.abs(diff) < 1) {
+        activeScroller.scrollLeft = galleryScrollTarget;
+        isGalleryAnimating = false;
+        activeScroller = null;
+        return;
+    }
+
+    // Interpolate towards the target (0.1 = smooth, 0.2 = fast)
+    activeScroller.scrollLeft += diff * 0.1;
+    
+    // Continue loop
+    requestAnimationFrame(updateGalleryScroll);
+}
+
 let wheelTimeout = null;
 let wheelDirection = 0;
 
-// --- UPDATED WHEEL HANDLER (MOUSE ONLY FIX) ---
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
@@ -3049,48 +3075,61 @@ function handleDesktopWheel(e) {
     // 2. Logic for Scrollers (Galleries)
     if (scrollerElement) {
         // Calculate scroll limits
-        const canScrollLeft = scrollerElement.scrollLeft > 1;
-        const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
+        const maxScroll = scrollerElement.scrollWidth - scrollerElement.clientWidth;
+        const isAtStart = scrollerElement.scrollLeft <= 1;
+        const isAtEnd = scrollerElement.scrollLeft >= maxScroll - 1;
 
         // CASE A: Horizontal Scroll (Trackpad Swipe or Shift+Wheel)
-        // If there is ANY significant horizontal movement, we assume it's a trackpad or native intention.
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-            if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
-                return; // Allow native horizontal scroll
+            // Allow native horizontal scroll if we are not at the edges
+            if ((e.deltaX < 0 && !isAtStart) || (e.deltaX > 0 && !isAtEnd)) {
+                return; 
             }
         }
-        // CASE B: Vertical Scroll (Potentially Mouse Wheel)
+        // CASE B: Vertical Scroll (Mouse Wheel)
         else {
-            // --- STRICT MOUSE CHECK ---
-            // Mice almost always have deltaX === 0.
-            // Trackpads almost always have a tiny non-zero deltaX (jitter) even when scrolling vertically.
             const isPureVertical = (e.deltaX === 0);
 
-            // Only run the custom translation if it's a pure vertical scroll (Mouse)
+            // Only run the custom logic for standard Mice (Pure Vertical)
             if (isPureVertical) {
-                const direction = e.deltaY > 0 ? 1 : -1; // 1 = Down/Right, -1 = Up/Left
+                const isGoingUp = e.deltaY < 0;
+                const isGoingDown = e.deltaY > 0;
 
-                // Check if we can scroll the gallery in the requested direction
-                if ((direction === 1 && canScrollRight) || (direction === -1 && canScrollLeft)) {
+                // CHECK: Are we at the edge and trying to leave?
+                if ((isAtStart && isGoingUp) || (isAtEnd && isGoingDown)) {
+                    // We are pushing against the wall -> Stop Gallery Logic, Allow Section Switch
+                    isGalleryAnimating = false;
+                    // We let the code fall through to Step 3 below
+                } 
+                else {
+                    // We are INSIDE the gallery -> TRAP and ANIMATE
+                    e.preventDefault();
+
+                    // Initialize animation if not running
+                    if (!isGalleryAnimating) {
+                        activeScroller = scrollerElement;
+                        galleryScrollTarget = activeScroller.scrollLeft;
+                        isGalleryAnimating = true;
+                        
+                        // Disable CSS smooth scroll to prevent conflicts
+                        activeScroller.style.scrollBehavior = 'auto';
+                        
+                        requestAnimationFrame(updateGalleryScroll);
+                    }
+
+                    // Add the wheel distance to our target (Multiplied for feel)
+                    galleryScrollTarget += (e.deltaY * 2.5);
+
+                    // Clamp target so we don't scroll into infinity
+                    galleryScrollTarget = Math.max(0, Math.min(galleryScrollTarget, maxScroll));
                     
-                    // Temporarily disable smooth scroll for instant mouse control
-                    scrollerElement.style.scrollBehavior = 'auto';
-                    
-                    // Manually scroll. 
-                    scrollerElement.scrollLeft += (e.deltaY * 2);
-                    
-                    e.preventDefault(); // Stop the page from switching sections
-                    return; 
+                    return; // Stop here, don't switch sections
                 }
             }
-            // If it's NOT pure vertical (likely a Trackpad vertical swipe), 
-            // we do nothing here. We let the code fall through to step 3, 
-            // which will handle Section Switching normally.
         }
     }
 
     // 3. Standard Section Switching Logic
-    // (This runs for normal areas OR if the Trackpad was used vertically over the gallery)
     e.preventDefault();
     if (isWheeling) return; 
 
@@ -4206,6 +4245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
