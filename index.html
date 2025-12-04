@@ -3047,30 +3047,18 @@ function handleDesktopWheel(e) {
 
     // 2. GALLERY INTERACTION LOGIC (Scroll Trap)
     if (scrollerElement) {
-        // Prevent default page scrolling/section switching when over the gallery
+        // Stop default page scrolling/section switching when over the gallery
         e.preventDefault();
         e.stopPropagation();
 
-        // Calculate total scroll magnitude. We need to account for both X and Y.
-        // The fighting occurs because browsers emit both X and Y deltas during a swipe.
-        // By adding them, we treat all significant wheel movement (vertical or horizontal)
-        // over the gallery as a command to scroll the gallery horizontally.
-        let scrollAmount = 0;
-
-        // If the user scrolls vertically (mouse wheel), we use deltaY.
-        // We still need a small multiplier for trackpads, or they'll be slow.
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-             // This handles mouse wheel (high deltaY) and vertical trackpad scroll
-             scrollAmount = e.deltaY;
-        } else {
-             // This handles horizontal trackpad swipe (high deltaX)
-             // We use a safe multiplier (10) for trackpads to make movement visible
-             const TRACKPAD_MULTIPLIER = 10; 
-             scrollAmount = e.deltaX * TRACKPAD_MULTIPLIER;
-        }
+        // **KEY CHANGE:** We now ONLY use the vertical scroll delta (e.deltaY).
+        // This handles:
+        // 1. Physical Mouse Wheel (high deltaY) -> Scrolls Gallery Horizontally
+        // 2. Trackpad Vertical Scroll (low deltaY) -> Scrolls Gallery Horizontally
+        //
+        // Horizontal swipes (e.deltaX) are ignored here to prevent conflict.
         
-        // Final action: Scroll the gallery horizontally
-        scrollerElement.scrollLeft += scrollAmount;
+        scrollerElement.scrollLeft += e.deltaY;
         
         return; // Exit here. The gallery will never accidentally switch sections.
     }
@@ -3079,7 +3067,7 @@ function handleDesktopWheel(e) {
     e.preventDefault();
     if (isWheeling) return;
 
-    // Ignore diagonal movements (including trackpad swipes outside the gallery)
+    // Ignore diagonal/horizontal movements for section switching outside the gallery
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
         return;
     }
@@ -4192,6 +4180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
