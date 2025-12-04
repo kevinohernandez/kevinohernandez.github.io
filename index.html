@@ -3051,16 +3051,21 @@ function handleDesktopWheel(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        // **KEY CHANGE:** We now ONLY use the vertical scroll delta (e.deltaY).
-        // This handles:
-        // 1. Physical Mouse Wheel (high deltaY) -> Scrolls Gallery Horizontally
-        // 2. Trackpad Vertical Scroll (low deltaY) -> Scrolls Gallery Horizontally
-        //
-        // Horizontal swipes (e.deltaX) are ignored here to prevent conflict.
+        let scrollAmount = e.deltaY;
         
-        scrollerElement.scrollLeft += e.deltaY;
+        // Heuristic: If deltaY is small (e.g., less than 30), it's likely a trackpad.
+        const TRACKPAD_THRESHOLD = 30;
+        const TRACKPAD_MULTIPLIER = 20; // Adjust this value (e.g., 15-30) if it's too fast/slow.
+
+        // Apply a multiplier if the scroll delta is small (i.e., from a trackpad)
+        if (Math.abs(scrollAmount) < TRACKPAD_THRESHOLD) {
+            scrollAmount *= TRACKPAD_MULTIPLIER;
+        }
         
-        return; // Exit here. The gallery will never accidentally switch sections.
+        // Scroll the gallery horizontally using the (potentially amplified) vertical delta.
+        scrollerElement.scrollLeft += scrollAmount;
+        
+        return; // Exit here.
     }
 
     // 3. GLOBAL SECTION SWITCHING (Only runs if the mouse is NOT over the gallery)
@@ -4180,6 +4185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
