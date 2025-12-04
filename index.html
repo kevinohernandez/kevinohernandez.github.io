@@ -1082,8 +1082,16 @@ opacity: 0;
 transform: translateX(50px);
 transition: opacity 0.4s ease, transform 0.4s ease;
 pointer-events: none;
+cursor: grab;    
 }
 
+/* --- NEW: Active grabbing cursor --- */
+.scroller.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none; /* Disable snap while dragging for smoothness */
+    scroll-behavior: auto;  /* Disable smooth scroll for instant 1:1 movement */
+}
+    
 .scroller.active {
 opacity: 1;
 transform: translateX(0);
@@ -3730,7 +3738,7 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2 OPTIMIZED (With Lazy Loading Fix)
+// S-2 OPTIMIZED (With Lazy Loading Fix + Desktop Drag)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Mobile Info Toggle Logic ---
@@ -3754,7 +3762,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'product': document.getElementById('scroller-product'),
         'motion': document.getElementById('scroller-motion')
     };
-
     const infoContents = {
         '3d': document.querySelector('.info-content[data-info="3d"]'),
         'graphic': document.querySelector('.info-content[data-info="graphic"]'),
@@ -3766,29 +3773,81 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = {
         '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0
     };
-    
+
     let currentGallery = '3d'; 
+
+    // ==========================================
+    // === NEW: Desktop Drag-to-Scroll Logic ===
+    // ==========================================
+    const allScrollers = Object.values(scrollers); 
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isDragging = false; // Flag to check if we are dragging vs clicking
+
+    allScrollers.forEach(slider => {
+        if(!slider) return;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isDragging = false; // Reset flag
+            slider.classList.add('is-dragging');
+            
+            // Get initial position relative to the slider
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            isDragging = false;
+            slider.classList.remove('is-dragging');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('is-dragging');
+            // Small delay to ensure the click event sees the flag
+            setTimeout(() => { isDragging = false; }, 50);
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; // Multiplier controls drag speed
+            
+            // If moved significantly, mark as dragging
+            if (Math.abs(walk) > 5) {
+                isDragging = true;
+            }
+
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    });
+    // ==========================================
+
 
     // --- VIDEO OPTIMIZATION (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Play if visible
                 entry.target.play().catch(() => {}); 
             } else {
-                // Pause if not visible to save resources
                 entry.target.pause();
             }
         });
     }, {
         root: scrollers['motion'], 
-        threshold: 0.95 // Play when 95% visible
+        threshold: 0.95 
     });
 
     function manageVideoState(galleryType, isActive) {
         if (galleryType !== 'motion') return;
         
         const videos = scrollers['motion'].querySelectorAll('video');
+
         if (isActive) {
             videos.forEach(v => videoObserver.observe(v));
         } else {
@@ -3808,19 +3867,18 @@ document.addEventListener('DOMContentLoaded', () => {
         button.style.setProperty('--progress', `${progress}%`);
     }
 
-    // --- Switch Gallery Logic (UPDATED FOR LAZY LOADING) ---
+    // --- Switch Gallery Logic ---
     function switchGallery(newGallery) {
         if (newGallery === currentGallery) return;
 
-        // 1. Check if we are switching TO motion, and if so, load videos
+        // 1. Load videos if switching to motion
         if (newGallery === 'motion') {
             const lazyVideos = scrollers['motion'].querySelectorAll('video');
             lazyVideos.forEach(video => {
-                // If we have a data-src but no actual src yet, inject it now
                 if (video.dataset.src && !video.getAttribute('src')) {
                     video.src = video.dataset.src;
-                    video.load(); // Trigger load
-                    video.removeAttribute('data-src'); // Cleanup
+                    video.load(); 
+                    video.removeAttribute('data-src'); 
                     video.classList.remove('lazy-video');
                 }
             });
@@ -3844,10 +3902,11 @@ document.addEventListener('DOMContentLoaded', () => {
         manageVideoState(newGallery, true);
 
         currentGallery = newGallery;
-        
+
         // Update Progress Bars
         const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
         const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+        
         updateProgress(scrollers[newGallery], activeButton);
         updateProgress(scrollers[newGallery], activeMobileLink);
     }
@@ -3857,7 +3916,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const galleryType = btn.dataset.gallery;
             
-            // UI Updates
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
@@ -3875,7 +3933,6 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const galleryType = link.dataset.gallery;
 
-            // UI Updates
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
 
@@ -3917,20 +3974,29 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(currentGallery === 'motion') manageVideoState('motion', true);
 
-    // --- Modal Logic ---
+
+    // --- Modal Logic (Updated for Drag) ---
     const modal = document.getElementById('portfolio-modal');
     const modalContentInner = document.getElementById('modal-gall-inner');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     portfolioItems.forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
+            
+            // === NEW CHECK: STOP if dragging ===
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+            // ===================================
+
             // Clone content into modal
             modalContentInner.innerHTML = item.innerHTML;
             
             const video = modalContentInner.querySelector('video');
             if (video) {
-                // Ensure video in modal has controls and plays
-                if (video.dataset.src) video.src = video.dataset.src; // Handle lazy load case for modal
+                if (video.dataset.src) video.src = video.dataset.src; 
                 video.setAttribute('controls', 'true'); 
                 video.play().catch(()=>{});
             }
@@ -4167,6 +4233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
