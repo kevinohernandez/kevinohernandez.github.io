@@ -3030,7 +3030,7 @@ function scrollToSectionDesktop(index) {
 let wheelTimeout = null;
 let wheelDirection = 0;
 
-// UPDATED FUNCTION HERE
+// --- UPDATED WHEEL HANDLER ---
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
@@ -3049,14 +3049,14 @@ function handleDesktopWheel(e) {
     // 2. Logic for Scrollers (Galleries)
     if (scrollerElement) {
         // Calculate scroll limits
-        const canScrollLeft = scrollerElement.scrollLeft > 0;
-        // Use a small buffer (-1) to account for sub-pixel calculations
+        // We accept a small error margin (1px) for cross-browser safety
+        const canScrollLeft = scrollerElement.scrollLeft > 1;
         const canScrollRight = scrollerElement.scrollLeft < (scrollerElement.scrollWidth - scrollerElement.clientWidth - 1);
 
         // CASE A: Horizontal Swipe (Trackpad or Shift+Wheel)
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             if ((e.deltaX < 0 && canScrollLeft) || (e.deltaX > 0 && canScrollRight)) {
-                return; // Allow native horizontal scroll, don't switch sections
+                return; // Allow native horizontal scroll
             }
         }
         // CASE B: Vertical Wheel (Standard Mouse) -> Convert to Horizontal Scroll
@@ -3065,12 +3065,18 @@ function handleDesktopWheel(e) {
 
             // Check if we can scroll the gallery in the requested direction
             if ((direction === 1 && canScrollRight) || (direction === -1 && canScrollLeft)) {
-                // Manually scroll the gallery horizontally
-                scrollerElement.scrollLeft += e.deltaY;
-                e.preventDefault(); // Stop the page from scrolling
-                return; // Stop the section switch
+                
+                // IMPORTANT: Temporarily disable smooth scroll to allow immediate control
+                scrollerElement.style.scrollBehavior = 'auto';
+                
+                // Manually scroll. Multiplied by 2 for better feel on standard mice
+                scrollerElement.scrollLeft += (e.deltaY * 2);
+                
+                e.preventDefault(); // Stop the page from switching sections
+                return; 
             }
-            // If we are at the edge (can't scroll further), we let the code below run to switch sections.
+            // If we are at the edge (e.g. at the start and scrolling UP),
+            // we do nothing here, allowing the code below to switch sections.
         }
     }
 
@@ -4190,6 +4196,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
