@@ -1092,6 +1092,13 @@ cursor: grab;
     scroll-behavior: auto;  /* Disable smooth scroll for instant 1:1 movement */
     user-select: none; /* Prevents highlighting text/images while dragging */
 }
+
+/* NEW: Prevent ghost images when dragging */
+.portfolio-img {
+    -webkit-user-drag: none;
+    user-drag: none;
+    pointer-events: none; /* Let clicks pass through to the parent container */
+}
     
 .scroller.active {
 opacity: 1;
@@ -3426,52 +3433,57 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // === NEW: Desktop Drag-to-Scroll Logic ===
     // ==========================================
-    const allScrollers = Object.values(scrollers); 
+const allScrollers = Object.values(scrollers); 
     let isDown = false;
     let startX;
     let scrollLeft;
-    let isDragging = false; // Flag to check if we are dragging vs clicking
+    let isDragging = false; 
 
     allScrollers.forEach(slider => {
         if(!slider) return;
 
+        // 1. Mouse Down (Start Drag)
         slider.addEventListener('mousedown', (e) => {
             isDown = true;
-            isDragging = false; // Reset flag
+            isDragging = false; 
             slider.classList.add('is-dragging');
             
-            // Get initial position relative to the slider
             startX = e.pageX - slider.offsetLeft;
             scrollLeft = slider.scrollLeft;
+            
+            // Attach listeners to WINDOW so you can drag outside the box
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
         });
 
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            isDragging = false;
-            slider.classList.remove('is-dragging');
-        });
-
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.classList.remove('is-dragging');
-            // Small delay to ensure the click event sees the flag
-            setTimeout(() => { isDragging = false; }, 50);
-        });
-
-        slider.addEventListener('mousemove', (e) => {
+        // 2. Mouse Move (The dragging action)
+        const onMouseMove = (e) => {
             if (!isDown) return;
-            e.preventDefault();
+            e.preventDefault(); // Stop text selection
             
             const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2; // Multiplier controls drag speed
+            const walk = (x - startX) * 1.5; // Multiplier: 1.5 is smoother than 2
             
-            // If moved significantly, mark as dragging
+            slider.scrollLeft = scrollLeft - walk;
+
+            // Only mark as "dragging" if moved more than 5 pixels
             if (Math.abs(walk) > 5) {
                 isDragging = true;
             }
+        };
 
-            slider.scrollLeft = scrollLeft - walk;
-        });
+        // 3. Mouse Up (Stop Drag)
+        const onMouseUp = () => {
+            isDown = false;
+            slider.classList.remove('is-dragging');
+            
+            // Clean up window listeners to save memory
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+
+            // Small delay to prevent the click event from firing immediately
+            setTimeout(() => { isDragging = false; }, 50);
+        };
     });
     // ==========================================
 
@@ -3880,6 +3892,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
