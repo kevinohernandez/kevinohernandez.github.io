@@ -3034,7 +3034,7 @@ let wheelDirection = 0;
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
-    // 1. Detect if mouse is over the gallery (your 'scroller' element)
+    // 1. Check if the mouse is currently hovering over the gallery (.scroller)
     let target = e.target;
     let scrollerElement = null;
     while (target && target !== document.body) {
@@ -3045,34 +3045,35 @@ function handleDesktopWheel(e) {
         target = target.parentElement;
     }
 
-    // 2. GALLERY INTERACTION LOGIC (Scroll Trap)
+    // 2. GALLERY INTERACTION LOGIC (Scroll Trap for Mouse Wheel/Vertical Swipe)
     if (scrollerElement) {
-        // Stop default page scrolling/section switching when over the gallery
+        // Stop default browser behavior (prevents the main section from switching)
         e.preventDefault();
         e.stopPropagation();
 
-        let scrollAmount = e.deltaY;
+        let scrollDelta = e.deltaY;
         
-        // Heuristic: If deltaY is small (e.g., less than 30), it's likely a trackpad.
+        // HEURISTIC: Check if the scroll delta is small (likely a trackpad vertical swipe).
+        // Trackpads produce small numbers (e.g., 1-5), while mouse wheels produce large numbers (e.g., 100).
         const TRACKPAD_THRESHOLD = 30;
-        const TRACKPAD_MULTIPLIER = 30; // Adjust this value (e.g., 15-30) if it's too fast/slow.
+        const TRACKPAD_SPEED_MULTIPLIER = 20; // Adjust this value to control trackpad speed (15-30 is a good range)
 
-        // Apply a multiplier if the scroll delta is small (i.e., from a trackpad)
-        if (Math.abs(scrollAmount) < TRACKPAD_THRESHOLD) {
-            scrollAmount *= TRACKPAD_MULTIPLIER;
+        if (Math.abs(scrollDelta) < TRACKPAD_THRESHOLD) {
+            // Amplify the scroll amount for the trackpad
+            scrollDelta *= TRACKPAD_SPEED_MULTIPLIER;
         }
         
-        // Scroll the gallery horizontally using the (potentially amplified) vertical delta.
-        scrollerElement.scrollLeft += scrollAmount;
+        // Translate the vertical scroll (e.deltaY) into horizontal gallery scroll
+        scrollerElement.scrollLeft += scrollDelta;
         
-        return; // Exit here.
+        return; // Stop here and do not proceed to global section switching.
     }
 
-    // 3. GLOBAL SECTION SWITCHING (Only runs if the mouse is NOT over the gallery)
+    // 3. GLOBAL SECTION SWITCHING (Standard behavior for non-gallery areas)
     e.preventDefault();
     if (isWheeling) return;
 
-    // Ignore diagonal/horizontal movements for section switching outside the gallery
+    // Ignore diagonal movements (including trackpad horizontal swipes outside the gallery)
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
         return;
     }
@@ -4185,6 +4186,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
