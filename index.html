@@ -3034,7 +3034,7 @@ let wheelDirection = 0;
 function handleDesktopWheel(e) {
     if (document.body.classList.contains('modal-active')) return;
 
-    // 1. Check if the mouse is currently hovering over the gallery (.scroller)
+    // 1. Detect if mouse is over the gallery (your 'scroller' element)
     let target = e.target;
     let scrollerElement = null;
     while (target && target !== document.body) {
@@ -3045,35 +3045,34 @@ function handleDesktopWheel(e) {
         target = target.parentElement;
     }
 
-    // 2. GALLERY INTERACTION LOGIC (Scroll Trap for Mouse Wheel/Vertical Swipe)
+    // 2. GALLERY INTERACTION LOGIC (Scroll Trap)
     if (scrollerElement) {
-        // Stop default browser behavior (prevents the main section from switching)
+        // Prevent default page scrolling/section switching when over the gallery
         e.preventDefault();
         e.stopPropagation();
 
-        let scrollDelta = e.deltaY;
-        
-        // HEURISTIC: Check if the scroll delta is small (likely a trackpad vertical swipe).
-        // Trackpads produce small numbers (e.g., 1-5), while mouse wheels produce large numbers (e.g., 100).
-        const TRACKPAD_THRESHOLD = 30;
-        const TRACKPAD_SPEED_MULTIPLIER = 35; // Adjust this value to control trackpad speed (15-30 is a good range)
-
-        if (Math.abs(scrollDelta) < TRACKPAD_THRESHOLD) {
-            // Amplify the scroll amount for the trackpad
-            scrollDelta *= TRACKPAD_SPEED_MULTIPLIER;
+        // Check if horizontal movement (trackpad swipe) is dominant
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+            // This path handles horizontal trackpad swiping.
+            // We use a multiplier to make the small deltaX values result in a visible scroll.
+            const TRACKPAD_MULTIPLIER = 8.5; 
+            scrollerElement.scrollLeft += e.deltaX * TRACKPAD_MULTIPLIER;
+        } 
+        // This path handles mouse wheel scrolling (vertical input translated to horizontal output).
+        else {
+            // This is the working fix for the mouse wheel. 
+            // deltaY is usually large enough that no multiplier is needed.
+            scrollerElement.scrollLeft += e.deltaY;
         }
         
-        // Translate the vertical scroll (e.deltaY) into horizontal gallery scroll
-        scrollerElement.scrollLeft += scrollDelta;
-        
-        return; // Stop here and do not proceed to global section switching.
+        return; // Exit here. The gallery will never accidentally switch sections.
     }
 
-    // 3. GLOBAL SECTION SWITCHING (Standard behavior for non-gallery areas)
+    // 3. GLOBAL SECTION SWITCHING (Only runs if the mouse is NOT over the gallery)
     e.preventDefault();
     if (isWheeling) return;
 
-    // Ignore diagonal movements (including trackpad horizontal swipes outside the gallery)
+    // Ignore small diagonal movements or trackpad noise
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
         return;
     }
@@ -4186,6 +4185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
