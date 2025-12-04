@@ -3055,7 +3055,7 @@ function handleDesktopWheel(e) {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             // This path handles horizontal trackpad swiping.
             // We use a multiplier to make the small deltaX values result in a visible scroll.
-            const TRACKPAD_MULTIPLIER = 5; 
+            const TRACKPAD_MULTIPLIER = 7.5; 
             scrollerElement.scrollLeft += e.deltaX * TRACKPAD_MULTIPLIER;
         } 
         // This path handles mouse wheel scrolling (vertical input translated to horizontal output).
@@ -4185,6 +4185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
