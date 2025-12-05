@@ -1243,6 +1243,33 @@ aspect-ratio: 4/5;
 /* === End Modal / Lightbox === */
 
 
+/* === NEW: Desktop Arrow Styles === */
+.desktop-nav-arrows {
+  display: none; /* Hidden on mobile */
+}
+
+.nav-arrow {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-muted-color); [cite_start]/* Match your muted text style [cite: 2] */
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow:hover {
+  color: var(--text-color); /* Highlight on hover */
+}
+
+.nav-arrow svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+    
+
 /*WORK END///////////////////////////*/
 
 
@@ -1598,6 +1625,16 @@ font-size: 2.5rem;
 border-right: none;
 }
 
+
+.desktop-nav-arrows {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    padding-left: 2rem; 
+    padding-bottom: 1.5rem; /* Space between arrows and "3D" */
+    justify-content: flex-start;
+  }
+    
   
 /* SECTION 3 */
 
@@ -2548,7 +2585,20 @@ data-navlink="section-1" class="nav-link logo-button active">
 
 <main class="portfolio-main">
 <div class="portfolio-nav">
-  
+
+<div class="desktop-nav-arrows">
+    <button id="desk-arrow-prev" class="nav-arrow" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </button>
+    <button id="desk-arrow-next" class="nav-arrow" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </button>
+  </div>
+    
 <div class="category-group">
 <button class="section-btn active" data-gallery="3d"><span>3D</span></button>
 </div>
@@ -3730,7 +3780,7 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2 OPTIMIZED (With Lazy Loading Fix)
+// S-2 OPTIMIZED (With Lazy Loading Fix & Desktop Arrows)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Mobile Info Toggle Logic ---
@@ -3747,6 +3797,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
+    
+    // NEW: Desktop Arrow Selectors
+    const deskPrev = document.getElementById('desk-arrow-prev');
+    const deskNext = document.getElementById('desk-arrow-next');
     
     const scrollers = {
         '3d': document.getElementById('scroller-3d'),
@@ -3766,8 +3820,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = {
         '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0
     };
-    
+
     let currentGallery = '3d'; 
+
+    // --- NEW: Desktop Arrow Scroll Logic ---
+    function scrollActiveGallery(direction) {
+        const activeScroller = scrollers[currentGallery];
+        if (!activeScroller) return;
+
+        // Find the first item to determine scroll width (width + gap)
+        const firstItem = activeScroller.querySelector('.portfolio-item');
+        if (!firstItem) return;
+
+        const style = window.getComputedStyle(firstItem);
+        const marginRight = parseInt(style.marginRight) || 0;
+        const scrollAmount = firstItem.offsetWidth + marginRight;
+
+        activeScroller.scrollBy({
+            left: direction === 'next' ? scrollAmount : -scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+
+    if (deskPrev && deskNext) {
+        deskPrev.addEventListener('click', (e) => {
+            e.preventDefault();
+            scrollActiveGallery('prev');
+        });
+
+        deskNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            scrollActiveGallery('next');
+        });
+    }
 
     // --- VIDEO OPTIMIZATION (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
@@ -3789,6 +3874,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (galleryType !== 'motion') return;
         
         const videos = scrollers['motion'].querySelectorAll('video');
+
         if (isActive) {
             videos.forEach(v => videoObserver.observe(v));
         } else {
@@ -3844,10 +3930,11 @@ document.addEventListener('DOMContentLoaded', () => {
         manageVideoState(newGallery, true);
 
         currentGallery = newGallery;
-        
+
         // Update Progress Bars
         const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
         const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
+        
         updateProgress(scrollers[newGallery], activeButton);
         updateProgress(scrollers[newGallery], activeMobileLink);
     }
@@ -3916,6 +4003,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress(scrollers[currentGallery], initialMobileLink);
     
     if(currentGallery === 'motion') manageVideoState('motion', true);
+
 
     // --- Modal Logic ---
     const modal = document.getElementById('portfolio-modal');
@@ -4167,6 +4255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
