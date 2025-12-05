@@ -3779,7 +3779,7 @@ document.body.classList.toggle('light-mode', themeCheckbox.checked);
 
 
 <script>
-// S-2 OPTIMIZED (With Lazy Loading Fix & Desktop Arrows)
+// S-2 OPTIMIZED (With Lazy Loading Fix & Hold-to-Scroll Arrows)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Mobile Info Toggle Logic ---
@@ -3797,7 +3797,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
     
-    // NEW: Desktop Arrow Selectors
+    // Desktop Arrow Selectors
     const deskPrev = document.getElementById('desk-arrow-prev');
     const deskNext = document.getElementById('desk-arrow-next');
     
@@ -3822,51 +3822,131 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentGallery = '3d'; 
 
-    // --- NEW: Desktop Arrow Scroll Logic ---
-    function scrollActiveGallery(direction) {
-        const activeScroller = scrollers[currentGallery];
+    
+    // --- NEW: Hold-to-Scroll Logic ---
+    
+    let scrollTimeout = null;
+    let continuousScrollInterval = null;
+    const CONTINUOUS_SCROLL_DELAY = 300; // Time (ms) before continuous scroll starts
+    const SCROLL_STEP = 15; // Small scroll amount in pixels for continuous movement
+    const SCROLL_INTERVAL = 10; // Time (ms) between steps (controls speed)
+    
+    /** Scrolls one full item width (for single clicks) */
+    function scrollActiveGalleryOnce(direction) {
+        const activeScroller = scrollers[currentGallery]; 
         if (!activeScroller) return;
 
-        // Find the first item to determine scroll width (width + gap)
         const firstItem = activeScroller.querySelector('.portfolio-item');
         if (!firstItem) return;
 
+        // Calculate total width including margin
         const style = window.getComputedStyle(firstItem);
         const marginRight = parseInt(style.marginRight) || 0;
         const scrollAmount = firstItem.offsetWidth + marginRight;
 
         activeScroller.scrollBy({
             left: direction === 'next' ? scrollAmount : -scrollAmount,
-            behavior: 'smooth'
+            behavior: 'smooth' 
         });
     }
+
+    /** Scrolls a small pixel step (for continuous movement) */
+    function continuousScrollStep(direction) {
+        const activeScroller = scrollers[currentGallery];
+        if (!activeScroller) return;
+        
+        const amount = direction === 'next' ? SCROLL_STEP : -SCROLL_STEP;
+        activeScroller.scrollBy({
+            left: amount,
+            behavior: 'auto' // ESSENTIAL: Instant scroll for smooth continuous feeling
+        });
+    }
+
+    /** Starts the continuous scroll timer */
+    function startContinuousScrollLoop(direction) {
+        // Clear any existing timer just in case
+        stopContinuousScrollLoop();
+        continuousScrollInterval = setInterval(() => {
+            continuousScrollStep(direction);
+        }, SCROLL_INTERVAL);
+    }
+
+    /** Stops the continuous scroll timer */
+    function stopContinuousScrollLoop() {
+        if (continuousScrollInterval) {
+            clearInterval(continuousScrollInterval);
+            continuousScrollInterval = null;
+        }
+    }
+    
+    /** Handles the mousedown/touchstart event */
+    function handleStartScroll(direction) {
+        // 1. Clear any pending continuous scroll timeout
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        stopContinuousScrollLoop();
+
+        // 2. Perform the initial single-step scroll immediately
+        scrollActiveGalleryOnce(direction); 
+        
+        // 3. Set a timeout to switch to continuous scroll if the button is still held
+        scrollTimeout = setTimeout(() => {
+            // Once the timeout expires, we enter continuous scroll mode
+            startContinuousScrollLoop(direction);
+        }, CONTINUOUS_SCROLL_DELAY);
+    }
+
+    /** Handles the mouseup/touchend/mouseleave event */
+    function handleStopScroll() {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = null;
+        }
+        stopContinuousScrollLoop();
+    }
+
 
     if (deskPrev && deskNext) {
-        deskPrev.addEventListener('click', (e) => {
-            e.preventDefault();
-            scrollActiveGallery('prev');
+        // PREV BUTTON LISTENERS
+        deskPrev.addEventListener('mousedown', () => handleStartScroll('prev'));
+        deskPrev.addEventListener('touchstart', (e) => {
+             e.preventDefault(); // Prevents default browser scroll on mobile
+             handleStartScroll('prev');
         });
 
-        deskNext.addEventListener('click', (e) => {
+        // NEXT BUTTON LISTENERS
+        deskNext.addEventListener('mousedown', () => handleStartScroll('next'));
+        deskNext.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            scrollActiveGallery('next');
+            handleStartScroll('next');
         });
+
+        // STOP LISTENERS (Apply to buttons and document for robust handling)
+        const stopEvents = ['mouseup', 'touchend', 'touchcancel', 'mouseleave'];
+        stopEvents.forEach(event => {
+            deskPrev.addEventListener(event, handleStopScroll);
+            deskNext.addEventListener(event, handleStopScroll);
+        });
+        
+        // Also add global stop listeners for mouseup/touchend in case user drags off the button
+        document.addEventListener('mouseup', handleStopScroll);
+        document.addEventListener('touchend', handleStopScroll);
+        document.addEventListener('touchcancel', handleStopScroll);
     }
+    // --- END NEW: Hold-to-Scroll Logic ---
+    
 
     // --- VIDEO OPTIMIZATION (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Play if visible
                 entry.target.play().catch(() => {}); 
             } else {
-                // Pause if not visible to save resources
                 entry.target.pause();
             }
         });
     }, {
         root: scrollers['motion'], 
-        threshold: 0.95 // Play when 95% visible
+        threshold: 0.95
     });
 
     function manageVideoState(galleryType, isActive) {
@@ -3901,11 +3981,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newGallery === 'motion') {
             const lazyVideos = scrollers['motion'].querySelectorAll('video');
             lazyVideos.forEach(video => {
-                // If we have a data-src but no actual src yet, inject it now
                 if (video.dataset.src && !video.getAttribute('src')) {
                     video.src = video.dataset.src;
-                    video.load(); // Trigger load
-                    video.removeAttribute('data-src'); // Cleanup
+                    video.load(); 
+                    video.removeAttribute('data-src'); 
                     video.classList.remove('lazy-video');
                 }
             });
@@ -4017,7 +4096,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const video = modalContentInner.querySelector('video');
             if (video) {
                 // Ensure video in modal has controls and plays
-                if (video.dataset.src) video.src = video.dataset.src; // Handle lazy load case for modal
+                if (video.dataset.src) video.src = video.dataset.src; 
                 video.setAttribute('controls', 'true'); 
                 video.play().catch(()=>{});
             }
@@ -4254,6 +4333,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
