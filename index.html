@@ -1253,7 +1253,7 @@ aspect-ratio: 4/5;
   border: none;
   padding: 0;
   cursor: pointer;
-  color: var(--text-muted-color); [cite_start]/* Match your muted text style [cite: 2] */
+  color: var(--text-color);
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
@@ -1261,7 +1261,7 @@ aspect-ratio: 4/5;
 }
 
 .nav-arrow:hover {
-  color: var(--text-color); /* Highlight on hover */
+  color: var(--text-muted-color); /* Highlight on hover */
 }
 
 .nav-arrow svg {
@@ -1628,11 +1628,10 @@ border-right: none;
 
 .desktop-nav-arrows {
     display: flex;
-    gap: 1rem;
     width: 100%;
-    padding-left: 2rem; 
-    padding-bottom: 1.5rem; /* Space between arrows and "3D" */
-    justify-content: flex-start;
+    padding-bottom: 0.5rem; 
+    justify-content: space-around;
+    /border: 1px solid var(--border-color);
   }
     
   
@@ -4255,6 +4254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
