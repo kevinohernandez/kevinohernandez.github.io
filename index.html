@@ -761,10 +761,10 @@ section.is-active .marquee-container {
 }
 
 .marquee-content-wrapper {
-    display: flex;
+display: flex;
     flex-direction: row;
-    width: fit-content;
-    /* JS will handle the transform */
+    /* CHANGED: max-content is safer than fit-content for marquees */
+    width: max-content; 
     will-change: transform; 
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -3383,59 +3383,90 @@ setupEventListeners();
 </script>
 
 <script>
-// JS MARQUEE LOGIC (Using Original Class Names)
+// JS MARQUEE LOGIC (Mobile-Safe Version)
 document.addEventListener('DOMContentLoaded', () => {
     
     const initMarquee = () => {
-        // Updated selector to match your original class
         const marqueeWrapper = document.querySelector('.marquee-content-wrapper');
         if (!marqueeWrapper) return;
 
-        // 1. Setup: Duplicate content for seamless loop
+        // 1. Setup: Duplicate content
+        // Convert children to array to safely reference the original items
         const originalParts = Array.from(marqueeWrapper.children);
         
         if(originalParts.length === 0) return;
 
-        // Clone and append content twice to ensure coverage on large screens
+        // Clone content twice to ensure no gaps on wide screens
         originalParts.forEach(part => marqueeWrapper.appendChild(part.cloneNode(true)));
         originalParts.forEach(part => marqueeWrapper.appendChild(part.cloneNode(true)));
 
-        // 2. Animation Variables
+        // 2. Variables
         let currentX = 0;
-        // Speed: Adjust this value (0.5 is slower, 2.0 is faster)
         let speed = 1.0; 
-        
-        // Calculate width of one original "marquee-content" block
-        let partWidth = originalParts[0].offsetWidth;
+        let partWidth = 0;
 
-        // Recalculate on resize
+        // Helper: Calculate width safely
+        const calculateWidth = () => {
+            const firstPart = originalParts[0];
+            if (firstPart) {
+                // rect.width is often more accurate than offsetWidth on mobile
+                const rect = firstPart.getBoundingClientRect();
+                return rect.width;
+            }
+            return 0;
+        };
+
+        // Initial calculation
+        partWidth = calculateWidth();
+
+        // 3. Robust Resize Handler
         window.addEventListener('resize', () => {
-            partWidth = originalParts[0].offsetWidth;
+            partWidth = calculateWidth();
         });
 
-        // 3. Animation Loop
+        // 4. Animation Loop
         const animate = () => {
+            // Safety: If width is 0 (font hasn't loaded yet), try to recalculate
+            if (partWidth <= 0) {
+                partWidth = calculateWidth();
+                // If still 0, skip this frame to avoid the "infinite scroll" bug
+                if (partWidth <= 0) {
+                    requestAnimationFrame(animate);
+                    return;
+                }
+            }
+
             currentX -= speed; 
 
             // Loop logic: If scrolled past the width of one block, reset
-            if (currentX <= -partWidth) {
+            // We use Math.abs to handle the negative number comparison safely
+            if (Math.abs(currentX) >= partWidth) {
+                // Instead of setting to 0, we add partWidth to keep the motion smooth
+                // irrespective of frame rate drops
                 currentX += partWidth;
             }
 
-            // Apply transform to wrapper
+            // Apply transform
             marqueeWrapper.style.transform = `translate3d(${currentX}px, 0, 0)`;
 
             requestAnimationFrame(animate);
         };
 
-        // Start
+        // Start Animation
         requestAnimationFrame(animate);
     };
 
-    if (document.readyState === 'complete') {
-        initMarquee();
+    // 5. Wait for Fonts (Crucial for Mobile)
+    // Mobile browsers often calculate width before custom fonts load, resulting in wrong math.
+    if (document.fonts) {
+        document.fonts.ready.then(initMarquee);
     } else {
-        window.addEventListener('load', initMarquee);
+        // Fallback for older browsers
+        if (document.readyState === 'complete') {
+            initMarquee();
+        } else {
+            window.addEventListener('load', initMarquee);
+        }
     }
 });
 </script>
@@ -4100,6 +4131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
