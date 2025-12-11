@@ -609,6 +609,38 @@ height: 100%;
     top: 0;
     left: 0;
 }
+
+
+/* Shared styles for both videos */
+.hero-bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures video fills screen without stretching */
+    transition: opacity 0.6s ease; /* Smooth fade effect */
+}
+
+/* --- Toggling Logic --- */
+
+/* Default State (Dark Mode): Hide light video, show dark video */
+.light-theme-video {
+    opacity: 0;
+    z-index: 1;
+}
+.dark-theme-video {
+    opacity: 1;
+    z-index: 0;
+}
+
+/* Light Mode State: Show light video, hide dark video */
+body.light-mode .light-theme-video {
+    opacity: 1;
+}
+body.light-mode .dark-theme-video {
+    opacity: 0;
+}
     
 /* === Section 1: Hero === */
 
@@ -2561,19 +2593,28 @@ data-navlink="section-1" class="nav-link logo-button active">
 <div class="section-1-wrapper"> 
 
 <div id="canvas-container">
-<video 
-            class="hero-bg-video" 
-            autoplay 
-            loop 
-            muted 
-            playsinline 
-            preload="auto"
-            poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
-            <source src="https://cdn.shopify.com/videos/c/o/v/00d77345a46a403491debca28c6f9b12.mp4" type="video/mp4">
-        </video>
+    <video 
+        class="hero-bg-video dark-theme-video" 
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        preload="auto"
+        poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+        <source src="https://cdn.shopify.com/videos/c/o/v/00d77345a46a403491debca28c6f9b12.mp4" type="video/mp4">
+    </video>
     
+    <video 
+        class="hero-bg-video light-theme-video" 
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        preload="auto">
+        <source src="https://cdn.shopify.com/videos/c/o/v/a7b6c45541754137a9b3ab5388580f41.mp4" type="video/mp4">
+    </video>
 </div>
-
+    
 <div class="marquee-container">
 <div class="marquee-content-wrapper">
 <div class="marquee-content">
@@ -3438,18 +3479,38 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 // THEME   
 document.addEventListener('DOMContentLoaded', function() {
-const themeCheckbox = document.getElementById('theme-checkbox');
-if (themeCheckbox) {
-themeCheckbox.addEventListener('change', function() {
-document.body.classList.toggle('light-mode', this.checked);
+    const themeCheckbox = document.getElementById('theme-checkbox');
+    const darkVideo = document.querySelector('.dark-theme-video');
+    const lightVideo = document.querySelector('.light-theme-video');
+
+    if (themeCheckbox) {
+        themeCheckbox.addEventListener('change', function() {
+            document.body.classList.toggle('light-mode', this.checked);
+
+            // Optimization: Play/Pause videos on toggle
+            if (this.checked) {
+                if (lightVideo) lightVideo.play();
+                if (darkVideo) darkVideo.pause();
+            } else {
+                if (darkVideo) darkVideo.play();
+                if (lightVideo) lightVideo.pause();
+            }
+        });
+
+        // Set Initial State
+        document.body.classList.toggle('light-mode', themeCheckbox.checked);
+        
+        // Optimization: Set initial video state
+        if (themeCheckbox.checked) {
+            if (lightVideo) lightVideo.play();
+            if (darkVideo) darkVideo.pause();
+        } else {
+            if (darkVideo) darkVideo.play();
+            if (lightVideo) lightVideo.pause();
+        }
+    }
+
 });
-
-document.body.classList.toggle('light-mode', themeCheckbox.checked);
-}
-
-});
-
-
 </script>
 
 
@@ -4008,6 +4069,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
