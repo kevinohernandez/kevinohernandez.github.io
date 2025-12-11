@@ -3487,20 +3487,32 @@ document.addEventListener('DOMContentLoaded', function() {
         themeCheckbox.addEventListener('change', function() {
             document.body.classList.toggle('light-mode', this.checked);
 
-            // Optimization: Play/Pause videos on toggle
+            // Optimization & Sync Logic
             if (this.checked) {
-                if (lightVideo) lightVideo.play();
-                if (darkVideo) darkVideo.pause();
+                // Switching TO Light Mode
+                if (darkVideo && lightVideo) {
+                    // 1. Sync time: Set light video to match dark video's current time
+                    lightVideo.currentTime = darkVideo.currentTime;
+                    // 2. Play light, pause dark
+                    lightVideo.play();
+                    darkVideo.pause();
+                }
             } else {
-                if (darkVideo) darkVideo.play();
-                if (lightVideo) lightVideo.pause();
+                // Switching TO Dark Mode
+                if (darkVideo && lightVideo) {
+                    // 1. Sync time: Set dark video to match light video's current time
+                    darkVideo.currentTime = lightVideo.currentTime;
+                    // 2. Play dark, pause light
+                    darkVideo.play();
+                    lightVideo.pause();
+                }
             }
         });
 
-        // Set Initial State
+        // Set Initial State on Load
         document.body.classList.toggle('light-mode', themeCheckbox.checked);
         
-        // Optimization: Set initial video state
+        // Initial Play/Pause state based on load
         if (themeCheckbox.checked) {
             if (lightVideo) lightVideo.play();
             if (darkVideo) darkVideo.pause();
@@ -3509,7 +3521,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (lightVideo) lightVideo.pause();
         }
     }
-
 });
 </script>
 
@@ -4069,6 +4080,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
