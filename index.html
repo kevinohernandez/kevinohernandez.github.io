@@ -725,70 +725,89 @@ justify-content: center;
 text-align: left;
 }
 
-/* === Marquee Styles (JS Driven) === */
+/* === Marquee Styles === */
 .marquee-container {
-    width: 100%;
-    padding: 0.01rem 0;
-    background-color: var(--bg-color); 
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    overflow: hidden;
-    margin-top: 20rem;
-    position: absolute;
-    z-index: 5;
-    
-    /* Entry Animation (Keep existing logic) */
-    transform: translateX(100%) translateZ(0);
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-    align-self: anchor-center;
-    
-    /* 3D Hardware Acceleration */
-    backface-visibility: hidden;
-    perspective: 1000px;
-    -webkit-perspective: 1000px;
-    transform-style: preserve-3d;
-    
-    /* Interaction */
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
+width: 100%;
+padding: 0.01rem 0;
+background-color: var(--bg-color); /* Match section bg */
+border-top: 1px solid var(--border-color);
+border-bottom: 1px solid var(--border-color);
+overflow: hidden;
+white-space: nowrap;
+margin-top: 20rem;
+position: absolute;
+z-index: 5;
+transform: translateX(100%) translateZ(0);
+transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+align-self: anchor-center;
+backface-visibility: hidden;
+will-change: transform;  
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+/* ADD THESE: */
+perspective: 1000px;
+-webkit-perspective: 1000px;
+transform-style: preserve-3d;
 }
 
-/* Entry Animation Trigger */
+/* --- NEW: Marquee Animation Trigger --- */
 section.is-active .marquee-container {
-    transform: translateX(0) translateZ(0);
-    transition-delay: 0.5s;
+transform: translateX(0) translateZ(0);
+transition-delay: 0.5s; /* Stagger after canvas fade-in */
+}
+
+
+/.marquee-content-wrapper {
+display: flex;
+width: fit-content; 
+animation: marquee-scroll 100s linear infinite;
+backface-visibility: hidden;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
 }
 
 .marquee-content-wrapper {
 display: flex;
-    flex-direction: row;
-    /* CHANGED: max-content is safer than fit-content for marquees */
-    width: max-content; 
-    will-change: transform; 
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    transform-style: preserve-3d;
+width: max-content; /* Changed from fit-content to prevent sub-pixel calculation errors */
+animation: marquee-scroll 100s linear infinite;
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+will-change: transform; /* Tells browser to keep this in GPU memory */
+transform-style: preserve-3d; /* Prevents flattening/flashing */
+animation-play-state: paused;  
 }
 
+/* ADD: Only play when section-1 is active */
+#section-1.is-active .marquee-content-wrapper {
+    animation-play-state: running;
+}
+  
 .marquee-content {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    white-space: nowrap;
-    padding-right: 0; /* JS handles seamless loop, padding handled in span */
+display: flex;
+white-space: nowrap; 
+flex-shrink: 0;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+
 }
 
 .marquee-content span {
-    font-size: 5rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-color);
-    padding-right: 2rem;
-    display: inline-block;
-    touch-action: manipulation;
-    user-select: none;
+font-size: 5rem;
+font-weight: 500;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+color: var(--text-color);
+/* transition: color 0.3s ease;
+*/ /* REMOVED */
+padding-right: 2rem;
+display: inline-block;
+touch-action: manipulation;
+user-select: none;
+-webkit-user-select: none;
+
 }
 
 
@@ -2599,19 +2618,32 @@ data-navlink="section-1" class="nav-link logo-button active">
 </div>
     
 <div class="marquee-container">
-    <div class="marquee-content-wrapper">
-        <div class="marquee-content">
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-            <span>Kevin Hernandez</span>
-        </div>
-    </div>
+<div class="marquee-content-wrapper">
+<div class="marquee-content">
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+
+</div>
+<div class="marquee-content" aria-hidden="true">
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+<span>Kevin Hernandez</span>
+
+</div>
+</div>
 </div>
 
 </div>
@@ -3382,94 +3414,7 @@ setupEventListeners();
 });
 </script>
 
-<script>
-// JS MARQUEE LOGIC (Mobile-Safe Version)
-document.addEventListener('DOMContentLoaded', () => {
-    
-    const initMarquee = () => {
-        const marqueeWrapper = document.querySelector('.marquee-content-wrapper');
-        if (!marqueeWrapper) return;
 
-        // 1. Setup: Duplicate content
-        // Convert children to array to safely reference the original items
-        const originalParts = Array.from(marqueeWrapper.children);
-        
-        if(originalParts.length === 0) return;
-
-        // Clone content twice to ensure no gaps on wide screens
-        originalParts.forEach(part => marqueeWrapper.appendChild(part.cloneNode(true)));
-        originalParts.forEach(part => marqueeWrapper.appendChild(part.cloneNode(true)));
-
-        // 2. Variables
-        let currentX = 0;
-        let speed = 1.0; 
-        let partWidth = 0;
-
-        // Helper: Calculate width safely
-        const calculateWidth = () => {
-            const firstPart = originalParts[0];
-            if (firstPart) {
-                // rect.width is often more accurate than offsetWidth on mobile
-                const rect = firstPart.getBoundingClientRect();
-                return rect.width;
-            }
-            return 0;
-        };
-
-        // Initial calculation
-        partWidth = calculateWidth();
-
-        // 3. Robust Resize Handler
-        window.addEventListener('resize', () => {
-            partWidth = calculateWidth();
-        });
-
-        // 4. Animation Loop
-        const animate = () => {
-            // Safety: If width is 0 (font hasn't loaded yet), try to recalculate
-            if (partWidth <= 0) {
-                partWidth = calculateWidth();
-                // If still 0, skip this frame to avoid the "infinite scroll" bug
-                if (partWidth <= 0) {
-                    requestAnimationFrame(animate);
-                    return;
-                }
-            }
-
-            currentX -= speed; 
-
-            // Loop logic: If scrolled past the width of one block, reset
-            // We use Math.abs to handle the negative number comparison safely
-            if (Math.abs(currentX) >= partWidth) {
-                // Instead of setting to 0, we add partWidth to keep the motion smooth
-                // irrespective of frame rate drops
-                currentX += partWidth;
-            }
-
-            // Apply transform
-            marqueeWrapper.style.transform = `translate3d(${currentX}px, 0, 0)`;
-
-            requestAnimationFrame(animate);
-        };
-
-        // Start Animation
-        requestAnimationFrame(animate);
-    };
-
-    // 5. Wait for Fonts (Crucial for Mobile)
-    // Mobile browsers often calculate width before custom fonts load, resulting in wrong math.
-    if (document.fonts) {
-        document.fonts.ready.then(initMarquee);
-    } else {
-        // Fallback for older browsers
-        if (document.readyState === 'complete') {
-            initMarquee();
-        } else {
-            window.addEventListener('load', initMarquee);
-        }
-    }
-});
-</script>
 
 
 <script>
@@ -4131,94 +4076,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
