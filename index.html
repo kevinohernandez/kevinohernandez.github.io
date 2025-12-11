@@ -3487,32 +3487,20 @@ document.addEventListener('DOMContentLoaded', function() {
         themeCheckbox.addEventListener('change', function() {
             document.body.classList.toggle('light-mode', this.checked);
 
-            // Optimization & Sync Logic
+            // Optimization: Play/Pause videos on toggle
             if (this.checked) {
-                // Switching TO Light Mode
-                if (darkVideo && lightVideo) {
-                    // 1. Sync time: Set light video to match dark video's current time
-                    lightVideo.currentTime = darkVideo.currentTime;
-                    // 2. Play light, pause dark
-                    lightVideo.play();
-                    darkVideo.pause();
-                }
+                if (lightVideo) lightVideo.play();
+                if (darkVideo) darkVideo.pause();
             } else {
-                // Switching TO Dark Mode
-                if (darkVideo && lightVideo) {
-                    // 1. Sync time: Set dark video to match light video's current time
-                    darkVideo.currentTime = lightVideo.currentTime;
-                    // 2. Play dark, pause light
-                    darkVideo.play();
-                    lightVideo.pause();
-                }
+                if (darkVideo) darkVideo.play();
+                if (lightVideo) lightVideo.pause();
             }
         });
 
-        // Set Initial State on Load
+        // Set Initial State
         document.body.classList.toggle('light-mode', themeCheckbox.checked);
         
-        // Initial Play/Pause state based on load
+        // Optimization: Set initial video state
         if (themeCheckbox.checked) {
             if (lightVideo) lightVideo.play();
             if (darkVideo) darkVideo.pause();
@@ -3521,6 +3509,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (lightVideo) lightVideo.pause();
         }
     }
+
 });
 </script>
 
@@ -3907,23 +3896,25 @@ document.body.classList.add("mobile-has-active");
 
 
 <script>
-// S-4 (Inquiries & Breathing Grid) - OPTIMIZED
+// S-4 (Inquiries & Breathing Grid) - CAPPED AT 30 FPS
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('breathingGrid');
     const ctx = canvas.getContext('2d');
     const textEl = document.getElementById('textToCopy');
-    const section4 = document.getElementById('section-4'); // Reference to the container
+    const section4 = document.getElementById('section-4'); 
     
     let dots = [];
     let spacing = 80;
     let mouse = { x: -1000, y: -1000 };
     let time = 0;
     
-    // Animation State Control
+    // FPS Control Variables
     let animationFrameId;
     let isAnimating = false;
+    let lastTime = 0;
+    const fps = 30;                 // <--- Target FPS
+    const fpsInterval = 1000 / fps; // <--- Min time between frames (33.33ms)
 
-    // Function to get current theme color
     function getThemeColor() {
         try {
             const computedStyle = getComputedStyle(document.body);
@@ -3942,6 +3933,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resizeCanvas() {
+        if (!canvas.parentElement) return; // Safety check
         const rect = canvas.parentElement.getBoundingClientRect();
         canvas.width = rect.width;
         canvas.height = rect.height;
@@ -3961,13 +3953,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // If we resize while paused, we force one frame draw so it doesn't look broken
-        if (!isAnimating) {
-             requestAnimationFrame(drawFrame);
-        }
+        if (!isAnimating) requestAnimationFrame(drawFrame);
     }
 
-    // Initialize Canvas
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', (e) => {
@@ -3976,20 +3964,20 @@ document.addEventListener('DOMContentLoaded', () => {
         mouse.y = e.clientY - rect.top;
     });
 
-    // The Logic that draws a single frame
     function drawFrame() {
-        time += 0.016;
+        // UPDATED: Increment time by 0.033 (approx 30fps) instead of 0.016
+        // so the animation speed stays consistent.
+        time += 0.033; 
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         const rect = textEl.getBoundingClientRect();
         const canvasRect = canvas.getBoundingClientRect();
         const textPadding = 20;
-
         const textLeft = rect.left - canvasRect.left - textPadding;
         const textRight = rect.right - canvasRect.left + textPadding;
         const textTop = rect.top - canvasRect.top - textPadding;
         const textBottom = rect.bottom - canvasRect.top + textPadding;
-
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const waveSpeed = 60;
@@ -3999,7 +3987,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const color = getThemeColor();
 
         dots.forEach(dot => {
-            // Skip dots under the text box
             if(dot.x > textLeft && dot.x < textRight && dot.y > textTop && dot.y < textBottom) return;
 
             const dist = Math.hypot(dot.x - centerX, dot.y - centerY);
@@ -4028,38 +4015,45 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // The Animation Loop
-    function animate() {
-        if (!isAnimating) return; // Stop recursion if flag is false
-        drawFrame();
+    // UPDATED: Loop with FPS cap
+    function animate(timestamp) {
+        if (!isAnimating) return;
+
+        // Request next frame immediately to keep loop alive
         animationFrameId = requestAnimationFrame(animate);
+
+        // Check elapsed time
+        if (!lastTime) lastTime = timestamp;
+        const elapsed = timestamp - lastTime;
+
+        // Only draw if enough time has passed (limit to 30fps)
+        if (elapsed > fpsInterval) {
+            lastTime = timestamp - (elapsed % fpsInterval); // Adjust for drift
+            drawFrame();
+        }
     }
 
-    // --- OPTIMIZATION: Intersection Observer ---
-    // Only run the loop when #section-4 is visible
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Section is visible: Start the loop if not already running
                 if (!isAnimating) {
                     isAnimating = true;
-                    animate();
+                    lastTime = 0; // Reset timer when starting
+                    animationFrameId = requestAnimationFrame(animate);
                 }
             } else {
-                // Section is hidden: Stop the loop
                 isAnimating = false;
                 if (animationFrameId) {
                     cancelAnimationFrame(animationFrameId);
                 }
             }
         });
-    }, { threshold: 0.1 }); // Trigger when 10% of the section is visible
+    }, { threshold: 0.1 });
 
     if (section4) {
         observer.observe(section4);
     }
 
-    // --- Copy Button Logic ---
     const copyButton = document.getElementById('copyButton');
     function copyToClipboard() {
         const textToCopy = textEl.getAttribute('data-copy') || textEl.textContent.replace(/^EMAIL:\s*/i, '');
@@ -4080,6 +4074,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
