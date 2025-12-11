@@ -5,8 +5,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="icon" type="image/svg+xml" href="images/outlinever-01.svg" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+
 
 <style>
 /* === CSS Variables for Theming === */
@@ -599,6 +598,18 @@ width: 100%;
 height: 100%;
 }
 
+/* Update the existing canvas rule to include video */
+#canvas-container canvas,
+#canvas-container video.hero-bg-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures video covers screen without stretching */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+    
 /* === Section 1: Hero === */
 
 .section-1-wrapper {
@@ -2545,7 +2556,19 @@ data-navlink="section-1" class="nav-link logo-button active">
 <section id="section-1">
 <div class="section-1-wrapper"> 
 
-<div id="canvas-container"></div>
+<div id="canvas-container">
+<video 
+            class="hero-bg-video" 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            preload="auto"
+            poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+            <source src="https://cdn.shopify.com/videos/c/o/v/00d77345a46a403491debca28c6f9b12.mp4" type="video/mp4">
+        </video>
+    
+</div>
 
 <div class="marquee-container">
 <div class="marquee-content-wrapper">
@@ -3981,6 +4004,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
