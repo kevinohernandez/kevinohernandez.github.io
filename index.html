@@ -1098,9 +1098,16 @@ border-bottom: none;
 width: 100%;
 height: 100%;
 object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;    
 }  
 
+/* Class added by JS to reveal asset */
+.portfolio-img.is-loaded {
+    opacity: 1;
+}
 
+    
 .scroller {
 height: 100%;
 width: 100%; 
@@ -3517,8 +3524,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
-// S-2 OPTIMIZED (With Lazy Loading Fix & Hold-to-Scroll Arrows)
+// S-2 OPTIMIZED (With Smooth Reveal, Lazy Loading, & Hold-to-Scroll)
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Media Reveal Helper ---
+    function handleMediaReveal(media) {
+        if (media.tagName === 'IMG') {
+            if (media.complete) {
+                media.classList.add('is-loaded');
+            } else {
+                media.addEventListener('load', () => media.classList.add('is-loaded'), { once: true });
+            }
+        } else if (media.tagName === 'VIDEO') {
+            media.addEventListener('loadeddata', () => media.classList.add('is-loaded'), { once: true });
+        }
+    }
+
+    document.querySelectorAll('.portfolio-img').forEach(media => {
+        handleMediaReveal(media);
+    });
 
     // --- Mobile Info Toggle Logic ---
     const mobileInfoToggle = document.getElementById('mobile-info-toggle');
@@ -3534,8 +3558,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
-    
-    // Desktop Arrow Selectors
     const deskPrev = document.getElementById('desk-arrow-prev');
     const deskNext = document.getElementById('desk-arrow-next');
     
@@ -3553,63 +3575,42 @@ document.addEventListener('DOMContentLoaded', () => {
         'motion': document.querySelector('.info-content[data-info="motion"]')
     };
 
-    // Save scroll positions
-    const scrollPositions = {
-        '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0
-    };
+    const scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0 };
+    let currentGallery = '3d';
 
-    let currentGallery = '3d'; 
-
-    
-    // --- NEW: Hold-to-Scroll Logic ---
-    
+    // --- Hold-to-Scroll Logic ---
     let scrollTimeout = null;
     let continuousScrollInterval = null;
-    const CONTINUOUS_SCROLL_DELAY = 300; // Time (ms) before continuous scroll starts
-    const SCROLL_STEP = 15; // Small scroll amount in pixels for continuous movement
-    const SCROLL_INTERVAL = 10; // Time (ms) between steps (controls speed)
+    const CONTINUOUS_SCROLL_DELAY = 300;
+    const SCROLL_STEP = 15;
+    const SCROLL_INTERVAL = 10;
     
-    /** Scrolls one full item width (for single clicks) */
     function scrollActiveGalleryOnce(direction) {
-        const activeScroller = scrollers[currentGallery]; 
+        const activeScroller = scrollers[currentGallery];
         if (!activeScroller) return;
-
         const firstItem = activeScroller.querySelector('.portfolio-item');
         if (!firstItem) return;
-
-        // Calculate total width including margin
         const style = window.getComputedStyle(firstItem);
         const marginRight = parseInt(style.marginRight) || 0;
         const scrollAmount = firstItem.offsetWidth + marginRight;
-
         activeScroller.scrollBy({
             left: direction === 'next' ? scrollAmount : -scrollAmount,
             behavior: 'smooth' 
         });
     }
 
-    /** Scrolls a small pixel step (for continuous movement) */
     function continuousScrollStep(direction) {
         const activeScroller = scrollers[currentGallery];
         if (!activeScroller) return;
-        
         const amount = direction === 'next' ? SCROLL_STEP : -SCROLL_STEP;
-        activeScroller.scrollBy({
-            left: amount,
-            behavior: 'auto' // ESSENTIAL: Instant scroll for smooth continuous feeling
-        });
+        activeScroller.scrollBy({ left: amount, behavior: 'auto' });
     }
 
-    /** Starts the continuous scroll timer */
     function startContinuousScrollLoop(direction) {
-        // Clear any existing timer just in case
         stopContinuousScrollLoop();
-        continuousScrollInterval = setInterval(() => {
-            continuousScrollStep(direction);
-        }, SCROLL_INTERVAL);
+        continuousScrollInterval = setInterval(() => continuousScrollStep(direction), SCROLL_INTERVAL);
     }
 
-    /** Stops the continuous scroll timer */
     function stopContinuousScrollLoop() {
         if (continuousScrollInterval) {
             clearInterval(continuousScrollInterval);
@@ -3617,88 +3618,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    /** Handles the mousedown/touchstart event */
     function handleStartScroll(direction) {
-        // 1. Clear any pending continuous scroll timeout
         if (scrollTimeout) clearTimeout(scrollTimeout);
         stopContinuousScrollLoop();
-
-        // 2. Perform the initial single-step scroll immediately
-        scrollActiveGalleryOnce(direction); 
-        
-        // 3. Set a timeout to switch to continuous scroll if the button is still held
-        scrollTimeout = setTimeout(() => {
-            // Once the timeout expires, we enter continuous scroll mode
-            startContinuousScrollLoop(direction);
-        }, CONTINUOUS_SCROLL_DELAY);
+        scrollActiveGalleryOnce(direction);
+        scrollTimeout = setTimeout(() => startContinuousScrollLoop(direction), CONTINUOUS_SCROLL_DELAY);
     }
 
-    /** Handles the mouseup/touchend/mouseleave event */
     function handleStopScroll() {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = null;
-        }
+        if (scrollTimeout) { clearTimeout(scrollTimeout); scrollTimeout = null; }
         stopContinuousScrollLoop();
     }
 
-
     if (deskPrev && deskNext) {
-        // PREV BUTTON LISTENERS
         deskPrev.addEventListener('mousedown', () => handleStartScroll('prev'));
-        deskPrev.addEventListener('touchstart', (e) => {
-             e.preventDefault(); // Prevents default browser scroll on mobile
-             handleStartScroll('prev');
-        });
-
-        // NEXT BUTTON LISTENERS
+        deskPrev.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('prev'); });
         deskNext.addEventListener('mousedown', () => handleStartScroll('next'));
-        deskNext.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            handleStartScroll('next');
-        });
-
-        // STOP LISTENERS (Apply to buttons and document for robust handling)
-        const stopEvents = ['mouseup', 'touchend', 'touchcancel', 'mouseleave'];
-        stopEvents.forEach(event => {
+        deskNext.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('next'); });
+        
+        ['mouseup', 'touchend', 'touchcancel', 'mouseleave'].forEach(event => {
             deskPrev.addEventListener(event, handleStopScroll);
             deskNext.addEventListener(event, handleStopScroll);
         });
-        
-        // Also add global stop listeners for mouseup/touchend in case user drags off the button
+
         document.addEventListener('mouseup', handleStopScroll);
         document.addEventListener('touchend', handleStopScroll);
-        document.addEventListener('touchcancel', handleStopScroll);
     }
-    // --- END NEW: Hold-to-Scroll Logic ---
     
-
-    // --- VIDEO OPTIMIZATION (Observer) ---
+    // --- Video Optimization (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.play().catch(() => {}); 
+                entry.target.play().catch(() => {});
             } else {
                 entry.target.pause();
             }
         });
-    }, {
-        root: scrollers['motion'], 
-        threshold: 0.95
-    });
+    }, { root: scrollers['motion'], threshold: 0.95 });
 
     function manageVideoState(galleryType, isActive) {
         if (galleryType !== 'motion') return;
-        
         const videos = scrollers['motion'].querySelectorAll('video');
-
         if (isActive) {
             videos.forEach(v => videoObserver.observe(v));
         } else {
-            videos.forEach(v => {
-                videoObserver.unobserve(v);
-                v.pause();
-            });
+            videos.forEach(v => { videoObserver.unobserve(v); v.pause(); });
         }
     }
 
@@ -3711,92 +3675,70 @@ document.addEventListener('DOMContentLoaded', () => {
         button.style.setProperty('--progress', `${progress}%`);
     }
 
-    // --- Switch Gallery Logic (UPDATED FOR LAZY LOADING) ---
+    // --- Switch Gallery ---
     function switchGallery(newGallery) {
         if (newGallery === currentGallery) return;
-
-        // 1. Check if we are switching TO motion, and if so, load videos
+        
         if (newGallery === 'motion') {
             const lazyVideos = scrollers['motion'].querySelectorAll('video');
             lazyVideos.forEach(video => {
                 if (video.dataset.src && !video.getAttribute('src')) {
                     video.src = video.dataset.src;
-                    video.load(); 
-                    video.removeAttribute('data-src'); 
+                    video.load();
+                    handleMediaReveal(video);
+                    video.removeAttribute('data-src');
                     video.classList.remove('lazy-video');
                 }
             });
         }
 
-        // 2. Save current scroll position
         scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-
-        // 3. Deactivate current
         scrollers[currentGallery].classList.remove('active');
         infoContents[currentGallery].classList.remove('active');
         manageVideoState(currentGallery, false);
 
-        // 4. Activate new
         scrollers[newGallery].classList.add('active');
         infoContents[newGallery].classList.add('active');
-        
-        // Restore scroll position
         scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-
         manageVideoState(newGallery, true);
 
         currentGallery = newGallery;
 
-        // Update Progress Bars
         const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
         const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-        
+
         updateProgress(scrollers[newGallery], activeButton);
         updateProgress(scrollers[newGallery], activeMobileLink);
     }
 
-    // --- Event Listeners: Desktop Buttons ---
+    // --- Event Listeners ---
     buttons.forEach(btn => {
         btn.addEventListener('click', () => {
             const galleryType = btn.dataset.gallery;
-            
-            // UI Updates
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-            const matchingLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`);
-            matchingLink?.classList.add('active');
-
+            document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`)?.classList.add('active');
             switchGallery(galleryType);
         });
     });
 
-    // --- Event Listeners: Mobile Links ---
     mobileWorkNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const galleryType = link.dataset.gallery;
-
-            // UI Updates
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
-
             buttons.forEach(b => b.classList.remove('active'));
-            const matchingButton = document.querySelector(`.section-btn[data-gallery="${galleryType}"]`);
-            matchingButton?.classList.add('active');
-
+            document.querySelector(`.section-btn[data-gallery="${galleryType}"]`)?.classList.add('active');
             switchGallery(galleryType);
         });
     });
 
-    // --- SCROLL LISTENER (Throttled) ---
     Object.keys(scrollers).forEach(key => {
         let ticking = false;
-
         scrollers[key].addEventListener('scroll', () => {
             scrollPositions[key] = scrollers[key].scrollLeft;
-
             if (!ticking) {
                 window.requestAnimationFrame(() => {
                     if (key === currentGallery) {
@@ -3813,29 +3755,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Initial Setup ---
-    const initialButton = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
-    const initialMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`);
-    updateProgress(scrollers[currentGallery], initialButton);
-    updateProgress(scrollers[currentGallery], initialMobileLink);
-    
+    updateProgress(scrollers[currentGallery], document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`));
+    updateProgress(scrollers[currentGallery], document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`));
     if(currentGallery === 'motion') manageVideoState('motion', true);
-
-
+    
     // --- Modal Logic ---
     const modal = document.getElementById('portfolio-modal');
     const modalContentInner = document.getElementById('modal-gall-inner');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
 
-    portfolioItems.forEach(item => {
+    document.querySelectorAll('.portfolio-item').forEach(item => {
         item.addEventListener('click', () => {
-            // Clone content into modal
             modalContentInner.innerHTML = item.innerHTML;
-            
             const video = modalContentInner.querySelector('video');
             if (video) {
-                // Ensure video in modal has controls and plays
-                if (video.dataset.src) video.src = video.dataset.src; 
-                video.setAttribute('controls', 'true'); 
+                if (video.dataset.src) video.src = video.dataset.src;
+                video.setAttribute('controls', 'true');
                 video.play().catch(()=>{});
             }
             modal.classList.add('active');
@@ -3846,15 +3780,13 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.remove('active');
         const modalVideo = modalContentInner.querySelector('video');
         if (modalVideo) modalVideo.pause();
-        
-        setTimeout(() => {
-            modalContentInner.innerHTML = '';
-        }, 300);
+        setTimeout(() => { modalContentInner.innerHTML = ''; }, 300);
     }
 
     modal.addEventListener('click', closeModal);
     modalContentInner.addEventListener('click', closeModal);
 });
+
 </script>
 
 <script>
