@@ -65,9 +65,16 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        @media screen and (min-width: 1450px) {
+        /* UPDATED MEDIA QUERY: 1025px */
+        @media screen and (min-width: 1025px) {
             input#view-toggle:checked ~ .content-wrapper {
-                flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding-top: 40px;
+                /* Changed to Grid to enforce exactly 2 columns */
+                display: grid;
+                grid-template-columns: repeat(2, max-content);
+                justify-content: center;
+                align-items: start;
+                gap: 40px; 
+                padding-top: 40px;
             }
             input#view-toggle:checked ~ .content-wrapper .page { margin: 0; }
         }
@@ -138,7 +145,8 @@
         .theme-toggle-wrapper { top: 20px; }
         .view-toggle-wrapper { top: 60px; display: none; }
 
-        @media screen and (min-width: 1450px) { .view-toggle-wrapper { display: flex; } }
+        /* UPDATED MEDIA QUERY FOR TOGGLE VISIBILITY: 1025px */
+        @media screen and (min-width: 1025px) { .view-toggle-wrapper { display: flex; } }
 
         input#theme-toggle:checked ~ .theme-toggle-wrapper .toggle-btn,
         input#theme-toggle:checked ~ .view-toggle-wrapper .toggle-btn {
