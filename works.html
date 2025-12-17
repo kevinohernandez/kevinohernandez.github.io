@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Hernandez Portfolio Final</title>
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --meta-color: #dcdcdc;
+            --border-color: #333333;
+            --outer-bg: #ffffff; 
+            --page-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            --img-filter: grayscale(0%) contrast(1.1);
+        }
+
+        /* LIGHT MODE OVERRIDES */
+        input#theme-toggle:checked ~ .content-wrapper {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --meta-color: #666666;
+            --border-color: #e0e0e0;
+            --outer-bg: #333333;
+            --page-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --img-filter: grayscale(0%) contrast(1);
+        }
+
+        /* --- RESET --- */
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            background-color: var(--outer-bg); 
+        }
+
+        /* --- PRINT CONFIGURATION (FINAL FIXES) --- */
+        @media print {
+            @page {
+                margin: 0;
+                size: A4;
+            }
+            
+            /* FIX 1: FORCE DARK BACKGROUND ON HTML/BODY TO COVER GAPS */
+            html, body {
+                background-color: var(--bg-color) !important;
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: visible;
+            }
+
+            #theme-toggle, .toggle-label {
+                display: none !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+            }
+
+            .content-wrapper {
+                background-color: var(--bg-color);
+                width: 100%;
+                padding-bottom: 0 !important;
+                margin: 0 !important;
+            }
+
+            .page {
+                height: 100vh !important; 
+                width: 100% !important;
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                page-break-after: always;
+                page-break-inside: avoid;
+                overflow: hidden;
+            }
+
+            .page:last-of-type {
+                page-break-after: auto !important;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        /* --- SCREEN CONFIGURATION --- */
+        .content-wrapper {
+            background-color: var(--outer-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 40px;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 20mm;
+            margin: 40px auto;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--page-shadow);
+        }
+
+        /* --- TYPOGRAPHY & COMPONENTS --- */
+        h1, h2, h3 { font-weight: 400; margin: 0; text-transform: uppercase; color: var(--text-color); }
+        p { color: var(--text-color); line-height: 1.4; margin: 0; }
+        
+        .meta {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--meta-color); 
+            display: block;
+            margin-bottom: 2.55px;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-stack {
+            display: block; margin-top: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9px; color: var(--tech-color); 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
+        .header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-bottom: 1px solid var(--border-color); 
+            padding-bottom: 15px; margin-bottom: 30px; height: 45px; flex-shrink: 0;
+        }
+
+        .footer {
+            margin-top: auto; display: flex; justify-content: space-between;
+            align-items: center; border-top: 1px solid var(--border-color); 
+            padding-top: 15px; color: var(--meta-color);
+            font-size: 9px; text-transform: uppercase; flex-shrink: 0;
+        }
+
+        /* FIX 2: UPPERCASE EMAIL LINKS */
+        .email-link {
+            color: var(--meta-color);
+            text-decoration: none;
+            transition: color 0.2s;
+            text-transform: uppercase;
+        }
+
+        .img-box { position: relative; width: 100%; overflow: hidden; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: var(--img-filter); display: block; }
+
+        /* --- COVER PAGE --- */
+        .page-cover { padding: 0; }
+        .cover-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .cover-bg-dark { opacity: 1; z-index: 1; }
+        .cover-bg-light { opacity: 0; z-index: 2; }
+        
+        input#theme-toggle:checked ~ .content-wrapper .cover-bg-dark { opacity: 0; }
+        input#theme-toggle:checked ~ .content-wrapper .cover-bg-light { opacity: 1; }
+
+        .cover-content-layer {
+            position: relative; z-index: 10;
+            width: 100%; height: 100%; padding: 20mm;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .cover-title-group h1 { font-size: 80px; line-height: 0.9; letter-spacing: -2px; font-weight: 700; }
+        .title-line { width: 100%; height: 3px; background-color: var(--text-color); margin: 15px 0 20px 0; }
+        .cover-subtitle { font-size: 16px; margin-top: 20px; font-weight: 400; opacity: 0.9; }
+        
+        .cover-bottom-row {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        .cover-profile-text { max-width: 45%; font-size: 11px; line-height: 1.4; }
+
+        /* --- LAYOUTS --- */
+        .project-info-strip {
+            display: flex; justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px; margin-top: 10px;
+            text-align: left; width: 100%;
+            align-items: flex-start;
+        }
+        .strip-left { display: flex; flex-direction: column; align-items: flex-start; }
+        .strip-right { text-align: right; max-width: 50%; }
+
+        .layout-a-grid { display: grid; grid-template-rows: auto 1fr; gap: 40px; height: 100%; }
+        .featured-img { height: auto; margin-bottom: 15px; }
+        .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; text-align: -webkit-center; }
+        .sub-project-img { width: 75%; height: auto; }
+        .spi{width:70%!important}
+
+        .layout-b-container { display: flex; flex-direction: column; gap: 20px; height: 100%; flex-grow: 1; }
+        .layout-b-header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .grid-gallery-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 20px; flex-grow: 1; }
+        .gallery-item-wrapper { display: flex; flex-direction: column; justify-content: flex-start; }
+        .gallery-item-wrapper .img-box { width: 90%; aspect-ratio: 1/1; align-self: center; margin-bottom: 5px; }
+
+        .layout-stacked-full { display: flex; flex-direction: column; flex-grow: 1; gap: 20px; min-height: 0; margin-bottom: 20px; }
+        .stacked-project { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+        .stacked-project .img-box { flex-grow: 1; margin-bottom: 10px; width: 100%; height: auto; }
+
+        /* --- THEME TOGGLE --- */
+        #theme-toggle { display: none; }
+        .toggle-label { position: fixed; top: 20px; right: 20px; width: 50px; height: 26px; background-color: #333; border-radius: 13px; cursor: pointer; z-index: 9999; display: flex; align-items: center; padding: 3px; }
+        .toggle-circle { width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s; }
+        input#theme-toggle:checked + .toggle-label { background-color: #ccc; }
+        input#theme-toggle:checked + .toggle-label .toggle-circle { transform: translateX(24px); }
+    </style>
+</head>
+<body>
+
+    <input type="checkbox" id="theme-toggle">
+    <label for="theme-toggle" class="toggle-label"><div class="toggle-circle"></div></label>
+
+    <div class="content-wrapper">
+
+        <div class="page page-cover">
+            <img class="cover-bg cover-bg-dark" src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/cover5.1.webp?v=1765701148">
+            <img class="cover-bg cover-bg-light" src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/cover5-21.webp?v=1765701148">
+            <div class="cover-content-layer">
+                <div class="cover-top-row">
+                    <div class="cover-title-group">
+                        <h1>Kevin</h1><div class="title-line"></div><h1>Hernandez</h1>
+                    </div>
+                </div>
+                <div class="cover-bottom-row">
+                    <div class="cover-profile-text">
+                        <div class="meta" style="margin-bottom: 8px;">PROFILE</div>
+                        Digital Designer specializing in motion, interactivity, and neo aesthetics. Creating experiences that bridge the gap between technical execution and visual art.
+                    </div>
+                    <div style="text-align: right; display: flex; flex-direction: column; justify-content: flex-end;">
+                        <div style="font-weight: 700; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); letter-spacing: 0.5px;">SELECTED WORKS</div>
+                        <a href="https://kevinohernandez.com" target="_blank" class="email-link" style="text-decoration:none;">kevinohernandez.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page">
+            <div class="header"><div class="meta">02 — Selected Works I</div><div class="meta">Identity</div></div>
+            <div class="layout-b-container">
+                <div class="layout-b-header">
+                    <div style="max-width: 75%;">
+                        <h2 style="font-size: 24px; margin-bottom: 10px;">Branding & Visual Design</h2>
+                        <p>Identity systems, logotypes, and brand guidelines across digital and physical touchpoints.</p>
+                    </div>
+                    <div class="meta">2024 - Present</div>
+                </div>
+                <div class="grid-gallery-2x2">
+                    <div class="gallery-item-wrapper">
+                        <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/pr10.webp?v=1765671196"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">Sun-Soaked Botanicals</h3><span class="tech-stack">Substance 3D / Unreal</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">A vibrant visual identity system inspired by organic forms.</p></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/3d5.webp?v=1765675211"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">Aurora Skincare</h3><span class="tech-stack">Illustrator / C4D</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;"> 3D product visualization defining the brand's aesthetic.</p></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-6.webp?v=1765676376"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">The Lunar Sip</h3><span class="tech-stack">InDesign / TouchDesigner</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Atmospheric editorial layout and packaging concept.</p></div>
+                        </div>
+                    </div>
+                    <div class="gallery-item-wrapper">
+                        <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-2.2.webp?v=1765945585"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">Mark Systems</h3><span class="tech-stack"> Photoshop / Illustrator</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Dynamic logotype exploration capturing movement and fluidity.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><div>Branding</div><a href="https://kevinohernandez.com" class="email-link">kevinohernandez.com</a><div>02 / 06</div></div>
+        </div>
+
+        <div class="page">
+            <div class="header"><div class="meta">03 — Selected Works II</div><div class="meta">Commercial</div></div>
+            <div class="layout-a-grid">
+                <div class="featured-project">
+                    <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-4_copy2.webp?v=1765703557"></div>
+                    <div class="project-info-strip">
+                        <div class="strip-left"><h3 style="font-size: 14px;">AEROFLOW</h3><span class="meta">Stage Design</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A large-scale stage system exploring light, structure, and spatial impact.</p><span class="tech-stack">C4D / Octane</span></div>
+                    </div>
+                </div>
+                <div class="sub-grid">
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd1.webp?v=1765675080"></div>
+                        <div class="project-info-strip"><div class="strip-left"><h3>Luminara Digital</h3><span class="meta">Design & Visual Identity</span></div><div class="strip-right"><span class="tech-stack">Unreal / Blender</span></div></div>
+                    </div>
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img spi"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/ws-10.webp?v=1765941585"></div>
+                        <div class="project-info-strip"><div class="strip-left"><h3>Iridesce</h3><span class="meta">Motion Branding</span></div><div class="strip-right"><span class="tech-stack">TouchDesigner / Blender</span></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><div>Recent Work</div><a href="https://kevinohernandez.com" class="email-link">kevinohernandez.com</a><div>03 / 06</div></div>
+        </div>
+
+        <div class="page">
+            <div class="header"><div class="meta">04 — Selected Works III</div><div class="meta">Illustration </div></div>
+            <div class="layout-a-grid">
+                <div class="featured-project">
+                    <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-7.2.webp?v=1765944673"></div>
+                    <div class="project-info-strip">
+                        <div class="strip-left"><h3 style="font-size: 14px;">Studio Zenith</h3><span class="meta">Playful Retail</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A playful brand experience blending illustration, color, and digital storytelling.</p><span class="tech-stack">Illustrator / InDesign / Nano Banana</span></div>
+                    </div>
+                </div>
+                <div class="sub-grid">
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd9.webp?v=1765678783"></div>
+                        <div class="project-info-strip"><div class="strip-left"><h3>Mono Portfolio</h3><span class="meta">Grid Studies</span></div><div class="strip-right"><span class="tech-stack">Blender / Ps</span></div></div>
+                    </div>
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd8.webp?v=1765678783"></div>
+                        <div class="project-info-strip"><div class="strip-left"><h3>Campaign 24</h3><span class="meta">Graphic Signals</span></div><div class="strip-right"><span class="tech-stack">Houdini / Blender</span></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><div>3D & Layouts</div><a href="https://kevinohernandez.com" class="email-link">kevinohernandez.com</a><div>04 / 06</div></div>
+        </div>
+
+        <div class="page">
+            <div class="header"><div class="meta">05 — Selected Works IV</div><div class="meta">Systems & Dashboards</div></div>
+            <div class="layout-stacked-full">
+                <div class="stacked-project">
+                    <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-10.webp?v=1765950615"></div>
+                    <div class="project-info-strip">
+                        <div class="strip-left"><h3 style="font-size: 14px;">Astra Lumina (Active)</h3><span class="meta">Interactive Design</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">An immersive interactive installation featuring a custom-built UI that blends light, atmosphere, and circular form to transform the space through movement and shared exploration.</p><span class="tech-stack">TouchDesigner / OpenCV </span></div>
+                    </div>
+                </div>
+                <div class="stacked-project">
+                    <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-8.webp?v=1765691041"></div>
+                    <div class="project-info-strip">
+                        <div class="strip-left"><h3 style="font-size: 14px;">Finance OS</h3><span class="meta">OS Design Language</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A system-level interface exploring data visualization, analytics, and financial tooling.</p><span class="tech-stack">Figma / React / C++</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><div>Digital Product</div><a href="https://kevinohernandez.com" class="email-link">kevinohernandez.com</a><div>05 / 06</div></div>
+        </div>
+
+        <div class="page">
+            <div class="header"><div class="meta">06 — Selected Works V</div><div class="meta">Web UX & Interaction</div></div>
+            <div class="layout-a-grid">
+                <div class="featured-project">
+                    <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-11.webp?v=1765952204"></div>
+                    <div class="project-info-strip">
+                        <div class="strip-left"><h3 style="font-size: 14px;">Hedra Bionics (Active)</h3><span class="meta">E-commerce </span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A WebGL-powered Brutalistic-esque brand with an experience focusing on neo-designs on a headless Shopify front.</p><span class="tech-stack">Shopify / Three.js / GSAP</span></div>
+                    </div>
+                </div>
+                <div class="sub-grid">
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/ws-9.webp?v=1765693557"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">Travel Dash</h3><span class="meta">Mobile App</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">High-fidelity prototype for a travel service analytics platform.</p><span class="tech-stack">Figma / React Native</span></div>
+                        </div>
+                    </div>
+                    <div class="sub-project">
+                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-8webp.webp?v=1765692273"></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3 style="font-size: 11px;">Interface Kit</h3><span class="meta">UI/UX System</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">A modular design system for enterprise application interfaces.</p><span class="tech-stack">Figma / React</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer"><div>Fin.</div><a href="https://kevinohernandez.com" class="email-link">kevinohernandez.com</a><div>06 / 06</div></div>
+        </div>
+
+    </div> 
+</body>
+</html>
