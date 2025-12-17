@@ -12,13 +12,15 @@
             --text-color: #ffffff;
             --meta-color: #dcdcdc;
             --border-color: #333333;
-            --outer-bg: #ffffff; 
+            --outer-bg: #ffffff;
             --page-shadow: 0 10px 40px rgba(0,0,0,0.4);
             --img-filter: grayscale(0%) contrast(1.1);
+            --lightbox-bg: rgba(0, 0, 0, 0.95);
         }
 
         /* LIGHT MODE OVERRIDES */
-        input#theme-toggle:checked ~ .content-wrapper {
+        input#theme-toggle:checked ~ .content-wrapper,
+        input#theme-toggle:checked ~ #lightbox-overlay {
             --bg-color: #ffffff;
             --text-color: #111111;
             --meta-color: #666666;
@@ -26,203 +28,231 @@
             --outer-bg: #333333;
             --page-shadow: 0 10px 30px rgba(0,0,0,0.1);
             --img-filter: grayscale(0%) contrast(1);
+            --lightbox-bg: rgba(255, 255, 255, 0.95);
         }
 
         /* --- RESET --- */
-        * {
-            box-sizing: border-box;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
+        * { box-sizing: border-box; }
         body, html {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-size: 11px;
             background-color: var(--outer-bg); 
+            transition: background-color 0.5s ease;
+            scrollbar-width: none; -ms-overflow-style: none;
         }
+        ::-webkit-scrollbar { display: none; }
 
-        /* --- PRINT CONFIGURATION (FINAL FIXES) --- */
-        @media print {
-            @page {
-                margin: 0;
-                size: A4;
-            }
-            
-            /* FIX 1: FORCE DARK BACKGROUND ON HTML/BODY TO COVER GAPS */
-            html, body {
-                background-color: var(--bg-color) !important;
-                width: 100%;
-                height: 100%;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: visible;
-            }
-
-            #theme-toggle, .toggle-label {
-                display: none !important;
-                opacity: 0 !important;
-                visibility: hidden !important;
-            }
-
-            .content-wrapper {
-                background-color: var(--bg-color);
-                width: 100%;
-                padding-bottom: 0 !important;
-                margin: 0 !important;
-            }
-
-            .page {
-                height: 100vh !important; 
-                width: 100% !important;
-                margin: 0 !important;
-                border: none !important;
-                box-shadow: none !important;
-                page-break-after: always;
-                page-break-inside: avoid;
-                overflow: hidden;
-            }
-
-            .page:last-of-type {
-                page-break-after: auto !important;
-                margin-bottom: 0 !important;
-            }
+        /* --- VIEW TRANSITIONS --- */
+        ::view-transition-group(*) {
+            animation-duration: 0.6s;
+            animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
         }
+        
+        /* Layout Transitions */
+        .page:nth-of-type(1) { view-transition-name: page-1; }
+        .page:nth-of-type(2) { view-transition-name: page-2; }
+        .page:nth-of-type(3) { view-transition-name: page-3; }
+        .page:nth-of-type(4) { view-transition-name: page-4; }
+        .page:nth-of-type(5) { view-transition-name: page-5; }
+        .page:nth-of-type(6) { view-transition-name: page-6; }
 
-        /* --- SCREEN CONFIGURATION --- */
+        /* --- LAYOUT STRUCTURE --- */
         .content-wrapper {
-            background-color: var(--outer-bg);
-            color: var(--text-color);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 40px;
+            background-color: var(--outer-bg); color: var(--text-color);
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            padding-bottom: 40px; contain: paint;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        @media screen and (min-width: 1450px) {
+            input#view-toggle:checked ~ .content-wrapper {
+                flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding-top: 40px;
+            }
+            input#view-toggle:checked ~ .content-wrapper .page { margin: 0; }
         }
 
         .page {
-            width: 210mm;
-            height: 297mm;
-            padding: 20mm;
-            margin: 40px auto;
-            background-color: var(--bg-color);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--page-shadow);
+            width: 210mm; height: 297mm; padding: 20mm; margin: 40px auto;
+            background-color: var(--bg-color); position: relative; overflow: hidden;
+            display: flex; flex-direction: column; box-shadow: var(--page-shadow);
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        /* --- TYPOGRAPHY & COMPONENTS --- */
+        /* --- TEXT & IMAGES --- */
+        h1, h2, h3, p, .meta, .tech-stack { transition: color 0.5s ease; }
         h1, h2, h3 { font-weight: 400; margin: 0; text-transform: uppercase; color: var(--text-color); }
-        p { color: var(--text-color); line-height: 1.4; margin: 0; }
+        .meta { font-family: 'Courier New', Courier, monospace; color: var(--meta-color); margin-bottom: 2.55px; font-size: 10px; letter-spacing: 0.5px; }
+        .tech-stack { display: block; margin-top: 4px; font-family: 'Courier New', Courier, monospace; font-size: 9px; color: var(--tech-color); text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .meta {
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--meta-color); 
-            display: block;
-            margin-bottom: 2.55px;
-            font-size: 10px;
-            letter-spacing: 0.5px;
+        .header { display: flex; justify-content: space-between; padding-bottom: 15px; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); }
+        .footer { margin-top: auto; display: flex; justify-content: space-between; padding-top: 15px; border-top: 1px solid var(--border-color); color: var(--meta-color); font-size: 9px; text-transform: uppercase; }
+        .email-link { color: var(--meta-color); text-decoration: none; text-transform: uppercase; }
+
+        .img-box { position: relative; width: 100%; overflow: hidden; cursor: zoom-in; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: var(--img-filter); display: block; transition: filter 0.5s ease; }
+
+        /* --- LIGHTBOX OVERLAY --- */
+        #lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--lightbox-bg);
+            z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; 
+            transition: opacity 0.3s ease;
+            cursor: zoom-out;
         }
 
-        .tech-stack {
-            display: block; margin-top: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 9px; color: var(--tech-color); 
-            text-transform: uppercase; letter-spacing: 0.5px;
+        #lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+
+        #lightbox-img {
+            max-width: 90vw; max-height: 90vh;
+            object-fit: contain;
+            view-transition-name: lightbox-img; 
         }
 
-        .header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            border-bottom: 1px solid var(--border-color); 
-            padding-bottom: 15px; margin-bottom: 30px; height: 45px; flex-shrink: 0;
+        /* --- TOGGLES & LABELS --- */
+        input[type="checkbox"] { display: none; }
+
+        .toggle-container {
+            position: fixed; right: 20px; z-index: 9999;
+            display: flex; align-items: center;
+        }
+        
+        .toggle-btn {
+            width: 56px; height: 30px; 
+            background-color: #222; border-radius: 15px; cursor: pointer; 
+            display: flex; align-items: center; padding: 3px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 1px solid #444;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .toggle-label-text {
+            margin-right: 12px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+            color: #888; text-transform: uppercase; pointer-events: none;
+            transition: color 0.3s;
         }
 
-        .footer {
-            margin-top: auto; display: flex; justify-content: space-between;
-            align-items: center; border-top: 1px solid var(--border-color); 
-            padding-top: 15px; color: var(--meta-color);
-            font-size: 9px; text-transform: uppercase; flex-shrink: 0;
+        .theme-toggle-wrapper { top: 20px; }
+        .view-toggle-wrapper { top: 60px; display: none; }
+
+        @media screen and (min-width: 1450px) { .view-toggle-wrapper { display: flex; } }
+
+        input#theme-toggle:checked ~ .theme-toggle-wrapper .toggle-btn,
+        input#theme-toggle:checked ~ .view-toggle-wrapper .toggle-btn {
+            background-color: #e0e0e0; border-color: #d0d0d0;
+        }
+        
+        input#theme-toggle:checked ~ .theme-toggle-wrapper .toggle-label-text,
+        input#theme-toggle:checked ~ .view-toggle-wrapper .toggle-label-text {
+            color: #666;
         }
 
-        /* FIX 2: UPPERCASE EMAIL LINKS */
-        .email-link {
-            color: var(--meta-color);
-            text-decoration: none;
-            transition: color 0.2s;
-            text-transform: uppercase;
+        .toggle-circle { 
+            width: 24px; height: 24px; 
+            background-color: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+        
+        .toggle-icon { width: 14px; height: 14px; fill: #111; display: none; }
 
-        .img-box { position: relative; width: 100%; overflow: hidden; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: var(--img-filter); display: block; }
+        input#theme-toggle:not(:checked) + .theme-toggle-wrapper .icon-moon { display: block; }
+        input#theme-toggle:checked + .theme-toggle-wrapper .toggle-circle { transform: translateX(26px); }
+        input#theme-toggle:checked + .theme-toggle-wrapper .icon-sun { display: block; }
+
+        input#view-toggle:not(:checked) ~ .view-toggle-wrapper .icon-one { display: block; }
+        input#view-toggle:checked ~ .view-toggle-wrapper .toggle-circle { transform: translateX(26px); }
+        input#view-toggle:checked ~ .view-toggle-wrapper .icon-two { display: block; }
+
+        /* --- PRINT CONFIG --- */
+        @media print {
+            @page { margin: 0; size: A4; }
+            html, body { background-color: var(--bg-color) !important; width: 100%; height: 100%; margin: 0 !important; padding: 0 !important; overflow: visible; }
+            .toggle-container, #lightbox-overlay { display: none !important; }
+            .content-wrapper { display: block !important; background-color: var(--bg-color); width: 100%; padding-bottom: 0 !important; margin: 0 !important; }
+            .page { height: 100vh !important; width: 100% !important; margin: 0 !important; border: none !important; box-shadow: none !important; page-break-after: always; }
+            .page:last-of-type { page-break-after: auto !important; margin-bottom: 0 !important; }
+        }
 
         /* --- COVER PAGE --- */
         .page-cover { padding: 0; }
-        .cover-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        .cover-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.8s ease; }
         .cover-bg-dark { opacity: 1; z-index: 1; }
         .cover-bg-light { opacity: 0; z-index: 2; }
-        
         input#theme-toggle:checked ~ .content-wrapper .cover-bg-dark { opacity: 0; }
         input#theme-toggle:checked ~ .content-wrapper .cover-bg-light { opacity: 1; }
-
-        .cover-content-layer {
-            position: relative; z-index: 10;
-            width: 100%; height: 100%; padding: 20mm;
-            display: flex; flex-direction: column; justify-content: space-between;
-        }
-
+        .cover-content-layer { position: relative; z-index: 10; width: 100%; height: 100%; padding: 20mm; display: flex; flex-direction: column; justify-content: space-between; }
         .cover-title-group h1 { font-size: 80px; line-height: 0.9; letter-spacing: -2px; font-weight: 700; }
-        .title-line { width: 100%; height: 3px; background-color: var(--text-color); margin: 15px 0 20px 0; }
-        .cover-subtitle { font-size: 16px; margin-top: 20px; font-weight: 400; opacity: 0.9; }
-        
-        .cover-bottom-row {
-            display: flex; justify-content: space-between; align-items: flex-end;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
+        .title-line { width: 100%; height: 3px; background-color: var(--text-color); margin: 15px 0 20px 0; transition: background-color 0.5s ease; }
+        .cover-subtitle { display: none; font-size: 14px; font-weight: 500; opacity: 0.9; margin-top: 15px; color: var(--text-color); }
+        .cover-bottom-row { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid var(--border-color); padding-top: 20px; }
         .cover-profile-text { max-width: 45%; font-size: 11px; line-height: 1.4; }
 
-        /* --- LAYOUTS --- */
-        .project-info-strip {
-            display: flex; justify-content: space-between;
-            border-top: 1px solid var(--border-color);
-            padding-top: 10px; margin-top: 10px;
-            text-align: left; width: 100%;
-            align-items: flex-start;
-        }
+        /* --- LAYOUT UTILS --- */
+        .project-info-strip { display: flex; justify-content: space-between; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 10px; text-align: left; width: 100%; }
         .strip-left { display: flex; flex-direction: column; align-items: flex-start; }
-        .strip-right { text-align: right; max-width: 50%; }
+        
+        .strip-right { text-align: right; max-width: 44%; margin: 0; }
+        .strip-right p { margin: 0; }
 
         .layout-a-grid { display: grid; grid-template-rows: auto 1fr; gap: 40px; height: 100%; }
         .featured-img { height: auto; margin-bottom: 15px; }
         .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: flex-start; text-align: -webkit-center; }
         .sub-project-img { width: 75%; height: auto; }
         .spi{width:70%!important}
-
         .layout-b-container { display: flex; flex-direction: column; gap: 20px; height: 100%; flex-grow: 1; }
-        .layout-b-header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        
+        /* Updated Layout B Header for Date Alignment */
+        .layout-b-header { display: flex; flex-direction: column; padding-bottom: 10px; border-bottom: 1px solid var(--border-color); }
+        .layout-b-header-bottom { display: flex; justify-content: space-between; align-items: baseline; width: 100%; }
+
         .grid-gallery-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 20px; flex-grow: 1; }
         .gallery-item-wrapper { display: flex; flex-direction: column; justify-content: flex-start; }
         .gallery-item-wrapper .img-box { width: 90%; aspect-ratio: 1/1; align-self: center; margin-bottom: 5px; }
-
         .layout-stacked-full { display: flex; flex-direction: column; flex-grow: 1; gap: 20px; min-height: 0; margin-bottom: 20px; }
         .stacked-project { flex: 1; display: flex; flex-direction: column; min-height: 0; }
         .stacked-project .img-box { flex-grow: 1; margin-bottom: 10px; width: 100%; height: auto; }
 
-        /* --- THEME TOGGLE --- */
-        #theme-toggle { display: none; }
-        .toggle-label { position: fixed; top: 20px; right: 20px; width: 50px; height: 26px; background-color: #333; border-radius: 13px; cursor: pointer; z-index: 9999; display: flex; align-items: center; padding: 3px; }
-        .toggle-circle { width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s; }
-        input#theme-toggle:checked + .toggle-label { background-color: #ccc; }
-        input#theme-toggle:checked + .toggle-label .toggle-circle { transform: translateX(24px); }
+        .trvl{width:70%}
+        .lstpic{width:100%}
+
     </style>
 </head>
 <body>
 
+    <div id="lightbox-overlay">
+        <img id="lightbox-img" src="" alt="Expanded View">
+    </div>
+
     <input type="checkbox" id="theme-toggle">
-    <label for="theme-toggle" class="toggle-label"><div class="toggle-circle"></div></label>
+    <label for="theme-toggle" class="toggle-container theme-toggle-wrapper" title="Switch Theme">
+        <span class="toggle-label-text">Theme</span>
+        <div class="toggle-btn">
+            <div class="toggle-circle">
+                <svg class="toggle-icon icon-moon" viewBox="0 0 24 24"><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path></svg>
+                <svg class="toggle-icon icon-sun" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"></path></svg>
+            </div>
+        </div>
+    </label>
+
+    <input type="checkbox" id="view-toggle">
+    <label for="view-toggle" class="toggle-container view-toggle-wrapper" title="Toggle Grid View">
+        <span class="toggle-label-text">Layout</span>
+        <div class="toggle-btn">
+            <div class="toggle-circle">
+                <svg class="toggle-icon icon-one" viewBox="0 0 24 24">
+                    <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14">1</text>
+                </svg>
+                <svg class="toggle-icon icon-two" viewBox="0 0 24 24">
+                     <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14">2</text>
+                </svg>
+            </div>
+        </div>
+    </label>
 
     <div class="content-wrapper">
 
@@ -232,17 +262,20 @@
             <div class="cover-content-layer">
                 <div class="cover-top-row">
                     <div class="cover-title-group">
-                        <h1>Kevin</h1><div class="title-line"></div><h1>Hernandez</h1>
+                        <h1>Kevin</h1>
+                        <div class="title-line"></div>
+                        <h1>Hernandez</h1>
+                        <div class="cover-subtitle">Creative Technologist<br>& Designer</div>
                     </div>
                 </div>
                 <div class="cover-bottom-row">
                     <div class="cover-profile-text">
                         <div class="meta" style="margin-bottom: 8px;">PROFILE</div>
-                        Digital Designer specializing in motion, interactivity, and neo aesthetics. Creating experiences that bridge the gap between technical execution and visual art.
+                        Digital Designer specializing in motion, interactivity, and UX. Creating experiences that bridge the gap between technical execution and visual art.
                     </div>
                     <div style="text-align: right; display: flex; flex-direction: column; justify-content: flex-end;">
                         <div style="font-weight: 700; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); letter-spacing: 0.5px;">SELECTED WORKS</div>
-                        <a href="https://kevinohernandez.com" target="_blank" class="email-link" style="text-decoration:none;">kevinohernandez.com</a>
+                        <a href="https://kevinohernandez.com" target="_blank" class="email-link">kevinohernandez.com</a>
                     </div>
                 </div>
             </div>
@@ -252,11 +285,11 @@
             <div class="header"><div class="meta">02 — Selected Works I</div><div class="meta">Identity</div></div>
             <div class="layout-b-container">
                 <div class="layout-b-header">
-                    <div style="max-width: 75%;">
-                        <h2 style="font-size: 24px; margin-bottom: 10px;">Branding & Visual Design</h2>
-                        <p>Identity systems, logotypes, and brand guidelines across digital and physical touchpoints.</p>
+                    <h2 style="font-size: 24px; margin-bottom: 10px;">Visual Design & Branding</h2>
+                    <div class="layout-b-header-bottom">
+                        <p style="margin: 0;">Identity systems, logotypes, and brand guidelines across digital and physical touchpoints.</p>
+                        <div class="meta" style="margin: 0;">2024 - Present</div>
                     </div>
-                    <div class="meta">2024 - Present</div>
                 </div>
                 <div class="grid-gallery-2x2">
                     <div class="gallery-item-wrapper">
@@ -296,20 +329,32 @@
             <div class="header"><div class="meta">03 — Selected Works II</div><div class="meta">Commercial</div></div>
             <div class="layout-a-grid">
                 <div class="featured-project">
-                    <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-4_copy2.webp?v=1765703557"></div>
+                    <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-4-fin.webp?v=1766010251"></div>
                     <div class="project-info-strip">
                         <div class="strip-left"><h3 style="font-size: 14px;">AEROFLOW</h3><span class="meta">Stage Design</span></div>
-                        <div class="strip-right"><p style="font-size: 10px;">A large-scale stage system exploring light, structure, and spatial impact.</p><span class="tech-stack">C4D / Octane</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A large-scale digital stage poster system exploring light, interactvity, and spatial impact.</p><span class="tech-stack">C4D + Octane / InDesign</span></div>
                     </div>
                 </div>
                 <div class="sub-grid">
                     <div class="sub-project">
                         <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd1.webp?v=1765675080"></div>
-                        <div class="project-info-strip"><div class="strip-left"><h3>Luminara Digital</h3><span class="meta">Design & Visual Identity</span></div><div class="strip-right"><span class="tech-stack">Unreal / Blender</span></div></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3>Luminara Editions</h3><span class="meta">Design & Visual Identity</span></div>
+                            <div class="strip-right">
+                                <p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Exploratory branding for a digital arts collective.</p>
+                                <span class="tech-stack">Unreal / Blender</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="sub-project">
                         <div class="img-box sub-project-img spi"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/ws-10.webp?v=1765941585"></div>
-                        <div class="project-info-strip"><div class="strip-left"><h3>Iridesce</h3><span class="meta">Motion Branding</span></div><div class="strip-right"><span class="tech-stack">TouchDesigner / Blender</span></div></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3>Iridesce</h3><span class="meta">Motion Branding</span></div>
+                            <div class="strip-right">
+                                <p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Motion studies focused on light refraction and texture for John Summit's visual team.</p>
+                                <span class="tech-stack">TouchDesigner / Blender</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -323,17 +368,29 @@
                     <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-7.2.webp?v=1765944673"></div>
                     <div class="project-info-strip">
                         <div class="strip-left"><h3 style="font-size: 14px;">Studio Zenith</h3><span class="meta">Playful Retail</span></div>
-                        <div class="strip-right"><p style="font-size: 10px;">A playful brand experience blending illustration, color, and digital storytelling.</p><span class="tech-stack">Illustrator / InDesign / Nano Banana</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A playful brand experience blending illustration, color, and digital storytelling with AICG.</p><span class="tech-stack">Illustrator / InDesign / Nano Banana</span></div>
                     </div>
                 </div>
                 <div class="sub-grid">
                     <div class="sub-project">
                         <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd9.webp?v=1765678783"></div>
-                        <div class="project-info-strip"><div class="strip-left"><h3>Mono Portfolio</h3><span class="meta">Grid Studies</span></div><div class="strip-right"><span class="tech-stack">Blender / Ps</span></div></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3>Mono Portfolio</h3><span class="meta">Grid Studies</span></div>
+                            <div class="strip-right">
+                                <p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Architectural grid layouts for editorial use.</p>
+                                <span class="tech-stack">Blender / Photoshop</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="sub-project">
                         <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/gd8.webp?v=1765678783"></div>
-                        <div class="project-info-strip"><div class="strip-left"><h3>Campaign 24</h3><span class="meta">Graphic Signals</span></div><div class="strip-right"><span class="tech-stack">Houdini / Blender</span></div></div>
+                        <div class="project-info-strip">
+                            <div class="strip-left"><h3>Campaign 24</h3><span class="meta">Graphic Signals</span></div>
+                            <div class="strip-right">
+                                <p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">Abstract 3D assets for Campaign Asia's digital marketing.</p>
+                                <span class="tech-stack">Houdini / Blender</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -347,7 +404,7 @@
                     <div class="img-box"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-10.webp?v=1765950615"></div>
                     <div class="project-info-strip">
                         <div class="strip-left"><h3 style="font-size: 14px;">Astra Lumina (Active)</h3><span class="meta">Interactive Design</span></div>
-                        <div class="strip-right"><p style="font-size: 10px;">An immersive interactive installation featuring a custom-built UI that blends light, atmosphere, and circular form to transform the space through movement and shared exploration.</p><span class="tech-stack">TouchDesigner / OpenCV </span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">An immersive interactive installation featuring a custom-built UI that blends light, atmosphere, and circular form.</p><span class="tech-stack">TouchDesigner / OpenCV </span></div>
                     </div>
                 </div>
                 <div class="stacked-project">
@@ -368,22 +425,22 @@
                     <div class="img-box featured-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-11.webp?v=1765952204"></div>
                     <div class="project-info-strip">
                         <div class="strip-left"><h3 style="font-size: 14px;">Hedra Bionics (Active)</h3><span class="meta">E-commerce </span></div>
-                        <div class="strip-right"><p style="font-size: 10px;">A WebGL-powered Brutalistic-esque brand with an experience focusing on neo-designs on a headless Shopify front.</p><span class="tech-stack">Shopify / Three.js / GSAP</span></div>
+                        <div class="strip-right"><p style="font-size: 10px;">A WebGL-powered brutalistic-esque brand focusing on neo-designs on a headless Shopify front.</p><span class="tech-stack">Shopify / Three.js / GSAP</span></div>
                     </div>
                 </div>
                 <div class="sub-grid">
                     <div class="sub-project">
-                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/ws-9.webp?v=1765693557"></div>
+                        <div class="img-box sub-project-img trvl"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/ws-9.webp?v=1765693557"></div>
                         <div class="project-info-strip">
                             <div class="strip-left"><h3 style="font-size: 11px;">Travel Dash</h3><span class="meta">Mobile App</span></div>
-                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">High-fidelity prototype for a travel service analytics platform.</p><span class="tech-stack">Figma / React Native</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">High-fidelity prototype for travel analytics platform.</p><span class="tech-stack">Figma / React Native</span></div>
                         </div>
                     </div>
                     <div class="sub-project">
-                        <div class="img-box sub-project-img"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-8webp.webp?v=1765692273"></div>
+                        <div class="img-box sub-project-img lstpic"><img src="https://cdn.shopify.com/s/files/1/0661/2729/8726/files/wrkprt-8.1.webp?v=1766011438"></div>
                         <div class="project-info-strip">
                             <div class="strip-left"><h3 style="font-size: 11px;">Interface Kit</h3><span class="meta">UI/UX System</span></div>
-                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">A modular design system for enterprise application interfaces.</p><span class="tech-stack">Figma / React</span></div>
+                            <div class="strip-right"><p style="font-size: 9px; margin-bottom: 2px; max-width: 140px; margin-left: auto;">A modular design system for enterprise applications.</p><span class="tech-stack">Figma / React</span></div>
                         </div>
                     </div>
                 </div>
@@ -392,5 +449,51 @@
         </div>
 
     </div> 
+
+    <script>
+        /* --- LAYOUT TOGGLE LOGIC --- */
+        const viewToggle = document.getElementById('view-toggle');
+        viewToggle.addEventListener('click', (e) => {
+            if (!document.startViewTransition) return;
+            e.preventDefault();
+            document.startViewTransition(() => {
+                viewToggle.checked = !viewToggle.checked;
+            });
+        });
+
+        /* --- LIGHTBOX LOGIC WITH VIEW TRANSITIONS --- */
+        const lightboxOverlay = document.getElementById('lightbox-overlay');
+        const lightboxImg = document.getElementById('lightbox-img');
+        let activeThumb = null; 
+
+        document.querySelectorAll('.img-box img, .cover-bg').forEach(img => {
+            img.addEventListener('click', (e) => {
+                if (!document.startViewTransition) return;
+                const thumb = e.target;
+                activeThumb = thumb;
+                lightboxImg.src = thumb.src;
+                thumb.style.viewTransitionName = 'lightbox-img';
+
+                document.startViewTransition(() => {
+                    lightboxOverlay.classList.add('open');
+                    thumb.style.viewTransitionName = '';
+                });
+            });
+        });
+
+        lightboxOverlay.addEventListener('click', () => {
+            if (!document.startViewTransition || !activeThumb) {
+                lightboxOverlay.classList.remove('open');
+                return;
+            }
+            activeThumb.style.viewTransitionName = 'lightbox-img';
+            document.startViewTransition(() => {
+                lightboxOverlay.classList.remove('open');
+            }).finished.then(() => {
+                activeThumb.style.viewTransitionName = '';
+                activeThumb = null;
+            });
+        });
+    </script>
 </body>
 </html>
