@@ -65,18 +65,33 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        @media screen and (min-width: 1450px) {
+        /* --- FIXED: LAYOUT GRID LOGIC --- */
+        @media screen and (min-width: 1025px) {
             input#view-toggle:checked ~ .content-wrapper {
-                flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding-top: 40px;
+                flex-direction: row; 
+                flex-wrap: wrap; 
+                justify-content: center; 
+                align-items: flex-start; 
+                gap: 90px; 
+                padding-top: 0px;
             }
-            input#view-toggle:checked ~ .content-wrapper .page { margin: 0; }
+            
+            /* Logic to scale pages down so they fit side-by-side */
+            input#view-toggle:checked ~ .content-wrapper .page { 
+                margin: -160px;
+                width: calc(55% - 0px); /* Fill half screen minus gap */
+                max-width: 210mm;        /* Don't exceed A4 size */
+                height: auto;            /* Allow height to adjust */
+                aspect-ratio: 210/297;   /* Maintain A4 proportions */
+            }
         }
 
         .page {
-            width: 210mm; height: 297mm; padding: 20mm; margin: 40px auto;
+            width: 210mm; height: 297mm; padding: 20mm; margin: -160px auto;
             background-color: var(--bg-color); position: relative; overflow: hidden;
             display: flex; flex-direction: column; box-shadow: var(--page-shadow);
             transition: background-color 0.5s ease, box-shadow 0.5s ease;
+          transform: scale(0.7);
         }
 
         /* --- TEXT & IMAGES --- */
@@ -138,7 +153,9 @@
         .theme-toggle-wrapper { top: 20px; }
         .view-toggle-wrapper { top: 60px; display: none; }
 
-        @media screen and (min-width: 1450px) { .view-toggle-wrapper { display: flex; } }
+        /* --- FIXED: BUTTON VISIBILITY --- */
+        /* Changed from 1450px to 1025px to show button on standard laptops */
+        @media screen and (min-width: 1025px) { .view-toggle-wrapper { display: flex; } }
 
         input#theme-toggle:checked ~ .theme-toggle-wrapper .toggle-btn,
         input#theme-toggle:checked ~ .view-toggle-wrapper .toggle-btn {
@@ -248,7 +265,7 @@
                     <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14">1</text>
                 </svg>
                 <svg class="toggle-icon icon-two" viewBox="0 0 24 24">
-                     <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14">2</text>
+                      <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="14">2</text>
                 </svg>
             </div>
         </div>
