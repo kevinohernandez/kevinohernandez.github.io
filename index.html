@@ -1318,6 +1318,58 @@ aspect-ratio: 4/5;
   width: 1.5rem;
   height: 1.5rem;
 }
+
+
+/* Wrapper that holds both the scroller and the arrows */
+.gallery-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none; /* Prevent clicking when hidden */
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+/* When the wrapper is active, show it */
+.gallery-wrapper.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 10;
+}
+
+/* Ensure scroller fills the wrapper */
+.gallery-wrapper .scroller {
+    position: relative; /* Changed from absolute inset 0 */
+    height: 100%;
+    opacity: 1; /* Scroller opacity is now handled by the wrapper */
+    transform: none; /* remove the old transform animation if desired, or keep it */
+}
+
+/* === ARROW STYLES === */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20; /* Above the scroller content */
+    background: rgba(0,0,0,0.5); /* Optional: styling */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+    /* Add transition if you want arrows to have hover effects */
+}
+
+/* Position inside the left edge */
+.nav-arrow.left {
+    left: 1rem; /* Adjust padding from edge */
+}
+
+/* Position inside the right edge */
+.nav-arrow.right {
+    right: 1rem; /* Adjust padding from edge */
+}
     
 
 /*WORK END///////////////////////////*/
@@ -2657,202 +2709,222 @@ data-navlink="section-1" class="nav-link logo-button active">
 </section>
 
 <section id="section-2" class="center-section">
-<div class="section-content">
+  <div class="section-content">
 
-<main class="portfolio-main">
-<div class="portfolio-nav">
+    <main class="portfolio-main">
+      <div class="portfolio-nav">
 
-<div class="desktop-nav-arrows">
-    <button id="desk-arrow-prev" class="nav-arrow" aria-label="Previous">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    <button id="desk-arrow-next" class="nav-arrow" aria-label="Next">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
+        <div class="category-group">
+          <button class="section-btn active" data-gallery="3d"><span>3D</span></button>
+        </div>
+
+        <div class="category-group">
+          <button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
+        </div>
+
+        <div class="category-group">
+          <button class="section-btn" data-gallery="product"><span>Product</span></button>
+        </div>
+
+        <div class="category-group">
+          <button class="section-btn" data-gallery="motion"><span>Motion</span></button>
+        </div>
+
+      </div>
+
+      <div class="portfolio-content-area">
+
+        <div class="portfolio-gallery">
+
+          <button id="mobile-info-toggle" class="icon-button info-button" aria-label="Toggle Info">
+            <svg viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <div class="gallery-wrapper active" id="wrapper-3d">
+            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-3d', -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="scroller active" id="scroller-3d">
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr16.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr1.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr13.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr20.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr6.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr15.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr17.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr2.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr14.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr23.webp" alt="" loading="lazy" /> </div>
+            </div>
+
+            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-3d', 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="gallery-wrapper" id="wrapper-graphic">
+            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-graphic', -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="scroller" id="scroller-graphic">
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd1.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr10.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd6.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd5.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd10.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd7.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd11.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd9.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd8.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd2.webp" alt="" loading="lazy" /> </div>
+            </div>
+
+            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-graphic', 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="gallery-wrapper" id="wrapper-product">
+            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-product', -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="scroller" id="scroller-product">
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d5.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr21.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d13.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d12.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d7.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr22.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d6.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d8.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d9.webp" alt="" loading="lazy" /> </div>
+              <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d1.webp" alt="" loading="lazy" /> </div>
+            </div>
+
+            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-product', 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+          <div class="gallery-wrapper" id="wrapper-motion">
+            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-motion', -1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </button>
+
+            <div class="scroller" id="scroller-motion">
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/51ce3560cb974ff3bb241e803b93a761.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/9f654de1f6874521b8703dbb50aebfbc.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/a7b9dd3838e841ab9d92d14bc69a6f36.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/e7c1d5cb682d4715a416b6d16cf6447b.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/d4ebb4216485435bae93401afe2b019a.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/970592d741ef418ba75c82e7d911b715.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/461fc776a85a4d198cd0dc679e099ceb.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/61c6351aa3c048dcbe9310c130c651bf.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/97f2b735a2564a90ba6096807b8a7854.mp4" loop muted playsinline preload="none"></video>
+              </div>
+              <div class="portfolio-item">
+                <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/94c11060fcc24804992a7ed57c3da3f5.mp4" loop muted playsinline preload="none"></video>
+              </div>
+            </div>
+
+            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-motion', 1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+        <div class="portfolio-info info-collapsed">
+          <div class="info-content active" data-info="3d">
+            <h3>3D Visualization</h3>
+            <p>
+              This collection showcases my work in modeling, texturing, and rendering.
+              I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and Marvelous Designer.
+            </p>
+            <p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
+          </div>
+
+          <div class="info-content" data-info="graphic">
+            <h3>Graphic Design</h3>
+            <p>
+              This section showcases my work in branding, layout, and visual systems.
+              My philosophy centers on clean, communicative, and compelling visuals using software Like Unreal Engine for environments and texturing with Adobe Illustrator, Photoshop, and Figma.
+            </p>
+            <p>You'll find examples of logo/branding , posters, and editorial layouts.</p>
+          </div>
+
+          <div class="info-content" data-info="product">
+            <h3>Product Renders</h3>
+            <p>
+              In this section, I focus on translating product ideas into polished 3D visuals that feel tactile and true to life.
+              Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct complex materials, fine-tune lighting, and deliver hyper-realistic product visualizations.
+            </p>
+            <p>Scroll through the gallery to see high-resolution renders of consumer goods, packaging concepts, and product hero shots designed for advertising, ecommerce, and branding.</p>
+          </div>
+
+          <div class="info-content" data-info="motion">
+            <h3>Motion Graphics</h3>
+            <p>
+              This section highlights my work in animation, visual effects, and dynamic content creation.
+              I develop motion pieces that emphasize clarity, rhythm, and visual impact using tools like After Effects, Cinema 4D, and Blender.
+            </p>
+            <p>
+              Scroll through the gallery to see animated typographic sequences, product-driven motion spots, and graphics designed for branding, social media, and promotional content.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <div class="portfolio-modal" id="portfolio-modal">
+      <div class="modal-gall">
+        <div class="modal-gall-inner" id="modal-gall-inner">
+        </div>
+      </div>
+    </div>
+
   </div>
-    
-<div class="category-group">
-<button class="section-btn active" data-gallery="3d"><span>3D</span></button>
-</div>
-  
-<div class="category-group">
-<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
-</div>
-  
-<div class="category-group">
-<button class="section-btn" data-gallery="product"><span>Product</span></button>
-</div>
-
-<div class="category-group">
-<button class="section-btn" data-gallery="motion"><span>Motion</span></button>
-</div>
-  
-</div>
-
-<div class="portfolio-content-area">
-
-<div class="portfolio-gallery">
-
-<button id="mobile-info-toggle" class="icon-button info-button" aria-label="Toggle Info">
-<svg viewBox="0 0 20 20" fill="currentColor">
-<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 
-0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-</svg>
-</button>
-  
-<div class="scroller active" id="scroller-3d">
-
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr16.webp" alt="" loading="lazy" /> </div>    
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr1.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr13.webp" alt="" loading="lazy" /> </div>  
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr20.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr6.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr15.webp" alt="" loading="lazy" /> </div>  
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr17.webp" alt="" loading="lazy" /> </div>  
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr2.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr14.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr23.webp" alt="" loading="lazy" /> </div>
-
-</div>
-
-<div class="scroller" id="scroller-graphic">
-
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd1.webp" alt="" loading="lazy" />   </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr10.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd6.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd5.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd10.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd7.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd11.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd9.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd8.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/gd2.webp" alt="" loading="lazy" /> </div>
-
-</div>
-
-<div class="scroller" id="scroller-product">
-
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d5.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr21.webp" alt="" loading="lazy" /> </div>    
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d13.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d12.webp" alt="" loading="lazy" /> </div>    
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d7.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/pr22.webp" alt="" loading="lazy" /> </div>    
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d6.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d8.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d9.webp" alt="" loading="lazy" /> </div>
-<div class="portfolio-item">  <img class="portfolio-img" src="images/fulls/3d1.webp" alt="" loading="lazy" /> </div>
-
-</div>
-
-
-
-<div class="scroller" id="scroller-motion">
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/51ce3560cb974ff3bb241e803b93a761.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/9f654de1f6874521b8703dbb50aebfbc.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/a7b9dd3838e841ab9d92d14bc69a6f36.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/e7c1d5cb682d4715a416b6d16cf6447b.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/d4ebb4216485435bae93401afe2b019a.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/970592d741ef418ba75c82e7d911b715.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/461fc776a85a4d198cd0dc679e099ceb.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/61c6351aa3c048dcbe9310c130c651bf.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/97f2b735a2564a90ba6096807b8a7854.mp4" loop muted playsinline preload="none"></video>
-  </div>
-  
-  <div class="portfolio-item">
-    <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/94c11060fcc24804992a7ed57c3da3f5.mp4" loop muted playsinline preload="none"></video>
-  </div>
-
-</div>
-  
-</div>
-
-<div class="portfolio-info info-collapsed">
-
-<div class="info-content active" data-info="3d">
-<h3>3D Visualization</h3>
-<p>
-This collection showcases my work in modeling, texturing, and rendering.
-I specialize in creating realistic environments and assets using tools like Blender, Substance Painter, and Marvelous Designer.</p>
-<p>Scroll through the gallery to see detailed shots of character models, architectural visualizations, and prop designs.</p>
-</div>
-
-<div class="info-content" data-info="graphic">
-<h3>Graphic Design</h3>
-<p>
-This section showcases my work in branding, layout, and visual systems.
-My philosophy centers on clean, communicative, and compelling visuals using software Like Unreal Engine for environments and texturing with Adobe Illustrator, Photoshop, and Figma. </p>
-<p>You'll find examples of logo/branding , posters, and editorial layouts.</p>
-</div>
-
-<div class="info-content" data-info="product">
-<h3>Product Renders</h3>
-<p>
-In this section, I focus on translating product ideas into polished 3D visuals that feel tactile and true to life.
-Using Software such as: Houdini, Octane, and Substance 3D Designer, I construct complex materials, fine-tune lighting, and deliver hyper-realistic product visualizations.
-</p>
-<p>Scroll through the gallery to see high-resolution renders of consumer goods, packaging concepts, and product hero shots designed for advertising, ecommerce, and branding.</p>
-</div>
-
-<div class="info-content" data-info="motion">
-  <h3>Motion Graphics</h3>
-  <p>
-    This section highlights my work in animation, visual effects, and dynamic content creation.  
-    I develop motion pieces that emphasize clarity, rhythm, and visual impact using tools like After Effects, Cinema 4D, and Blender.
-  </p>
-  <p>
-    Scroll through the gallery to see animated typographic sequences, product-driven motion spots, and graphics designed for branding, social media, and promotional content.
-  </p>
-</div>
-  
-</div>
-
-</div>
-</main>
-
-<div class="portfolio-modal" id="portfolio-modal">
-<div class="modal-gall">
-
-<div class="modal-gall-inner" id="modal-gall-inner">
-</div>
-</div>
-</div>
-
-
-</div>
-
 </section>
-
 <section id="section-3" class="center-section">
 <div class="section-content">
 
