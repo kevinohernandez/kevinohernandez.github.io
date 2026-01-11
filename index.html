@@ -1342,18 +1342,25 @@ aspect-ratio: 4/5;
 .local-nav-arrows {
     display: flex;
     gap: 0.5rem;
-    opacity: 0.5; /* Dimmed by default */
+    opacity: 0;            /* CHANGED: Hidden by default */
+    pointer-events: none;  /* CHANGED: Cannot be clicked when hidden */
     transition: opacity 0.3s ease;
-    flex: 0 0 auto; /* UPDATED: Prevent arrows from shrinking */
+    flex: 0 0 auto;        
     z-index: 2;
 }
-
+    
 /* Active state visibility */
-.section-btn.active ~ .local-nav-arrows,
+/* When the sibling button is active, show the arrows */
+.section-btn.active ~ .local-nav-arrows {
+    opacity: 1;            /* CHANGED: Visible */
+    pointer-events: auto;  /* CHANGED: Clickable */
+}
+
+/* Keep arrows visible if hovering over them (only applies when they are already active/visible) */
 .local-nav-arrows:hover {
     opacity: 1;
 }
-
+    
 /* Style for individual small arrows */
 .local-arrow {
     width: 2rem;
@@ -4145,6 +4152,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
