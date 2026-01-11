@@ -970,161 +970,153 @@ transform: translateY(0); }
 #section-4 { z-index: 14; }
 
 
-/* =========================================
-   SECTION 2: CORRECTED CSS
-   ========================================= */
-
 #section-2 .section-content {
-    width: 100%;
+width: 100%;
 }
 
 :root {
-    --left-width: 17.5%;
+--left-width: 17.5%;
+/* --right-width: 70%;
+<-- This is now controlled by portfolio-content-area */
 }
 
 .portfolio-main {
-    display: grid;
-    grid-template-columns: var(--left-width) 1fr;
-    min-height: 100vh;
-    height: 100vh;
+display: grid;
+/* UPDATED: Grid template now has two columns: nav and content area */
+grid-template-columns: var(--left-width) 1fr;
+min-height: 100vh;
+height: 100vh;
 }
 
-/* Wrapper holds gallery (80%) and info (20%) */
+/* NEW: This wrapper holds the gallery and the new info section */
 .portfolio-content-area {
-    display: grid;
-    grid-template-columns: 80% 20%;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
+display: grid;
+grid-template-columns: 80% 20%; /* This splits the right-hand side into gallery (75%) and info (25%) */
+height: 100%;
+overflow: hidden;
 }
 
-/* === NAVIGATION COLUMN === */
 .portfolio-nav {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0;
-    gap: 0;
-    position: relative;
-    border-right: 1px solid var(--border-color);
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 0;
+gap: 0;
+position: relative;
 }
 
 .category-group {
-    border-bottom: 1px solid var(--border-color);
+border: 1px solid var(--border-color);
 }
 
-.category-group:first-child {
-    border-top: 1px solid var(--border-color);
+.category-group:last-of-type {
+border: 1px solid var(--border-color);
 }
 
-/* === BUTTON STYLING (Restored to Original) === */
 .section-btn {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    border: none;
-    padding: 0rem;         /* Restored */
-    font-size: 2.5vw;      /* Restored original size */
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-align: left;      /* Restored alignment */
-    text-transform: uppercase;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    display: block;        /* Ensure it behaves like a standard block for your text */
+background-color: var(--bg-color);
+color: var(--text-color);
+border: none;
+padding: 0rem;
+font-size: 2.5vw;
+cursor: pointer;
+transition: all 0.3s ease;
+text-align: left;
+text-transform: uppercase;
+width: 100%;
+position: relative;
+overflow: hidden;
 }
 
-/* Progress Bar Background */
 .section-btn::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 0%;
-    background: var(--text-color);
-    transition: width 0.1s linear;
-    z-index: 0;
+content: '';
+position: absolute;
+left: 0;
+top: 0;
+height: 100%;
+width: 0%;
+background: var(--text-color);
+transition: width 0.1s linear;
+z-index: 0;
 }
 
-.section-btn.active::before {
-    width: var(--progress, 0%);
-    opacity: 0.1; /* Optional: Adjust this if the bar is too solid covering text */
+.section-btn span {
+position: relative;
+z-index: 1;
+background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+padding: 0rem 2rem;
+display: flex;
+align-items: center;
+width: 100%;
+height: 100%;
+pointer-events: none; /* Let clicks pass through text to button */
 }
 
 .section-btn:hover {
-    background: var(--accent-color);
-    transform: translateX(10px);
+background: var(--accent-color);
+transform: translateX(10px);
 }
 
 .section-btn.active {
-    background: var(--accent-color);
+background: var(--accent-color);
 }
 
-/* Text Styling (Restored Gradient & Spacing) */
-.section-btn span {
-    position: relative;
-    z-index: 1;
-    /* Restored your original gradient logic */
-    background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    
-    padding: 0rem 2rem;    /* Restored original padding */
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;  /* Allows clicks to pass through text to the button */
+.section-btn.active::before {
+width: var(--progress, 0%);
 }
 
 .section-btn.active span {
-    background: linear-gradient(
-        to right, 
-        var(--bg-color) var(--progress, 0%), 
-        var(--text-color) var(--progress, 0%), 
-        var(--text-color) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+background: linear-gradient(
+to right, 
+var(--bg-color) var(--progress, 0%), 
+var(--text-color) var(--progress, 0%), 
+var(--text-color) 100%
+);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
 }
 
 
-/* === NEW: Arrow Group (Positioned Absolutely on Right) === */
+/* === NEW ARROW STYLES (Added specifically for right-side placement) === */
+
+/* Container for the arrows on the right edge */
 .nav-arrow-group {
-    position: absolute;    /* Takes it out of the text flow */
-    right: 1rem;           /* Pins it to the right edge */
-    top: 0;
-    height: 100%;          /* Vertically center relative to button height */
-    
-    z-index: 20;           /* IMPORTANT: Higher than text/progress bar to ensure clickability */
-    display: none;         /* Hidden by default */
+    position: absolute;
+    right: 1.5rem;   /* Adjust distance from right edge */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;     /* Sit on top of text/progress bar */
+    display: none;   /* Hidden by default */
     align-items: center;
-    gap: 0.5rem;
-    padding-right: 1rem;
-    pointer-events: auto;  /* Ensures these are clickable */
+    gap: 0.5rem;     /* Space between buttons */
+    pointer-events: auto;
 }
 
-/* Show arrows only when active */
+/* Show only when active */
 .section-btn.active .nav-arrow-group {
     display: flex;
 }
 
-/* Individual Arrow Button */
+/* Individual Arrow Buttons */
 .tab-arrow {
-    width: 32px;
-    height: 32px;
+    width: 2.5vw;        /* Responsive size relative to font */
+    height: 2.5vw;       /* Responsive size relative to font */
+    min-width: 24px;     /* Minimum legible size */
+    min-height: 24px;
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    
+    background: rgba(255, 255, 255, 0.1); /* Subtle backing */
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1); 
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
     color: var(--text-color);
-    pointer-events: auto; /* Double check strictly for the arrow */
 }
 
 .tab-arrow:hover {
@@ -1134,28 +1126,29 @@ transform: translateY(0); }
 }
 
 .tab-arrow svg {
-    width: 18px;
-    height: 18px;
+    width: 60%;
+    height: 60%;
     stroke: currentColor;
-    stroke-width: 2.5;
+    stroke-width: 2;
 }
 
+/* === END NEW ARROW STYLES === */
 
 
-/* === GALLERY WRAPPER (Handles the Fade) === */
 .portfolio-gallery {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-color);
-    overflow: hidden;
-    border: 1px solid var(--border-color); /* Restored border */
-    border-right: 0;
-    border-top: none;
-    border-bottom: none;
+position: relative;
+overflow: hidden;
+border: 1px solid var(--border-color);
+border-right: 0;
+background-color: var(--bg-color);
+color: var(--text-color);
+/* height: 100%; */ /* <-- REMOVED */
+border-top: none;
+border-bottom: none;
+
 }
 
-/* The Wrapper holds the scroller and handles Opacity/Z-Index */
+/* === ADDED WRAPPER FOR FADE EFFECT === */
 .gallery-wrapper {
     position: absolute;
     inset: 0;
@@ -1172,132 +1165,234 @@ transform: translateY(0); }
     pointer-events: auto;
     z-index: 10;
 }
+/* ===================================== */
 
-/* The Scroller (Inside the wrapper) */
-.scroller {
-    position: relative; 
-    height: 100%;
-    width: 100%; 
-    display: flex;
-    align-items: center;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    padding: 0 2rem;
-    
-    /* Hide scrollbar */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.scroller::-webkit-scrollbar {
-    display: none;
-}
-
-.portfolio-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    aspect-ratio: 4/5; 
-    margin-right: 2rem;
-    background-color: var(--bg-color);
-    scroll-snap-align: center;
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    flex-shrink: 0;
-    cursor: pointer;
-}
 
 .portfolio-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
+width: 100%;
+height: 100%;
+object-fit: contain;
     opacity: 0;
-    transition: opacity 0.6s ease;
+    transition: opacity 0.6s ease-in-out;    
 }  
 
+/* Class added by JS to reveal asset */
 .portfolio-img.is-loaded {
     opacity: 1;
 }
 
-/* === INFO SECTION (Right Column) === */
+    
+.scroller {
+height: 100%;
+width: 100%; 
+display: flex;
+align-items: center;
+overscroll-behavior: none;
+overflow-x: scroll;
+overflow-y: hidden;
+touch-action: pan-x; /* <-- ADDED */
+scroll-snap-type: x mandatory;
+scroll-behavior: smooth;
+padding-top: 2rem;
+padding-bottom: 2rem;
+padding-left: 15px; /* CHANGED: Was 15px */
+padding-right: 15px; /* CHANGED: Was 15px */
+opacity: 1;
+transform: translateX(0);
+transition: opacity 0.4s ease, transform 0.4s ease;
+position: absolute; /* Kept absolute but wrapper now controls visibility */
+inset: 0;
+/* opacity: 0;  <-- Removed internal opacity logic in favor of wrapper */
+/* transform: translateX(50px); */
+/* transition: opacity 0.4s ease, transform 0.4s ease; */
+/* pointer-events: none; */
+}
+
+/* Since wrapper handles active state, these can be simplified or removed 
+   if you rely purely on wrapper, but keeping for safety/legacy logic */
+.scroller.active {
+opacity: 1;
+transform: translateX(0);
+pointer-events: auto;
+z-index: 10;
+}
+
+.scroller:not(.active) {
+opacity: 0;
+transform: translateX(-50px);
+z-index: 1;
+}
+
+.scroller::-webkit-scrollbar {
+display: none;
+}
+
+.scroller {
+-ms-overflow-style: none;
+scrollbar-width: none;
+}
+
+.portfolio-item {
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+max-width: 62.5vh;
+/max-width: 50vh;
+/aspect-ratio: 4/5;
+margin-right: 2rem;
+margin-left: 0;
+margin-top: auto;
+margin-bottom: auto;
+background-color: var(--bg-color);
+color: var(--text-color);
+/border: 1px solid var(--border-color);
+scroll-snap-align: center;
+font-size: 1.5rem;
+border-radius: 20px;
+position: relative;
+overflow: hidden;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+flex-shrink: 0;
+cursor: pointer;
+}
+
+/.portfolio-item:hover {
+transform: scale(1.02);
+/box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+
+/* === NEW: Info Section === */
 .portfolio-info {
-    position: relative;
-    height: 100%;
-    overflow: hidden;
-    border-left: 1px solid var(--border-color);
-    background: var(--bg-color);
+position: relative;
+height: 100%;
+overflow: hidden; /* Hide overflowing content */
+border: 1px solid var(--border-color);
+border-left: 1px solid var(--border-color);
+align-content: center;
+border-top: none;
+border-bottom: none;
 }
 
 .info-content {
-    position: absolute;
-    inset: 0;
-    padding: 2rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    pointer-events: none;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+position: absolute;
+inset: 0;
+padding: 1.25rem;
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.4s ease, transform 0.4s ease;
+pointer-events: none;
+overflow-y: auto;/* Allow info to scroll if it's long */
+align-content: center;    
 }
 
 .info-content.active {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
+opacity: 1;
+transform: translateY(0);
+pointer-events: auto;
+position: relative; /* Override absolute */
 }
 
 .info-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    color: var(--text-color);
+font-size: 1.5rem;
+font-weight: 600;
+margin-bottom: 1rem;
+text-transform: uppercase;
 }
 
 .info-content p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-muted-color);
+font-size: 1rem;
+line-height: 1.6;
+color: var(--text-color);
+margin-bottom: 1rem;
 }
+/* === End Info Section === */
 
-/* === MODAL / LIGHTBOX === */
+
+/* === NEW: Modal / Lightbox === */
 .portfolio-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(5px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+position: fixed;
+inset: 0;
+z-index: 9998;
+background-color: rgba(0, 0, 0, 0.7);
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.3s ease;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 2rem;
 }
 
 .portfolio-modal.active {
-    opacity: 1;
-    pointer-events: auto;
+opacity: 1;
+pointer-events: auto;
+}
+
+.modal-gall {
+max-width: 90%;
+max-height: 90%;
+width: auto;
+height: auto;
+border-radius: 20px;
+overflow: hidden;
+border: 1px solid var(--border-color);
+box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+transform: scale(0.95);
+opacity: 0;
+transition: transform 0.3s ease, opacity 0.3s ease;
+cursor: pointer;
+}
+
+.portfolio-modal.active .modal-gall {
+transform: scale(1);
+opacity: 1;
 }
 
 .modal-gall-inner {
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* This will hold the cloned item's content */
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 2rem;
+color: var(--text-color);
+background-color: var(--bg-color);
+/* Set a large size, aspect-ratio will constrain it */
+width: 80vw;
+height: 80vh;
+max-width: 1000px;
+aspect-ratio: 4/5;
+}
+/* === End Modal / Lightbox === */
+
+
+/* === NEW: Desktop Arrow Styles === */
+.desktop-nav-arrows {
+  display: none; /* Hidden on mobile */
 }
 
-.modal-gall-inner img, 
-.modal-gall-inner video {
-    max-width: 100%;
-    max-height: 90vh;
-    object-fit: contain;
+.nav-arrow {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow:hover {
+  color: var(--text-muted-color); /* Highlight on hover */
+}
+
+.nav-arrow svg {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 /*WORK END///////////////////////////*/
@@ -4069,6 +4164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
