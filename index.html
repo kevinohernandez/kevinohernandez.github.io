@@ -2715,19 +2715,67 @@ data-navlink="section-1" class="nav-link logo-button active">
       <div class="portfolio-nav">
 
         <div class="category-group">
-          <button class="section-btn active" data-gallery="3d"><span>3D</span></button>
+          <button class="section-btn active" data-gallery="3d">
+            <span class="tab-arrow left" onclick="scrollGallery(event, 'scroller-3d', -1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </span>
+            <span>3D</span>
+            <span class="tab-arrow right" onclick="scrollGallery(event, 'scroller-3d', 1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </span>
+          </button>
         </div>
 
         <div class="category-group">
-          <button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
+          <button class="section-btn" data-gallery="graphic">
+            <span class="tab-arrow left" onclick="scrollGallery(event, 'scroller-graphic', -1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </span>
+            <span>Graphic</span>
+            <span class="tab-arrow right" onclick="scrollGallery(event, 'scroller-graphic', 1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </span>
+          </button>
         </div>
 
         <div class="category-group">
-          <button class="section-btn" data-gallery="product"><span>Product</span></button>
+          <button class="section-btn" data-gallery="product">
+            <span class="tab-arrow left" onclick="scrollGallery(event, 'scroller-product', -1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </span>
+            <span>Product</span>
+            <span class="tab-arrow right" onclick="scrollGallery(event, 'scroller-product', 1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </span>
+          </button>
         </div>
 
         <div class="category-group">
-          <button class="section-btn" data-gallery="motion"><span>Motion</span></button>
+          <button class="section-btn" data-gallery="motion">
+            <span class="tab-arrow left" onclick="scrollGallery(event, 'scroller-motion', -1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </span>
+            <span>Motion</span>
+            <span class="tab-arrow right" onclick="scrollGallery(event, 'scroller-motion', 1)">
+              <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="3" fill="none">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </span>
+          </button>
         </div>
 
       </div>
@@ -2743,12 +2791,6 @@ data-navlink="section-1" class="nav-link logo-button active">
           </button>
 
           <div class="gallery-wrapper active" id="wrapper-3d">
-            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-3d', -1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-
             <div class="scroller active" id="scroller-3d">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr16.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr1.webp" alt="" loading="lazy" /> </div>
@@ -2761,21 +2803,9 @@ data-navlink="section-1" class="nav-link logo-button active">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr14.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr23.webp" alt="" loading="lazy" /> </div>
             </div>
-
-            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-3d', 1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
           </div>
 
           <div class="gallery-wrapper" id="wrapper-graphic">
-            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-graphic', -1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-
             <div class="scroller" id="scroller-graphic">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd1.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr10.webp" alt="" loading="lazy" /> </div>
@@ -2788,21 +2818,9 @@ data-navlink="section-1" class="nav-link logo-button active">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd8.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/gd2.webp" alt="" loading="lazy" /> </div>
             </div>
-
-            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-graphic', 1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
           </div>
 
           <div class="gallery-wrapper" id="wrapper-product">
-            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-product', -1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-
             <div class="scroller" id="scroller-product">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d5.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/pr21.webp" alt="" loading="lazy" /> </div>
@@ -2815,21 +2833,9 @@ data-navlink="section-1" class="nav-link logo-button active">
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d9.webp" alt="" loading="lazy" /> </div>
               <div class="portfolio-item"> <img class="portfolio-img" src="images/fulls/3d1.webp" alt="" loading="lazy" /> </div>
             </div>
-
-            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-product', 1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
           </div>
 
           <div class="gallery-wrapper" id="wrapper-motion">
-            <button class="nav-arrow left" aria-label="Previous" onclick="scrollContainer('scroller-motion', -1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"></polyline>
-              </svg>
-            </button>
-
             <div class="scroller" id="scroller-motion">
               <div class="portfolio-item">
                 <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/51ce3560cb974ff3bb241e803b93a761.mp4" loop muted playsinline preload="none"></video>
@@ -2862,12 +2868,6 @@ data-navlink="section-1" class="nav-link logo-button active">
                 <video class="portfolio-img lazy-video" data-src="https://cdn.shopify.com/videos/c/o/v/94c11060fcc24804992a7ed57c3da3f5.mp4" loop muted playsinline preload="none"></video>
               </div>
             </div>
-
-            <button class="nav-arrow right" aria-label="Next" onclick="scrollContainer('scroller-motion', 1)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
           </div>
 
         </div>
@@ -2925,6 +2925,7 @@ data-navlink="section-1" class="nav-link logo-button active">
 
   </div>
 </section>
+    
 <section id="section-3" class="center-section">
 <div class="section-content">
 
@@ -3596,10 +3597,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
-// S-2 OPTIMIZED (With Smooth Reveal, Lazy Loading, & Hold-to-Scroll)
+// S-2 OPTIMIZED (With Arrows Inside Tabs & Wrapper Support)
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Media Reveal Helper ---
+    // --- 1. Media Reveal Helper ---
     function handleMediaReveal(media) {
         if (media.tagName === 'IMG') {
             if (media.complete) {
@@ -3616,7 +3617,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleMediaReveal(media);
     });
 
-    // --- Mobile Info Toggle Logic ---
+    // --- 2. Mobile Info Toggle Logic ---
     const mobileInfoToggle = document.getElementById('mobile-info-toggle');
     const portfolioInfoSection = document.querySelector('.portfolio-info');
 
@@ -3627,17 +3628,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Data & Selectors ---
+    // --- 3. Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
-    const deskPrev = document.getElementById('desk-arrow-prev');
-    const deskNext = document.getElementById('desk-arrow-next');
     
+    // Select all embedded arrows
+    const navArrows = document.querySelectorAll('.tab-arrow');
+
     const scrollers = {
         '3d': document.getElementById('scroller-3d'),
         'graphic': document.getElementById('scroller-graphic'),
         'product': document.getElementById('scroller-product'),
         'motion': document.getElementById('scroller-motion')
+    };
+
+    // Grab Wrappers for fading effect
+    const wrappers = {
+        '3d': document.getElementById('wrapper-3d'),
+        'graphic': document.getElementById('wrapper-graphic'),
+        'product': document.getElementById('wrapper-product'),
+        'motion': document.getElementById('wrapper-motion')
     };
 
     const infoContents = {
@@ -3650,37 +3660,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0 };
     let currentGallery = '3d';
 
-    // --- Hold-to-Scroll Logic ---
+    // --- 4. Hold-to-Scroll Logic (Updated for Embedded Arrows) ---
     let scrollTimeout = null;
     let continuousScrollInterval = null;
     const CONTINUOUS_SCROLL_DELAY = 300;
     const SCROLL_STEP = 15;
     const SCROLL_INTERVAL = 10;
     
-    function scrollActiveGalleryOnce(direction) {
-        const activeScroller = scrollers[currentGallery];
+    // Helper to find which gallery an arrow belongs to
+    function getGalleryIdFromArrow(arrowEl) {
+        const btn = arrowEl.closest('.section-btn');
+        return btn ? btn.getAttribute('data-gallery') : currentGallery;
+    }
+
+    function scrollSpecificGallery(galleryId, direction) {
+        const activeScroller = scrollers[galleryId];
         if (!activeScroller) return;
+
+        // Single 'Click' scroll amount
         const firstItem = activeScroller.querySelector('.portfolio-item');
         if (!firstItem) return;
+        
         const style = window.getComputedStyle(firstItem);
         const marginRight = parseInt(style.marginRight) || 0;
         const scrollAmount = firstItem.offsetWidth + marginRight;
+
         activeScroller.scrollBy({
             left: direction === 'next' ? scrollAmount : -scrollAmount,
             behavior: 'smooth' 
         });
     }
 
-    function continuousScrollStep(direction) {
-        const activeScroller = scrollers[currentGallery];
+    function continuousScrollStep(galleryId, direction) {
+        const activeScroller = scrollers[galleryId];
         if (!activeScroller) return;
         const amount = direction === 'next' ? SCROLL_STEP : -SCROLL_STEP;
         activeScroller.scrollBy({ left: amount, behavior: 'auto' });
     }
 
-    function startContinuousScrollLoop(direction) {
+    function startContinuousScrollLoop(galleryId, direction) {
         stopContinuousScrollLoop();
-        continuousScrollInterval = setInterval(() => continuousScrollStep(direction), SCROLL_INTERVAL);
+        continuousScrollInterval = setInterval(() => continuousScrollStep(galleryId, direction), SCROLL_INTERVAL);
     }
 
     function stopContinuousScrollLoop() {
@@ -3690,11 +3710,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function handleStartScroll(direction) {
+    function handleStartScroll(e, arrowType) {
+        e.stopPropagation(); // Stop click from triggering the Tab Button
+        e.preventDefault();  // Prevent text selection
+
+        const targetGallery = getGalleryIdFromArrow(e.currentTarget);
+        const direction = arrowType === 'left' ? 'prev' : 'next';
+
         if (scrollTimeout) clearTimeout(scrollTimeout);
         stopContinuousScrollLoop();
-        scrollActiveGalleryOnce(direction);
-        scrollTimeout = setTimeout(() => startContinuousScrollLoop(direction), CONTINUOUS_SCROLL_DELAY);
+
+        // Immediate single scroll
+        scrollSpecificGallery(targetGallery, direction);
+
+        // Wait then start continuous
+        scrollTimeout = setTimeout(() => startContinuousScrollLoop(targetGallery, direction), CONTINUOUS_SCROLL_DELAY);
     }
 
     function handleStopScroll() {
@@ -3702,22 +3732,29 @@ document.addEventListener('DOMContentLoaded', () => {
         stopContinuousScrollLoop();
     }
 
-    if (deskPrev && deskNext) {
-        deskPrev.addEventListener('mousedown', () => handleStartScroll('prev'));
-        deskPrev.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('prev'); });
-        deskNext.addEventListener('mousedown', () => handleStartScroll('next'));
-        deskNext.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('next'); });
-        
-        ['mouseup', 'touchend', 'touchcancel', 'mouseleave'].forEach(event => {
-            deskPrev.addEventListener(event, handleStopScroll);
-            deskNext.addEventListener(event, handleStopScroll);
-        });
+    // Attach listeners to ALL arrows (left and right)
+    navArrows.forEach(arrow => {
+        const type = arrow.classList.contains('left') ? 'left' : 'right';
 
-        document.addEventListener('mouseup', handleStopScroll);
-        document.addEventListener('touchend', handleStopScroll);
-    }
+        arrow.addEventListener('mousedown', (e) => handleStartScroll(e, type));
+        arrow.addEventListener('touchstart', (e) => handleStartScroll(e, type));
+        
+        // Clean up events
+        ['mouseup', 'touchend', 'touchcancel', 'mouseleave'].forEach(event => {
+            arrow.addEventListener(event, handleStopScroll);
+        });
+        
+        // Also handle simple click if user taps quickly (handled by mousedown/start logic usually, 
+        // but explicit click listener ensures inline onclick doesn't conflict)
+        arrow.addEventListener('click', (e) => e.stopPropagation());
+    });
+
+    // Global cleanup
+    document.addEventListener('mouseup', handleStopScroll);
+    document.addEventListener('touchend', handleStopScroll);
+
     
-    // --- Video Optimization (Observer) ---
+    // --- 5. Video Optimization (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -3738,7 +3775,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Progress Bar Logic ---
+    // --- 6. Progress Bar Logic ---
     function updateProgress(scroller, button) {
         if (!button) return;
         const scrollLeft = scroller.scrollLeft;
@@ -3747,10 +3784,11 @@ document.addEventListener('DOMContentLoaded', () => {
         button.style.setProperty('--progress', `${progress}%`);
     }
 
-    // --- Switch Gallery ---
+    // --- 7. Switch Gallery ---
     function switchGallery(newGallery) {
         if (newGallery === currentGallery) return;
         
+        // Handle Lazy Videos on Switch
         if (newGallery === 'motion') {
             const lazyVideos = scrollers['motion'].querySelectorAll('video');
             lazyVideos.forEach(video => {
@@ -3764,12 +3802,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Save position of old gallery
         scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+        
+        // Deactivate old
         scrollers[currentGallery].classList.remove('active');
+        if(wrappers[currentGallery]) wrappers[currentGallery].classList.remove('active'); // Hide Wrapper
         infoContents[currentGallery].classList.remove('active');
         manageVideoState(currentGallery, false);
 
+        // Activate new
         scrollers[newGallery].classList.add('active');
+        if(wrappers[newGallery]) wrappers[newGallery].classList.add('active'); // Show Wrapper
         infoContents[newGallery].classList.add('active');
         scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
         manageVideoState(newGallery, true);
@@ -3783,14 +3827,18 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress(scrollers[newGallery], activeMobileLink);
     }
 
-    // --- Event Listeners ---
+    // --- 8. Event Listeners (Tabs) ---
     buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+            // e.stopPropagation(); // Not needed here, but ensures bubble doesn't go higher
             const galleryType = btn.dataset.gallery;
+            
             buttons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+            
             mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
             document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`)?.classList.add('active');
+            
             switchGallery(galleryType);
         });
     });
@@ -3826,12 +3874,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Initial Setup ---
+    // --- 9. Initial Setup ---
     updateProgress(scrollers[currentGallery], document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`));
     updateProgress(scrollers[currentGallery], document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`));
+    
+    // Ensure initial state is correct
+    if(wrappers[currentGallery]) wrappers[currentGallery].classList.add('active');
+    scrollers[currentGallery].classList.add('active');
+    
     if(currentGallery === 'motion') manageVideoState('motion', true);
     
-    // --- Modal Logic ---
+    // --- 10. Modal Logic ---
     const modal = document.getElementById('portfolio-modal');
     const modalContentInner = document.getElementById('modal-gall-inner');
 
@@ -3855,10 +3908,11 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { modalContentInner.innerHTML = ''; }, 300);
     }
 
-    modal.addEventListener('click', closeModal);
-    modalContentInner.addEventListener('click', closeModal);
+    if (modal) {
+        modal.addEventListener('click', closeModal);
+        modalContentInner.addEventListener('click', closeModal);
+    }
 });
-
 </script>
 
 <script>
@@ -4080,6 +4134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
