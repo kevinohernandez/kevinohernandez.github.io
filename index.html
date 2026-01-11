@@ -1042,6 +1042,67 @@ transition: width 0.1s linear;
 z-index: 0;
 }
 
+
+/* Make the button relative so we can position arrows inside it */
+.section-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* Add padding to prevent text from overlapping arrows */
+    padding-left: 30px !important; 
+    padding-right: 30px !important;
+    transition: all 0.3s ease;
+}
+
+/* Arrow Styling */
+.tab-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    
+    /* Hidden by default */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    
+    /* Optional: Color styling */
+    color: inherit; /* Takes the text color */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-arrow svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Position Left/Right */
+.tab-arrow.left {
+    left: 5px;
+}
+
+.tab-arrow.right {
+    right: 5px;
+}
+
+/* Only show arrows when the button has the 'active' class */
+.section-btn.active .tab-arrow {
+    opacity: 1;
+    pointer-events: auto; /* Enable clicking */
+}
+
+/* Optional: Hover effect for arrows */
+.tab-arrow:hover {
+    transform: translateY(-50%) scale(1.2);
+}
+
+
+    
 .section-btn span {
 position: relative;
 z-index: 1;
@@ -1320,57 +1381,6 @@ aspect-ratio: 4/5;
 }
 
 
-/* Wrapper that holds both the scroller and the arrows */
-.gallery-wrapper {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    pointer-events: none; /* Prevent clicking when hidden */
-    transition: opacity 0.4s ease;
-    z-index: 1;
-}
-
-/* When the wrapper is active, show it */
-.gallery-wrapper.active {
-    opacity: 1;
-    pointer-events: auto;
-    z-index: 10;
-}
-
-/* Ensure scroller fills the wrapper */
-.gallery-wrapper .scroller {
-    position: relative; /* Changed from absolute inset 0 */
-    height: 100%;
-    opacity: 1; /* Scroller opacity is now handled by the wrapper */
-    transform: none; /* remove the old transform animation if desired, or keep it */
-}
-
-/* === ARROW STYLES === */
-.nav-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20; /* Above the scroller content */
-    background: rgba(0,0,0,0.5); /* Optional: styling */
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 1rem;
-    /* Add transition if you want arrows to have hover effects */
-}
-
-/* Position inside the left edge */
-.nav-arrow.left {
-    left: 1rem; /* Adjust padding from edge */
-}
-
-/* Position inside the right edge */
-.nav-arrow.right {
-    right: 1rem; /* Adjust padding from edge */
-}
-    
 
 /*WORK END///////////////////////////*/
 
@@ -4134,6 +4144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
