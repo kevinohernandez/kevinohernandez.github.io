@@ -1319,7 +1319,62 @@ aspect-ratio: 4/5;
   height: 1.5rem;
 }
     
+/* Layout for the row containing Text and Arrows */
+.nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-right: 1rem; /* Space from the right edge */
+}
 
+/* Ensure the main text button takes up available space but doesn't overlap arrows */
+.section-btn {
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Container for the two arrows */
+.local-nav-arrows {
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0.5; /* Dimmed by default */
+    transition: opacity 0.3s ease;
+}
+
+/* Active state visibility */
+.section-btn.active ~ .local-nav-arrows,
+.local-nav-arrows:hover {
+    opacity: 1;
+}
+
+/* Style for individual small arrows */
+.local-arrow {
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.local-arrow:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.local-arrow svg {
+    width: 1rem;
+    height: 1rem;
+    stroke-width: 2;
+}
+
+    
 /*WORK END///////////////////////////*/
 
 
@@ -2661,36 +2716,85 @@ data-navlink="section-1" class="nav-link logo-button active">
 
 <main class="portfolio-main">
 <div class="portfolio-nav">
+<div class="category-group">
+        <div class="nav-row">
+            <button class="section-btn active" data-gallery="3d">
+                <span>3D</span>
+            </button>
+            <div class="local-nav-arrows">
+                <button class="local-arrow prev" data-gallery="3d" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="local-arrow next" data-gallery="3d" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="desktop-nav-arrows">
-    <button id="desk-arrow-prev" class="nav-arrow" aria-label="Previous">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="15 18 9 12 15 6"></polyline>
-      </svg>
-    </button>
-    <button id="desk-arrow-next" class="nav-arrow" aria-label="Next">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="9 18 15 12 9 6"></polyline>
-      </svg>
-    </button>
-  </div>
-    
-<div class="category-group">
-<button class="section-btn active" data-gallery="3d"><span>3D</span></button>
-</div>
-  
-<div class="category-group">
-<button class="section-btn" data-gallery="graphic"><span>Graphic</span></button>
-</div>
-  
-<div class="category-group">
-<button class="section-btn" data-gallery="product"><span>Product</span></button>
-</div>
+    <div class="category-group">
+        <div class="nav-row">
+            <button class="section-btn" data-gallery="graphic">
+                <span>Graphic</span>
+            </button>
+            <div class="local-nav-arrows">
+                <button class="local-arrow prev" data-gallery="graphic" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="local-arrow next" data-gallery="graphic" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="category-group">
-<button class="section-btn" data-gallery="motion"><span>Motion</span></button>
-</div>
-  
+    <div class="category-group">
+        <div class="nav-row">
+            <button class="section-btn" data-gallery="product">
+                <span>Product</span>
+            </button>
+            <div class="local-nav-arrows">
+                <button class="local-arrow prev" data-gallery="product" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="local-arrow next" data-gallery="product" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="category-group">
+        <div class="nav-row">
+            <button class="section-btn" data-gallery="motion">
+                <span>Motion</span>
+            </button>
+            <div class="local-nav-arrows">
+                <button class="local-arrow prev" data-gallery="motion" aria-label="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="local-arrow next" data-gallery="motion" aria-label="Next">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="portfolio-content-area">
@@ -3524,7 +3628,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
-// S-2 OPTIMIZED (With Smooth Reveal, Lazy Loading, & Hold-to-Scroll)
+// S-2 OPTIMIZED (With Smooth Reveal, Lazy Loading, Hold-to-Scroll & Local Arrows)
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Media Reveal Helper ---
@@ -3558,8 +3662,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
-    const deskPrev = document.getElementById('desk-arrow-prev');
-    const deskNext = document.getElementById('desk-arrow-next');
+    // NEW: Select all local arrows instead of global IDs
+    const localArrows = document.querySelectorAll('.local-arrow');
     
     const scrollers = {
         '3d': document.getElementById('scroller-3d'),
@@ -3578,37 +3682,43 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0 };
     let currentGallery = '3d';
 
-    // --- Hold-to-Scroll Logic ---
+    // --- Hold-to-Scroll Logic (Updated for Specific Galleries) ---
     let scrollTimeout = null;
     let continuousScrollInterval = null;
     const CONTINUOUS_SCROLL_DELAY = 300;
     const SCROLL_STEP = 15;
     const SCROLL_INTERVAL = 10;
     
-    function scrollActiveGalleryOnce(direction) {
-        const activeScroller = scrollers[currentGallery];
+    // Updated to accept galleryKey
+    function scrollGallery(galleryKey, direction) {
+        const activeScroller = scrollers[galleryKey];
         if (!activeScroller) return;
+        
         const firstItem = activeScroller.querySelector('.portfolio-item');
         if (!firstItem) return;
+        
         const style = window.getComputedStyle(firstItem);
         const marginRight = parseInt(style.marginRight) || 0;
         const scrollAmount = firstItem.offsetWidth + marginRight;
+        
         activeScroller.scrollBy({
             left: direction === 'next' ? scrollAmount : -scrollAmount,
             behavior: 'smooth' 
         });
     }
 
-    function continuousScrollStep(direction) {
-        const activeScroller = scrollers[currentGallery];
+    // Updated to accept galleryKey
+    function continuousScrollStep(galleryKey, direction) {
+        const activeScroller = scrollers[galleryKey];
         if (!activeScroller) return;
         const amount = direction === 'next' ? SCROLL_STEP : -SCROLL_STEP;
         activeScroller.scrollBy({ left: amount, behavior: 'auto' });
     }
 
-    function startContinuousScrollLoop(direction) {
+    // Updated to accept galleryKey
+    function startContinuousScrollLoop(galleryKey, direction) {
         stopContinuousScrollLoop();
-        continuousScrollInterval = setInterval(() => continuousScrollStep(direction), SCROLL_INTERVAL);
+        continuousScrollInterval = setInterval(() => continuousScrollStep(galleryKey, direction), SCROLL_INTERVAL);
     }
 
     function stopContinuousScrollLoop() {
@@ -3618,11 +3728,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    function handleStartScroll(direction) {
+    // Updated to handle specific gallery triggers
+    function handleStartScroll(galleryKey, direction) {
         if (scrollTimeout) clearTimeout(scrollTimeout);
         stopContinuousScrollLoop();
-        scrollActiveGalleryOnce(direction);
-        scrollTimeout = setTimeout(() => startContinuousScrollLoop(direction), CONTINUOUS_SCROLL_DELAY);
+
+        // Auto-switch to the gallery if clicking its arrow while it's not active
+        if (galleryKey !== currentGallery) {
+             const relatedBtn = document.querySelector(`.section-btn[data-gallery="${galleryKey}"]`);
+             if (relatedBtn) relatedBtn.click(); // Trigger the switch logic
+        }
+
+        scrollGallery(galleryKey, direction);
+        scrollTimeout = setTimeout(() => startContinuousScrollLoop(galleryKey, direction), CONTINUOUS_SCROLL_DELAY);
     }
 
     function handleStopScroll() {
@@ -3630,20 +3748,30 @@ document.addEventListener('DOMContentLoaded', () => {
         stopContinuousScrollLoop();
     }
 
-    if (deskPrev && deskNext) {
-        deskPrev.addEventListener('mousedown', () => handleStartScroll('prev'));
-        deskPrev.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('prev'); });
-        deskNext.addEventListener('mousedown', () => handleStartScroll('next'));
-        deskNext.addEventListener('touchstart', (e) => { e.preventDefault(); handleStartScroll('next'); });
+    // NEW: Bind events to local arrows
+    localArrows.forEach(arrow => {
+        const direction = arrow.classList.contains('next') ? 'next' : 'prev'; // Check class instead of ID
+        const galleryKey = arrow.dataset.gallery;
+
+        arrow.addEventListener('mousedown', (e) => {
+            e.stopPropagation(); // Prevent conflicts
+            handleStartScroll(galleryKey, direction);
+        });
         
-        ['mouseup', 'touchend', 'touchcancel', 'mouseleave'].forEach(event => {
-            deskPrev.addEventListener(event, handleStopScroll);
-            deskNext.addEventListener(event, handleStopScroll);
+        arrow.addEventListener('touchstart', (e) => { 
+            e.preventDefault(); 
+            e.stopPropagation();
+            handleStartScroll(galleryKey, direction); 
         });
 
-        document.addEventListener('mouseup', handleStopScroll);
-        document.addEventListener('touchend', handleStopScroll);
-    }
+        ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
+            arrow.addEventListener(evt, handleStopScroll);
+        });
+    });
+
+    // Global release listeners for safety
+    document.addEventListener('mouseup', handleStopScroll);
+    document.addEventListener('touchend', handleStopScroll);
     
     // --- Video Optimization (Observer) ---
     const videoObserver = new IntersectionObserver((entries) => {
@@ -3786,7 +3914,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.addEventListener('click', closeModal);
     modalContentInner.addEventListener('click', closeModal);
 });
-
 </script>
 
 <script>
@@ -4008,6 +4135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
