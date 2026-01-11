@@ -972,396 +972,162 @@ transform: translateY(0); }
 
 /*WORK///////////////////////////*/
 
+/* =========================================
+   SECTION 2: WORK / PORTFOLIO
+   ========================================= */
+
 #section-2 .section-content {
-width: 100%;
+    width: 100%;
 }
 
 :root {
---left-width: 17.5%;
-/* --right-width: 70%;
-<-- This is now controlled by portfolio-content-area */
+    /* Adjust this width if you need the Nav bar to be wider/narrower */
+    --left-width: 17.5%;
 }
 
+/* Main Grid: Split into Left Nav (17.5%) and Right Content Area (Rest) */
 .portfolio-main {
-display: grid;
-/* UPDATED: Grid template now has two columns: nav and content area */
-grid-template-columns: var(--left-width) 1fr;
-min-height: 100vh;
-height: 100vh;
+    display: grid;
+    grid-template-columns: var(--left-width) 1fr;
+    min-height: 100vh;
+    height: 100vh;
 }
 
-/* NEW: This wrapper holds the gallery and the new info section */
+/* Right Side Grid: Split into Gallery (80%) and Info (20%) */
 .portfolio-content-area {
-display: grid;
-grid-template-columns: 80% 20%; /* This splits the right-hand side into gallery (75%) and info (25%) */
-height: 100%;
-overflow: hidden;
+    display: grid;
+    grid-template-columns: 80% 20%;
+    height: 100%;
+    overflow: hidden;
 }
 
+/* === Navigation Column (Left) === */
 .portfolio-nav {
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: 0;
-gap: 0;
-position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+    position: relative;
+    border-right: 1px solid var(--border-color); /* Optional: visual separation */
 }
 
 .category-group {
-border: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
 }
 
 .category-group:last-of-type {
-border: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
-.section-btn {
-background-color: var(--bg-color);
-color: var(--text-color);
-border: none;
-padding: 0rem;
-/font-size: 2.5vw;
-font-size: 1.5vw;    
-cursor: pointer;
-transition: all 0.3s ease;
-text-align: left;
-text-transform: uppercase;
-/* UPDATED: Flex sizing to fit with arrows */
-width: auto; 
-flex: 1 1 auto;
-min-width: 0; /* Critical for preventing text overflow in flex */
-margin-right: 1rem;
-position: relative;
-overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
-}
-
-.section-btn::before {
-content: '';
-position: absolute;
-left: 0;
-top: 0;
-height: 100%;
-width: 0%;
-background: var(--text-color);
-transition: width 0.1s linear;
-z-index: 0;
-}
-
-.section-btn span {
-position: relative;
-z-index: 1;
-background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-padding: 0rem 2rem;
-display: flex;
-align-items: center;
-width: 100%;
-height: 100%;
-}
-
-.section-btn:hover {
-background: var(--accent-color);
-transform: translateX(10px);
-}
-
-.section-btn.active {
-background: var(--accent-color);
-}
-
-.section-btn.active::before {
-width: var(--progress, 0%);
-}
-
-.section-btn.active span {
-background: linear-gradient(
-to right, 
-var(--bg-color) var(--progress, 0%), 
-var(--text-color) var(--progress, 0%), 
-var(--text-color) 100%
-);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-}
-
-.portfolio-gallery {
-position: relative;
-overflow: hidden;
-border: 1px solid var(--border-color);
-border-right: 0;
-background-color: var(--bg-color);
-color: var(--text-color);
-/* height: 100%; */ /* <-- REMOVED */
-border-top: none;
-border-bottom: none;
-
-}
-
-.portfolio-img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;    
-}  
-
-/* Class added by JS to reveal asset */
-.portfolio-img.is-loaded {
-    opacity: 1;
-}
-
-    
-.scroller {
-height: 100%;
-width: 100%; 
-display: flex;
-align-items: center;
-overscroll-behavior: none;
-overflow-x: scroll;
-overflow-y: hidden;
-touch-action: pan-x; /* <-- ADDED */
-scroll-snap-type: x mandatory;
-scroll-behavior: smooth;
-padding-top: 2rem;
-padding-bottom: 2rem;
-padding-left: 15px; /* CHANGED: Was 15px */
-padding-right: 15px; /* CHANGED: Was 15px */
-opacity: 1;
-transform: translateX(0);
-transition: opacity 0.4s ease, transform 0.4s ease;
-position: absolute;
-inset: 0;
-opacity: 0;
-transform: translateX(50px);
-transition: opacity 0.4s ease, transform 0.4s ease;
-pointer-events: none;
-}
-
-.scroller.active {
-opacity: 1;
-transform: translateX(0);
-pointer-events: auto;
-z-index: 10;
-}
-
-.scroller:not(.active) {
-opacity: 0;
-transform: translateX(-50px);
-z-index: 1;
-}
-
-.scroller::-webkit-scrollbar {
-display: none;
-}
-
-.scroller {
--ms-overflow-style: none;
-scrollbar-width: none;
-}
-
-.portfolio-item {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-max-width: 62.5vh;
-/max-width: 50vh;
-/aspect-ratio: 4/5;
-margin-right: 2rem;
-margin-left: 0;
-margin-top: auto;
-margin-bottom: auto;
-background-color: var(--bg-color);
-color: var(--text-color);
-/border: 1px solid var(--border-color);
-scroll-snap-align: center;
-font-size: 1.5rem;
-/border-radius: 20px;
-position: relative;
-overflow: hidden;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-flex-shrink: 0;
-cursor: pointer;
-}
-
-/.portfolio-item:hover {
-transform: scale(1.02);
-/box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-}
-
-
-/* === NEW: Info Section === */
-.portfolio-info {
-position: relative;
-height: 100%;
-overflow: hidden; /* Hide overflowing content */
-border: 1px solid var(--border-color);
-border-left: 1px solid var(--border-color);
-align-content: center;
-border-top: none;
-border-bottom: none;
-}
-
-.info-content {
-position: absolute;
-inset: 0;
-padding: 1.25rem;
-opacity: 0;
-transform: translateY(20px);
-transition: opacity 0.4s ease, transform 0.4s ease;
-pointer-events: none;
-overflow-y: auto;/* Allow info to scroll if it's long */
-align-content: center;    
-}
-
-.info-content.active {
-opacity: 1;
-transform: translateY(0);
-pointer-events: auto;
-position: relative; /* Override absolute */
-}
-
-.info-content h3 {
-font-size: 1.5rem;
-font-weight: 600;
-margin-bottom: 1rem;
-text-transform: uppercase;
-}
-
-.info-content p {
-font-size: 1rem;
-line-height: 1.6;
-color: var(--text-color);
-margin-bottom: 1rem;
-}
-/* === End Info Section === */
-
-
-/* === NEW: Modal / Lightbox === */
-.portfolio-modal {
-position: fixed;
-inset: 0;
-z-index: 9998;
-background-color: rgba(0, 0, 0, 0.7);
--webkit-backdrop-filter: blur(10px);
-backdrop-filter: blur(10px);
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 2rem;
-}
-
-.portfolio-modal.active {
-opacity: 1;
-pointer-events: auto;
-}
-
-.modal-gall {
-max-width: 90%;
-max-height: 90%;
-width: auto;
-height: auto;
-border-radius: 20px;
-overflow: hidden;
-border: 1px solid var(--border-color);
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-transform: scale(0.95);
-opacity: 0;
-transition: transform 0.3s ease, opacity 0.3s ease;
-cursor: pointer;
-}
-
-.portfolio-modal.active .modal-gall {
-transform: scale(1);
-opacity: 1;
-}
-
-.modal-gall-inner {
-/* This will hold the cloned item's content */
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 2rem;
-color: var(--text-color);
-background-color: var(--bg-color);
-/* Set a large size, aspect-ratio will constrain it */
-width: 80vw;
-height: 80vh;
-max-width: 1000px;
-aspect-ratio: 4/5;
-}
-/* === End Modal / Lightbox === */
-
-
-/* === NEW: Desktop Arrow Styles === */
-.desktop-nav-arrows {
-  display: none; /* Hidden on mobile */
-}
-
-.nav-arrow {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: var(--text-color);
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-arrow:hover {
-  color: var(--text-muted-color); /* Highlight on hover */
-}
-
-.nav-arrow svg {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-    
-/* Layout for the row containing Text and Arrows */
+/* NAV ROW: The container for Text + Arrows. 
+   This is the clickable target for switching tabs. */
 .nav-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding-right: 1rem; /* Space from the right edge */
+    padding-right: 1rem; /* Space from right edge */
+    cursor: pointer;     /* Indicates the whole row is clickable */
+    position: relative;
+    height: 100%;        /* Ensure consistent height if needed */
 }
 
-/* Ensure the main text button takes up available space but doesn't overlap arrows */
-/* Note: The main .section-btn styles earlier were updated to support this */
+/* SECTION BUTTON: The Text */
+.section-btn {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0;
+    font-size: 2.5vw;
+    text-align: left;
+    text-transform: uppercase;
+    
+    /* Flex sizing to fit perfectly without overlap */
+    flex: 1 1 auto;      /* Grow and shrink */
+    min-width: 0;        /* Vital: allows text to shrink below content size for ellipsis */
+    margin-right: 0.5rem;
+    
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /* Adds ... if screen is too narrow */
+    pointer-events: none;    /* Let clicks pass through to .nav-row */
+}
 
-/* Container for the two arrows */
+/* Progress Bar Background Effect */
+.section-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--text-color);
+    transition: width 0.1s linear;
+    z-index: 0;
+}
+
+/* Text Content Span */
+.section-btn span {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 0.5rem 2rem; /* Add padding here for click area comfort */
+    display: block;
+    width: 100%;
+}
+
+/* Hover Effects handled by row now, but we keep active styling */
+.nav-row:hover .section-btn {
+    transform: translateX(10px);
+}
+
+.section-btn.active {
+    background: var(--accent-color);
+}
+
+.section-btn.active::before {
+    width: var(--progress, 0%);
+}
+
+.section-btn.active span {
+    background: linear-gradient(
+        to right, 
+        var(--bg-color) var(--progress, 0%), 
+        var(--text-color) var(--progress, 0%), 
+        var(--text-color) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* === ARROWS: Local Navigation === */
 .local-nav-arrows {
     display: flex;
     gap: 0.5rem;
-    opacity: 0;            /* CHANGED: Hidden by default */
-    pointer-events: none;  /* CHANGED: Cannot be clicked when hidden */
-    transition: opacity 0.3s ease;
-    flex: 0 0 auto;        
-    z-index: 2;
-}
     
-/* Active state visibility */
-/* When the sibling button is active, show the arrows */
-.section-btn.active ~ .local-nav-arrows {
-    opacity: 1;            /* CHANGED: Visible */
-    pointer-events: auto;  /* CHANGED: Clickable */
+    /* Layout: Fixed size, never shrink */
+    flex: 0 0 auto;
+    z-index: 2;
+    
+    /* Visibility Logic: Hidden and unclickable by default */
+    opacity: 0;
+    pointer-events: none; 
+    transition: opacity 0.3s ease;
 }
 
-/* Keep arrows visible if hovering over them (only applies when they are already active/visible) */
-.local-nav-arrows:hover {
+/* When the sibling button is active, show the arrows */
+.section-btn.active ~ .local-nav-arrows {
     opacity: 1;
+    pointer-events: auto; /* Enable clicking only when visible */
 }
-    
-/* Style for individual small arrows */
+
+/* Individual Arrow Button Styling */
 .local-arrow {
     width: 2rem;
     height: 2rem;
@@ -1387,6 +1153,180 @@ aspect-ratio: 4/5;
     stroke-width: 2;
 }
 
+
+/* === Gallery Area (Center) === */
+.portfolio-gallery {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-right: 0;
+    border-top: none;
+    border-bottom: none;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.scroller {
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    align-items: center;
+    
+    /* Scroll Mechanics */
+    overscroll-behavior: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    touch-action: pan-x;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    
+    /* Spacing */
+    padding: 2rem 15px; 
+    
+    /* Transition/Active States */
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    
+    /* Scrollbar Hiding */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+    display: none;
+}
+
+.scroller.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    z-index: 10;
+}
+
+/* Portfolio Items (Images/Videos) */
+.portfolio-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 62.5vh;
+    margin-right: 2rem;
+    margin-left: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    scroll-snap-align: center;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;    
+}  
+
+.portfolio-img.is-loaded {
+    opacity: 1;
+}
+
+/* === Info Section (Right) === */
+.portfolio-info {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-top: none;
+    border-bottom: none;
+    align-content: center;
+}
+
+.info-content {
+    position: absolute;
+    inset: 0;
+    padding: 1.25rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    overflow-y: auto;
+    align-content: center;    
+}
+
+.info-content.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative;
+}
+
+.info-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.info-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+/* === Modal / Lightbox === */
+.portfolio-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.portfolio-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-gall-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    height: 80vh;
+    max-width: 1000px;
+    aspect-ratio: 4/5;
+    background-color: var(--bg-color);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-modal.active .modal-gall-inner {
+    transform: scale(1);
+}
     
 /*WORK END///////////////////////////*/
 
@@ -3641,10 +3581,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <script>
-// S-2 OPTIMIZED (With Smooth Reveal, Lazy Loading, Hold-to-Scroll & Local Arrows)
+// S-2 OPTIMIZED (Row Click, Smart Arrows, Smooth Reveal)
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- Media Reveal Helper ---
+    // --- 1. Media Reveal Helper (Images/Videos) ---
     function handleMediaReveal(media) {
         if (media.tagName === 'IMG') {
             if (media.complete) {
@@ -3661,7 +3601,7 @@ document.addEventListener('DOMContentLoaded', () => {
         handleMediaReveal(media);
     });
 
-    // --- Mobile Info Toggle Logic ---
+    // --- 2. Mobile Info Toggle ---
     const mobileInfoToggle = document.getElementById('mobile-info-toggle');
     const portfolioInfoSection = document.querySelector('.portfolio-info');
 
@@ -3672,8 +3612,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Data & Selectors ---
+    // --- 3. Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
+    const navRows = document.querySelectorAll('.nav-row');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
     const localArrows = document.querySelectorAll('.local-arrow');
     
@@ -3694,7 +3635,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0 };
     let currentGallery = '3d';
 
-    // --- Hold-to-Scroll Logic ---
+    // --- 4. Scroll Logic (Hold-to-Scroll) ---
     let scrollTimeout = null;
     let continuousScrollInterval = null;
     const CONTINUOUS_SCROLL_DELAY = 300;
@@ -3708,6 +3649,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const firstItem = activeScroller.querySelector('.portfolio-item');
         if (!firstItem) return;
         
+        // Calculate scroll distance based on item size
         const style = window.getComputedStyle(firstItem);
         const marginRight = parseInt(style.marginRight) || 0;
         const scrollAmount = firstItem.offsetWidth + marginRight;
@@ -3750,34 +3692,101 @@ document.addEventListener('DOMContentLoaded', () => {
         stopContinuousScrollLoop();
     }
 
-    // --- ARROW LOGIC UPDATED HERE ---
+    // --- 5. Switch Gallery Logic ---
+    function switchGallery(newGallery) {
+        if (newGallery === currentGallery) return;
+        
+        // Handle Lazy Loading for Video on Switch
+        if (newGallery === 'motion') {
+            const lazyVideos = scrollers['motion'].querySelectorAll('video');
+            lazyVideos.forEach(video => {
+                if (video.dataset.src && !video.getAttribute('src')) {
+                    video.src = video.dataset.src;
+                    video.load();
+                    handleMediaReveal(video);
+                    video.removeAttribute('data-src');
+                    video.classList.remove('lazy-video');
+                }
+            });
+        }
+
+        // Save position of old gallery
+        scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
+        
+        // Deactivate old
+        scrollers[currentGallery].classList.remove('active');
+        infoContents[currentGallery].classList.remove('active');
+        manageVideoState(currentGallery, false);
+
+        // Activate new
+        scrollers[newGallery].classList.add('active');
+        infoContents[newGallery].classList.add('active');
+        scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
+        manageVideoState(newGallery, true);
+
+        // Update Text Buttons Visuals
+        buttons.forEach(b => {
+            if(b.dataset.gallery === newGallery) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+
+        // Update Mobile Links Visuals
+        mobileWorkNavLinks.forEach(l => {
+            if(l.dataset.gallery === newGallery) l.classList.add('active');
+            else l.classList.remove('active');
+        });
+
+        currentGallery = newGallery;
+
+        // Force progress update
+        const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
+        updateProgress(scrollers[newGallery], activeButton);
+    }
+
+
+    // --- 6. Event Listeners: Rows & Buttons ---
+    
+    // ROW CLICK (Handles switching tabs when clicking text OR empty space)
+    navRows.forEach(row => {
+        row.addEventListener('click', (e) => {
+            const btn = row.querySelector('.section-btn');
+            if (!btn) return;
+            const galleryType = btn.dataset.gallery;
+            switchGallery(galleryType);
+        });
+    });
+
+    // MOBILE LINKS CLICK
+    mobileWorkNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchGallery(link.dataset.gallery);
+        });
+    });
+
+
+    // --- 7. Event Listeners: Local Arrows ---
     localArrows.forEach(arrow => {
         const direction = arrow.classList.contains('next') ? 'next' : 'prev';
         const galleryKey = arrow.dataset.gallery;
 
         const startAction = (e) => {
-            // 1. If this arrow belongs to a DIFFERENT gallery, just switch to it.
+            // A: If arrow is for a DIFFERENT gallery (e.g. clicked on hover)
             if (galleryKey !== currentGallery) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Trigger the click on the sibling button to switch gallery
-                const relatedBtn = document.querySelector(`.section-btn[data-gallery="${galleryKey}"]`);
-                if (relatedBtn) relatedBtn.click();
-                
-                return; // Stop here, do not scroll
+                e.preventDefault(); 
+                e.stopPropagation(); // Stop row click
+                switchGallery(galleryKey);
+                return; 
             }
 
-            // 2. If gallery IS active, perform the scroll as normal
-            e.stopPropagation();
+            // B: If arrow is for CURRENT gallery -> SCROLL
+            e.stopPropagation(); // Stop row click so we don't re-trigger switch
             handleStartScroll(galleryKey, direction);
         };
 
         arrow.addEventListener('mousedown', startAction);
         
         arrow.addEventListener('touchstart', (e) => { 
-            // Prevent default to avoid mouse emulation double-fire
-            // but we need to ensure we don't block scrolling unless we are holding
             if(e.cancelable) e.preventDefault(); 
             startAction(e); 
         });
@@ -3787,10 +3796,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Global release listeners
     document.addEventListener('mouseup', handleStopScroll);
     document.addEventListener('touchend', handleStopScroll);
     
-    // --- Video Optimization ---
+
+    // --- 8. Video Optimization (IntersectionObserver) ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -3811,7 +3822,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Progress Bar Logic ---
+    // --- 9. Progress Bar Logic ---
     function updateProgress(scroller, button) {
         if (!button) return;
         const scrollLeft = scroller.scrollLeft;
@@ -3819,66 +3830,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = scrollWidth > 0 ? (scrollLeft / scrollWidth) * 100 : 0;
         button.style.setProperty('--progress', `${progress}%`);
     }
-
-    // --- Switch Gallery ---
-    function switchGallery(newGallery) {
-        if (newGallery === currentGallery) return;
-        
-        if (newGallery === 'motion') {
-            const lazyVideos = scrollers['motion'].querySelectorAll('video');
-            lazyVideos.forEach(video => {
-                if (video.dataset.src && !video.getAttribute('src')) {
-                    video.src = video.dataset.src;
-                    video.load();
-                    handleMediaReveal(video);
-                    video.removeAttribute('data-src');
-                    video.classList.remove('lazy-video');
-                }
-            });
-        }
-
-        scrollPositions[currentGallery] = scrollers[currentGallery].scrollLeft;
-        scrollers[currentGallery].classList.remove('active');
-        infoContents[currentGallery].classList.remove('active');
-        manageVideoState(currentGallery, false);
-
-        scrollers[newGallery].classList.add('active');
-        infoContents[newGallery].classList.add('active');
-        scrollers[newGallery].scrollLeft = scrollPositions[newGallery];
-        manageVideoState(newGallery, true);
-
-        currentGallery = newGallery;
-
-        const activeButton = document.querySelector(`.section-btn[data-gallery="${newGallery}"]`);
-        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${newGallery}"]`);
-
-        updateProgress(scrollers[newGallery], activeButton);
-        updateProgress(scrollers[newGallery], activeMobileLink);
-    }
-
-    // --- Event Listeners ---
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const galleryType = btn.dataset.gallery;
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-            document.querySelector(`.mobile-work-nav-link[data-gallery="${galleryType}"]`)?.classList.add('active');
-            switchGallery(galleryType);
-        });
-    });
-
-    mobileWorkNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const galleryType = link.dataset.gallery;
-            mobileWorkNavLinks.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
-            buttons.forEach(b => b.classList.remove('active'));
-            document.querySelector(`.section-btn[data-gallery="${galleryType}"]`)?.classList.add('active');
-            switchGallery(galleryType);
-        });
-    });
 
     Object.keys(scrollers).forEach(key => {
         let ticking = false;
@@ -3888,9 +3839,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.requestAnimationFrame(() => {
                     if (key === currentGallery) {
                         const activeButton = document.querySelector(`.section-btn[data-gallery="${key}"]`);
-                        const activeMobileLink = document.querySelector(`.mobile-work-nav-link[data-gallery="${key}"]`);
                         updateProgress(scrollers[key], activeButton);
-                        updateProgress(scrollers[key], activeMobileLink);
                     }
                     ticking = false;
                 });
@@ -3899,12 +3848,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Initial Setup ---
-    updateProgress(scrollers[currentGallery], document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`));
-    updateProgress(scrollers[currentGallery], document.querySelector(`.mobile-work-nav-link[data-gallery="${currentGallery}"]`));
+    // --- 10. Initial Setup ---
+    const initialBtn = document.querySelector(`.section-btn[data-gallery="${currentGallery}"]`);
+    updateProgress(scrollers[currentGallery], initialBtn);
     if(currentGallery === 'motion') manageVideoState('motion', true);
     
-    // --- Modal Logic ---
+    // --- 11. Modal Logic (Lightbox) ---
     const modal = document.getElementById('portfolio-modal');
     const modalContentInner = document.getElementById('modal-gall-inner');
 
@@ -3928,8 +3877,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { modalContentInner.innerHTML = ''; }, 300);
     }
 
-    modal.addEventListener('click', closeModal);
-    modalContentInner.addEventListener('click', closeModal);
+    if (modal) {
+        modal.addEventListener('click', closeModal);
+        modalContentInner.addEventListener('click', closeModal);
+    }
 });
 </script>
 
@@ -4152,6 +4103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
