@@ -1033,30 +1033,41 @@ transform: translateY(0); }
     overflow: hidden;
 }
 
-/* SECTION BUTTON: The Text (Title) */
 .section-btn {
     background-color: var(--bg-color);
     color: var(--text-color);
     border: none;
     padding: 0;
-    font-size: 2.5vw;
+    
+    /* Default Size */
+    font-size: 2.5vw; 
+    
     text-align: left;
     text-transform: uppercase;
     
-    /* FLEX LOGIC: Takes up all available space initially */
+    /* FLEX LOGIC */
     flex: 1; 
-    min-width: 0; /* Critical: allows text to shrink below content size */
+    min-width: 0; 
     margin-right: 0;
     
     position: relative;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    pointer-events: none; /* Allows click to pass through to the Row */
+    pointer-events: none;
     
-    /* SMOOTH ANIMATION: Smoothly resize when sibling arrows appear */
-    transition: flex 0.4s ease, transform 0.3s ease;
+    /* UPDATED TRANSITION: Added font-size to the list so it shrinks smoothly */
+    transition: flex 0.4s ease, font-size 0.4s ease, transform 0.3s ease;
 }
+
+/* Active State Styling */
+.section-btn.active {
+    background: var(--accent-color);
+    
+    /* NEW: Shrink font size when active to prevent cropping 
+       (Calculated: approx 70% of original size to account for arrow space) */
+    font-size: 1.5vw; 
+}    
 
 /* Progress Bar Background Effect */
 .section-btn::before {
@@ -2462,6 +2473,8 @@ max-width: 100%;
 max-height: 100%;
 }
 
+
+    
 /* === WORK SECTION 2 END=== */
 
 /* === SERVICES SECTION 3=== */
@@ -4125,6 +4138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
