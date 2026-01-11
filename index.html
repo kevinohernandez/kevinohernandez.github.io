@@ -970,10 +970,8 @@ transform: translateY(0); }
 #section-4 { z-index: 14; }
 
 
-/*WORK///////////////////////////*/
-
 /* =========================================
-   SECTION 2: UPDATED CSS
+   SECTION 2: CORRECTED CSS
    ========================================= */
 
 #section-2 .section-content {
@@ -997,7 +995,7 @@ transform: translateY(0); }
     grid-template-columns: 80% 20%;
     height: 100%;
     overflow: hidden;
-    position: relative; /* Needed for absolute positioning of wrappers */
+    position: relative;
 }
 
 /* === NAVIGATION COLUMN === */
@@ -1008,7 +1006,7 @@ transform: translateY(0); }
     padding: 0;
     gap: 0;
     position: relative;
-    border-right: 1px solid var(--border-color); /* Visual separator */
+    border-right: 1px solid var(--border-color);
 }
 
 .category-group {
@@ -1019,24 +1017,21 @@ transform: translateY(0); }
     border-top: 1px solid var(--border-color);
 }
 
-/* === BUTTON & ARROW STYLING === */
-
+/* === BUTTON STYLING (Restored to Original) === */
 .section-btn {
-    position: relative;
-    width: 100%;
     background-color: var(--bg-color);
     color: var(--text-color);
     border: none;
-    
-    /* Flexbox to separate Text (left) and Arrows (right) */
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    
-    padding: 1.5rem 1rem; /* Vertical padding for click area */
+    padding: 0rem;         /* Restored */
+    font-size: 2.5vw;      /* Restored original size */
     cursor: pointer;
     transition: all 0.3s ease;
-    overflow: hidden; /* Contains the progress bar */
+    text-align: left;      /* Restored alignment */
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: block;        /* Ensure it behaves like a standard block for your text */
 }
 
 /* Progress Bar Background */
@@ -1046,45 +1041,70 @@ transform: translateY(0); }
     left: 0;
     top: 0;
     height: 100%;
-    width: 0%; /* JS changes this to var(--progress) */
+    width: 0%;
     background: var(--text-color);
     transition: width 0.1s linear;
     z-index: 0;
 }
 
-/* Active State for Progress Bar */
 .section-btn.active::before {
     width: var(--progress, 0%);
-    opacity: 0.1; /* Make it subtle so text remains readable */
+    opacity: 0.1; /* Optional: Adjust this if the bar is too solid covering text */
 }
 
 .section-btn:hover {
     background: var(--accent-color);
+    transform: translateX(10px);
 }
 
 .section-btn.active {
     background: var(--accent-color);
 }
 
-/* Text Styling */
+/* Text Styling (Restored Gradient & Spacing) */
 .section-btn span {
     position: relative;
-    z-index: 2; /* Sit above the progress bar */
-    font-size: 1.5vw; /* Adjusted for fit */
-    font-weight: 500;
-    text-transform: uppercase;
-    padding-left: 1rem;
-    pointer-events: none; /* Let clicks pass to button */
+    z-index: 1;
+    /* Restored your original gradient logic */
+    background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    padding: 0rem 2rem;    /* Restored original padding */
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;  /* Allows clicks to pass through text to the button */
 }
 
-/* === NEW: Arrow Group (Right Edge) === */
+.section-btn.active span {
+    background: linear-gradient(
+        to right, 
+        var(--bg-color) var(--progress, 0%), 
+        var(--text-color) var(--progress, 0%), 
+        var(--text-color) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+
+/* === NEW: Arrow Group (Positioned Absolutely on Right) === */
 .nav-arrow-group {
-    position: relative;
-    z-index: 3; /* Sit above everything */
-    display: none; /* Hidden by default */
+    position: absolute;    /* Takes it out of the text flow */
+    right: 1rem;           /* Pins it to the right edge */
+    top: 0;
+    height: 100%;          /* Vertically center relative to button height */
+    
+    z-index: 20;           /* IMPORTANT: Higher than text/progress bar to ensure clickability */
+    display: none;         /* Hidden by default */
     align-items: center;
     gap: 0.5rem;
     padding-right: 1rem;
+    pointer-events: auto;  /* Ensures these are clickable */
 }
 
 /* Show arrows only when active */
@@ -1100,10 +1120,11 @@ transform: translateY(0); }
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1); /* Subtle bubble */
+    background: rgba(255, 255, 255, 0.1); 
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
     color: var(--text-color);
+    pointer-events: auto; /* Double check strictly for the arrow */
 }
 
 .tab-arrow:hover {
@@ -1128,6 +1149,10 @@ transform: translateY(0); }
     height: 100%;
     background-color: var(--bg-color);
     overflow: hidden;
+    border: 1px solid var(--border-color); /* Restored border */
+    border-right: 0;
+    border-top: none;
+    border-bottom: none;
 }
 
 /* The Wrapper holds the scroller and handles Opacity/Z-Index */
@@ -1150,7 +1175,7 @@ transform: translateY(0); }
 
 /* The Scroller (Inside the wrapper) */
 .scroller {
-    position: relative; /* Relative to wrapper */
+    position: relative; 
     height: 100%;
     width: 100%; 
     display: flex;
@@ -1175,7 +1200,7 @@ transform: translateY(0); }
     justify-content: center;
     align-items: center;
     height: 80%;
-    aspect-ratio: 4/5; /* consistent sizing */
+    aspect-ratio: 4/5; 
     margin-right: 2rem;
     background-color: var(--bg-color);
     scroll-snap-align: center;
@@ -1189,7 +1214,7 @@ transform: translateY(0); }
 .portfolio-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* changed from contain for cleaner grid */
+    object-fit: cover; 
     opacity: 0;
     transition: opacity 0.6s ease;
 }  
@@ -1231,10 +1256,11 @@ transform: translateY(0); }
     font-size: 1.5rem;
     margin-bottom: 1rem;
     text-transform: uppercase;
+    color: var(--text-color);
 }
 
 .info-content p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--text-muted-color);
 }
@@ -1273,7 +1299,6 @@ transform: translateY(0); }
     max-height: 90vh;
     object-fit: contain;
 }
-
 
 /*WORK END///////////////////////////*/
 
@@ -4044,6 +4069,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
