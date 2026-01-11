@@ -1025,9 +1025,15 @@ cursor: pointer;
 transition: all 0.3s ease;
 text-align: left;
 text-transform: uppercase;
-width: 100%;
+/* UPDATED: Flex sizing to fit with arrows */
+width: auto; 
+flex: 1 1 auto;
+min-width: 0; /* Critical for preventing text overflow in flex */
+margin-right: 1rem;
 position: relative;
 overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
 }
 
 .section-btn::before {
@@ -1173,7 +1179,7 @@ color: var(--text-color);
 /border: 1px solid var(--border-color);
 scroll-snap-align: center;
 font-size: 1.5rem;
-border-radius: 20px;
+/border-radius: 20px;
 position: relative;
 overflow: hidden;
 transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1329,10 +1335,7 @@ aspect-ratio: 4/5;
 }
 
 /* Ensure the main text button takes up available space but doesn't overlap arrows */
-.section-btn {
-    flex-grow: 1;
-    text-align: left;
-}
+/* Note: The main .section-btn styles earlier were updated to support this */
 
 /* Container for the two arrows */
 .local-nav-arrows {
@@ -1340,6 +1343,8 @@ aspect-ratio: 4/5;
     gap: 0.5rem;
     opacity: 0.5; /* Dimmed by default */
     transition: opacity 0.3s ease;
+    flex: 0 0 auto; /* UPDATED: Prevent arrows from shrinking */
+    z-index: 2;
 }
 
 /* Active state visibility */
@@ -3662,7 +3667,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Data & Selectors ---
     const buttons = document.querySelectorAll('.section-btn');
     const mobileWorkNavLinks = document.querySelectorAll('.mobile-work-nav-link');
-    // NEW: Select all local arrows instead of global IDs
     const localArrows = document.querySelectorAll('.local-arrow');
     
     const scrollers = {
@@ -3682,14 +3686,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const scrollPositions = { '3d': 0, 'graphic': 0, 'product': 0, 'motion': 0 };
     let currentGallery = '3d';
 
-    // --- Hold-to-Scroll Logic (Updated for Specific Galleries) ---
+    // --- Hold-to-Scroll Logic ---
     let scrollTimeout = null;
     let continuousScrollInterval = null;
     const CONTINUOUS_SCROLL_DELAY = 300;
     const SCROLL_STEP = 15;
     const SCROLL_INTERVAL = 10;
     
-    // Updated to accept galleryKey
     function scrollGallery(galleryKey, direction) {
         const activeScroller = scrollers[galleryKey];
         if (!activeScroller) return;
@@ -3707,7 +3710,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Updated to accept galleryKey
     function continuousScrollStep(galleryKey, direction) {
         const activeScroller = scrollers[galleryKey];
         if (!activeScroller) return;
@@ -3715,7 +3717,6 @@ document.addEventListener('DOMContentLoaded', () => {
         activeScroller.scrollBy({ left: amount, behavior: 'auto' });
     }
 
-    // Updated to accept galleryKey
     function startContinuousScrollLoop(galleryKey, direction) {
         stopContinuousScrollLoop();
         continuousScrollInterval = setInterval(() => continuousScrollStep(galleryKey, direction), SCROLL_INTERVAL);
@@ -3728,16 +3729,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Updated to handle specific gallery triggers
     function handleStartScroll(galleryKey, direction) {
         if (scrollTimeout) clearTimeout(scrollTimeout);
         stopContinuousScrollLoop();
-
-        // Auto-switch to the gallery if clicking its arrow while it's not active
-        if (galleryKey !== currentGallery) {
-             const relatedBtn = document.querySelector(`.section-btn[data-gallery="${galleryKey}"]`);
-             if (relatedBtn) relatedBtn.click(); // Trigger the switch logic
-        }
 
         scrollGallery(galleryKey, direction);
         scrollTimeout = setTimeout(() => startContinuousScrollLoop(galleryKey, direction), CONTINUOUS_SCROLL_DELAY);
@@ -3748,20 +3742,36 @@ document.addEventListener('DOMContentLoaded', () => {
         stopContinuousScrollLoop();
     }
 
-    // NEW: Bind events to local arrows
+    // --- ARROW LOGIC UPDATED HERE ---
     localArrows.forEach(arrow => {
-        const direction = arrow.classList.contains('next') ? 'next' : 'prev'; // Check class instead of ID
+        const direction = arrow.classList.contains('next') ? 'next' : 'prev';
         const galleryKey = arrow.dataset.gallery;
 
-        arrow.addEventListener('mousedown', (e) => {
-            e.stopPropagation(); // Prevent conflicts
+        const startAction = (e) => {
+            // 1. If this arrow belongs to a DIFFERENT gallery, just switch to it.
+            if (galleryKey !== currentGallery) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Trigger the click on the sibling button to switch gallery
+                const relatedBtn = document.querySelector(`.section-btn[data-gallery="${galleryKey}"]`);
+                if (relatedBtn) relatedBtn.click();
+                
+                return; // Stop here, do not scroll
+            }
+
+            // 2. If gallery IS active, perform the scroll as normal
+            e.stopPropagation();
             handleStartScroll(galleryKey, direction);
-        });
+        };
+
+        arrow.addEventListener('mousedown', startAction);
         
         arrow.addEventListener('touchstart', (e) => { 
-            e.preventDefault(); 
-            e.stopPropagation();
-            handleStartScroll(galleryKey, direction); 
+            // Prevent default to avoid mouse emulation double-fire
+            // but we need to ensure we don't block scrolling unless we are holding
+            if(e.cancelable) e.preventDefault(); 
+            startAction(e); 
         });
 
         ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
@@ -3769,11 +3779,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Global release listeners for safety
     document.addEventListener('mouseup', handleStopScroll);
     document.addEventListener('touchend', handleStopScroll);
     
-    // --- Video Optimization (Observer) ---
+    // --- Video Optimization ---
     const videoObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -4135,6 +4144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
