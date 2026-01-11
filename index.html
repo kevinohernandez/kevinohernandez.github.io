@@ -1009,7 +1009,7 @@ transform: translateY(0); }
     padding: 0;
     gap: 0;
     position: relative;
-    border-right: 1px solid var(--border-color); /* Optional: visual separation */
+    border-right: 1px solid var(--border-color);
 }
 
 .category-group {
@@ -1020,20 +1020,20 @@ transform: translateY(0); }
     border-bottom: 1px solid var(--border-color);
 }
 
-/* NAV ROW: The container for Text + Arrows. 
-   This is the clickable target for switching tabs. */
+/* NAV ROW: The flexible container for Text + Arrows */
 .nav-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding-right: 1rem; /* Space from right edge */
-    cursor: pointer;     /* Indicates the whole row is clickable */
+    padding-right: 0; /* No padding needed, arrows handle spacing */
+    cursor: pointer;
     position: relative;
-    height: 100%;        /* Ensure consistent height if needed */
+    height: 100%;
+    overflow: hidden;
 }
 
-/* SECTION BUTTON: The Text */
+/* SECTION BUTTON: The Text (Title) */
 .section-btn {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -1043,16 +1043,19 @@ transform: translateY(0); }
     text-align: left;
     text-transform: uppercase;
     
-    /* Flex sizing to fit perfectly without overlap */
-    flex: 1 1 auto;      /* Grow and shrink */
-    min-width: 0;        /* Vital: allows text to shrink below content size for ellipsis */
-    margin-right: 0.5rem;
+    /* FLEX LOGIC: Takes up all available space initially */
+    flex: 1; 
+    min-width: 0; /* Critical: allows text to shrink below content size */
+    margin-right: 0;
     
     position: relative;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis; /* Adds ... if screen is too narrow */
-    pointer-events: none;    /* Let clicks pass through to .nav-row */
+    text-overflow: ellipsis;
+    pointer-events: none; /* Allows click to pass through to the Row */
+    
+    /* SMOOTH ANIMATION: Smoothly resize when sibling arrows appear */
+    transition: flex 0.4s ease, transform 0.3s ease;
 }
 
 /* Progress Bar Background Effect */
@@ -1076,16 +1079,17 @@ transform: translateY(0); }
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    padding: 0.5rem 2rem; /* Add padding here for click area comfort */
+    padding: 0.5rem 2rem;
     display: block;
     width: 100%;
 }
 
-/* Hover Effects handled by row now, but we keep active styling */
+/* Row Hover Effect (Moves text slightly) */
 .nav-row:hover .section-btn {
     transform: translateX(10px);
 }
 
+/* Active State Styling */
 .section-btn.active {
     background: var(--accent-color);
 }
@@ -1109,25 +1113,42 @@ transform: translateY(0); }
 /* === ARROWS: Local Navigation === */
 .local-nav-arrows {
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
     gap: 0.5rem;
     
-    /* Layout: Fixed size, never shrink */
-    flex: 0 0 auto;
+    /* INITIAL STATE: Collapsed (Width 0) and Hidden */
+    width: 0; 
+    opacity: 0;
+    padding-left: 0;
+    
+    /* Layout Logic */
+    flex: 0 0 auto; /* Never shrink or grow automatically */
+    overflow: hidden; /* Hide arrows when width is 0 */
+    pointer-events: none; 
     z-index: 2;
     
-    /* Visibility Logic: Hidden and unclickable by default */
-    opacity: 0;
-    pointer-events: none; 
-    transition: opacity 0.3s ease;
+    /* SMOOTH TRANSITION: Animate Width (slide) and Opacity (fade) */
+    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease 0.1s;
 }
 
-/* When the sibling button is active, show the arrows */
+/* ACTIVE STATE: Expand Arrows, Shrink Text */
 .section-btn.active ~ .local-nav-arrows {
+    /* Width = 2 arrows + gap + padding */
+    width: 5.5rem; 
     opacity: 1;
-    pointer-events: auto; /* Enable clicking only when visible */
+    padding-left: 1rem; /* Space between text and arrows */
+    pointer-events: auto;
 }
 
-/* Individual Arrow Button Styling */
+/* HOVER STATE (Optional): Remove this block if you ONLY want expansion on Click */
+.nav-row:hover .section-btn ~ .local-nav-arrows {
+    width: 5.5rem;
+    opacity: 1;
+    padding-left: 1rem;
+}
+
+/* Individual Arrow Styles */
 .local-arrow {
     width: 2rem;
     height: 2rem;
@@ -1140,6 +1161,7 @@ transform: translateY(0); }
     color: var(--text-color);
     cursor: pointer;
     transition: all 0.3s ease;
+    flex-shrink: 0; /* Ensure circle shape stays perfect */
 }
 
 .local-arrow:hover {
@@ -4103,6 +4125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
