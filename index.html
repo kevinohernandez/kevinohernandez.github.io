@@ -970,130 +970,142 @@ transform: translateY(0); }
 #section-4 { z-index: 14; }
 
 
+/* =========================================
+   SECTION 2: CSS (Flexbox Fix for Arrows)
+   ========================================= */
+
 #section-2 .section-content {
-width: 100%;
+    width: 100%;
 }
 
 :root {
---left-width: 17.5%;
-/* --right-width: 70%;
-<-- This is now controlled by portfolio-content-area */
+    --left-width: 17.5%;
 }
 
 .portfolio-main {
-display: grid;
-/* UPDATED: Grid template now has two columns: nav and content area */
-grid-template-columns: var(--left-width) 1fr;
-min-height: 100vh;
-height: 100vh;
+    display: grid;
+    /* UPDATED: Grid template now has two columns: nav and content area */
+    grid-template-columns: var(--left-width) 1fr;
+    min-height: 100vh;
+    height: 100vh;
 }
 
 /* NEW: This wrapper holds the gallery and the new info section */
 .portfolio-content-area {
-display: grid;
-grid-template-columns: 80% 20%; /* This splits the right-hand side into gallery (75%) and info (25%) */
-height: 100%;
-overflow: hidden;
+    display: grid;
+    grid-template-columns: 80% 20%; /* This splits the right-hand side into gallery (75%) and info (25%) */
+    height: 100%;
+    overflow: hidden;
 }
 
 .portfolio-nav {
-display: flex;
-flex-direction: column;
-justify-content: center;
-padding: 0;
-gap: 0;
-position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    gap: 0;
+    position: relative;
 }
 
 .category-group {
-border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
 }
 
 .category-group:last-of-type {
-border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color);
 }
 
+/* === BUTTON STYLING === */
 .section-btn {
-background-color: var(--bg-color);
-color: var(--text-color);
-border: none;
-padding: 0rem;
-font-size: 2.5vw;
-cursor: pointer;
-transition: all 0.3s ease;
-text-align: left;
-text-transform: uppercase;
-width: 100%;
-position: relative;
-overflow: hidden;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0rem;
+    font-size: 2.5vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    text-transform: uppercase;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    
+    /* [CHANGED] Use Flexbox to separate Text and Arrows */
+    display: flex; 
+    justify-content: space-between; /* Text Left | Arrows Right */
+    align-items: center;            /* Center vertically */
 }
 
 .section-btn::before {
-content: '';
-position: absolute;
-left: 0;
-top: 0;
-height: 100%;
-width: 0%;
-background: var(--text-color);
-transition: width 0.1s linear;
-z-index: 0;
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--text-color);
+    transition: width 0.1s linear;
+    z-index: 0;
 }
 
 .section-btn span {
-position: relative;
-z-index: 1;
-background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-padding: 0rem 2rem;
-display: flex;
-align-items: center;
-width: 100%;
-height: 100%;
-pointer-events: none; /* Let clicks pass through text to button */
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(to right, var(--text-color) var(--progress, 0%), var(--text-color) var(--progress, 0%), var(--text-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 0rem 2rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    
+    /* [CHANGED] Text takes available space, but doesn't overlap arrows */
+    flex-grow: 1;
+    width: auto; 
+    pointer-events: none; /* Allows clicks to pass to the button background */
 }
 
 .section-btn:hover {
-background: var(--accent-color);
-transform: translateX(10px);
+    background: var(--accent-color);
+    transform: translateX(10px);
 }
 
 .section-btn.active {
-background: var(--accent-color);
+    background: var(--accent-color);
 }
 
 .section-btn.active::before {
-width: var(--progress, 0%);
+    width: var(--progress, 0%);
 }
 
 .section-btn.active span {
-background: linear-gradient(
-to right, 
-var(--bg-color) var(--progress, 0%), 
-var(--text-color) var(--progress, 0%), 
-var(--text-color) 100%
-);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
+    background: linear-gradient(
+        to right, 
+        var(--bg-color) var(--progress, 0%), 
+        var(--text-color) var(--progress, 0%), 
+        var(--text-color) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 
-/* === NEW ARROW STYLES (Added specifically for right-side placement) === */
+/* === ARROWS SECTION (Flexbox Layout) === */
 
-/* Container for the arrows on the right edge */
+/* Container for the arrows */
 .nav-arrow-group {
-    position: absolute;
-    right: 1.5rem;   /* Adjust distance from right edge */
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;     /* Sit on top of text/progress bar */
+    /* [CHANGED] No longer absolute. It sits in its own flex cell */
+    position: relative; 
+    z-index: 20;     /* Higher than text/background */
+    
     display: none;   /* Hidden by default */
     align-items: center;
-    gap: 0.5rem;     /* Space between buttons */
-    pointer-events: auto;
+    gap: 0.5rem;     
+    margin-right: 1.5rem; /* Space from the right edge */
+    flex-shrink: 0;       /* Prevent arrows from squishing */
+    pointer-events: auto; /* IMPORTANT: Ensures arrows are clickable */
 }
 
 /* Show only when active */
@@ -1103,20 +1115,21 @@ background-clip: text;
 
 /* Individual Arrow Buttons */
 .tab-arrow {
-    width: 2.5vw;        /* Responsive size relative to font */
-    height: 2.5vw;       /* Responsive size relative to font */
-    min-width: 24px;     /* Minimum legible size */
-    min-height: 24px;
+    width: 2.5vw;
+    height: 2.5vw;
+    min-width: 30px; /* Ensure clickable size */
+    min-height: 30px;
     
     display: flex;
     align-items: center;
     justify-content: center;
     
-    background: rgba(255, 255, 255, 0.1); /* Subtle backing */
+    background: rgba(255, 255, 255, 0.1); 
     border-radius: 50%;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
     color: var(--text-color);
+    pointer-events: auto; /* Double check for clickability */
 }
 
 .tab-arrow:hover {
@@ -1132,20 +1145,19 @@ background-clip: text;
     stroke-width: 2;
 }
 
-/* === END NEW ARROW STYLES === */
+/* === END ARROWS SECTION === */
 
 
 .portfolio-gallery {
-position: relative;
-overflow: hidden;
-border: 1px solid var(--border-color);
-border-right: 0;
-background-color: var(--bg-color);
-color: var(--text-color);
-/* height: 100%; */ /* <-- REMOVED */
-border-top: none;
-border-bottom: none;
-
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-right: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* height: 100%; */ /* <-- REMOVED */
+    border-top: none;
+    border-bottom: none;
 }
 
 /* === ADDED WRAPPER FOR FADE EFFECT === */
@@ -1165,13 +1177,12 @@ border-bottom: none;
     pointer-events: auto;
     z-index: 10;
 }
-/* ===================================== */
 
 
 .portfolio-img {
-width: 100%;
-height: 100%;
-object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     opacity: 0;
     transition: opacity 0.6s ease-in-out;    
 }  
@@ -1183,218 +1194,207 @@ object-fit: contain;
 
     
 .scroller {
-height: 100%;
-width: 100%; 
-display: flex;
-align-items: center;
-overscroll-behavior: none;
-overflow-x: scroll;
-overflow-y: hidden;
-touch-action: pan-x; /* <-- ADDED */
-scroll-snap-type: x mandatory;
-scroll-behavior: smooth;
-padding-top: 2rem;
-padding-bottom: 2rem;
-padding-left: 15px; /* CHANGED: Was 15px */
-padding-right: 15px; /* CHANGED: Was 15px */
-opacity: 1;
-transform: translateX(0);
-transition: opacity 0.4s ease, transform 0.4s ease;
-position: absolute; /* Kept absolute but wrapper now controls visibility */
-inset: 0;
-/* opacity: 0;  <-- Removed internal opacity logic in favor of wrapper */
-/* transform: translateX(50px); */
-/* transition: opacity 0.4s ease, transform 0.4s ease; */
-/* pointer-events: none; */
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    align-items: center;
+    overscroll-behavior: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    touch-action: pan-x; /* <-- ADDED */
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 15px; /* CHANGED: Was 15px */
+    padding-right: 15px; /* CHANGED: Was 15px */
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    
+    position: absolute; /* relative to wrapper */
+    inset: 0;
 }
 
-/* Since wrapper handles active state, these can be simplified or removed 
-   if you rely purely on wrapper, but keeping for safety/legacy logic */
 .scroller.active {
-opacity: 1;
-transform: translateX(0);
-pointer-events: auto;
-z-index: 10;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    z-index: 10;
 }
 
 .scroller:not(.active) {
-opacity: 0;
-transform: translateX(-50px);
-z-index: 1;
+    opacity: 0;
+    transform: translateX(-50px);
+    z-index: 1;
 }
 
 .scroller::-webkit-scrollbar {
-display: none;
+    display: none;
 }
 
 .scroller {
--ms-overflow-style: none;
-scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .portfolio-item {
-display: flex;
-justify-content: center;
-align-items: center;
-width: 100%;
-max-width: 62.5vh;
-/max-width: 50vh;
-/aspect-ratio: 4/5;
-margin-right: 2rem;
-margin-left: 0;
-margin-top: auto;
-margin-bottom: auto;
-background-color: var(--bg-color);
-color: var(--text-color);
-/border: 1px solid var(--border-color);
-scroll-snap-align: center;
-font-size: 1.5rem;
-border-radius: 20px;
-position: relative;
-overflow: hidden;
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-flex-shrink: 0;
-cursor: pointer;
-}
-
-/.portfolio-item:hover {
-transform: scale(1.02);
-/box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 62.5vh;
+    /* max-width: 50vh; */
+    /* aspect-ratio: 4/5; */
+    margin-right: 2rem;
+    margin-left: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    /* border: 1px solid var(--border-color); */
+    scroll-snap-align: center;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
 
 /* === NEW: Info Section === */
 .portfolio-info {
-position: relative;
-height: 100%;
-overflow: hidden; /* Hide overflowing content */
-border: 1px solid var(--border-color);
-border-left: 1px solid var(--border-color);
-align-content: center;
-border-top: none;
-border-bottom: none;
+    position: relative;
+    height: 100%;
+    overflow: hidden; /* Hide overflowing content */
+    border: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    align-content: center;
+    border-top: none;
+    border-bottom: none;
 }
 
 .info-content {
-position: absolute;
-inset: 0;
-padding: 1.25rem;
-opacity: 0;
-transform: translateY(20px);
-transition: opacity 0.4s ease, transform 0.4s ease;
-pointer-events: none;
-overflow-y: auto;/* Allow info to scroll if it's long */
-align-content: center;    
+    position: absolute;
+    inset: 0;
+    padding: 1.25rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+    overflow-y: auto;/* Allow info to scroll if it's long */
+    align-content: center;    
 }
 
 .info-content.active {
-opacity: 1;
-transform: translateY(0);
-pointer-events: auto;
-position: relative; /* Override absolute */
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    position: relative; /* Override absolute */
 }
 
 .info-content h3 {
-font-size: 1.5rem;
-font-weight: 600;
-margin-bottom: 1rem;
-text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
 }
 
 .info-content p {
-font-size: 1rem;
-line-height: 1.6;
-color: var(--text-color);
-margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 1rem;
 }
 /* === End Info Section === */
 
 
 /* === NEW: Modal / Lightbox === */
 .portfolio-modal {
-position: fixed;
-inset: 0;
-z-index: 9998;
-background-color: rgba(0, 0, 0, 0.7);
--webkit-backdrop-filter: blur(10px);
-backdrop-filter: blur(10px);
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 2rem;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    background-color: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
 }
 
 .portfolio-modal.active {
-opacity: 1;
-pointer-events: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .modal-gall {
-max-width: 90%;
-max-height: 90%;
-width: auto;
-height: auto;
-border-radius: 20px;
-overflow: hidden;
-border: 1px solid var(--border-color);
-box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-transform: scale(0.95);
-opacity: 0;
-transition: transform 0.3s ease, opacity 0.3s ease;
-cursor: pointer;
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transform: scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer;
 }
 
 .portfolio-modal.active .modal-gall {
-transform: scale(1);
-opacity: 1;
+    transform: scale(1);
+    opacity: 1;
 }
 
 .modal-gall-inner {
-/* This will hold the cloned item's content */
-display: flex;
-justify-content: center;
-align-items: center;
-font-size: 2rem;
-color: var(--text-color);
-background-color: var(--bg-color);
-/* Set a large size, aspect-ratio will constrain it */
-width: 80vw;
-height: 80vh;
-max-width: 1000px;
-aspect-ratio: 4/5;
+    /* This will hold the cloned item's content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    /* Set a large size, aspect-ratio will constrain it */
+    width: 80vw;
+    height: 80vh;
+    max-width: 1000px;
+    aspect-ratio: 4/5;
 }
 /* === End Modal / Lightbox === */
 
 
 /* === NEW: Desktop Arrow Styles === */
 .desktop-nav-arrows {
-  display: none; /* Hidden on mobile */
+    display: none; /* Hidden on mobile */
 }
 
 .nav-arrow {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: var(--text-color);
-  transition: color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-arrow:hover {
-  color: var(--text-muted-color); /* Highlight on hover */
+    color: var(--text-muted-color); /* Highlight on hover */
 }
 
 .nav-arrow svg {
-  width: 1.5rem;
-  height: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
 }
-
 /*WORK END///////////////////////////*/
 
 
@@ -4164,6 +4164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
