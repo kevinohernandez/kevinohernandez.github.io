@@ -971,7 +971,7 @@ transform: translateY(0); }
 
 
 /* =========================================
-   SECTION 2: CSS (Fixed Size & Arrow Visibility)
+   SECTION 2: CSS (Original Styling + Right-Side Arrows)
    ========================================= */
 
 #section-2 .section-content {
@@ -1014,16 +1014,16 @@ transform: translateY(0); }
     border: 1px solid var(--border-color);
 }
 
-/* === BUTTON STYLING === */
+/* === BUTTON STYLING (Original Sizes + Flex Layout) === */
 .section-btn {
     background-color: var(--bg-color);
     color: var(--text-color);
     border: none;
     
-    /* ORIGINAL PADDING KEPT (0rem) to prevent "too big" tabs */
+    /* ORIGINAL SIZING KEPT */
     padding: 0rem; 
-    
     font-size: 2.5vw;
+    
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: left;
@@ -1063,7 +1063,7 @@ transform: translateY(0); }
     padding: 0rem 2rem;
     display: flex;
     align-items: center;
-    height: 100%; /* Ensures it fills the height defined by font-size */
+    height: 100%; 
     
     /* Let text take up available space */
     flex-grow: 1; 
@@ -1108,10 +1108,11 @@ transform: translateY(0); }
     gap: 10px;    /* Space between the two arrows */
     
     /* Spacing from the right edge of the button */
-    padding-right: 2rem; 
-    padding-left: 1rem;
-    height: 100%;
-    background: transparent; /* Or set a color if you want a visible 'section' background */
+    padding-right: 1.5rem; 
+    flex-shrink: 0; /* Ensures arrows don't get squished */
+    
+    /* Optional: Ensure this area catches clicks */
+    pointer-events: auto;
 }
 
 /* ONLY show arrows when the tab is ACTIVE */
@@ -1127,7 +1128,7 @@ transform: translateY(0); }
     align-items: center;
     justify-content: center;
     
-    background: rgba(255, 255, 255, 0.15); /* Subtle bubble background */
+    background: rgba(255, 255, 255, 0.1); /* Subtle bubble background */
     border-radius: 50%;
     cursor: pointer;
     color: var(--text-color);
@@ -1150,11 +1151,6 @@ transform: translateY(0); }
     stroke-width: 2.5;
 }
 
-/* Hide arrows on mobile if needed */
-@media (max-width: 768px) {
-    .nav-arrow-group { display: none !important; }
-}
-
 
 /* === GALLERY WRAPPER (Handles the Fade) === */
 .portfolio-gallery {
@@ -1168,6 +1164,7 @@ transform: translateY(0); }
     border-bottom: none;
 }
 
+/* This is needed for the fading logic */
 .gallery-wrapper {
     position: absolute;
     inset: 0;
@@ -1185,10 +1182,11 @@ transform: translateY(0); }
     z-index: 10;
 }
 
+/* ORIGINAL IMAGE STYLING KEPT (Contain) */
 .portfolio-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: contain; /* Kept original */
     opacity: 0;
     transition: opacity 0.6s ease-in-out;    
 }  
@@ -1208,12 +1206,17 @@ transform: translateY(0); }
     touch-action: pan-x;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 2rem 15px; /* Combined padding */
+    
+    /* Original Padding */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 15px;
+    padding-right: 15px;
+
     opacity: 1;
     transform: translateX(0);
     position: absolute; /* Relative to wrapper */
     inset: 0;
-    /* Wrapper handles opacity now, but keeping base styles clean */
 }
 
 /* Hide scrollbar */
@@ -1344,7 +1347,7 @@ transform: translateY(0); }
     aspect-ratio: 4/5;
 }
 
-/* === Desktop Arrow Styles (Hidden/Legacy) === */
+/* === Legacy: Desktop Arrow Styles (Hidden) === */
 .desktop-nav-arrows {
     display: none;
 }
@@ -1354,7 +1357,6 @@ transform: translateY(0); }
     padding: 0;
     cursor: pointer;
     color: var(--text-color);
-    transition: color 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1366,7 +1368,6 @@ transform: translateY(0); }
     width: 1.5rem;
     height: 1.5rem;
 }
-
     
 /*WORK END///////////////////////////*/
 
@@ -4137,6 +4138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
