@@ -2219,6 +2219,7 @@ height: auto;
 aspect-ratio: auto;  
 transform: none; /* Remove scale, handle size via width above */
 /border: 2.5px solid var(--border-color);  
+border-radius: 0;    
 }
 
 
@@ -2311,6 +2312,7 @@ background-color: inherit;
 
 .section-btn.active {
 background: none;
+font-size: 0.75rem;    
 }
 
 .section-btn span {
@@ -2473,6 +2475,13 @@ max-width: 100%;
 max-height: 100%;
 }
 
+.nav-row:hover .section-btn {
+    transform: none;
+}
+
+.local-nav-arrows {
+display: none;
+}   
 
     
 /* === WORK SECTION 2 END=== */
@@ -4138,6 +4147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+
 
 
 
